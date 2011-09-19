@@ -1,0 +1,23 @@
+<h1>Listing settlement_types</h1>
+
+<table>
+  <tr>
+    <th>St name</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @settlement_types.each do |settlement_type| %>
+  <tr>
+    <td><%= settlement_type.st_name %></td>
+    <td><%= link_to 'Show', settlement_type %></td>
+    <td><%= link_to 'Edit', edit_settlement_type_path(settlement_type) %></td>
+    <td><%= link_to 'Destroy', settlement_type, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Settlement type', new_settlement_type_path %>

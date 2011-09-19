@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  endcount_id: 1
+  inventory_id: 1
+  beginning_quantity: 1.5
+  endcount_quantity: 1.5
+
+two:
+  endcount_id: 1
+  inventory_id: 1
+  beginning_quantity: 1.5
+  endcount_quantity: 1.5

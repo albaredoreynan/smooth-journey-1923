@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Beginning date:</b>
+  <%= @endcount.beginning_date %>
+</p>
+
+<p>
+  <b>End date:</b>
+  <%= @endcount.end_date %>
+</p>
+
+
+<%= link_to 'Edit', edit_endcount_path(@endcount) %> |
+<%= link_to 'Back', endcounts_path %>

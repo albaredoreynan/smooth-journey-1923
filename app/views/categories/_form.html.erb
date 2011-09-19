@@ -1,0 +1,41 @@
+<%= form_for(@category) do |f| %>
+  <% if @category.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@category.errors.count, "error") %> prohibited this category from being saved:</h2>
+
+      <ul>
+      <% @category.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  
+<table> 
+  <tr>
+	  <div class="field">
+		<td><%= f.label :category_name %></td>
+		<td><%= f.text_field :category_name %></td>
+	  </div>
+  </tr>
+  <tr>
+	  <div class="field">
+		<td><%= f.label :category_description %></td>
+		<td><%= f.text_area :category_description, :rows => 4 %></td>
+	  </div>
+  </tr>
+  <tr>
+	  <div class="field">
+		<td>Category List</td>
+		<td><%= f.collection_select :restaurant_category_id, Restaurantcategory.find(:all), :id, :category_listName, :prompt => "Select Category List" %></td>
+	  </div>
+  </tr>
+  <tr>
+	  <div class="actions">
+		<td>&nbsp;</td>
+		<td><%= f.submit %></td>
+	  </div>
+  </tr>
+</table>
+<% end %>

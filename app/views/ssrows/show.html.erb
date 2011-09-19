@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>St:</b>
+  <%= @ssrow.st_id %>
+</p>
+
+<p>
+  <b>Ss amount:</b>
+  <%= @ssrow.ss_amount %>
+</p>
+
+
+<%= link_to 'Edit', edit_ssrow_path(@ssrow) %> |
+<%= link_to 'Back', ssrows_path %>

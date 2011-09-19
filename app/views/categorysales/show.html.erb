@@ -1,0 +1,42 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>CS amount:</b>
+  <%= @categorysale.cs_amount %>
+</p>
+  <% @categorysale.csrows.each do |csr| %>
+  <%= csr.cs_amount %>
+  <% end %>
+
+
+<p>
+  <b>Employee:</b>
+  <%= @categorysale.employee_id %>
+</p>
+
+<p>
+  <b>Customer Count:</b>
+  <%= @categorysale.customer_count %>
+</p>
+
+<p>
+  <b>VAT:</b>
+  <%= @categorysale.vat %>
+</p>
+
+<p>
+  <b>VOID:</b>
+  <%= @categorysale.void %>
+</p>
+
+<p>
+  <b>Service Charge:</b>
+  <%= @categorysale.servicecharge %>
+</p>
+
+<p>
+  <b>Total Revenue:</b>
+  <%= @categorysale.cs_revenue %>
+</p>
+
+<%= link_to 'Back', categorysales_path %>

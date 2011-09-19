@@ -1,0 +1,31 @@
+<div class="left"> 
+<h2><a href="#">VIEW RESTAURANT CATEGORY LIST</a></h2>
+<hr />
+<br/>
+</div>
+
+<div class="right"></div>
+<div style="clear: both;"></div>
+<table border="1">
+  <tr>
+    <th>Category listname</th>
+    <th>Restaurant</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @restaurantcategories.each do |restaurantcategory| %>
+  <tr>
+    <td><%= restaurantcategory.category_listName %></td>
+    <td><%= restaurantcategory.restaurant_id %></td>
+    <td><%= link_to 'Show', restaurantcategory %></td>
+    <td><%= link_to 'Edit', edit_restaurantcategory_path(restaurantcategory) %></td>
+    <td><%= link_to 'Destroy', restaurantcategory, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Restaurantcategory', new_restaurantcategory_path %>

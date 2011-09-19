@@ -1,0 +1,17 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  branch_id: 1
+  supplier_name: MyString
+  supplier_email: MyString
+  supplier_address: MyText
+  supplier_description: MyText
+  supplier_number: MyString
+
+two:
+  branch_id: 1
+  supplier_name: MyString
+  supplier_email: MyString
+  supplier_address: MyText
+  supplier_description: MyText
+  supplier_number: MyString

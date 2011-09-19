@@ -1,0 +1,219 @@
+
+<%= form_for(@purchaseitem) do |f| %>
+  <% if @purchaseitem.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@purchaseitem.errors.count, "error") %> prohibited this purchaseitem from being saved:</h2>
+
+      <ul>
+      <% @purchaseitem.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+<style type="text/css">
+		div#preview {
+			width: 300px;
+			float: right;
+		}
+
+		div#preview td {
+			background-color: #F0F0F0;
+			padding: 10px;
+			text-align: right;
+			width: 100px;
+		}
+		
+		div#preview tr:first-child td{
+			background-color: #0066CC;
+			padding: 10px;	
+			color: #FFF;
+			width: 100px;
+			font-weight: bold;
+			}
+
+	</style>
+	
+<div id="preview">
+	<table>
+		<tr>CURRENT ITEMS IN INVOICE</tr>
+		<tr><td>Item name</td>
+			<td>Unit Cost</td>
+			<td>Purchase quantity</td>
+			<td>Purchase amount</td>
+			<td>Vat type</td>
+			<td>Vat amount</td>
+			<td>Net amount</td>
+			<td></td>
+		</tr>
+		<% invoiceId = @purchaseitem.invoice_id %> <!-- get the invoice id of item to be edited -->
+		<% previewItem = Purchaseitem.where(:invoice_id => invoiceId) %> <!-- find all items with that invoice id-->
+		<% previewItem.each do |previewItem| %>
+		<tr>
+			<td id="inP"><% inventoryId = previewItem.inventory_id %>
+    					<% i = Inventoryitem.find(inventoryId)%>
+    					<%= i.item_name%></td>
+			<td id="ucP"><%= previewItem.purchase_unitCost %></td>
+			<td id="pqP"><%= previewItem.purchase_quantity %></td>
+			<td id="paP"><%= previewItem.purchase_amount %></td>
+			<td id="vtP"><%= previewItem.vat_type %></td>
+			<td id="vaP"><%= previewItem.vat_amount %></td>
+			<td id="naP"><%= previewItem.net_amount %></td>
+			<td><%= link_to 'Edit', edit_purchaseitem_path(previewItem) %></td>
+		</tr><% end %>
+		<tr><td>Total</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr></tr>
+	</table>
+</div>
+
+<table>
+  <tr>
+	  <div class="field">
+		<td>Date</td>
+		<td><%= f.date_select :purchase_date %></td>
+		<td></td><td></td><td></td><td></td><td></td>
+		<td></td><td></td><td></td><td></td><td></td>
+		<td></td><td></td><td></td><td></td><td></td>
+		<td></td><td></td><td></td><td></td><td></td>
+		<td></td>
+	  </div>
+  </tr>
+  <tr>
+	  <div class="field">
+		<td><%= f.label :invoice_id %></td>
+		<td><%= f.text_field :invoice_id, :id => "invoiceNumber" %></td>
+	  </div>
+  </tr>
+  <tr>
+	  <div class="field">
+		<td>Supplier<br />
+		<td><%= f.collection_select :supplier_id, Supplier.find(:all), :id, :supplier_name, {:prompt => "Select Supplier"}, {:style => "width:215px"} %></td>
+	  </div>
+  </tr>
+  <tr>
+	  <div class="field">
+		<td>Branch</td>
+		<td><%= f.collection_select :branch_id, Branch.find(:all), :id, :branch_location, {:prompt => "Select Branch"},  {:style => "width:215px"} %></td>
+	  </div>
+  </tr>
+  <tr>
+	  <div class="field">
+		<td>Item</td>
+		<td><%= f.collection_select :inventory_id, Inventoryitem.find(:all), :id, :item_name, {:prompt => "Select Item"},  {:style => "width:215px"} %></td>
+	  </div>
+  </tr>
+  <tr>
+	  <div class="field">
+		<td>Unit Cost</td>
+		<td><%= f.text_field :purchase_unitCost %></td>
+	  </div>
+  </tr>
+  <tr>
+	  <div class="field">
+		<td><%= f.label :purchase_quantity %></td>
+		<td><%= f.text_field :purchase_quantity %></td>
+	  </div>
+  </tr>
+  <tr>
+	  <div class="field">
+		<td><%= f.label :purchase_amount %><br />
+		<td><%= f.text_field :purchase_amount, :id => "purchase_amount", :onchange => "updateVatAmount()" %>
+	  </div>
+  </tr>
+  <tr>
+	  <div class="field">
+			<td>VAT Type</td>
+  </tr>
+  <tr>
+			<td>&nbsp;</td>
+			<td><%= f.radio_button :vat_type, "VAT-Inclusive", :onchange => "updateVatAmount()", :id => "VAT-Inclusive" %>VAT-Inclusive</td>
+  </tr>
+  <tr>
+			<td>&nbsp;</td>
+			<td><%= f.radio_button :vat_type, "VAT-Exclusive", :onchange => "updateVatAmount()", :id => "VAT-Exclusive"%>VAT-Exclusive</td>
+  </tr>
+  <tr>
+			<td>&nbsp;</td>
+			<td><%= f.radio_button :vat_type, "VAT-Exempted", :onchange => "updateVatAmount()", :id => "VAT-Exempted"%>VAT-Exempted</td>
+	  </div>
+  </tr>
+  <tr>
+	  <div class="field">
+		<td><%= f.label :vat_amount %></td>
+		<td><%= f.text_field :vat_amount, :readonly => true, :id => "vat_amount" %></td>
+	  </div>
+  </tr>
+  <tr>
+	  <div class="field">
+		<td><%= f.label :net_amount %></td>
+		<td><%= f.text_field :net_amount, :readonly => true, :id => "net_amount" %></td>
+		<td></td>
+	  </div>
+  </tr>
+  <tr>
+	  <div class="actions">
+	  	<td></td>
+	  	<td><%= f.submit "Add another item", :button_value => "addAnotherItem" %><%= f.submit "Save as draft"%></td>
+		<td></td>
+	  </div>
+  </tr>
+</table>
+
+<html>
+	
+<script>
+function updateVatAmount(){
+        var purchaseAmount = document.getElementById('purchase_amount');
+        var vatAmount = 0;
+        var netAmount = 0;
+        
+        if(purchaseAmount.value == ""){
+        	
+        }else{
+        
+        function checkVat(){
+            if(document.getElementById('VAT-Inclusive').checked){
+                vatAmount = purchaseAmount.value / 1.12;
+                vatAmount = purchaseAmount.value - vatAmount;
+                netAmount = purchaseAmount.value - vatAmount;
+                //vatAmount = purchaseAmount.value * (3/28);
+            }
+            
+            if(document.getElementById('VAT-Exclusive').checked){
+                vatAmount = purchaseAmount.value * .12;
+                netAmount = purchaseAmount.value;
+            }
+            
+            if(document.getElementById('VAT-Exempted').checked){
+                vatAmount = 0;
+                netAmount = purchaseAmount.value;
+            }
+        } // end of checking shirt
+    
+    checkVat();
+    var totalVat = vatAmount;
+    var totalNet = netAmount;
+    //document.getElementById('totalVat').innerHTML = "Total vat" + totalVat;
+    var totalVatField = document.getElementById('vat_amount');
+    totalVatField.value = totalVat;
+    
+    var totalNetField = document.getElementById('net_amount');
+    totalNetField.value = totalNet;
+    
+    document.getElementById('vaP').innerHTML = totalVat;
+    } //end of update total function
+    }
+</script>
+</html>
+
+<% end %>
+

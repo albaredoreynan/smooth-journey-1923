@@ -1,0 +1,25 @@
+<%= form_for(@reporttemplate) do |f| %>
+  <% if @reporttemplate.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@reporttemplate.errors.count, "error") %> prohibited this reporttemplate from being saved:</h2>
+
+      <ul>
+      <% @reporttemplate.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :report_name %><br />
+    <%= f.text_field :report_name %>
+  </div>
+  <div class="field">
+    <%= f.label :report_description %><br />
+    <%= f.text_area :report_description, :rows => 4 %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

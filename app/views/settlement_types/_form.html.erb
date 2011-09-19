@@ -1,0 +1,21 @@
+<%= form_for(@settlement_type) do |f| %>
+  <% if @settlement_type.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@settlement_type.errors.count, "error") %> prohibited this settlement_type from being saved:</h2>
+
+      <ul>
+      <% @settlement_type.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :st_name %><br />
+    <%= f.text_field :st_name %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

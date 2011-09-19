@@ -1,0 +1,34 @@
+<%= form_for(@department) do |f| %>
+  <% if @department.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@department.errors.count, "error") %> prohibited this department from being saved:</h2>
+
+      <ul>
+      <% @department.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+<table>  
+  <tr>
+	  <div class="field">
+		<td><%= f.label :department_name %></td>
+		<td><%= f.text_field :department_name %></td>
+	  </div>
+  </tr>
+  <tr>
+	  <div class="field">
+		<td><%= f.label :restaurant_id %></td>
+		<td><%= f.collection_select :restaurant_id, Restaurant.find(:all), :id, :restaurant_name, :prompt => "Select Restaurant" %></td>
+	  </div>
+  </tr>
+  <tr>
+	  <div class="actions">
+		<td>&nbsp;</td>
+		<td><%= f.submit %></td>
+	  </div>
+  </tr>
+</table>
+<% end %>

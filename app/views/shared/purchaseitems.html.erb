@@ -1,0 +1,62 @@
+<div class="left"> 
+<h2><a href="#">VIEW PURCHASES</a></h2>
+<hr />
+<br/>
+</div>
+
+<div class="right"></div>
+<div style="clear: both;"></div>
+
+<% form_tag '/purchaseitems/index' do %>
+<table>
+	<tr>
+		<td>From</td>
+		<td><%= date_select(:start, '', :start_year => 2010) %></td>
+		<td>To</td>
+		<td><%= date_select(:end, '', :start_year => 2010) %></td>
+		<td><%= submit_tag "Search", :name => nil %></td>
+	</tr>
+</table>
+<% end %>
+
+<table border="1">
+  <tr>
+    <th>Purchase date</th>
+    <th>Invoice</th>
+    <th>Supplier</th>
+    <th>Branch</th>
+    <th>Inventory</th>
+    <th>Purchase unitcost</th>
+    <th>Purchase quantity</th>
+    <th>Purchase amount</th>
+    <th>Vat type</th>
+    <th>Vat amount</th>
+    <th>Net amount</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @purchaseitems.each do |purchaseitem| %>
+  <tr>
+    <td><%= purchaseitem.purchase_date %></td>
+    <td><%= purchaseitem.invoice_id %></td>
+    <td><%= purchaseitem.supplier_id %></td>
+    <td><%= purchaseitem.branch_id %></td>
+    <td><%= purchaseitem.inventory_id %></td>
+    <td><%= purchaseitem.purchase_unitCost %></td>
+    <td><%= purchaseitem.purchase_quantity %></td>
+    <td><%= purchaseitem.purchase_amount %></td>
+    <td><%= purchaseitem.vat_type %></td>
+    <td><%= purchaseitem.vat_amount %></td>
+    <td><%= purchaseitem.net_amount %></td>
+    <td><%= link_to 'Show', purchaseitem %></td>
+    <td><%= link_to 'Edit', edit_purchaseitem_path(purchaseitem) %></td>
+    <td><%= link_to 'Destroy', purchaseitem, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Purchaseitem', new_purchaseitem_path %>

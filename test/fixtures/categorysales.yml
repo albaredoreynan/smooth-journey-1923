@@ -1,0 +1,19 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  cs_amount: 1.5
+  category_id: 1
+  employee_id: 1
+  vat: 1.5
+  void: 1.5
+  servicecharge: 1.5
+  cs_revenue: 1.5
+
+two:
+  cs_amount: 1.5
+  category_id: 1
+  employee_id: 1
+  vat: 1.5
+  void: 1.5
+  servicecharge: 1.5
+  cs_revenue: 1.5

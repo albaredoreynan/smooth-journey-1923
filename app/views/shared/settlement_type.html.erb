@@ -1,0 +1,105 @@
+<div class="left"> 
+<h2><a href="#">SALES BY SETTLEMENT TYPE</a></h2>
+<hr/>
+<br/>
+<% form_tag '/settlement_sales/search' do %>
+<table width="500" border="0">
+  <tr>
+    <td>From:</td>
+    <td><%= date_select(:start, '', :start_year => 2010) %></td>
+    <td><%= label_tag :restaurant %></td>
+    <td><%= text_field_tag :restaurant  %></td>
+  </tr>
+  <tr>
+    <td>To:</td>
+    <td><%= date_select(:end, '', :start_year => 2010) %></td>
+    <td><%= label_tag :branch %></td>
+    <td><%= text_field_tag :branch  %></td>
+  </tr>
+    <tr>
+    <td></td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td><%= submit_tag :Search %></td>
+  </tr>
+  <% end %>
+  
+</table>
+<br/>
+</div>
+
+<div class="right">
+<strong>Change View: </strong>
+<br />
+<!--
+<select>
+  <option>Sales by Category</option>
+  <option>Sales by Settlement Type</option>
+  <option>Sales by Server:</option>
+  <option>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Category</option>
+  <option>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Settlement Type</option>
+</select>-->
+<%= link_to 'Sales by Category Type', categorysales_path %><br />
+<%= link_to 'Sales by Settlement Type', settlement_sales_path %><br />
+<%= link_to 'Server Sales by Settlement Type', serversales_path %>
+</div>
+<div style="clear:both;"></div>
+
+<hr />
+<h2><a href="#">Listing Sales by Settlement Type</a></h2>
+<br/>
+<table border="1">
+  <tr>
+    <th>Date</th>
+ 	<th>Cash</th>
+ 	<th>Credit Card</th>
+ 	<th>Comp91</th>
+ 	<th>Comp92</th>
+ 	<th>Comp93</th>
+    <th>Comp94</th>
+    <th>Comp95</th>
+    <th>Comp96</th>
+    <th>Comp97</th>
+    <th>Gift Certificate</th>
+    <th>VOIDS</th>
+    <th>GROSS TOTAL</th>
+    <th>NET TOTAL</th>
+    <th></th>
+  </tr>
+
+<% @settlement_sales.each do |date, settlement_sale| %>
+  
+<tr>
+    <td><%= p "#{date}" %></td>
+    <% cash = SettlementSale.where("ss_date = ? AND st_id = ?",date,10).map(&:ss_amount) %>
+    <% creditcard = SettlementSale.where("ss_date = ? AND st_id = ?",date,9).map(&:ss_amount) %>
+    <% comp92 = SettlementSale.where("ss_date = ? AND st_id = ?",date,2).map(&:ss_amount) %>
+    <% comp91 = SettlementSale.where("ss_date = ? AND st_id = ?",date,1).map(&:ss_amount) %>
+    <% comp93 = SettlementSale.where("ss_date = ? AND st_id = ?",date,3).map(&:ss_amount) %>
+    <% comp94 = SettlementSale.where("ss_date = ? AND st_id = ?",date,4).map(&:ss_amount) %>
+    <% comp95 = SettlementSale.where("ss_date = ? AND st_id = ?",date,5).map(&:ss_amount) %>
+    <% comp96 = SettlementSale.where("ss_date = ? AND st_id = ?",date,6).map(&:ss_amount) %>
+    <% comp97 = SettlementSale.where("ss_date = ? AND st_id = ?",date,7).map(&:ss_amount) %>
+    <% giftcertificate = SettlementSale.where("ss_date = ? AND st_id = ?",date,11).map(&:ss_amount) %>
+
+    <td><%= cash.sum %></td>
+    <td><%= creditcard.sum %></td>
+    <td><%= comp91.sum %></td>
+    <td><%= comp92.sum  %></td>
+    <td><%= comp93.sum  %></td>
+    <td><%= comp94.sum  %></td>
+    <td><%= comp95.sum  %></td>
+    <td><%= comp96.sum  %></td>
+    <td><%= comp97.sum  %></td>
+    <td><%= giftcertificate.sum %></td>
+    <td><%= settlement_sale.first.void %></td>
+    <td><%= settlement_sale.first.gross_total %></td>
+    <td><%= settlement_sale.first.net_total %></td>
+    <td><%= link_to 'Edit' %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Settlement sale', new_settlement_sale_path %>

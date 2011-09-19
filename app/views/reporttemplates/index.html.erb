@@ -1,0 +1,32 @@
+<div class="left"> 
+<h2><a href="#">VIEW REPORT TEMPLATES</a></h2>
+<hr />
+<br/>
+</div>
+
+<div class="right"></div>
+<div style="clear: both;"></div>
+
+<table border="1">
+  <tr>
+    <th>Report name</th>
+    <th>Report description</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @reporttemplates.each do |reporttemplate| %>
+  <tr>
+    <td><%= reporttemplate.report_name %></td>
+    <td><%= reporttemplate.report_description %></td>
+    <td><%= link_to 'Show', reporttemplate %></td>
+    <td><%= link_to 'Edit', edit_reporttemplate_path(reporttemplate) %></td>
+    <td><%= link_to 'Destroy', reporttemplate, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Reporttemplate', new_reporttemplate_path %>

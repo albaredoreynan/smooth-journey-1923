@@ -1,0 +1,46 @@
+<%= form_for(@branch) do |f| %>
+  <% if @branch.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@branch.errors.count, "error") %> prohibited this branch from being saved:</h2>
+
+      <ul>
+      <% @branch.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+<table>
+  <tr>
+	  <div class="field">
+		<td>Restaurant</td>
+		<td><%= f.collection_select :restaurant_id, Restaurant.find(:all), :id, :restaurant_name, :prompt => "Select Restaurant" %></td>
+	  </div>
+  </tr>
+  <tr>
+	  <div class="field">
+		<td>Location</td>
+		<td><%= f.text_field :branch_location %></td>
+	  </div>
+  </tr>
+  <tr>
+	  <div class="field">
+		<td>Address</td>
+		<td><%= f.text_area :branch_address, :rows => 3 %></td>
+	  </div>
+  </tr>
+  <tr>
+	  <div class="field">
+		<td>Contact Number</td>
+		<td><%= f.text_field :branch_contactNumber %></td>
+	  </div>
+  </tr>
+  <tr>
+	  <div class="actions">
+		<td>&nbsp;</td>
+		<td><%= f.submit %></td>
+	  </div>
+  </tr>
+</table>
+<% end %>

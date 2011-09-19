@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  item_name: MyString
+  branch_id: 1
+  unit_id: 1
+
+two:
+  item_name: MyString
+  branch_id: 1
+  unit_id: 1

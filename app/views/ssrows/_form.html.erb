@@ -1,0 +1,25 @@
+<%= form_for(@ssrow) do |f| %>
+  <% if @ssrow.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@ssrow.errors.count, "error") %> prohibited this ssrow from being saved:</h2>
+
+      <ul>
+      <% @ssrow.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :settlement_type_id %><br />
+    <%= f.text_field :settlement_type_id %>
+  </div>
+  <div class="field">
+    <%= f.label :ss_amount %><br />
+    <%= f.text_field :ss_amount %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

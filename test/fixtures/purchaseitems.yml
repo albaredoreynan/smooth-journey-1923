@@ -1,0 +1,27 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  purchase_date: MyString
+  invoice_id: 1
+  supplier_id: 1
+  branch_id: 1
+  inventory_id: 1
+  purchase_unitcost: 1.5
+  purchase_quantity: 1.5
+  purchase_amount: 1.5
+  vat_type: MyString
+  vat_amount: 1.5
+  net_amount: 1.5
+
+two:
+  purchase_date: MyString
+  invoice_id: 1
+  supplier_id: 1
+  branch_id: 1
+  inventory_id: 1
+  purchase_unitcost: 1.5
+  purchase_quantity: 1.5
+  purchase_amount: 1.5
+  vat_type: MyString
+  vat_amount: 1.5
+  net_amount: 1.5

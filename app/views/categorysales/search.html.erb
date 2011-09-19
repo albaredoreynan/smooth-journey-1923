@@ -1,0 +1,99 @@
+<div class="left"> 
+<h2><a href="#">SEARCH CATEGORY SALES</a></h2>
+<hr />
+<br/>
+<% form_tag '/categorysales/search' do %>
+<table width="500" border="0">
+  <tr>
+	<td>From:</td>
+	<td><%= date_select(:start, '', :start_year => 2010) %></td>
+	<td>Restaurant:</td>
+	<td><%= text_field_tag :restaurant  %></td>
+  </tr>
+  <tr>
+	<td>To:</td>
+	<td><%= date_select(:end, '', :start_year => 2010) %></td>
+	<td><%= label_tag :branch %></td>
+	<td><%= text_field_tag :branch  %></td>
+  </tr>
+  <tr>
+	<td>&nbsp;</td>
+	<td>&nbsp;</td>
+	<td><%= submit_tag "Search" %></td>
+  <% end %>
+  </tr>
+</table>
+<br/><br/>
+</div>
+
+<div class="right">
+<strong>Change View: </strong>
+<br />
+<!--
+<select>
+  <option>Sales by Category</option>
+  <option>Sales by Settlement Type</option>
+  <option>Sales by Server:</option>
+  <option>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Category</option>
+  <option>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Settlement Type</option>
+</select>-->
+<%= link_to 'Sales by Category Type', categorysales_path %><br />
+<%= link_to 'Sales by Settlement Type', settlement_sales_path %><br />
+<%= link_to 'Server Sales by Settlement Type', serversales_path %>
+</div>
+
+<div style="clear:both;"></div>
+
+<hr />
+<h2><a href="#">SEARCH: <%= p "#{@searchdate} - #{@enddate}"%></a></h2>
+<br />
+<table border="1" width="1000">
+  <tr>
+	<th>Date</th>
+	<th>Food </th>
+	<th>Liquor</th>
+	<th>Beverage</th>
+	<th>Vat</th>
+	<th>Void</th>
+	<th>Service Charge</th>
+	<th>Total Revenue</th>
+	<th>Customer Count</th>
+	<th>Transaction Count</th>
+	<th>Edit</th>
+</tr>
+
+<% @categorysales.each do |date,categorysale| %>
+  <tr>
+	<td><%= p "#{date}" %></td>
+	<% food = 0 %>
+	<% liquor = 0 %>
+	<% beverage = 0 %>
+	<% hash = {} %>
+	<% cs_amounts = categorysale.map(&:cs_amount) %>
+	<% category_ids = categorysale.map(&:category_id) %>
+	<% category_ids.size.times { |i| hash[category_ids[i]] = cs_amounts[i]} %>
+	<% hash.each_pair do |ci,amt| %>
+		<% if ci==0 %>
+		<% food = amt %>
+		<% elsif ci==1 %>
+		<% liquor = amt %>
+		<% elsif ci==2 %>
+		<% beverage = amt %>
+	<% end %>
+	<% end %>
+	<td><%= p "#{food}" %></td>
+	<td><%= p "#{liquor}" %></td>
+	<td><%= p "#{beverage}" %></td>
+	<td><%= p "#{categorysale.map(&:vat).first}" %></td>
+	<td><%= p "#{categorysale.map(&:void).first}" %></td>
+	<td><%= p "#{categorysale.map(&:servicecharge).first}" %></td>
+	<td><%= p "#{categorysale.map(&:cs_revenue).first}" %></td>
+	<td><%= p "#{categorysale.map(&:customer_count).first}" %></td>
+	<td><%= p "#{categorysale.map(&:transaction_count).first}" %></td>
+	<td><%= link_to "Edit" %></td>
+  </tr>
+<% end %>
+</table>
+<br />
+
+<%= link_to 'New Category Sale', new_categorysale_path %>

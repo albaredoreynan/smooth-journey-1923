@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <title>RRBS</title>
+  <%= stylesheet_link_tag :all %>
+  <%= javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" %>
+  <%= javascript_include_tag :defaults, "rails.validations" %>  
+  <%= csrf_meta_tag %>
+  
+  <script type="text/javascript">
+  	function startCalc(){
+  		interval = setInterval("calc()",1);
+	}
+	function calc(){
+	  one = document.autoSumForm.firstBox.value;
+	  two = document.autoSumForm.secondBox.value; 
+	  document.autoSumForm.thirdBox.value = (one * 1) + (two * 1);
+	}
+	function stopCalc(){
+	  clearInterval(interval);
+	}
+  </script>
+  
+</head>
+<body>
+<div id="wrap">
+
+<div id="headerwrap">
+<div id="header">
+<h1><a href="#">RRBS</a></h1>
+<h2>Restaurant Report and Backup System</h2>
+</div>
+
+
+<div class="sign_in">
+  <% if user_signed_in? %>
+    Signed in as <%= current_user.email %>. Not you?
+    <%= link_to "Sign out", destroy_user_session_path, :method => :delete %>
+  <% else %>
+    <%= link_to "Sign up", new_user_registration_path %> or <%= link_to "sign in", new_user_session_path %>
+  <% end %>
+ </div>
+</div>
+
+     <p class="notice"><%= notice %></p>
+     <p class="alert"><%= alert %></p>
+       
+
+<div id="menu">
+<ul>
+<li><%= link_to 'Sales', categorysales_path %></li>
+<li><%= link_to 'Purchases', purchaseitems_path %></li>
+<li><%= link_to 'Period End', endcounts_path %></li>
+<li><a href="">Inventory</a></li>
+<li><%= link_to 'Employees', employees_path %></li>
+<li><%= link_to 'Reports', reports_path %></li>
+<li><a href="">Database</a></li>
+<li><a href="">Records</a></li>
+<li><a href="">User Accounts</a></li>
+</ul>
+</div>
+
+<div id="content">
+<%= yield %>
+</div>
+
+</body>
+</html>
+

@@ -1,0 +1,29 @@
+<h1>Listing ecrows</h1>
+
+<table>
+  <tr>
+    <th>Endcount</th>
+    <th>Inventory</th>
+    <th>Beginning count</th>
+    <th>End count</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @ecrows.each do |ecrow| %>
+  <tr>
+    <td><%= ecrow.endcount_id %></td>
+    <td><%= ecrow.inventory_id %></td>
+    <td><%= ecrow.beginning_count %></td>
+    <td><%= ecrow.end_count %></td>
+    <td><%= link_to 'Show', ecrow %></td>
+    <td><%= link_to 'Edit', edit_ecrow_path(ecrow) %></td>
+    <td><%= link_to 'Destroy', ecrow, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Ecrow', new_ecrow_path %>

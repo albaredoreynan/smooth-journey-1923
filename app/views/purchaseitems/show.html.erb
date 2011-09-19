@@ -1,0 +1,66 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Purchase date:</b>
+  <%= @purchaseitem.purchase_date.strftime("%B %d, %Y") %>
+</p>
+
+<p>
+  <b>Invoice:</b>
+  <%= @purchaseitem.invoice_id %>
+</p>
+
+<p>
+  <b>Supplier:</b>
+  <% supplierId = @purchaseitem.supplier_id %>
+  <% s = Supplier.find(supplierId) %>
+  <%= s.supplier_name %>
+</p>
+
+<p>
+  <b>Branch:</b>
+  <% branchId = @purchaseitem.branch_id %>
+  <% b = Branch.find(branchId) %>
+  <%= b.branch_location %>
+</p>
+
+<p>
+  <b>Inventory:</b>
+  <% inventoryId = @purchaseitem.inventory_id %>
+  <% i = Inventoryitem.find(inventoryId)%>
+  <%= i.item_name %>
+</p>
+
+<p>
+  <b>Purchase unitcost:</b>
+  <%= @purchaseitem.purchase_unitCost %>
+</p>
+
+<p>
+  <b>Purchase quantity:</b>
+  <%= @purchaseitem.purchase_quantity %>
+</p>
+
+<p>
+  <b>Purchase amount:</b>
+  <%= @purchaseitem.purchase_amount %>
+</p>
+
+<p>
+  <b>Vat type:</b>
+  <%= @purchaseitem.vat_type %>
+</p>
+
+<p>
+  <b>Vat amount:</b>
+  <%= @purchaseitem.vat_amount %>
+</p>
+
+<p>
+  <b>Net amount:</b>
+  <%= @purchaseitem.net_amount %>
+</p>
+
+
+<%= link_to 'Edit', edit_purchaseitem_path(@purchaseitem) %> |
+<%= link_to 'Back', purchaseitems_path %>

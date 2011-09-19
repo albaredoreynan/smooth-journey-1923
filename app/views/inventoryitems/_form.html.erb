@@ -1,0 +1,46 @@
+<%= form_for(@inventoryitem) do |f| %>
+  <% if @inventoryitem.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@inventoryitem.errors.count, "error") %> prohibited this inventoryitem from being saved:</h2>
+
+      <ul>
+      <% @inventoryitem.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+<table>  
+  <tr>
+	  <div class="field">
+		<td><%= f.label :item_name %></td>
+		<td><%= f.text_field :item_name %></td>
+	  </div>
+  </tr>
+  <tr>
+	  <div class="field">
+		<td><%= f.label :branch_id %></td>
+		<td><%= f.text_field :branch_id %></td>
+	  </div>
+  </tr>
+  <tr>
+	  <div class="field">
+		<td>Unit</td>
+		<td><%= f.collection_select :unit_id, Unit.find(:all), :id, :unit_name, :prompt => "Select Unit" %></td>
+	  </div>
+  </tr>
+  <tr>
+	  <div class="field">
+		<td><%= f.label :beginning_count %></td>
+		<td><%= f.text_field :beginning_count %></td>
+	  </div>
+  </tr>
+  <tr>
+	  <div class="actions">
+		<td>&nbsp;</td>
+		<td><%= f.submit %></td>
+	  </div>
+  </tr>
+</table>
+<% end %>

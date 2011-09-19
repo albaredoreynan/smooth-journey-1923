@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Item name:</b>
+  <%= @inventoryitem.item_name %>
+</p>
+
+<p>
+  <b>Branch:</b>
+  <%= @inventoryitem.branch_id %>
+</p>
+
+<p>
+  <b>Unit:</b>
+  <%= @inventoryitem.unit_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_inventoryitem_path(@inventoryitem) %> |
+<%= link_to 'Back', inventoryitems_path %>

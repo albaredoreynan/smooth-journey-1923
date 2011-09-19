@@ -1,0 +1,65 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Employee firstname:</b>
+  <%= @employee.employee_firstName %>
+</p>
+
+<p>
+  <b>Employee lastname:</b>
+  <%= @employee.employee_lastName %>
+</p>
+
+<p>
+  <b>Branch:</b>
+  <%= @employee.branch_id %>
+</p>
+
+<p>
+  <b>Employee dateemployed:</b>
+  <%= @employee.employee_dateEmployed %>
+</p>
+
+<p>
+  <b>Job:</b>
+  <%= @employee.job_id %>
+</p>
+
+<p>
+  <b>Department:</b>
+  <%= @employee.department_id %>
+</p>
+
+<p>
+  <b>Employee birthday:</b>
+  <%= @employee.employee_birthday %>
+</p>
+
+<p>
+  <b>Employee age:</b>
+  <%= @employee.employee_age %>
+</p>
+
+<p>
+  <b>Employee contactnumber:</b>
+  <%= @employee.employee_contactNumber %>
+</p>
+
+<p>
+  <b>Employee sss:</b>
+  <%= @employee.employee_sss %>
+</p>
+
+<p>
+  <b>Employee tin:</b>
+  <%= @employee.employee_tin %>
+</p>
+
+<p>
+  <b>Employee address:</b>
+  <%= @employee.employee_address %>
+</p>
+
+
+<%= link_to 'Edit', edit_employee_path(@employee) %> |
+<%= link_to 'Back', employees_path %>

@@ -1,0 +1,40 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Employee:</b>
+  <%= Employee.find(@settlement_sale.employee_id) %>
+</p>
+
+<p>
+  <b>Date:</b>
+  <%= @settlement_sale.ss_date %>
+</p>
+
+<p>
+  <b>VAT:</b>
+  <%= @settlement_sale.vat %>
+</p>
+
+<p>
+  <b>VOID:</b>
+  <%= @settlement_sale.void %>
+</p>
+
+<p>
+  <b>Revenue:</b>
+  <%= @settlement_sale.ss_revenue %>
+</p>
+
+<p>
+  <b>Customer Count:</b>
+  <%= @settlement_sale.customerCount %>
+</p>
+
+<p>
+  <b>Transactioncount:</b>
+  <%= @settlement_sale.transactionCount %>
+</p>
+
+
+<%= link_to 'Edit', edit_settlement_sale_path(@settlement_sale) %> |
+<%= link_to 'Back', settlement_sales_path %>

@@ -1,0 +1,105 @@
+<div class="left"> 
+<h2><a href="#">SERVER SALES BY SETTLEMENT TYPE</a></h2>
+<hr/>
+<br/>
+<% form_tag '/serversales/search' do %>
+<table width="500" border="0">
+  <tr>
+	<td>From:</td>
+	<td><%= date_select(:start, '', :start_year => 2000) %></td>
+	<td><%= label_tag :restaurant %></td>
+	<td><%= text_field_tag :restaurant  %></td>
+  </tr>
+  <tr>
+	<td>To:</td>
+	<td><%= date_select(:end, '', :start_year => 2000) %></td>
+	<td><%= label_tag :branch %></td>
+	<td><%= text_field_tag :branch  %></td>
+  </tr>
+	<tr>
+	<td>&nbsp;</td>
+	<td>&nbsp;</td>
+	<td>&nbsp;</td>
+	<td>&nbsp;</td>
+  </tr>
+  <tr>
+	<td><b>Server:</b></td>
+	<td>&nbsp;</td>
+	<td>&nbsp;</td>
+	<td>&nbsp;</td>
+  </tr>
+  <tr>
+	<td>&nbsp;</td>
+	<td><%= collection_select("employee", "employee_id", Employee.all, :id, :name_with_initial, :prompt => true) %></td>
+	<td>&nbsp;</td>
+	<td>&nbsp;</td>
+  </tr>
+	<tr>
+	<td>&nbsp;</td>
+	<td>&nbsp;</td>
+	<td>&nbsp;</td>
+	<td><%= submit_tag :Search %></td>
+  </tr>
+  <% end %>
+
+</table>
+<br/>
+</div>
+
+<div class="right">
+<strong>Change View: </strong>
+<br />
+<!--
+<select>
+  <option>Sales by Category</option>
+  <option>Sales by Settlement Type</option>
+  <option>Sales by Server:</option>
+  <option>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Category</option>
+  <option>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Settlement Type</option>
+</select>-->
+<%= link_to 'Sales by Category Type', categorysales_path %><br />
+<%= link_to 'Sales by Settlement Type', settlement_sales_path %><br />
+<%= link_to 'Server Sales by Settlement Type', serversales_path %>
+</div>
+<div style="clear:both;"></div>
+
+<hr />
+<h2><a href="#">Listing Server Sales by Settlement Type</a></h2>
+<% if @header!=nil%>
+<h2><%= p "#{@header}" %></h2>
+<% end %>
+<br/>
+<table border="1">
+  <tr>
+	<th>Date</th>
+	<th>Server Name</th>
+ 	<% @settlement_types.each do |settlementtype|%>
+	<th><%= settlementtype.st_name %></th>
+	<% end %>
+	<th>VOIDS</th>
+	<th>GROSS TOTAL</th>
+	<th>NET TOTAL</th>
+	<th></th>
+  </tr>
+
+<% @settlement_sales.each do |settlement_sale| %>
+	<tr>
+	<td><%= settlement_sale.ss_date %></td>
+	<td><%= settlement_sale.employee.employee_firstName %></td>
+	<%  settlement_sale.ssrows.each do |ss| %>
+		<td><%= ss.ss_amount %></td>
+	<% end %>
+	<td><%= settlement_sale.void %></td>
+	<td><%= settlement_sale.gross_total %></td>
+	<td><%= settlement_sale.net_total %></td>
+	<td><% if settlement_sale.save_as_draft == 1 %>
+    	<%= link_to "Edit", edit_settlement_sale_path(settlement_sale) %>
+    	<% end %></td>
+  </tr>
+<% end %>
+
+</table>
+
+<br />
+
+<%= link_to 'New Settlement sale', new_settlement_sale_path %>

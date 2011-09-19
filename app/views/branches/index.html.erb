@@ -1,0 +1,35 @@
+<div class="left"> 
+<h2><a href="#">VIEW BRANCHES</a></h2>
+<hr />
+<br/>
+</div>
+
+<div class="right"></div>
+<div style="clear: both;"></div>
+<table border="1">
+  <tr>
+    <th>Restaurant</th>
+    <th>Location</th>
+	<th>Address</th>
+    <th>Contact Number</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @branches.each do |branch| %>
+  <tr>
+    <td><%= branch.restaurant_id %></td>
+    <td><%= branch.branch_location %></td>
+	<td><%= branch.branch_address %></td>
+    <td><%= branch.branch_contactNumber %></td>
+    <td><%= link_to 'Show', branch %></td>
+    <td><%= link_to 'Edit', edit_branch_path(branch) %></td>
+    <td><%= link_to 'Destroy', branch, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Branch', new_branch_path %>

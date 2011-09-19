@@ -1,0 +1,25 @@
+<h1>Listing csrows</h1>
+
+<table>
+  <tr>
+    <th>Cs</th>
+    <th>Cs amount</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @csrows.each do |csrow| %>
+  <tr>
+    <td><%= csrow.cs_id %></td>
+    <td><%= csrow.cs_amount %></td>
+    <td><%= link_to 'Show', csrow %></td>
+    <td><%= link_to 'Edit', edit_csrow_path(csrow) %></td>
+    <td><%= link_to 'Destroy', csrow, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Csrow', new_csrow_path %>

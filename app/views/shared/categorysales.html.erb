@@ -1,0 +1,117 @@
+<div class="left"> 
+<h2><a href="#">SALES BY CATEGORY</a></h2>
+<hr />
+<br/>
+<% form_tag "/categorysales/index" do %>
+<table width="500" border="0">
+  <tr>
+    <td>From:</td>
+    <td><%= date_select(:start, '', :start_year => 2000) %></td>
+    <td><%= label_tag :restaurant %></td>
+    <td><%= collection_select("restaurant", "restaurant_id", Restaurant.all, :id, :restaurant_name,  {:prompt => true},  {:style => "width:155px"})  %>
+    </td>
+  </tr>
+  <tr>
+    <td>To:</td>
+    <td><%= date_select(:end, '', :start_year => 2000) %></td>
+    <td>Branch:</td>
+    <td><%= collection_select("branch", "branch_id", Branch.all, :id, :branch_location,  {:prompt => true},  {:style => "width:155px"})  %>	</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td><%= submit_tag :Search%></td>
+  <% end %>
+  </tr>
+</table>
+<br/>
+
+</div>
+
+<div class="right">
+<strong>Change View: </strong>
+<br />
+<!--
+<select>
+  <option>Sales by Category</option>
+  <option>Sales by Settlement Type</option>
+  <option>Sales by Server:</option>
+  <option>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Category</option>
+  <option>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Settlement Type</option>
+</select>-->
+<%= link_to 'Sales by Category Type', categorysales_path %><br />
+<%= link_to 'Sales by Settlement Type', settlement_sales_path %><br />
+<%= link_to 'Server Sales by Settlement Type', serversales_path %>
+</div>
+
+<div style="clear:both;"></div>
+
+<hr />
+<h2><a href="#">Listing Category Sales <%= "(" + @duration + ")" %></a></h2>
+<br />
+<% totalcateg = Hash.new %>
+<table border="1" width="1000">
+  <tr>
+	<th>Date</th>
+	<% @categories.each do |category|%>
+	<th><%= category.category_name %></th>
+	<% totalcateg = Hash[category.id => 0]%>
+	<% end %>
+    <th>Vat</th>
+    <th>Void</th>
+    <th>Service Charge</th>
+    <th>Total Revenue</th>
+    <th>Customer Count</th>
+    <th>Transaction Count</th>
+    <th>Edit</th>
+ </tr>
+
+<% totalvat = 0 %>
+<% totalvoid = 0 %>
+<% totalsc = 0 %>
+<% totalrev = 0 %>
+<% totalcc = 0 %>
+<% totaltc = 0 %>
+<% @categorysales.each do |categorysale| %>
+  <tr>
+    <td><%= categorysale.cs_date.strftime("%B %d, %Y") %></td>
+	<% categorysale.csrows.each do |csrow| %>
+    <td><%= csrow.cs_amount %></td>
+    <% totalcateg[csrow.category_id] = totalcateg[csrow.category_id].to_f + csrow.cs_amount %>
+    <% end %>
+    <td><%= categorysale.vat %></td>
+    <% totalvat = totalvat + categorysale.vat %>
+    <td><%= categorysale.void %></td>
+    <% totalvoid = totalvoid + categorysale.void %>
+    <td><%= categorysale.servicecharge %></td>
+    <% totalsc = totalsc + categorysale.servicecharge %>
+    <td><%= number_to_currency(categorysale.cs_revenue, :precision => 2, :strip_insignificant_zeros => true) %></td>
+    <% totalrev = totalrev + categorysale.cs_revenue %>
+    <td><%= categorysale.customer_count %></td>
+    <% totalcc = totalcc + categorysale.customer_count %>
+    <td><%= categorysale.transaction_count %></td>
+    <% totaltc = totaltc + categorysale.transaction_count %>
+    <td><% if categorysale.save_as_draft == 1 %>
+    	<%= link_to "Edit", edit_categorysale_path(categorysale) %>
+    	<% end %></td>
+  </tr>
+<% end %>
+
+	<tr>
+	    <td><center><b>Total</b></center></td>
+		<% @categories.each do |category|%>
+		<td><%=  totalcateg[category.id]%></td>
+		<% end %>
+	    <td><%= totalvat %></td>
+	    <td><%= totalvoid %></td>
+	    <td><%= totalsc %></td>
+	    <td><%= number_to_currency(totalrev, :precision => 2, :strip_insignificant_zeros => true)%></td>
+	    <td><%= totalcc %></td>
+	    <td><%= totaltc %></td>
+	    <td></td>
+	</tr>
+</table>
+
+<br />
+
+<%= link_to 'New Category Sale', new_categorysale_path %>
