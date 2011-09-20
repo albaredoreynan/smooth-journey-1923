@@ -13,6 +13,11 @@
   <% end %>
 
 <style type="text/css">
+		div#field {
+			width: 300px;
+			float: left;
+		}
+		
 		div#preview {
 			width: 300px;
 			float: right;
@@ -34,47 +39,9 @@
 			}
 
 	</style>
-	
-<div id="preview">
-	<table>
-		<tr>CURRENT ITEMS IN INVOICE</tr>
-		<tr><td>Item name</td>
-			<td>Unit Cost</td>
-			<td>Purchase quantity</td>
-			<td>Purchase amount</td>
-			<td>Vat type</td>
-			<td>Vat amount</td>
-			<td>Net amount</td>
-			<td></td>
-		</tr>
-		<% invoiceId = @purchaseitem.invoice_id %> <!-- get the invoice id of item to be edited -->
-		<% previewItem = Purchaseitem.where(:invoice_id => invoiceId) %> <!-- find all items with that invoice id-->
-		<% previewItem.each do |previewItem| %>
-		<tr>
-			<td id="inP"><% inventoryId = previewItem.inventory_id %>
-    					<% i = Inventoryitem.find(inventoryId)%>
-    					<%= i.item_name%></td>
-			<td id="ucP"><%= previewItem.purchase_unitCost %></td>
-			<td id="pqP"><%= previewItem.purchase_quantity %></td>
-			<td id="paP"><%= previewItem.purchase_amount %></td>
-			<td id="vtP"><%= previewItem.vat_type %></td>
-			<td id="vaP"><%= previewItem.vat_amount %></td>
-			<td id="naP"><%= previewItem.net_amount %></td>
-			<td><%= link_to 'Edit', edit_purchaseitem_path(previewItem) %></td>
-		</tr><% end %>
-		<tr><td>Total</td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-		</tr>
-		<tr></tr>
-	</table>
-</div>
+<table>
 
+<td>
 <table>
   <tr>
 	  <div class="field">
@@ -114,13 +81,13 @@
   <tr>
 	  <div class="field">
 		<td>Unit Cost</td>
-		<td><%= f.text_field :purchase_unitCost %></td>
+		<td><%= f.text_field :purchase_unitCost, :id => "purchase_unitCost", :onchange => "updateVatAmount()" %></td>
 	  </div>
   </tr>
   <tr>
 	  <div class="field">
 		<td><%= f.label :purchase_quantity %></td>
-		<td><%= f.text_field :purchase_quantity %></td>
+		<td><%= f.text_field :purchase_quantity, :id => "purchase_quantity", :onchange => "updateVatAmount()" %></td>
 	  </div>
   </tr>
   <tr>
@@ -167,9 +134,42 @@
 	  </div>
   </tr>
 </table>
+</td>
+	<td>	
+<div id="preview">
+	<table>
+		<tr>CURRENT ITEMS IN INVOICE</tr>
+		<tr><td>Item name</td>
+			<td>Unit Cost</td>
+			<td>Purchase quantity</td>
+			<td>Purchase amount</td>
+			<td>Vat type</td>
+			<td>Vat amount</td>
+			<td>Net amount</td>
+		</tr>
+		<tr>
+			<td id="inP"></td>
+			<td id="ucP"></td>
+			<td id="pqP"></td>
+			<td id="paP"></td>
+			<td id="vtP"></td>
+			<td id="vaP"></td>
+			<td id="naP"></td>
+		</tr>
+		<tr><td>Total</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+	</table>
+</div>
+</td>
+</table>
 
 <html>
-	
 <script>
 function updateVatAmount(){
         var purchaseAmount = document.getElementById('purchase_amount');
@@ -197,7 +197,7 @@ function updateVatAmount(){
                 vatAmount = 0;
                 netAmount = purchaseAmount.value;
             }
-        } // end of checking shirt
+        } // end of checking vat
     
     checkVat();
     var totalVat = vatAmount;
@@ -209,8 +209,13 @@ function updateVatAmount(){
     var totalNetField = document.getElementById('net_amount');
     totalNetField.value = totalNet;
     
-    document.getElementById('vaP').innerHTML = totalVat;
+    document.getElementById("paP").innerHTML = document.getElementById('purchase_amount').value;
+    document.getElementById("vaP").innerHTML = document.getElementById('vat_amount').value;
+    document.getElementById("naP").innerHTML = document.getElementById('net_amount').value;
+    
     } //end of update total function
+    document.getElementById("ucP").innerHTML = document.getElementById('purchase_unitCost').value;
+    document.getElementById("pqP").innerHTML = document.getElementById('purchase_quantity').value;
     }
 </script>
 </html>

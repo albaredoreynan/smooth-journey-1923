@@ -57,13 +57,9 @@ class EndcountsController < ApplicationController
   
     @monthbeginning = Date.today.at_beginning_of_month
   
-    count.times do
-      @item_ids = Inventoryitem.all.map(&:id).reverse
-      @inventoryitems = Inventoryitem.all.map(&:item_name).reverse
-      @beginning_counts = Inventoryitem.all.map(&:beginning_count).reverse
-    
-      @endcount.ecrows.build
-    end
+    @item_ids = Inventoryitem.all.map(&:id).reverse
+    @inventoryitems = Inventoryitem.all.map(&:item_name).reverse
+    @beginning_counts = Inventoryitem.all.map(&:beginning_count).reverse
   
     respond_to do |format|
       format.html # new.html.erb
@@ -76,6 +72,12 @@ class EndcountsController < ApplicationController
   def create
     @endcount = Endcount.new(params[:endcount])
 
+    if params[:commit]=="Save"       
+        @endcount.save_as_draft = 0
+    elsif params[:commit]=="Save as draft"
+        @endcount.save_as_draft = 1
+    end 
+    
     respond_to do |format|
       if @endcount.save
         format.html { redirect_to(@endcount, :notice => 'Endcount was successfully created.') }
@@ -91,6 +93,12 @@ class EndcountsController < ApplicationController
   # PUT /endcounts/1.xml
   def update
     @endcount = Endcount.find(params[:id])
+    
+    if params[:commit]=="Save"       
+        @endcount.save_as_draft = 0
+    elsif params[:commit]=="Save as draft"
+        @endcount.save_as_draft = 1
+    end
 
     respond_to do |format|
       if @endcount.update_attributes(params[:endcount])
@@ -113,5 +121,15 @@ class EndcountsController < ApplicationController
       format.html { redirect_to(endcounts_url) }
       format.xml  { head :ok }
     end
+  end
+  
+  def savemultiple
+    Endcount.update_all(["save_as_draft=?", 0], :id => params[:endcount_ids])
+    #@purchaseitems = Purchaseitems.find(params[:purchaseitem_ids])
+    #@purchaseitems.each do |puchaseitem|
+    #purchaseitem.update_attributes!(params[:purchaseitem].reject { |k,v| v.blank? })
+    #end
+    #flash[:notice] = "Purchase item/s saved!"
+    redirect_to endcounts_path
   end
 end

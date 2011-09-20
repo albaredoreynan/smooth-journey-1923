@@ -47,11 +47,13 @@
 <% totalnet = 0 %>
 <% totalvat = 0 %>
 
+
+<% form_tag '/purchaseitems/savemultiple' do %>
 <% @purchaseitems.each do |purchaseitem| %>
   <tr>
   	<td><center><% if purchaseitem.save_as_draft == 1 %>
-    	<%= check_box_tag purchaseitem.save_as_draft, true, checked = false %>
-    	<% end %></center></td> 
+    	<%= check_box_tag "purchaseitem_ids[]", purchaseitem.id %>
+    	<% end %></center></td>
     <td><%= purchaseitem.purchase_date.strftime("%B %d, %Y") %></td>
     <td><%= purchaseitem.invoice_id %></td>
     <td><% supplierId = purchaseitem.supplier_id %>
@@ -90,7 +92,7 @@
 <% end %>
 
 	<tr>
-		<td><%= link_to 'Save' %></td> <!-- select checkboxes na checked-->
+		<td><%= submit_tag 'Save' %></td> <!-- select checkboxes na checked-->
 	    <td><center><b>Total</b></center></td>
 	    <td></td>
 	    <td></td>
@@ -108,5 +110,6 @@
 	</tr>
 </table>
 <br />
+<% end %>
 
 <%= link_to 'New Purchaseitem', new_purchaseitem_path %>

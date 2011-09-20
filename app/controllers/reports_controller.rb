@@ -2,18 +2,19 @@ class ReportsController < ApplicationController
   
   def index
       @categories = Category.all
-      @categorysales = Categorysale.where("cs_date = ?",Date.today)
-      
-      if params[:commit]=="Search"     
-        @searchdate = params[:date]['(1i)']+ '-' + params[:date]['(2i)'] + '-' + params[:date]['(3i)']
-        @categorysales = Categorysale.where("cs_date = ?",@searchdate) 
+      @settlement_types = SettlementType.all
+      @sales = Sale.where("date = ?",Date.today).group_by { |sale| sale.date.to_date }
+
+      if params[:commit]=="Search"             
+        @searchdate = params[:date]['(1i)']+ '-' + params[:date]['(2i)'] + '-' + params[:date]['(3i)']       
+        @sales = Sale.where("date = ?",@searchdate).group_by { |sale| sale.date.to_date }
       else
-        @categorysales = Categorysale.where("cs_date = ?",Date.today)
+        @sales = Sale.where("date = ?",Date.today).group_by { |sale| sale.date.to_date }
       end
   end
   
   def show
-
+   #insert code 
   end
   
 end

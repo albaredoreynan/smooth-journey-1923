@@ -2,7 +2,7 @@ class PurchaseitemsController < ApplicationController
   # GET /purchaseitems
   # GET /purchaseitems.xml
   def index
-    if params[:commit]=="Search"     
+    if params[:commit]=="Search"    
         startdate = params[:start]['(1i)']+ '-' + params[:start]['(2i)'] + '-' + params[:start]['(3i)']
         enddate = params[:end]['(1i)']+ '-' + params[:end]['(2i)'] + '-' + params[:end]['(3i)']
         
@@ -15,9 +15,10 @@ class PurchaseitemsController < ApplicationController
         respond_to do |format|
           format.html # index.html.erb
           format.xml  { render :xml => @purchaseitems }
-        end
+        end # end respond_to
         #@categories = Category.all
-      end
+        
+      end # end if else
     
     #@purchaseitems = Purchaseitem.search(params[:from],params[:to])
 	  
@@ -72,9 +73,9 @@ class PurchaseitemsController < ApplicationController
 
     if params[:commit]=="Save"       
         @purchaseitem.save_as_draft = 0
-      elsif params[:commit]=="Save as draft"
+    elsif params[:commit]=="Save as draft"
         @purchaseitem.save_as_draft = 1
-      end        
+    end        
     
     respond_to do |format|
       if @purchaseitem.save
@@ -108,6 +109,12 @@ class PurchaseitemsController < ApplicationController
   # PUT /purchaseitems/1.xml
   def update
     @purchaseitem = Purchaseitem.find(params[:id])
+    
+    if params[:commit]=="Save"
+        @purchaseitem.save_as_draft = 0
+    elsif params[:commit]=="Save as draft"
+        @purchaseitem.save_as_draft = 1
+    end
 
     respond_to do |format|
       if @purchaseitem.update_attributes(params[:purchaseitem])
@@ -140,4 +147,15 @@ class PurchaseitemsController < ApplicationController
       format.replace_html 'subcategories', :partial => 'subcategories', :object => subcategories
     end
   end
+  
+  def savemultiple
+    Purchaseitem.update_all(["save_as_draft=?", 0], :id => params[:purchaseitem_ids])
+    #@purchaseitems = Purchaseitems.find(params[:purchaseitem_ids])
+    #@purchaseitems.each do |puchaseitem|
+    #purchaseitem.update_attributes!(params[:purchaseitem].reject { |k,v| v.blank? })
+    #end
+  #flash[:notice] = "Purchase item/s saved!"
+  redirect_to purchaseitems_path
+  end
+
 end

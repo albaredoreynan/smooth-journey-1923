@@ -2,6 +2,8 @@ Rrbs::Application.routes.draw do
   resources :jobs
 
   resources :branches
+  
+  resources :sales
 
   resources :companies
 
@@ -10,6 +12,7 @@ Rrbs::Application.routes.draw do
   resources :restaurants
 
   resources :roles
+  
   resources :suppliers
 
   resources :reporttemplates
@@ -58,6 +61,12 @@ Rrbs::Application.routes.draw do
   
   match "/reports" => "reports#index"
   
+  #resources :purchaseitems, :collection => { :savemultiple => :put }
+  
+  match '/purchaseitems/savemultiple' => "purchaseitems#savemultiple", :collection => { :savemultiple => :put } 
+  
+  match '/endcounts/savemultiple' => "endcounts#savemultiple", :collection => { :savemultiple => :put } 
+  
   resources :purchaseitems do
 	collection do
 		get 'search'
@@ -66,15 +75,16 @@ Rrbs::Application.routes.draw do
 
   match '/sales_reports/daily_sales' => "sales_reports#daily_sales", :as => :sales_reports_daily_sales
 
-  
-  match "/categorysales/search" => "categorysales#search"
-  
-  match "/categorysales/index" => "categorysales#index", :as => :categorysales_index
-  
+  match "/sales/search" => "sales#index", :as => :sales_index
+    
   match '/serversales' => "settlement_sales#serversales", :as => :serversales
 
   match '/serversales/search' => "settlement_sales#serversales_search", :as => :serversales_search
 
+  match '/salesbysettlementtype' => "sales#sales_by_settlement_type", :as => :sales_by_settlement_type
+  
+  match '/salesbyserver' => "sales#sales_by_server", :as => :sales_by_server
+  
   match '/settlement_sales/search' => "settlement_sales#search", :as => :settlement_sales_search
 
   #match '/reports/categorysales' => "reports#categorysales", :as => :categorysales_report_path
@@ -82,7 +92,7 @@ Rrbs::Application.routes.draw do
   match '/reports/search'=>"reports#index"
   
   match '/employees' => "employees#index" ,:as => :employees_path
-  
+   
   resources :categorysales do
 
     collection do

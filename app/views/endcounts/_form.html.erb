@@ -15,7 +15,7 @@
 	<tr>
 	  <div class="field">
 		<td><%= f.label :beginning_date %></td>
-		<td><%= f.date_select :beginning_date, :value => @monthbeginning %></td>
+		<td><%= f.date_select :beginning_date, :default => { :day => 1 } %></td>
 	  </div>
 	</tr>
 	<tr>
@@ -46,7 +46,7 @@
   <table>
 	<tr>
 	<div class="actions">
-		<td><%= f.submit %></td>
+		<td><!-- <%= f.submit %> --> <%= f.submit "Save as draft"%></td>
 	</div>
   </tr>
   </table>

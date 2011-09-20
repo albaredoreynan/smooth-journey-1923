@@ -1,0 +1,305 @@
+<%= form_for(@sale) do |f| %>
+  <% if @sale.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@sale.errors.count, "error") %> prohibited this sale from being saved:</h2>
+
+      <ul>
+      <% @sale.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+<table width="1000" border="0">
+  <tr>
+    <td>Branch:</td>
+    <td><%= text_field_tag :branch,'',:disabled => true %></td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td><%= f.label "Date" %></td>
+    <td><%= f.date_select :date %></td>
+    <td><%= f.label :employee_id %></td>
+    <td><%= collection_select(:sale, :employee_id, Employee.all, :id, :name_with_initial, :prompt => true) %></td>
+  </tr>
+  <tr>
+    <td><%= f.label :customer_count %></td>
+    <td><%= f.text_field :customer_count %></td>
+    <td><%= f.label :transaction_count %></td>
+    <td><%= f.text_field :transaction_count %></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+	<td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td></td>
+    <td><b>SALES BY CATEGORY</b></td>
+    <td></td>
+  </tr>
+  <% f.fields_for :csrows do |builder| %>
+  	 <tr>
+  	 	<% id = @category_ids.pop %>
+  	 	<% if id!=nil %>		
+	  	 	<%= builder.hidden_field :category_id, :value => id %>
+    		<td><%= @category_names.pop %></td>
+	  		<td><%= builder.text_field :cs_amount, :class => :category, :onblur =>"calculateCategoryTotal();" %></td>
+	  	<% end %>
+	 </tr>
+  <% end %>
+
+  <tr>
+    <td>Total Amount</td>
+    <td><%= f.text_field :total_amount_cs %></td>
+    <td>Total Revenue</td>
+    <td><%= f.text_field :total_revenue_cs %></td>
+  </tr>
+  <tr>
+    <td>VAT</td>
+    <td><%= text_field_tag :vat,'',:size => 30%></td>
+  </tr>
+  <tr>
+    <td><%= f.label "Service Charge" %></td>
+    <td><%= f.text_field :service_charge , :onChange => "computeTotal()"%></td>  
+  </tr> 
+  <tr>
+    <td>GROSS TOTAL</td>
+    <td><%= text_field_tag :gross_total,'',:size => 30 %></td>  
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+	<td>&nbsp;</td>
+  </tr> 
+  <tr>
+    <td></td>
+    <td></td>
+    <td><b>SALES BY SETTLEMENT TYPE</b></td>
+    <td></td>
+ </tr>    
+  <% f.fields_for :ssrows do |builder| %>
+	   	<% id =  @settlement_type_ids.pop %>
+  	 	<% if id!=nil %>		
+	  	 	<%= builder.hidden_field :settlement_type_id, :value => id %>
+	  		<tr><td><%= @settlement_type_names.pop %></td>
+	  		<td><%= builder.text_field :ss_amount, :class => :settlementtype, :onblur =>"calculateSettlementtypeTotal();" %></td></tr>
+	  	<% end %>
+  <% end %>
+ 
+  <tr>
+	  <td>VOIDS</td>
+	  <td><%= f.text_field :void %></td>
+	  <td>&nbsp;</td>
+	  <td>VAT</td>
+      <td><%= f.text_field :vat %></td>
+  </tr>
+  <tr>
+	  <td>GROSS TOTAL</td>
+	  <td><%= f.text_field :gross_total_ss, :onblur =>"computeVat();" %></td>
+	  <td>&nbsp;</td>
+	  <td>NET TOTAL</td>
+	  <td><%= f.text_field :net_total_ss %></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+	<td>&nbsp;</td>
+  </tr>
+  <tr>
+	  <td></td>
+	  <td><center><b>DINE IN:</b></center></td>
+	  <td></td>
+	  <td>&nbsp;</td>
+	  <td><center><b>DELIVERY:</b></td>
+  </tr>
+  <tr>
+	  <td>Customer Count (CC):</td>
+	  <td><%= f.text_field :dinein_cc %></td>
+	  <td>&nbsp;</td>
+	  <td>Delivery Sales (DS):</td>
+	  <td><%= f.text_field :delivery_sales %></td>
+  </tr>
+  <tr>
+	  <td>Transaction Count (TC):</td>
+	  <td><%= f.text_field :dinein_tc %></td>
+	  <td>&nbsp;</td>
+	  <td>Transaction Count (TC):</td>
+	  <td><%= f.text_field :delivery_tc %></td>
+  </tr>
+  <tr>
+	  <td>Per Person Average (PPA):</td>
+	  <td><%= f.text_field :dinein_ppa %></td>
+	  <td>&nbsp;</td>
+	  <td>Per Transaction Average (PTA):</td>
+	  <td><%= f.text_field :delivery_pta %></td>
+  </tr>
+  <tr>
+	  <td>Per Transaction Average (PTA):</td>
+	  <td><%= f.text_field :dinein_pta %></td>
+	  <td>&nbsp;</td>
+	  <td>&nbsp;</td>
+	  <td>&nbsp;</td>
+  </tr>
+  <tr>
+	  <td>&nbsp;</td>
+	  <td>&nbsp;</td>
+	  <td>&nbsp;</td>
+	  <td>&nbsp;</td>
+	  <td>&nbsp;</td>
+  </tr>
+  <tr>
+	  <td></td>
+	  <td><b>TAKE OUT:</b></td>
+	  <td>&nbsp;</td>
+	  <td>&nbsp;</td>
+	  <td>&nbsp;</td>
+  </tr>
+  <tr>
+	  <td>Transaction Count (TC):</td>
+	  <td><%= f.text_field :takeout_tc %></td>
+	  <td>&nbsp;</td>
+	  <td>&nbsp;</td>
+	  <td>&nbsp;</td>
+  </tr>
+  <tr>
+	  <td>Per Transaction Average (PTA):</td>
+	  <td><%= f.text_field :takeout_pta %></td>
+	  <td>&nbsp;</td>
+	  <td>&nbsp;</td>
+      <td>&nbsp;</td>
+  </tr> 
+  <tr>
+    <td><%= f.label "Service Charge" %></td>
+    <td><%= f.text_field :service_charge %></td>
+    <td></td>
+	<td></td>
+ </tr>
+  <tr>
+    <td><%= f.label :restaurant_id %></td>
+    <td><%= f.text_field :restaurant_id %></td>
+    <td></td>
+	<td></td>
+ </tr>
+ <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+	<td>&nbsp;</td>
+ </tr>
+ <tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td><%= f.submit "Save as Draft" %><%= f.submit "Save" %></td>
+ </tr>
+  
+</table>
+<script>
+$(document).ready(function(){
+    $('#sale_gross_total_ss').keyup(function(){
+        $('#sale_vat').val($('#sale_gross_total_ss').val() * .12);
+    });
+});
+
+function computeVat(){
+   $('#sale_vat').val($('#sale_gross_total_ss').val() * .12);
+}
+
+function calculateCategoryTotal() {
+    var total = 0;
+
+    $(".category").each(function() {
+        if (!isNaN(this.value) && this.value.length != 0) {
+            total += parseFloat(this.value);
+        }
+    });
+
+    $("#sale_total_amount_cs").val(total);
+    updateVatAmount2();
+}
+
+function calculateSettlementtypeTotal() {
+    var total = 0;
+
+    $(".settlementtype").each(function() {
+        if (!isNaN(this.value) && this.value.length != 0) {
+            total += parseFloat(this.value);
+        }
+    });
+
+    $("#sale_gross_total_ss").val(total);
+    updateVatAmount();
+}
+
+function updateVatAmount(){
+	var totalAmount = document.getElementById('sale_gross_total_ss');
+    var vatAmount = 0;
+    if(totalAmount.value == ""){
+    	
+    }else{
+	    vatAmount = totalAmount.value * 0.12;     
+	   	
+	    var totalVat = vatAmount;
+		var netTotal = totalAmount.value - totalVat;
+	    
+	    var totalVatField = document.getElementById('sale_vat');
+	    totalVatField.value = totalVat;
+	    var netField = document.getElementById('sale_net_total_ss');
+	    netField.value = netTotal;
+    } 
+ }
+ 
+ function updateVatAmount2(){
+	var totalAmount = document.getElementById('sale_total_amount_cs');
+    var vatAmount = 0;
+    var totalGross = 0;
+    if(totalAmount.value == ""){
+    	
+    }else{
+	    vatAmount = totalAmount.value * 0.12;     
+	   	
+	    var totalVat = vatAmount;
+		
+	    var totalVatField = document.getElementById('vat');
+	    totalVatField.value = totalVat;
+	    
+	    var totalGrossField = document.getElementById('gross_total');
+	  	totalGross = totalAmount.value * 0.12 + totalAmount.value * 1;
+	  	totalGrossField.value = totalGross;
+	    
+    } 
+ }
+ 
+ function computeTotal(){
+ 	var serviceCharge = document.getElementById('sale_service_charge');
+ 	var totalGross = 0;
+ 	if(serviceCharge.value == ""){
+    	
+    }else{
+	    var totalAmount = document.getElementById('sale_total_amount_cs');
+ 		
+	    var totalGrossField = document.getElementById('gross_total');
+	  	totalGross = totalAmount.value * 0.12 + totalAmount.value * 1 + serviceCharge.value * 1;
+	  	totalGrossField.value = totalGross;    
+    } 
+ 	
+ }
+ 
+ 
+</script>
+
+<% end %>

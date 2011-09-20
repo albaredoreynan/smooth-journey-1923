@@ -2,12 +2,12 @@
 
 <p>
   <b>Beginning date:</b>
-  <%= @endcount.beginning_date %>
+  <%= @endcount.beginning_date.strftime("%B %d, %Y") %>
 </p>
 
 <p>
   <b>End date:</b>
-  <%= @endcount.end_date %>
+  <%= @endcount.end_date.strftime("%B %d, %Y") %>
 </p>
 
 

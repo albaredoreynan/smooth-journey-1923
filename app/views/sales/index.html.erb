@@ -1,0 +1,96 @@
+<div class="left"> 
+<h2><a href="#">SALES BY CATEGORY</a></h2>
+<hr/>
+<br/>
+<% form_tag :sales_index do %>
+<table width="500" border="0">
+  <tr>
+    <td>From:</td>
+    <td><%= date_select(:from, '', :start_year => 2000) %></td>
+    <td><%= label_tag :restaurant %></td>
+    <td><%= text_field_tag :restaurant  %></td>
+  </tr>
+  <tr>
+    <td>To:</td>
+    <td><%= date_select(:to, '', :start_year => 2000) %></td>
+    <td>Branch:</td>
+    <td><%= text_field_tag :branch %></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td><%= submit_tag :Search%></td>
+  <% end %>
+  </tr>
+</table>
+<br/>
+
+</div>
+
+<div class="right">
+<strong>Change View: </strong>
+<br />
+<!--
+<select>
+  <option>Sales by Category</option>
+  <option>Sales by Settlement Type</option>
+  <option>Sales by Server:</option>
+  <option>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Category</option>
+  <option>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Settlement Type</option>
+</select>-->
+<%= link_to 'Sales by Category Type', sales_path %><br />
+<%= link_to 'Sales by Settlement Type', sales_by_settlement_type_path %><br />
+<%= link_to 'Sales by Server', sales_by_server_path %>
+</div>
+
+<div style="clear:both;"></div>
+
+<hr />
+<h2><a href="#">Listing Category Sales </a></h2>
+<br />
+<table border="1" width="1000">
+  <tr>
+	<th>Date</th>
+	<% @categories.each do |category|%>
+	<th><%= category.category_name %></th>
+	<% end %>
+    <th>Vat</th>
+    <th>Void</th>
+    <th>Service Charge</th>
+    <th>Total Revenue</th>
+    <th>Customer Count</th>
+    <th>Transaction Count</th>
+ </tr>
+ 
+
+
+<% @sales.each do |date,sale| %>
+  <tr>
+	<td><%= date.strftime("%B %d, %Y") %></td>
+	<% @categories.each do |category|%>
+	<td><%= Csrow.category_sales_sum(date,category.id) %></td>
+  	<% end %>
+  	<td><%= number_to_currency(sale.map(&:vat).sum, :precision => 2, :unit=>"₱ ") %></td>
+  	<td><%= sale.map(&:void).sum %></td>
+  	<td><%= number_to_currency(sale.map(&:service_charge).sum, :precision => 2, :unit=>"₱ ") %></td>
+  	<td><%= number_to_currency(sale.map(&:total_revenue_cs).sum, :precision => 2, :unit=>"₱ ") %></td>
+  	<td><%= sale.map(&:customer_count).sum %></td>
+  	<td><%= sale.map(&:transaction_count).sum %></td>
+  </tr>
+<% end %>
+  <tr>
+	<td><b><center>TOTAL</center></b></td>
+	<% @categories.each do |category|%>
+	<td><%= Csrow.total_category_sales_sum(category.id) %></td>
+  	<% end %>
+  	<td><%= number_to_currency(Sale.total_vat(), :precision => 2, :unit=>"₱ ") %></td>
+  	<td><%= Sale.total_void() %></td>
+  	<td><%= number_to_currency(Sale.total_service_charge(), :precision => 2, :unit=>"₱ ") %></td>
+  	<td><%= number_to_currency(Sale.total_revenue(), :precision => 2, :unit=>"₱ ") %></td>
+  	<td><%= Sale.total_customer_count() %></td>
+  	<td><%= Sale.total_transaction_count() %></td>
+  </tr>
+</table>
+<br />
+
+<%= link_to 'New Sale', new_sale_path %>

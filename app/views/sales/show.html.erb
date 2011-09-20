@@ -1,0 +1,115 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Employee:</b>
+  <%= @sale.employee_id %>
+</p>
+
+<p>
+  <b>Vat:</b>
+  <%= @sale.vat %>
+</p>
+
+<p>
+  <b>Void:</b>
+  <%= @sale.void %>
+</p>
+
+<p>
+  <b>Date:</b>
+  <%= @sale.date %>
+</p>
+
+<p>
+  <b>Revenue ss:</b>
+  <%= @sale.revenue_ss %>
+</p>
+
+<p>
+  <b>Customer count:</b>
+  <%= @sale.customer_count %>
+</p>
+
+<p>
+  <b>Transaction count:</b>
+  <%= @sale.transaction_count %>
+</p>
+
+<p>
+  <b>Gross total ss:</b>
+  <%= @sale.gross_total_ss %>
+</p>
+
+<p>
+  <b>Net total ss:</b>
+  <%= @sale.net_total_ss %>
+</p>
+
+<p>
+  <b>Dinein cc:</b>
+  <%= @sale.dinein_cc %>
+</p>
+
+<p>
+  <b>Dinein tc:</b>
+  <%= @sale.dinein_tc %>
+</p>
+
+<p>
+  <b>Dinein ppa:</b>
+  <%= @sale.dinein_ppa %>
+</p>
+
+<p>
+  <b>Delivery sales:</b>
+  <%= @sale.delivery_sales %>
+</p>
+
+<p>
+  <b>Delivery tc:</b>
+  <%= @sale.delivery_tc %>
+</p>
+
+<p>
+  <b>Delivery pta:</b>
+  <%= @sale.delivery_pta %>
+</p>
+
+<p>
+  <b>Takeout tc:</b>
+  <%= @sale.takeout_tc %>
+</p>
+
+<p>
+  <b>Takeout pta:</b>
+  <%= @sale.takeout_pta %>
+</p>
+
+<p>
+  <b>Total amount cs:</b>
+  <%= @sale.total_amount_cs %>
+</p>
+
+<p>
+  <b>Total revenue cs:</b>
+  <%= @sale.total_revenue_cs %>
+</p>
+
+<p>
+  <b>Restaurant:</b>
+  <%= @sale.restaurant_id %>
+</p>
+
+<p>
+  <b>Service charge:</b>
+  <%= @sale.service_charge %>
+</p>
+
+<p>
+  <b>Save as draft:</b>
+  <%= @sale.save_as_draft %>
+</p>
+
+
+<%= link_to 'Edit', edit_sale_path(@sale) %> |
+<%= link_to 'Back', sales_path %>

@@ -8,7 +8,7 @@
 <table>
 	<tr>
 		<td>From</td>
-		<td><%= date_select(:start, '', :start_year => 2010) %></td>
+		<td><%= date_select(:start, '', :start_year => 2010, :default => { :day => 1 } ) %></td>
 	</tr>
 	<tr>
 		<td>To</td>
@@ -24,10 +24,13 @@
 
 <div class="right"></div>
 <div style="clear: both;"></div>
+
+<% form_tag '/endcounts/savemultiple' do %>
 <table border="1">
 
 
   <tr>
+  	<th></th>
     <th>Beginning date</th>
     <th>Endcount date</th>
 	<th>Item</th>
@@ -39,6 +42,9 @@
 <% @endcounts.each do |endcount| %>
 	<% for ecrow in endcount.ecrows %>
 		<tr>
+		<td><center><% if endcount.save_as_draft == 1 %>
+    	<%= check_box_tag "endcounts_ids[]", endcount.id %>
+    	</center><% end %></td>
 		<td><%= endcount.beginning_date.strftime("%B %d, %Y") %></td>
 		<td><%= endcount.end_date.strftime("%B %d, %Y") %></td>
 		<td><% inventoryId = ecrow.inventory_id %>
@@ -46,13 +52,16 @@
     	<%=h i.item_name %></td>
 		<td><%=h ecrow.beginning_count %></td>
 		<td><%=h ecrow.end_count %></td>
-		<td><%= link_to 'Edit', edit_endcount_path(endcount) %></td>
+		<td><% if endcount.save_as_draft == 1 %>
+			<%= link_to 'Edit', edit_endcount_path(endcount) %>
+			<% end %></td>
 		</tr>
-	<% end %>
+	<% end %> 
 <% end %>
+
 </table>
-
-
+<%= submit_tag 'Save' %>
+<% end %>
 <br />
 
 <%= link_to 'New Endcount', new_endcount_path %>

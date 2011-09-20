@@ -10,31 +10,20 @@
       </ul>
     </div>
   <% end %>
-  
-<table>  
-  <tr>
-	  <div class="field">
-		<td><%= f.label :subcategory_name %></td>
-		<td><%= f.text_field :subcategory_name %></td>
-	  </div>
-  </tr>
-  <tr>
-	  <div class="field">
-		<td><%= f.label :subcategory_description %></td>
-		<td><%= f.text_area :subcategory_description, :rows => 4 %></td>
-	  </div>
-  </tr>
-  <tr>
-	  <div class="field">
-		<td>Category</td>
-		<td><%= f.collection_select :category_id, Category.find(:all), :id, :category_name, :prompt => "Select Category" %></td>
-	  </div>
-  </tr>
-  <tr>
-	  <div class="actions">
-		<td>&nbsp;</td>
-		<td><%= f.submit %></td>
-	  </div>
-  </tr>
-</table>
+
+  <div class="field">
+    <%= f.label :subcategory_name %><br />
+    <%= f.text_field :subcategory_name %>
+  </div>
+  <div class="field">
+    <%= f.label :subcategory_description %><br />
+    <%= f.text_area :subcategory_description %>
+  </div>
+  <div class="field">
+    <%= f.label :category_id %><br />
+    <%= f.text_field :category_id %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
 <% end %>
