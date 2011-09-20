@@ -9,14 +9,15 @@ class EndcountsController < ApplicationController
     if params[:commit]=="Search"
     startdate = params[:start]['(1i)']+ '-' + params[:start]['(2i)'] + '-' + params[:start]['(3i)']
     enddate = params[:end]['(1i)']+ '-' + params[:end]['(2i)'] + '-' + params[:end]['(3i)']
-        
+
     @endcounts = Endcount.where("beginning_date >= ? AND beginning_date <= ?",startdate,enddate).all
+    elsif params[:commit]=="Save"
+      Endcount.update_all(["save_as_draft=?", 0], :id => params[:endcount_ids])
+      redirect_to endcounts_path
     else
     @endcounts = Endcount.all
     end
-    
   end
-
   # GET /endcounts/1
   # GET /endcounts/1.xml
   def show
@@ -53,6 +54,7 @@ class EndcountsController < ApplicationController
   # GET /endcounts/1/edit
   def edit
     @endcount = Endcount.find(params[:id])
+    @endcounts = Purchaseitem.all # for preview/save the draft
     count = Inventoryitem.all.count
   
     @monthbeginning = Date.today.at_beginning_of_month
@@ -125,11 +127,6 @@ class EndcountsController < ApplicationController
   
   def savemultiple
     Endcount.update_all(["save_as_draft=?", 0], :id => params[:endcount_ids])
-    #@purchaseitems = Purchaseitems.find(params[:purchaseitem_ids])
-    #@purchaseitems.each do |puchaseitem|
-    #purchaseitem.update_attributes!(params[:purchaseitem].reject { |k,v| v.blank? })
-    #end
-    #flash[:notice] = "Purchase item/s saved!"
     redirect_to endcounts_path
   end
 end

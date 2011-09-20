@@ -9,6 +9,9 @@ class PurchaseitemsController < ApplicationController
         @duration = startdate + ' to ' + enddate
         @purchaseitems = Purchaseitem.search_by_date(startdate, enddate) 
         #@categories = Category.all
+    elsif params[:commit]=="Save"
+      Purchaseitem.update_all(["save_as_draft=?", 0], :id => params[:purchaseitem_ids])
+      redirect_to purchaseitems_path
       else
         @duration = 'all'
         @purchaseitems = Purchaseitem.search(params[:from],params[:to])
@@ -75,7 +78,7 @@ class PurchaseitemsController < ApplicationController
         @purchaseitem.save_as_draft = 0
     elsif params[:commit]=="Save as draft"
         @purchaseitem.save_as_draft = 1
-    end        
+    end
     
     respond_to do |format|
       if @purchaseitem.save

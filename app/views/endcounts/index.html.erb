@@ -27,8 +27,6 @@
 
 <% form_tag '/endcounts/savemultiple' do %>
 <table border="1">
-
-
   <tr>
   	<th></th>
     <th>Beginning date</th>
@@ -40,6 +38,7 @@
   </tr>
 
 <% @endcounts.each do |endcount| %>
+
 	<% for ecrow in endcount.ecrows %>
 		<tr>
 		<td><center><% if endcount.save_as_draft == 1 %>

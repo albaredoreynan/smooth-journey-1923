@@ -63,7 +63,7 @@ Rrbs::Application.routes.draw do
   
   #resources :purchaseitems, :collection => { :savemultiple => :put }
   
-  match '/purchaseitems/savemultiple' => "purchaseitems#savemultiple", :collection => { :savemultiple => :put } 
+  match '/purchaseitems/savemultiple' => "purchaseitems#index", :collection => { :savemultiple => :put } 
   
   match '/endcounts/savemultiple' => "endcounts#savemultiple", :collection => { :savemultiple => :put } 
   
