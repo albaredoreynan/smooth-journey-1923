@@ -1,0 +1,80 @@
+<div class="left"> 
+<h2><a href="#">PURCHASE REPORTS</a></h2>
+<hr />
+<br/>
+</div>
+
+
+<div class="right"></div>
+<div style="clear: both;"></div>
+
+
+<table border="1" width="1000">
+  <tr>
+  	<th></th>
+    <th>Purchase date</th>
+    <th>Invoice Number</th>
+    <th>Supplier</th>
+    <th>Branch</th>
+    <th>Category</th>
+    <th>Subcategory</th>
+    <th>Item</th>
+    <th>Purchase unit cost</th>
+    <th>Purchase quantity</th>
+    <th>Purchase amount</th>
+    <th>Purchase unit</th>
+    <th>Vat amount</th>
+    <th>Net amount</th>
+    <th>Invoice total</th>
+  </tr>
+  <% @purchases.each do |purchase| %>
+	<% for purchaserow in purchase.purchaserows %>
+  <tr>
+  	<td></td>
+    <td><%= purchase.purchase_date.strftime("%B %d, %Y") %></td>
+    <td><%= purchase.invoice_id %></td>
+    <td><% supplierId = purchase.supplier_id %>
+    	<% s = Supplier.find(supplierId) %>
+    	<%= s.supplier_name %>
+    </td>
+    <td><% branchId = purchase.branch_id %>
+    	<% b = Branch.find(branchId) %>
+    	<%= b.branch_location %>
+    </td>
+    <td></td>
+    <td></td>
+    <td><% inventoryId = purchaserow.inventoryitem_id %>
+    	<% i = Inventoryitem.find(inventoryId)%>
+    	<%=h i.item_name %></td>
+    <td><%= number_with_precision(purchaserow.purchase_unitCost, :precision => 2) %></td>
+    <td><%= number_with_precision(purchaserow.purchase_quantity, :precision => 0) %></td>
+    <td><%= number_with_precision(purchaserow.purchase_amount, :precision => 2) %></td>
+   	<td><% p = purchaserow.inventoryitem_id %>
+   		<% inventoryId = Inventoryitem.find(p) %>
+   		<% u = Unit.find(inventoryId) %>
+    	<%= u.unit_name %>
+    </td>
+   	<td><%= number_with_precision(purchaserow.vat_amount, :precision => 2) %></td>
+    <td><%= number_with_precision(purchaserow.net_amount, :precision => 2) %></td>
+   <td></td>
+</tr>
+  <% end %>
+  <% end %>
+  <tr>
+  	<td><b>Total</b></td>
+  	<td></td>
+  	<td></td>
+  	<td></td>
+  	<td></td>
+  	<td></td>
+  	<td></td>
+  	<td></td>
+  	<td></td>
+  	<td></td>
+  	<td></td>
+  	<td></td>
+  	<td></td>
+  	<td></td>
+  	<td></td>
+  </tr>
+</table>

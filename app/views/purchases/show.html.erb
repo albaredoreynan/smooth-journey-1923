@@ -1,0 +1,49 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Purchase date:</b>
+  <%= @purchase.purchase_date.strftime("%B %d, %Y") %>
+</p>
+
+<p>
+  <b>Invoice:</b>
+  <%= @purchase.invoice_id %>
+</p>
+
+<p>
+  <b>Supplier:</b>
+  <% supplierId = @purchase.supplier_id %>
+  <% s = Supplier.find(supplierId) %>
+  <%= s.supplier_name %>
+</p>
+
+<p>
+  <b>Branch:</b>
+  <% branchId = @purchase.branch_id %>
+  <% b = Branch.find(branchId) %>
+  <%= b.branch_location %>
+</p>
+
+<ol><% for purchaserow in @purchase.purchaserows %>
+	<hr />
+	<b>Inventory item: </b>
+	<% inventoryId = purchaserow.inventoryitem_id %>
+  	<% i = Inventoryitem.find(inventoryId)%>
+  	<%= i.item_name %> <br />
+	<b>Purchase unit cost: </b>
+	<%= number_with_precision(purchaserow.purchase_unitCost, :precision => 2)  %> <br />
+	<b>Purchase quantity: </b>
+	<%= number_with_precision(purchaserow.purchase_quantity, :precision => 0)  %> <br />
+	<b>Purchase amount: </b> 
+	<%= number_with_precision(purchaserow.purchase_amount, :precision => 2)  %> <br />
+	<b>Vat type: </b>
+	<%= purchaserow.vat_type  %> <br />
+	<b>Vat amount: </b>
+	<%= number_with_precision(purchaserow.vat_amount, :precision => 2)  %> <br />
+	<b>Net amount: </b>
+	<%= number_with_precision(purchaserow.net_amount, :precision => 2)  %> <br />
+<% end %>
+</ol>
+
+<!-- <%= link_to 'Edit', edit_purchase_path(@purchase) %> | -->
+<%= link_to 'Back', purchases_path %>

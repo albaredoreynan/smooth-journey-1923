@@ -2,7 +2,7 @@ class PurchaseitemsController < ApplicationController
   # GET /purchaseitems
   # GET /purchaseitems.xml
   def index
-    if params[:commit]=="Search"    
+    if params[:commit]=="Search"
         startdate = params[:start]['(1i)']+ '-' + params[:start]['(2i)'] + '-' + params[:start]['(3i)']
         enddate = params[:end]['(1i)']+ '-' + params[:end]['(2i)'] + '-' + params[:end]['(3i)']
         
@@ -63,7 +63,7 @@ class PurchaseitemsController < ApplicationController
     
     #for preview
     respond_to do |format|
-      format.html # edit.html.erb
+      format.html # edit.html.erbv
       format.xml  { render :xml => @purchaseitems }
     end
     #
@@ -157,7 +157,7 @@ class PurchaseitemsController < ApplicationController
     #@purchaseitems.each do |puchaseitem|
     #purchaseitem.update_attributes!(params[:purchaseitem].reject { |k,v| v.blank? })
     #end
-  #flash[:notice] = "Purchase item/s saved!"
+    #flash[:notice] = "Purchase item/s saved!"
   redirect_to purchaseitems_path
   end
 

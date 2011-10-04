@@ -1,0 +1,109 @@
+<div class="left"> 
+<h2><a href="#">VIEW PURCHASES</a></h2>
+<hr />
+<br/>
+</div>
+
+<div class="right"></div>
+<div style="clear: both;"></div>
+
+<%= form_tag '/purchases/search' do %>
+<table>
+	<tr>
+		<td>From</td>
+		<td><%= date_select(:start, '', :start_year => 2010) %></td>
+	</tr>
+	<tr>
+		<td>To</td>
+		<td><%= date_select(:end, '', :start_year => 2010) %></td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><%= submit_tag :Search %></td>
+	</tr>
+</table>
+<% end %>
+
+<table border="1" width="1000">
+  <tr>
+  	<th></th>
+    <th>Purchase date</th>
+    <th>Invoice</th>
+    <th>Supplier</th>
+    <th>Branch</th>
+    <th>Inventory</th>
+    <th>Purchase unitcost</th>
+    <th>Purchase quantity</th>
+    <th>Purchase amount</th>
+    <th>Vat type</th>
+    <th>Vat amount</th>
+    <th>Net amount</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+  
+<% totalamount = 0 %>
+<% totalnet = 0 %>
+<% totalvat = 0 %>
+
+<%= form_tag '/purchases/savemultiple' do %>
+<% @purchases.each do |purchase| %>
+	<% for purchaserow in purchase.purchaserows %>
+  <tr>
+  	<td><center><% if purchase.save_as_draft == 1 %>
+    	<%= check_box_tag "purchase_ids[]", purchase.id %>
+    	<% end %></center></td>
+    <td><%= purchase.purchase_date.strftime("%B %d, %Y") %></td>
+    <td><%= purchase.invoice_id %></td>
+    <td><% supplierId = purchase.supplier_id %>
+    	<% s = Supplier.find(supplierId) %>
+    	<%= s.supplier_name %>
+    </td>
+    <td><% branchId = purchase.branch_id %>
+    	<% b = Branch.find(branchId) %>
+    	<%= b.branch_location %>
+    </td>
+    <td><% inventoryId = purchaserow.inventoryitem_id %>
+    	<% i = Inventoryitem.find(inventoryId)%>
+    	<%=h i.item_name %></td>
+    	
+    <td><%= number_with_precision(purchaserow.purchase_unitCost, :precision => 2) %></td>
+    <td><%= number_with_precision(purchaserow.purchase_quantity, :precision => 0) %></td>
+    <td><%= number_with_precision(purchaserow.purchase_amount, :precision => 2) %></td>
+    <% totalamount = totalamount + purchaserow.purchase_amount %>
+    <td><%= purchaserow.vat_type %></td>
+    <td><%= number_with_precision(purchaserow.vat_amount, :precision => 2) %></td>
+    <% totalvat = totalvat + purchaserow.vat_amount %>
+    <td><%= number_with_precision(purchaserow.net_amount, :precision => 2) %></td>
+   <% totalnet = totalnet + purchaserow.net_amount %>
+   
+    <td><%= link_to 'Show', purchase %></td>
+    <td><% if purchase.save_as_draft == 1 %><%= link_to 'Edit', edit_purchase_path(purchase) %><% end %></td>
+    <td><% if purchase.save_as_draft == 1 %><%= link_to 'Destroy', purchase, :confirm => 'Are you sure?', :method => :delete %><% end %></td> 
+  </tr>
+  <% end %>
+<% end %>
+
+	<tr>
+		<td><%= submit_tag 'Submit records' %></td> <!-- select checkboxes na checked-->
+	    <td><center><b>Total</b></center></td>
+	    <td></td>
+	    <td></td>
+	    <td></td>
+	    <td></td>
+	    <td></td>
+	    <td></td>
+	    <td><b><%= number_with_precision(totalamount, :precision => 2) %></b></td>
+	    <td></td>
+	    <td><b><%= number_with_precision(totalvat, :precision => 2) %></b></td>
+	    <td><b><%= number_with_precision(totalnet, :precision => 2) %></b></td>
+	    <td></td>
+	    <td></td>
+	    <td></td>
+	</tr>
+</table>
+<br />
+<% end %>
+
+<%= link_to 'New purchase', new_purchase_path %>

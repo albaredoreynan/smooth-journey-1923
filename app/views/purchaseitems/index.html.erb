@@ -47,7 +47,6 @@
 <% totalnet = 0 %>
 <% totalvat = 0 %>
 
-
 <% form_tag '/purchaseitems/savemultiple' do %>
 <% @purchaseitems.each do |purchaseitem| %>
   <tr>
@@ -81,8 +80,7 @@
     
     <td><%= number_with_precision(purchaseitem.vat_amount, :precision => 2) %></td>
     <% totalvat = totalvat + purchaseitem.vat_amount %>
-    <td><%= number_with_precision(purchaseitem.net_amount, :precision => 2)
-    	%></td>
+    <td><%= number_with_precision(purchaseitem.net_amount, :precision => 2) %></td>
     <% totalnet = totalnet + purchaseitem.net_amount %>
     
     <td><%= link_to 'Show', purchaseitem %></td>

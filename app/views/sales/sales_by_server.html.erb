@@ -8,13 +8,13 @@
 	<td>From:</td>
 	<td><%= date_select(:from, '', :start_year => 2000) %></td>
 	<td><%= label_tag :restaurant %></td>
-	<td><%= text_field_tag :restaurant  %></td>
+	<td><%= collection_select(:restaurant, :restaurant_name, Restaurant.all, :id, :restaurant_name, :prompt => true) %></td>
   </tr>
   <tr>
 	<td>To:</td>
 	<td><%= date_select(:to, '', :start_year => 2000) %></td>
 	<td><%= label_tag :branch %></td>
-	<td><%= text_field_tag :branch  %></td>
+	<td><%= collection_select(:branch, :branch_location, Branch.all, :id, :branch_location, :prompt => true) %></td>
   </tr>
   <tr>
 	<td>&nbsp;</td>
@@ -67,12 +67,17 @@
 <h2><a href="#">Listing Sales by Server</a></h2>
 
 <br/>
-<table border="1">
+
+
+<% totalst = Hash.new %>
+<table border="1" width="1000">
   <tr>
+  	<th></th>
 	<th>Date</th>
 	<th>Server Name</th>
  	<% @settlement_types.each do |settlementtype|%>
 	<th><%= settlementtype.st_name %></th>
+	<% totalst = Hash[settlementtype.id => 0]%>
 	<% end %>
 	<th>VOIDS</th>
 	<th>GROSS TOTAL</th>
@@ -80,33 +85,50 @@
 	<th></th>
   </tr>
 
+<% totalvoid = 0  %>
+<% totalgross   = 0  %>
+<% totalnet  = 0  %>
+
+<%= form_tag '/sales/savemultiple' do%>
+
 <% @sales.each do |sale| %>
 	<tr>
-	<td><%= sale.date.strftime("%B %d, %Y") %></td>
+	<td><% if sale.save_as_draft == 1 %>
+    	<center><%= check_box_tag "sale_ids[]", sale.id%><center>
+    	<% end %></td>
+	<td><%= sale.date.strftime("%b %d, %Y") %></td>
 	<td><%= sale.employee.employee_firstName %></td>
 	<%  sale.ssrows.each do |ss| %>
-		<td><%= ss.ss_amount %></td>
+		<td><%= number_to_currency(ss.ss_amount, :precision => 2, :unit => " ") %></td>
+		<% totalst[ss.settlement_type_id] = totalst[ss.settlement_type_id].to_f + ss.ss_amount %>
 	<% end %>
-	<td><%= sale.void %></td>
-	<td><%= sale.gross_total_ss %></td>
-	<td><%= sale.net_total_ss %></td>
+	<td><%= number_to_currency(sale.void, :precision => 2, :unit => " ") %></td>
+	<% totalvoid = totalvoid + sale.void  %>
+	<td><%= number_to_currency(sale.gross_total_ss, :precision => 2, :unit => " ") %></td>
+	<% totalgross = totalgross + sale.gross_total_ss  %>
+	<td><%= number_to_currency(sale.net_total_ss, :precision => 2, :unit => " ") %></td>
+	<% totalnet  = totalnet + sale.net_total_ss  %>
 	<td><% if sale.save_as_draft == 1 %>
     	<%= link_to "Edit", edit_sale_path(sale) %>
     	<% end %></td>
   </tr>
 <% end %>
   <tr>
-	<td><b>TOTAL</b></td>
+  	<td></td>
+	<td><center><b>TOTAL</b></center></td>
 	<td>&nbsp;</td>
 	<% @settlement_types.each do |settlementtype| %>
-	<td><%= Ssrow.total_settlement_sales_sum(settlementtype.id) %></td>
+	<td><%= number_to_currency(totalst[settlementtype.id], :precision => 2, :unit => " ") %></td>
   	<% end %>
-  	<td><%= Sale.total_void() %></td>
-  	<td><%= Sale.total_gross_total_ss() %></td>
-  	<td><%= Sale.total_net_total_ss() %></td>
-  	<td>&nbsp;</td>
+  	<td><%= number_to_currency(totalvoid, :precision => 2, :unit => " ") %></td>
+  	<td><%= number_to_currency(totalgross, :precision => 2, :unit => " ") %></td>
+  	<td><%= number_to_currency(totalnet, :precision => 2, :unit => " ") %></td>
+  	<td></td>
   </tr>
 </table>
 <br />
 
+<%= submit_tag 'Submit records'%> 
+<% end %>
 <%= link_to 'New Sale', new_sale_path %>
+

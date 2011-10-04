@@ -55,37 +55,46 @@
 <h2><a href="#">Listing Sales by Settlement Type</a></h2>
 
 <br/>
-<table border="1">
+<% totalst = Hash.new %>
+<table border="1" width="1000">
   <tr>
 	<th>Date</th>
  	<% @settlement_types.each do |settlementtype|%>
 	<th><%= settlementtype.st_name %></th>
+	<% totalst = Hash[settlementtype.id => 0]%>
 	<% end %>
 	<th>VOIDS</th>
 	<th>GROSS TOTAL</th>
 	<th>NET TOTAL</th>
-	<th></th>
   </tr>
+  
+<% totalvat = 0  %>
+<% totalgross = 0 %>
+<% totalnet = 0   %>
 
 <% @sales.each do |date,sale| %>
 	<tr>
-	<td><%= date.strftime("%B %d, %Y") %></td>
+	<td><%= date.strftime("%b %d, %Y") %></td>
 	<% @settlement_types.each do |settlementtype|%>
-	<td><%= Ssrow.settlement_sales_sum(date,settlementtype.id) %></td>
+	<td><%= number_to_currency(Ssrow.settlement_sales_sum(date,settlementtype.id), :precision => 2, :unit => " ") %></td>
+	<% totalst[settlementtype.id] = totalst[settlementtype.id].to_f + Ssrow.settlement_sales_sum(date,settlementtype.id) %>
   	<% end %>
-  	<td><%= sale.map(&:void).sum %></td>
-  	<td><%= sale.map(&:gross_total_ss).sum %></td>
-  	<td><%= sale.map(&:net_total_ss).sum %></td>
+  	<td><%= number_to_currency(sale.map(&:void).sum, :precision => 2, :unit => " ") %></td>
+  	<% totalvat = totalvat + sale.map(&:void).sum %>
+  	<td><%= number_to_currency(sale.map(&:gross_total_ss).sum, :precision => 2, :unit => " ") %></td>
+  	<% totalgross = totalgross + sale.map(&:gross_total_ss).sum %>
+  	<td><%= number_to_currency(sale.map(&:net_total_ss).sum, :precision => 2, :unit => " ") %></td>
+  	<% totalnet = totalnet + sale.map(&:net_total_ss).sum %>
   </tr>
 <% end %>
   <tr>
-	<td><b>TOTAL</b></td>
+	<td><center><b>TOTAL</b></center></td>
 	<% @settlement_types.each do |settlementtype| %>
-	<td><%= Ssrow.total_settlement_sales_sum(settlementtype.id) %></td>
+	<td><%= number_to_currency(totalst[settlementtype.id], :precision => 2, :unit => " ") %></td>
   	<% end %>
-  	<td><%= Sale.total_void() %></td>
-  	<td><%= Sale.total_gross_total_ss() %></td>
-  	<td><%= Sale.total_net_total_ss() %></td>
+  	<td><%= number_to_currency(totalvat, :precision => 2, :unit => " ") %></td>
+  	<td><%= number_to_currency(totalgross, :precision => 2, :unit => " ") %></td>
+  	<td><%= number_to_currency(totalnet, :precision => 2, :unit => " ") %></td>
   </tr>
 </table>
 <br />

@@ -3,19 +3,18 @@ class EndcountsController < ApplicationController
   # GET /endcounts.xml
   def index
     #@endcounts = Endcount.all
-  
-  @items = Inventoryitem.all.map(&:item_name).reverse
+    #@items = Inventoryitem.all.map(&:item_name).reverse
   
     if params[:commit]=="Search"
     startdate = params[:start]['(1i)']+ '-' + params[:start]['(2i)'] + '-' + params[:start]['(3i)']
     enddate = params[:end]['(1i)']+ '-' + params[:end]['(2i)'] + '-' + params[:end]['(3i)']
 
     @endcounts = Endcount.where("beginning_date >= ? AND beginning_date <= ?",startdate,enddate).all
-    elsif params[:commit]=="Save"
-      Endcount.update_all(["save_as_draft=?", 0], :id => params[:endcount_ids])
-      redirect_to endcounts_path
+    elsif params[:commit]=="Submit records"
+      Endcount.update_all(["save_as_draft=?", 0], :id => params[:endcount_ids]) #passed an empty hash
+      redirect_to(endcounts_path, :notice => "Record/s submitted.")
     else
-    @endcounts = Endcount.all
+      @endcounts = Endcount.all
     end
   end
   # GET /endcounts/1
@@ -33,6 +32,7 @@ class EndcountsController < ApplicationController
   # GET /endcounts/new.xml
   def new
   @endcount = Endcount.new
+
   count = Inventoryitem.all.count
   
   @monthbeginning = Date.today.at_beginning_of_month
@@ -54,7 +54,8 @@ class EndcountsController < ApplicationController
   # GET /endcounts/1/edit
   def edit
     @endcount = Endcount.find(params[:id])
-    @endcounts = Purchaseitem.all # for preview/save the draft
+
+    #@endcounts = Endcount.all # for preview/save the draft
     count = Inventoryitem.all.count
   
     @monthbeginning = Date.today.at_beginning_of_month
@@ -125,7 +126,7 @@ class EndcountsController < ApplicationController
     end
   end
   
-  def savemultiple
+  def savechecked
     Endcount.update_all(["save_as_draft=?", 0], :id => params[:endcount_ids])
     redirect_to endcounts_path
   end

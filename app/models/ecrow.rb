@@ -1,5 +1,5 @@
 class Ecrow < ActiveRecord::Base
 	belongs_to :endcount
 	
-	#validates :endcount, :presence => true
+	validates :end_count, :presence => true
 end

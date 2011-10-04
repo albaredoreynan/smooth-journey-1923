@@ -6,12 +6,35 @@ class Sale < ActiveRecord::Base
   accepts_nested_attributes_for :csrows
   accepts_nested_attributes_for :ssrows
   
+  validates_presence_of :vat
+  validates_presence_of :void
+  validates_presence_of :date
+  validates_presence_of :revenue_ss
+  validates_presence_of :customer_count
+  validates_presence_of :transaction_count
+  validates_presence_of :gross_total_ss
+  validates_presence_of :net_total_ss
+  validates_presence_of :dinein_cc
+  validates_presence_of :dinein_tc
+  validates_presence_of :dinein_ppa
+  validates_presence_of :delivery_sales
+  validates_presence_of :delivery_tc
+  validates_presence_of :delivery_pta
+  validates_presence_of :takeout_tc
+  validates_presence_of :takeout_pta
+  validates_presence_of :total_amount_cs
+  validates_presence_of :total_revenue_cs
+  validates_presence_of :service_charge
+  validates_presence_of :dinein_pta
+  
+ 
+  
   def self.search_date_range(from,to)
     where("date >= ? and date <= ?",from,to)  
   end
   
-  def self.search_by_employee(employee_id)
-    where("employee_id = ?",employee_id)  
+  def self.search_by_employee_or_date(from,to,employee_id)
+    where("(date >= ? and date <= ?) or employee_id = ?",from,to,employee_id)  
   end
 
   def self.total_void()

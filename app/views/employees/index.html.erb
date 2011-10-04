@@ -11,12 +11,12 @@
     <th>Employee firstname</th>
     <th>Employee lastname</th>
     <th>Branch</th>
-    <th>Employee dateemployed</th>
+    <th>Employee date employed</th>
     <th>Job</th>
     <th>Department</th>
     <th>Employee birthday</th>
     <th>Employee age</th>
-    <th>Employee contactnumber</th>
+    <th>Employee contact number</th>
     <th>Employee sss</th>
     <th>Employee tin</th>
     <th>Employee address</th>
@@ -29,7 +29,9 @@
   <tr>
     <td><%= employee.employee_firstName %></td>
     <td><%= employee.employee_lastName %></td>
-    <td><%= employee.branch_id %></td>
+    <td><% branchId = employee.branch_id %>
+    	<% b = Branch.find(branchId) %>
+    	<%= b.branch_location %></td>
     <td><%= employee.employee_dateEmployed %></td>
     <td><%= employee.job_id %></td>
     <td><%= employee.department_id %></td>

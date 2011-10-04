@@ -1,6 +1,7 @@
 class Purchaseitem < ActiveRecord::Base
 	belongs_to :inventoryitem
 	
+	validates :branch_id, :presence => true
 	validates :invoice_id, :presence => true
 	validates :purchase_amount, :presence => true
 	validates :net_amount, :presence => true

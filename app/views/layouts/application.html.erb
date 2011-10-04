@@ -4,7 +4,8 @@
   <title>RRBS</title>
   <%= stylesheet_link_tag :all %>
   <%= javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" %>
-  <%= javascript_include_tag :defaults, "rails.validations" %>  
+  <%= javascript_include_tag :defaults, "rails.validations", "nested_form" %>
+  
   <%= csrf_meta_tag %>
   
   <script type="text/javascript">
@@ -45,11 +46,10 @@
      <p class="notice"><%= notice %></p>
      <p class="alert"><%= alert %></p>
        
-
 <div id="menu">
 <ul>
 <li><%= link_to 'Sales', sales_path %></li>
-<li><%= link_to 'Purchases', purchaseitems_path %></li>
+<li><%= link_to 'Purchases', purchases_path %></li>
 <li><%= link_to 'Period End', endcounts_path %></li>
 <li><a href="">Inventory</a></li>
 <li><%= link_to 'Employees', employees_path %></li>

@@ -1,11 +1,10 @@
 <%= form_for(@sale) do |f| %>
   <% if @sale.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@sale.errors.count, "error") %> prohibited this sale from being saved:</h2>
-
+      <!--<h2><%= pluralize(@sale.errors.count, "error") %> prohibited this sale from being saved:</h2>-->
       <ul>
       <% @sale.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
+        <!--<li><%= msg %></li>-->
       <% end %>
       </ul>
     </div>
@@ -14,8 +13,10 @@
 <table width="1000" border="0">
   <tr>
     <td>Branch:</td>
-    <td><%= text_field_tag :branch,'',:disabled => true %></td>
-    <td>&nbsp;</td>
+    <td><%= text_field_tag :branch,'',:disabled => :true %>
+    	
+    </td>
+    <td width="100" >&nbsp;</td>
     <td>&nbsp;</td>
   </tr>
   <tr>
@@ -27,12 +28,14 @@
   <tr>
     <td><%= f.label "Date" %></td>
     <td><%= f.date_select :date %></td>
+    <td>&nbsp;</td>
     <td><%= f.label :employee_id %></td>
     <td><%= collection_select(:sale, :employee_id, Employee.all, :id, :name_with_initial, :prompt => true) %></td>
   </tr>
   <tr>
     <td><%= f.label :customer_count %></td>
     <td><%= f.text_field :customer_count %></td>
+    <td>&nbsp;</td>
     <td><%= f.label :transaction_count %></td>
     <td><%= f.text_field :transaction_count %></td>
   </tr>
@@ -48,6 +51,10 @@
     <td><b>SALES BY CATEGORY</b></td>
     <td></td>
   </tr>
+         <% @category_names = Category.all.map(&:category_name).reverse %> 
+        <% @category_ids = Category.all.map(&:id).reverse %>
+        <%@settlement_type_names = SettlementType.all.map(&:st_name).reverse%>
+        <% @settlement_type_ids = SettlementType.all.map(&:id).reverse%>
   <% f.fields_for :csrows do |builder| %>
   	 <tr>
   	 	<% id = @category_ids.pop %>
@@ -62,6 +69,7 @@
   <tr>
     <td>Total Amount</td>
     <td><%= f.text_field :total_amount_cs %></td>
+    <td>&nbsp;</td>
     <td>Total Revenue</td>
     <td><%= f.text_field :total_revenue_cs %></td>
   </tr>
@@ -187,12 +195,7 @@
     <td></td>
 	<td></td>
  </tr>
-  <tr>
-    <td><%= f.label :restaurant_id %></td>
-    <td><%= f.text_field :restaurant_id %></td>
-    <td></td>
-	<td></td>
- </tr>
+ 
  <tr>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -204,7 +207,7 @@
     <td></td>
     <td></td>
     <td></td>
-    <td><%= f.submit "Save as Draft" %><%= f.submit "Save" %></td>
+    <td><%= f.submit "Save as Draft", :onHover => "checkTotal()"%></td>
  </tr>
   
 </table>
@@ -214,6 +217,16 @@ $(document).ready(function(){
         $('#sale_vat').val($('#sale_gross_total_ss').val() * .12);
     });
 });
+
+function checkTotal(){
+ 	var totalGross1 = document.getElementById('gross_total');
+ 	var totalGross2 = document.getElementById('sale_gross_total_ss');
+ 	var saveButton = document.getElementById('sale_submit');
+	saveButton.disabled = false;
+ 	if(totalGross1.value != totalGross2.value){
+ 		saveButton.disabled = true;
+ 	}
+}
 
 function computeVat(){
    $('#sale_vat').val($('#sale_gross_total_ss').val() * .12);
@@ -261,6 +274,7 @@ function updateVatAmount(){
 	    var netField = document.getElementById('sale_net_total_ss');
 	    netField.value = netTotal;
     } 
+    checkTotal();
  }
  
  function updateVatAmount2(){
@@ -279,10 +293,12 @@ function updateVatAmount(){
 	    
 	    var totalGrossField = document.getElementById('gross_total');
 	  	totalGross = totalAmount.value * 0.12 + totalAmount.value * 1;
-	  	totalGrossField.value = totalGross;
-	    
+	  	totalGrossField.value = totalGross; 
     } 
+    checkTotal();
  }
+ 
+
  
  function computeTotal(){
  	var serviceCharge = document.getElementById('sale_service_charge');
@@ -294,10 +310,12 @@ function updateVatAmount(){
  		
 	    var totalGrossField = document.getElementById('gross_total');
 	  	totalGross = totalAmount.value * 0.12 + totalAmount.value * 1 + serviceCharge.value * 1;
-	  	totalGrossField.value = totalGross;    
+	  	totalGrossField.value = totalGross; 
+	  	checkTotal();   
     } 
- 	
  }
+ 
+ 
  
  
 </script>

@@ -35,9 +35,9 @@
   
 	<% f.fields_for :ecrows do |builder| %>
 		<tr>
-			<%= builder.hidden_field :inventory_id, :value => @item_ids.pop %>
+			<%= builder.hidden_field :inventoryitem_id, :value => @item_ids.pop %>
 			<td><%= @inventoryitems.pop %></td>
-			<td><%= builder.text_field :beginning_count, :value => @beginning_counts.pop %></td>
+			<td><%= builder.text_field :beginning_count, :value => @beginning_counts.pop, :readonly => true %></td>
 			<td><%= builder.text_field :end_count %></td>
 		</tr>
 	<% end %>

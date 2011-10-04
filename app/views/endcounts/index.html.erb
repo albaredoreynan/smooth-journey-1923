@@ -4,7 +4,7 @@
 <br/>
 </div>
 <div class="left">
-<% form_tag '/endcounts/search' do %>
+<%= form_tag '/endcounts/search' do %>
 <table>
 	<tr>
 		<td>From</td>
@@ -25,7 +25,8 @@
 <div class="right"></div>
 <div style="clear: both;"></div>
 
-<% form_tag '/endcounts/savemultiple' do %>
+
+
 <table border="1">
   <tr>
   	<th></th>
@@ -35,33 +36,37 @@
 	<th>Beginning Count</th>
 	<th>End Count</th>
     <th>Edit</th>
+    <th>Destroy</th>
   </tr>
 
+<%= form_tag '/endcounts/savechecked' do %>
 <% @endcounts.each do |endcount| %>
-
 	<% for ecrow in endcount.ecrows %>
 		<tr>
 		<td><center><% if endcount.save_as_draft == 1 %>
-    	<%= check_box_tag "endcounts_ids[]", endcount.id %>
-    	</center><% end %></td>
+    	<%= check_box_tag "endcount_ids[]", endcount.id %>
+    	<% end %></center></td>
 		<td><%= endcount.beginning_date.strftime("%B %d, %Y") %></td>
 		<td><%= endcount.end_date.strftime("%B %d, %Y") %></td>
-		<td><% inventoryId = ecrow.inventory_id %>
+		<td><% inventoryId = ecrow.inventoryitem_id %>
     	<% i = Inventoryitem.find(inventoryId)%>
     	<%=h i.item_name %></td>
-		<td><%=h ecrow.beginning_count %></td>
-		<td><%=h ecrow.end_count %></td>
+		<td><%=h number_with_precision(ecrow.beginning_count, :precision => 0) %></td>
+		<td><%=h number_with_precision(ecrow.end_count, :precision => 0) %></td>
 		<td><% if endcount.save_as_draft == 1 %>
 			<%= link_to 'Edit', edit_endcount_path(endcount) %>
 			<% end %></td>
+		<td><% if endcount.save_as_draft == 1 %><%= link_to 'Destroy', endcount, :confirm => 'Are you sure?', :method => :delete %><% end %></td>
 		</tr>
 	<% end %> 
 <% end %>
 
+<tr>
+	<td>
+<%= submit_tag 'Submit records' %>
+</td>
+</tr>
 </table>
-<%= submit_tag 'Save' %>
 <% end %>
 <br />
-
-<%= link_to 'New Endcount', new_endcount_path %>
-
+<%= link_to 'New endcount', new_endcount_path %>

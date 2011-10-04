@@ -1,4 +1,5 @@
 Rrbs::Application.routes.draw do
+
   resources :jobs
 
   resources :branches
@@ -20,6 +21,8 @@ Rrbs::Application.routes.draw do
   devise_for :users
 
   resources :csrows
+  
+  resources :ecrows
 
   resources :ssrows
 
@@ -38,12 +41,12 @@ Rrbs::Application.routes.draw do
   resources :sales_reports
 
   resources :purchaseitems
+  
+  resources :purchases
 
   resources :inventoryitems
 
   resources :units
-
-  resources :ecrows
 
   resources :reports
   
@@ -59,20 +62,35 @@ Rrbs::Application.routes.draw do
 
   match "/endcounts/search" => "endcounts#index"
   
+  match "/purchases/search" => "purchases#index"
+  
+  #match "/endcounts/index" => "endcounts#index", :as => :endcounts_index #don't include, messes up search then save
+  
   match "/reports" => "reports#index"
   
   #resources :purchaseitems, :collection => { :savemultiple => :put }
   
-  match '/purchaseitems/savemultiple' => "purchaseitems#index", :collection => { :savemultiple => :put } 
+  match '/purchaseitems/savemultiple' => "purchaseitems#index", :collection => { :savemultiple => :put }
   
-  match '/endcounts/savemultiple' => "endcounts#savemultiple", :collection => { :savemultiple => :put } 
+  match '/purchases/savemultiple' => "purchases#index", :collection => { :savemultiple => :put } 
+  
+  match '/endcounts/savechecked' => "endcounts#index", :collection => { :savechecked => :put }
+  
+  match '/sales/savemultiple' => "sales#sales_by_server", :collection => { :savemultiple => :put }
+  #resources :endcounts, :collection => { :savechecked => :put }
   
   resources :purchaseitems do
 	collection do
 		get 'search'
 	end
   end
-
+  
+  resources :endcounts do
+  collection do
+    get 'search'
+  end
+  end
+  
   match '/sales_reports/daily_sales' => "sales_reports#daily_sales", :as => :sales_reports_daily_sales
 
   match "/sales/search" => "sales#index", :as => :sales_index
@@ -82,6 +100,10 @@ Rrbs::Application.routes.draw do
   match '/serversales/search' => "settlement_sales#serversales_search", :as => :serversales_search
 
   match '/salesbysettlementtype' => "sales#sales_by_settlement_type", :as => :sales_by_settlement_type
+  
+  match '/categorysales' => "reports#categorysales", :as => :categorysales
+  
+  match '/purchasereports' => "reports#purchasereports", :as => :purchasereports
   
   match '/salesbyserver' => "sales#sales_by_server", :as => :sales_by_server
   
@@ -94,13 +116,12 @@ Rrbs::Application.routes.draw do
   match '/employees' => "employees#index" ,:as => :employees_path
    
   resources :categorysales do
-
     collection do
      get 'search'
     end
    end
   
-
+  
 
 
   # The priority is based upon order of creation:

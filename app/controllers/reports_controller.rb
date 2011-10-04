@@ -4,6 +4,7 @@ class ReportsController < ApplicationController
       @categories = Category.all
       @settlement_types = SettlementType.all
       @sales = Sale.where("date = ?",Date.today).group_by { |sale| sale.date.to_date }
+      #@purchases = Purchase.all
 
       if params[:commit]=="Search"             
         @searchdate = params[:date]['(1i)']+ '-' + params[:date]['(2i)'] + '-' + params[:date]['(3i)']       
@@ -17,4 +18,7 @@ class ReportsController < ApplicationController
    #insert code 
   end
   
+  def purchasereports
+    @purchases = Purchase.all
+  end
 end

@@ -5,11 +5,12 @@ class SalesController < ApplicationController
     @categories = Category.all
     
     if(params[:commit]=="Search")
+    @sales = Sale.all.group_by{ |sale| sale.date.to_date }
+    @categories = Category.all
         from = params[:from]['(1i)']+ '-' + params[:from]['(2i)'] + '-' + params[:from]['(3i)']
         to = params[:to]['(1i)']+ '-' + params[:to]['(2i)'] + '-' + params[:to]['(3i)']
-        @sales = Sale.search_date_range(from,to).group_by{ |sale| sale.date.to_date }
+        @sales = Sale.search_date_range(from,to)
     end
-    
   end
 
   def show
@@ -25,8 +26,6 @@ class SalesController < ApplicationController
     @sale = Sale.new
     category_count = Category.all.count
     settlement_type_count = SettlementType.all.count  
-    
-    respond_to do |format|
       category_count.times do
         @category_names = Category.all.map(&:category_name).reverse
         @category_ids = Category.all.map(&:id).reverse
@@ -37,7 +36,9 @@ class SalesController < ApplicationController
          @settlement_type_names = SettlementType.all.map(&:st_name).reverse
          @settlement_type_ids = SettlementType.all.map(&:id).reverse
          @sale.ssrows.build 
-      end
+      end          
+    respond_to do |format|
+
       format.html # new.html.erb
       format.xml  { render :xml => @sale }
     end
@@ -126,7 +127,11 @@ class SalesController < ApplicationController
       if(params[:commit]=="Search")
         from = params[:from]['(1i)']+ '-' + params[:from]['(2i)'] + '-' + params[:from]['(3i)']
         to = params[:to]['(1i)']+ '-' + params[:to]['(2i)'] + '-' + params[:to]['(3i)']
-        @sales = Sale.search_date_range(from,to).search_by_employee(params[:employee][:employee_id])
+        @sales = Sale.search_by_employee_or_date(from,to,params[:employee][:employee_id])
+      elsif params[:commit]=="Submit records"
+      Sale.update_all(["save_as_draft=?", 0], :id => params[:sale_ids])
+      redirect_to sales_by_server_path
       end
   end
+  
 end
