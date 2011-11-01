@@ -10,9 +10,20 @@ class EndcountsController < ApplicationController
     enddate = params[:end]['(1i)']+ '-' + params[:end]['(2i)'] + '-' + params[:end]['(3i)']
 
     @endcounts = Endcount.where("beginning_date >= ? AND beginning_date <= ?",startdate,enddate).all
-    elsif params[:commit]=="Submit records"
+    elsif params[:commit]=="Submit records "
       Endcount.update_all(["save_as_draft=?", 0], :id => params[:endcount_ids]) #passed an empty hash
       redirect_to(endcounts_path, :notice => "Record/s submitted.")
+    elsif params[:commit]=="Destroy records"
+          i = 0
+          arr_item = Array.new
+          @endcounts = Endcount.find(params[:endcount_ids])
+          @endcounts.each do |endcount|
+            endcount.destroy
+            i += 1
+          end  
+ 
+          redirect_to(endcounts_path)    
+          flash[:notice] = 'Record/s destroyed.'
     else
       @endcounts = Endcount.all
     end

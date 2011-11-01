@@ -65,15 +65,18 @@
   	<hr />
   <tr><td><%= purchaserow_form.label :inventoryitem_id, "Item" %></td>
 	<td><%= purchaserow_form.collection_select :inventoryitem_id, Inventoryitem.find(:all), :id, :item_name, {:prompt => "Select Item"},  {:style => "width:215px"}%></td></tr>
+  
+  <tr><td><%= purchaserow_form.label :purchase_unit, "Purchase unit" %></td>
+	<td><%= purchaserow_form.collection_select :purchase_unit, Unit.find(:all), :id, :unit_name, {:prompt => "Select Purchase unit"},  {:style => "width:215px"}%></td></tr>
   	
   <tr><td><%= purchaserow_form.label :purchase_unitCost, "Purchase unit cost" %></td>
-	<td><%= purchaserow_form.text_field :purchase_unitCost, :id => "purchase_unitCost", :onchange => "updateVatAmount(this.form)"%></td></tr>
+	<td><%= purchaserow_form.text_field :purchase_unitCost, :id => "purchase_unitCost", :onchange => "updateVatAmount(this.form)" %></td></tr>
   
   <tr><td><%= purchaserow_form.label :purchase_quantity, "Purchase quantity" %></td>
   	<td><%= purchaserow_form.text_field :purchase_quantity, :id => "purchase_quantity", :onchange => "updateVatAmount(this.form)" %></td></tr>
   
   <tr><td><%= purchaserow_form.label :purchase_amount, "Purchase amount" %></td>
-  	<td bgcolor="#FFFFF"><%= purchaserow_form.text_field :purchase_amount, :id => "purchase_amount", :onchange => "updateVatAmount(this.form)", :readonly => true %></td></tr>
+  	<td><%= purchaserow_form.text_field :purchase_amount, :id => "purchase_amount", :onchange => "updateVatAmount(this.form)", :readonly => true, :style=>"background-color : #ccc" %></td></tr>
   
   <tr><td><%= purchaserow_form.label :vat_type, "" %> <!-- radio button--></td>
   	<td><%= purchaserow_form.radio_button :vat_type, "VAT-Inclusive", :onchange => "updateVatAmount(this.form)", :id => "VAT-Inclusive" %>VAT-Inclusive<br/>
@@ -81,10 +84,10 @@
   	      <%= purchaserow_form.radio_button :vat_type, "VAT-Exempted", :onchange => "updateVatAmount(this.form)", :id => "VAT-Exempted" %>VAT-Exempted</td></tr>
   
   <tr><td><%= purchaserow_form.label :vat_amount, "Vat amount" %></td>
-  	<td bgcolor="grey"><%= purchaserow_form.text_field :vat_amount, :id => "vat_amount", :readonly => true %></td></tr>
+  	<td><%= purchaserow_form.text_field :vat_amount, :id => "vat_amount", :readonly => true, :style=>"background-color : #ccc" %></td></tr>
   
   <tr><td><%= purchaserow_form.label :net_amount, "Net amount" %></td>
-  	<td bgcolor="grey"><%= purchaserow_form.text_field :net_amount, :id => "net_amount", :readonly => true %></td></tr>
+  	<td><%= purchaserow_form.text_field :net_amount, :id => "net_amount", :readonly => true, :style=>"background-color : #ccc" %></td></tr>
   </table>
 
 	<%= purchaserow_form.link_to_remove "Remove" %>
@@ -107,8 +110,7 @@ function updateVatAmount(form){
     	var amount = form.elements[i].value;
 		var next = form.elements[i+1].value;
 		
-		
-		if(next==form.elements[12].value){
+		if(next==form.elements[13].value){
 			var unitCost = form.elements[i-2].value;
     		var quantity = form.elements[i-1].value;
 			var product = unitCost*quantity;

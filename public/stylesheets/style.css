@@ -25,6 +25,15 @@ table th{
 	background: #990000; color: #fff;
 }
 
+table td{
+	font-size: 10px;
+}
+
+table {
+border-collapse: collapse;
+width: 100%;
+}
+
 #wrap {
 margin: 0 auto;
 width: 1000px;

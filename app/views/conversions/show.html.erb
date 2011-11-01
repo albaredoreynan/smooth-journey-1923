@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>B unit:</b>
+  <%= @conversion.b_unit %>
+</p>
+
+<p>
+  <b>S unit:</b>
+  <%= @conversion.s_unit %>
+</p>
+
+<p>
+  <b>Conversionnumber:</b>
+  <%= @conversion.conversionNumber %>
+</p>
+
+
+<%= link_to 'Edit', edit_conversion_path(@conversion) %> |
+<%= link_to 'Back', conversions_path %>

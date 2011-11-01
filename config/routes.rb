@@ -1,5 +1,7 @@
 Rrbs::Application.routes.draw do
 
+  resources :conversions
+
   resources :jobs
 
   resources :branches
@@ -64,6 +66,7 @@ Rrbs::Application.routes.draw do
   
   match "/purchases/search" => "purchases#index"
   
+  
   #match "/endcounts/index" => "endcounts#index", :as => :endcounts_index #don't include, messes up search then save
   
   match "/reports" => "reports#index"
@@ -104,6 +107,8 @@ Rrbs::Application.routes.draw do
   match '/categorysales' => "reports#categorysales", :as => :categorysales
   
   match '/purchasereports' => "reports#purchasereports", :as => :purchasereports
+  
+  match '/purchasereports/search' => "reports#purchasereports", :as => :purchasereports
   
   match '/salesbyserver' => "sales#sales_by_server", :as => :sales_by_server
   

@@ -30,6 +30,10 @@
 	<% inventoryId = purchaserow.inventoryitem_id %>
   	<% i = Inventoryitem.find(inventoryId)%>
   	<%= i.item_name %> <br />
+  	<b>Purchase unit: </b>
+	<% unitId = purchaserow.purchase_unit %>
+    	<% u = Unit.find(unitId)%>
+    	<%= u.unit_name %><br />  	
 	<b>Purchase unit cost: </b>
 	<%= number_with_precision(purchaserow.purchase_unitCost, :precision => 2)  %> <br />
 	<b>Purchase quantity: </b>

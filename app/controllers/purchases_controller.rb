@@ -19,6 +19,17 @@ class PurchasesController < ApplicationController
     elsif params[:commit]=="Submit records"
       Purchase.update_all(["save_as_draft=?", 0], :id => params[:purchase_ids])
       redirect_to purchases_path
+    elsif params[:commit]=="Delete records "
+      i = 0
+      arr_item = Array.new
+      @purchases = Purchase.find(params[:purchase_ids])
+      @purchases.each do |purchase|
+      purchase.destroy
+         i += 1
+         end  
+ 
+      redirect_to(purchases_path)    
+      flash[:notice] = 'Record/s destroyed.'
     else
       @purchases = Purchase.all
         
