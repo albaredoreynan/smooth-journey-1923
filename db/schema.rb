@@ -1,0 +1,318 @@
+# This file is auto-generated from the current state of the database. Instead
+# of editing this file, please use the migrations feature of Active Record to
+# incrementally modify your database, and then regenerate this schema definition.
+#
+# Note that this schema.rb definition is the authoritative source for your
+# database schema. If you need to create the application database on another
+# system, you should be using db:schema:load, not running all the migrations
+# from scratch. The latter is a flawed and unsustainable approach (the more migrations
+# you'll amass, the slower it'll run and the greater likelihood for issues).
+#
+# It's strongly recommended to check this file into your version control system.
+
+ActiveRecord::Schema.define(:version => 20111016135842) do
+
+  create_table "branches", :force => true do |t|
+    t.integer  "restaurant_id"
+    t.string   "branch_location"
+    t.string   "branch_contactNumber"
+    t.text     "branch_address"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "categories", :force => true do |t|
+    t.string   "category_name"
+    t.text     "category_description"
+    t.integer  "restaurant_category_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "categorysales", :force => true do |t|
+    t.float    "cs_amount"
+    t.integer  "employee_id"
+    t.float    "vat"
+    t.float    "void"
+    t.float    "servicecharge"
+    t.float    "cs_revenue"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.date     "cs_date"
+    t.integer  "customer_count"
+    t.integer  "transaction_count"
+    t.integer  "save_as_draft"
+    t.float    "cs_total_amount"
+    t.integer  "category_id"
+  end
+
+  add_index "categorysales", ["employee_id"], :name => "employee_id"
+
+  create_table "companies", :force => true do |t|
+    t.string   "company_name"
+    t.text     "company_address"
+    t.string   "company_number"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "conversions", :force => true do |t|
+    t.text     "b_unit"
+    t.text     "s_unit"
+    t.float    "conversionNumber"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "csrows", :id => false, :force => true do |t|
+    t.integer  "id",          :null => false
+    t.integer  "sale_id",     :null => false
+    t.float    "cs_amount"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "category_id", :null => false
+  end
+
+  create_table "departments", :force => true do |t|
+    t.string   "department_name"
+    t.integer  "restaurant_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "ecrows", :force => true do |t|
+    t.integer  "endcount_id"
+    t.integer  "inventoryitem_id"
+    t.float    "beginning_count"
+    t.float    "end_count"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "employees", :force => true do |t|
+    t.string   "employee_firstName"
+    t.string   "employee_lastName"
+    t.integer  "branch_id"
+    t.date     "employee_dateEmployed"
+    t.integer  "job_id"
+    t.integer  "department_id"
+    t.date     "employee_birthday"
+    t.integer  "employee_age"
+    t.string   "employee_contactNumber"
+    t.string   "employee_sss"
+    t.string   "employee_tin"
+    t.text     "employee_address"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "endcounts", :force => true do |t|
+    t.date     "beginning_date"
+    t.date     "end_date"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "save_as_draft"
+  end
+
+  create_table "inventoryitems", :force => true do |t|
+    t.string   "item_name"
+    t.string   "branch_id"
+    t.integer  "unit_id"
+    t.float    "beginning_count"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "item_type"
+    t.integer  "subcategory_id"
+  end
+
+  create_table "jobs", :force => true do |t|
+    t.string   "job_name"
+    t.integer  "department_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "purchaseitems", :force => true do |t|
+    t.date     "purchase_date"
+    t.integer  "invoice_id"
+    t.integer  "supplier_id"
+    t.integer  "branch_id"
+    t.integer  "inventory_id"
+    t.string   "purchase_unit",     :limit => 45
+    t.float    "purchase_unitCost"
+    t.float    "purchase_quantity"
+    t.float    "purchase_amount"
+    t.string   "vat_type"
+    t.float    "vat_amount"
+    t.float    "net_amount"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "save_as_draft"
+  end
+
+  create_table "purchaserows", :force => true do |t|
+    t.integer  "purchase_id"
+    t.integer  "inventoryitem_id"
+    t.integer  "purchase_unit"
+    t.float    "purchase_unitCost"
+    t.float    "purchase_quantity"
+    t.float    "purchase_amount"
+    t.text     "vat_type"
+    t.float    "vat_amount"
+    t.float    "net_amount"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "purchases", :force => true do |t|
+    t.date     "purchase_date"
+    t.integer  "invoice_id"
+    t.integer  "supplier_id"
+    t.integer  "branch_id"
+    t.integer  "save_as_draft"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "reporttemplates", :force => true do |t|
+    t.string   "report_name"
+    t.text     "report_description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "restaurantcategories", :force => true do |t|
+    t.string   "category_listName"
+    t.integer  "restaurant_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "restaurants", :force => true do |t|
+    t.integer  "store_id"
+    t.string   "restaurant_name"
+    t.integer  "company_id"
+    t.text     "restaurant_description"
+    t.integer  "currency_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "roles", :force => true do |t|
+    t.string   "role_name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "sales", :force => true do |t|
+    t.integer  "employee_id"
+    t.float    "vat"
+    t.float    "void"
+    t.date     "date"
+    t.float    "revenue_ss"
+    t.integer  "customer_count"
+    t.integer  "transaction_count"
+    t.float    "gross_total_ss"
+    t.float    "net_total_ss"
+    t.integer  "dinein_cc"
+    t.integer  "dinein_tc"
+    t.float    "dinein_ppa"
+    t.float    "delivery_sales"
+    t.integer  "delivery_tc"
+    t.float    "delivery_pta"
+    t.integer  "takeout_tc"
+    t.float    "takeout_pta"
+    t.float    "total_amount_cs"
+    t.float    "total_revenue_cs"
+    t.integer  "branch_id"
+    t.float    "service_charge"
+    t.integer  "save_as_draft"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.float    "dinein_pta",        :null => false
+  end
+
+  create_table "settlement_sales", :force => true do |t|
+    t.integer  "employee_id",      :null => false
+    t.float    "vat"
+    t.float    "void"
+    t.date     "ss_date"
+    t.float    "ss_revenue"
+    t.integer  "customerCount"
+    t.integer  "transactionCount"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "customer_type"
+    t.float    "gross_total"
+    t.float    "net_total"
+    t.integer  "save_as_draft",    :null => false
+    t.integer  "dinein_cc",        :null => false
+    t.integer  "dinein_tc",        :null => false
+    t.float    "dinein_ppa",       :null => false
+    t.float    "dinein_pta",       :null => false
+    t.float    "delivery_sales",   :null => false
+    t.float    "delivery_tc",      :null => false
+    t.float    "delivery_pta",     :null => false
+    t.integer  "takeout_tc",       :null => false
+    t.float    "takeout_pta",      :null => false
+  end
+
+  create_table "settlement_types", :force => true do |t|
+    t.string   "st_name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "ssrows", :force => true do |t|
+    t.integer "settlement_type_id"
+    t.float   "ss_amount"
+    t.date    "created_at",         :null => false
+    t.date    "updated_at",         :null => false
+    t.integer "sale_id"
+  end
+
+  create_table "subcategories", :force => true do |t|
+    t.string   "subcategory_name"
+    t.text     "subcategory_description"
+    t.integer  "category_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "suppliers", :force => true do |t|
+    t.integer  "branch_id"
+    t.string   "supplier_name"
+    t.string   "supplier_email"
+    t.text     "supplier_address"
+    t.text     "supplier_description"
+    t.string   "supplier_number"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "units", :force => true do |t|
+    t.string   "unit_name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "users", :force => true do |t|
+    t.string   "email",                               :default => "", :null => false
+    t.string   "encrypted_password",   :limit => 128, :default => "", :null => false
+    t.string   "password_salt",                       :default => "", :null => false
+    t.string   "reset_password_token"
+    t.string   "remember_token"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",                       :default => 0
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "users", ["email"], :name => "index_users_on_email", :unique => true
+  add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
+
+end
