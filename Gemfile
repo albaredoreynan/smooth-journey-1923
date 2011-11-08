@@ -1,13 +1,22 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.9'
-gem 'mysql2', '< 0.3'
-gem 'rake', "0.9.2"
-gem 'devise', '1.1.rc0'
+gem 'rails'
+gem 'mysql2'
+gem 'rake'
+gem 'devise'
 gem 'nested_form'
 gem 'meta_search'
-gem 'jquery-rails'
 gem 'client_side_validations'
+gem 'execjs'
+gem 'therubyracer'
+
+group :assets do
+  gem 'sass-rails', "  ~> 3.1.0"
+  gem 'coffee-rails', "~> 3.1.0"
+  gem 'uglifier'
+end
+
+gem 'jquery-rails'
 
 group :development do
 	gem 'rspec-rails'
