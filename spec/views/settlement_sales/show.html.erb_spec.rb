@@ -15,6 +15,7 @@ describe "settlement_sales/show.html.erb" do
   end
 
   it "renders attributes in <p>" do
+    pending
     render
     # Run the generator again with the --webrat-matchers flag if you want to use webrat matchers
     rendered.should match(/1.5/)
