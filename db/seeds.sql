@@ -215,16 +215,6 @@ INSERT INTO `sales` VALUES (4,1,1,1,'2011-09-16',1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
 UNLOCK TABLES;
 
 --
--- Dumping data for table `schema_migrations`
---
-
-LOCK TABLES `schema_migrations` WRITE;
-/*!40000 ALTER TABLE `schema_migrations` DISABLE KEYS */;
-INSERT INTO `schema_migrations` VALUES ('20110922003442'),('20110922004326'),('20110922011552'),('20111016135842');
-/*!40000 ALTER TABLE `schema_migrations` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Dumping data for table `settlement_sales`
 --
 
