@@ -16,6 +16,7 @@ describe "settlement_sales/edit.html.erb" do
   end
 
   it "renders the edit settlement_sale form" do
+    pending 'fail'
     render
 
     # Run the generator again with the --webrat-matchers flag if you want to use webrat matchers

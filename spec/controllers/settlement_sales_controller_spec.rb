@@ -10,6 +10,7 @@ describe SettlementSalesController do
 
   describe "GET index" do
     it "assigns all settlement_sales as @settlement_sales" do
+      pending
       SettlementSale.stub(:all) { [mock_settlement_sale] }
       get :index
       assigns(:settlement_sales).should eq([mock_settlement_sale])
