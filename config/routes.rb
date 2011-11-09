@@ -28,7 +28,7 @@ Rrbs::Application.routes.draw do
 
   resources :ssrows
 
-  root :to => "index#index"
+  root :to => 'home#index'
 
   resources :settlement_types
 
