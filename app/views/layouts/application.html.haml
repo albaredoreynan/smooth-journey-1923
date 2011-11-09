@@ -2,7 +2,8 @@
 %html
   %head
     %title RRBS
-    = stylesheet_link_tag :all
+    = stylesheet_link_tag 'web-app-theme/base.css'
+    = stylesheet_link_tag 'web-app-theme/themes/activo/style.css?body=1'
     = javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"
     = javascript_include_tag :defaults, "rails.validations", "nested_form"
     = csrf_meta_tag
@@ -19,35 +20,35 @@
         clearInterval(interval);
       }
     %body
-    #wrap
-      #headerwrap
+      #container
         #header
-          %h1
-            %a{:href => "#"} RRBS
-          %h2 Restaurant Report and Backup System
-        .sign_in
-          - if user_signed_in?
-            Signed in as #{current_user.email}. Not you?
-            \#{link_to "Sign out", destroy_user_session_path}
-          - else
-            = link_to "Sign up", new_user_registration_path
-            or #{link_to "sign in", new_user_session_path}
-      %p.notice= notice
-      %p.alert= alert
-      #menu
-        %ul
-          %li= link_to 'Sales', sales_path
-          %li= link_to 'Purchases', purchases_path
-          %li= link_to 'Period End', endcounts_path
-          %li
-            %a{:href => ""} Inventory
-          %li= link_to 'Employees', employees_path
-          %li= link_to 'Reports', reports_path
-          %li
-            %a{:href => ""} Database
-          %li
-            %a{:href => ""} Records
-          %li
-            %a{:href => ""} User Accounts
-      #content
-        = yield
+          %h1 RBBS
+          /%h2 Restaurant Report and Backup System
+          #user-navigation
+            .sign_in
+              - if user_signed_in?
+                Signed in as #{current_user.email}. Not you?
+                \#{link_to "Sign out", destroy_user_session_path}
+              - else
+                = link_to "Sign up", new_user_registration_path
+                or #{link_to "sign in", new_user_session_path}
+          #main-navigation
+            %ul.wat-cf
+              %li= link_to 'Sales', sales_path
+              %li= link_to 'Purchases', purchases_path
+              %li= link_to 'Period End', endcounts_path
+              %li
+                %a{:href => ""} Inventory
+              %li= link_to 'Employees', employees_path
+              %li= link_to 'Reports', reports_path
+              %li
+                %a{:href => ""} Database
+              %li
+                %a{:href => ""} Records
+              %li
+                %a{:href => ""} User Accounts
+        #wrapper.wat-cf
+          #main
+            %p.notice= notice
+            %p.alert= alert
+            = yield

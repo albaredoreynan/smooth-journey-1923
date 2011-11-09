@@ -1,94 +1,95 @@
-.left
-  %h2
-    %a{:href => "#"} SALES BY CATEGORY
-  %hr/
-  %br/
-  - form_tag "/sales/search" do
-    %table{:border => "0", :width => "500"}
+.block
+  .content
+    %h2.title SALES BY CATEGORY
+    .left
+      %hr/
+      %br/
+      - form_tag "/sales/search" do
+        %table{:border => "0", :width => "500"}
+          %tr
+            %td From:
+            %td= date_select(:from, '', :start_year => 2000)
+            %td= label_tag :restaurant
+            %td= collection_select(:restaurant, :restaurant_name, Restaurant.all, :id, :restaurant_name, :prompt => true)
+          %tr
+            %td To:
+            %td= date_select(:to, '', :start_year => 2000)
+            %td= label_tag :branch
+            %td= collection_select(:branch, :branch_location, Branch.all, :id, :branch_location, :prompt => true)
+          %tr
+            %td &nbsp;
+            %td &nbsp;
+            %td= submit_tag :Search
+      %br/
+    .right
+      %strong Change View:
+      %br/
+      /
+        <select>
+        <option>Sales by Category</option>
+        <option>Sales by Settlement Type</option>
+        <option>Sales by Server:</option>
+        <option>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Category</option>
+        <option>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Settlement Type</option>
+        </select>
+      = link_to 'Sales by Category Type', sales_path
+      %br/
+      = link_to 'Sales by Settlement Type', sales_by_settlement_type_path
+      %br/
+      = link_to 'Sales by Server', sales_by_server_path
+    %div{:style => "clear:both;"}
+    %hr/
+    %h2
+      %a{:href => "#"} Listing Category Sales
+    %br/
+    - totalcateg = Hash.new
+    %table{:border => "1", :width => "1000"}
       %tr
-        %td From:
-        %td= date_select(:from, '', :start_year => 2000)
-        %td= label_tag :restaurant
-        %td= collection_select(:restaurant, :restaurant_name, Restaurant.all, :id, :restaurant_name, :prompt => true)
+        %th Date
+        - @categories.each do |category|
+          %th= category.category_name
+          - totalcateg = Hash[category.id => 0]
+        %th Vat
+        %th Void
+        %th Service Charge
+        %th Total Revenue
+        %th Customer Count
+        %th Transaction Count
+      - totalvat  = 0
+      - totalvoid = 0
+      - totalsc   = 0
+      - totalrev  = 0
+      - totalcc   = 0
+      - totaltc   = 0
+      - @sales.each do |date,sale|
+        %tr
+          %td= date.strftime("%b %d, %Y")
+          - @categories.each do |category|
+            %td= number_to_currency(Csrow.category_sales_sum(date,category.id), :precision => 2, :unit => " ")
+            - totalcateg[category.id] = totalcateg[category.id].to_f + Csrow.category_sales_sum(date,category.id)
+          %td= number_to_currency(sale.map(&:vat).sum, :precision => 2, :unit => " ")
+          - totalvat = totalvat + sale.map(&:vat).sum
+          %td= number_to_currency(sale.map(&:void).sum, :precision => 2, :unit => " ")
+          - totalvoid = totalvoid + sale.map(&:void).sum
+          %td= number_to_currency(sale.map(&:service_charge).sum, :precision => 2, :unit => " ")
+          - totalsc = totalsc + sale.map(&:service_charge).sum
+          %td= number_to_currency(sale.map(&:total_revenue_cs).sum, :precision => 2, :unit => " ")
+          - totalrev = totalrev + sale.map(&:total_revenue_cs).sum
+          %td= sale.map(&:customer_count).sum
+          - totalcc = totalcc + sale.map(&:customer_count).sum
+          %td= sale.map(&:transaction_count).sum
+          - totaltc = totaltc + sale.map(&:transaction_count).sum
       %tr
-        %td To:
-        %td= date_select(:to, '', :start_year => 2000)
-        %td= label_tag :branch
-        %td= collection_select(:branch, :branch_location, Branch.all, :id, :branch_location, :prompt => true)
-      %tr
-        %td &nbsp;
-        %td &nbsp;
-        %td= submit_tag :Search
-  %br/
-.right
-  %strong Change View:
-  %br/
-  /
-    <select>
-    <option>Sales by Category</option>
-    <option>Sales by Settlement Type</option>
-    <option>Sales by Server:</option>
-    <option>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Category</option>
-    <option>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Settlement Type</option>
-    </select>
-  = link_to 'Sales by Category Type', sales_path
-  %br/
-  = link_to 'Sales by Settlement Type', sales_by_settlement_type_path
-  %br/
-  = link_to 'Sales by Server', sales_by_server_path
-%div{:style => "clear:both;"}
-%hr/
-%h2
-  %a{:href => "#"} Listing Category Sales
-%br/
-- totalcateg = Hash.new
-%table{:border => "1", :width => "1000"}
-  %tr
-    %th Date
-    - @categories.each do |category|
-      %th= category.category_name
-      - totalcateg = Hash[category.id => 0]
-    %th Vat
-    %th Void
-    %th Service Charge
-    %th Total Revenue
-    %th Customer Count
-    %th Transaction Count
-  - totalvat  = 0
-  - totalvoid = 0
-  - totalsc   = 0
-  - totalrev  = 0
-  - totalcc   = 0
-  - totaltc   = 0
-  - @sales.each do |date,sale|
-    %tr
-      %td= date.strftime("%b %d, %Y")
-      - @categories.each do |category|
-        %td= number_to_currency(Csrow.category_sales_sum(date,category.id), :precision => 2, :unit => " ")
-        - totalcateg[category.id] = totalcateg[category.id].to_f + Csrow.category_sales_sum(date,category.id)
-      %td= number_to_currency(sale.map(&:vat).sum, :precision => 2, :unit => " ")
-      - totalvat = totalvat + sale.map(&:vat).sum
-      %td= number_to_currency(sale.map(&:void).sum, :precision => 2, :unit => " ")
-      - totalvoid = totalvoid + sale.map(&:void).sum
-      %td= number_to_currency(sale.map(&:service_charge).sum, :precision => 2, :unit => " ")
-      - totalsc = totalsc + sale.map(&:service_charge).sum
-      %td= number_to_currency(sale.map(&:total_revenue_cs).sum, :precision => 2, :unit => " ")
-      - totalrev = totalrev + sale.map(&:total_revenue_cs).sum
-      %td= sale.map(&:customer_count).sum
-      - totalcc = totalcc + sale.map(&:customer_count).sum
-      %td= sale.map(&:transaction_count).sum
-      - totaltc = totaltc + sale.map(&:transaction_count).sum
-  %tr
-    %td
-      %b/
-      %center TOTAL
-    - @categories.each do |category|
-      %td= number_to_currency(totalcateg[category.id], :precision => 2, :unit => " ")
-    %td= number_to_currency(totalvat, :precision => 2, :unit => " ")
-    %td= number_to_currency(totalvoid, :precision => 2, :unit => " ")
-    %td= number_to_currency(totalsc, :precision => 2, :unit => " ")
-    %td= number_to_currency(totalrev, :precision => 2, :unit => " ")
-    %td= totalcc
-    %td= totaltc
-%br/
-= link_to 'New Sale', new_sale_path
+        %td
+          %b/
+          %center TOTAL
+        - @categories.each do |category|
+          %td= number_to_currency(totalcateg[category.id], :precision => 2, :unit => " ")
+        %td= number_to_currency(totalvat, :precision => 2, :unit => " ")
+        %td= number_to_currency(totalvoid, :precision => 2, :unit => " ")
+        %td= number_to_currency(totalsc, :precision => 2, :unit => " ")
+        %td= number_to_currency(totalrev, :precision => 2, :unit => " ")
+        %td= totalcc
+        %td= totaltc
+    %br/
+    = link_to 'New Sale', new_sale_path

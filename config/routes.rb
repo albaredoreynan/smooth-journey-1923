@@ -83,15 +83,15 @@ Rrbs::Application.routes.draw do
   #resources :endcounts, :collection => { :savechecked => :put }
 
   resources :purchaseitems do
-	collection do
-		get 'search'
-	end
+    collection do
+      get 'search'
+    end
   end
 
   resources :endcounts do
-  collection do
-    get 'search'
-  end
+    collection do
+      get 'search'
+    end
   end
 
   match '/sales_reports/daily_sales' => "sales_reports#daily_sales", :as => :sales_reports_daily_sales
@@ -124,10 +124,7 @@ Rrbs::Application.routes.draw do
     collection do
      get 'search'
     end
-   end
-
-
-
+  end
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

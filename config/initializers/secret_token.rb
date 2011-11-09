@@ -4,4 +4,4 @@
 # If you change this key, all old signed cookies will become invalid!
 # Make sure the secret is at least 30 characters and all random,
 # no regular words or you'll be exposed to dictionary attacks.
-Rrbs::Application.config.secret_token = '37451c0aefc04772d3da03141fb38fc04763e50759f307b295844583996feada8c5d231d8ceda1daad3fb2f978909d536c80c20d226e3549b0b9edb6f41ee308'
+Rrbs::Application.config.secret_token = '275c07dd369ebc0e83e6a96951cadd3233a2ca835e6f1a6745950bead4f622802431ec9457904c9a4fb2d1ca674e6759acf1f5e7fc6c63bbc753b25da315ce09'
