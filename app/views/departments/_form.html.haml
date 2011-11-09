@@ -1,0 +1,22 @@
+= form_for(@department) do |f|
+  - if @department.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(@department.errors.count, "error")
+        prohibited this department from being saved:
+      %ul
+        - @department.errors.full_messages.each do |msg|
+          %li= msg
+  %table
+    %tr
+  .field
+  %td= f.label :department_name
+  %td= f.text_field :department_name
+  %tr
+  .field
+  %td= f.label :restaurant_id
+  %td= f.collection_select :restaurant_id, Restaurant.find(:all), :id, :restaurant_name, :prompt => "Select Restaurant"
+  %tr
+  .actions
+  %td &nbsp;
+  %td= f.submit

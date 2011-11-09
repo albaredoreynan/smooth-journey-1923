@@ -1,0 +1,19 @@
+%p#notice= notice
+%p
+  %b Store:
+  = @restaurant.store_id
+%p
+  %b Restaurant name:
+  = @restaurant.restaurant_name
+%p
+  %b Company:
+  = @restaurant.company_id
+%p
+  %b Restaurant description:
+  = @restaurant.restaurant_description
+%p
+  %b Currency:
+  = @restaurant.currency_id
+= link_to 'Edit', edit_restaurant_path(@restaurant)
+|
+\#{link_to 'Back', restaurants_path}

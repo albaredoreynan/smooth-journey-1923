@@ -1,0 +1,171 @@
+= form_for(@settlement_sale) do |f|
+  - if @settlement_sale.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(@settlement_sale.errors.count, "error")
+        prohibited this settlement_sale from being saved:
+      %ul
+        - @settlement_sale.errors.full_messages.each do |msg|
+          %li= msg
+  %br/
+  %table{:border => "0", :width => "900"}
+    %tr
+      %td= f.label :date
+      %td= f.date_select :ss_date
+      %td &nbsp;
+      %td Branch:
+      %td= text_field_tag :branch,'',:disabled => true
+    %tr
+      %td &nbsp;
+      %td &nbsp;
+      %td &nbsp;
+      %td &nbsp;
+      %td &nbsp;
+    %tr
+      %td
+        %b SERVER NAME:
+      %td &nbsp;
+      %td &nbsp;
+      %td &nbsp;
+      %td &nbsp;
+    %tr
+      %td Name:
+      %td= select(:settlement_sale, :employee_id, Employee.all.collect {|p| [ p.employee_firstName, p.id ] }, {:prompt => 'Select Server'})
+      %td
+      %td
+      %td
+    %tr
+      - f.fields_for :ssrows do |builder|
+        - id =  @settlement_type_ids.pop
+        - if id!=nil
+          = builder.hidden_field :settlement_type_id, :value => id
+          %tr
+            %td= @settlement_type_names.pop
+            %td= builder.text_field :ss_amount
+      /
+        <tr>
+        <td>Cash:</td>
+        <td><haml:loud> text_field_tag :cash </haml:loud></td>
+        <td>&amp;nbsp;</td>
+        <td>Comp91:</td>
+        <td><haml:loud> text_field_tag :comp91 </haml:loud></td>
+        </tr>
+        <tr>
+        <td>&amp;nbsp;</td>
+        <td>&amp;nbsp;</td>
+        <td>&amp;nbsp;</td>
+        <td>Comp92:</td>
+        <td><haml:loud> text_field_tag :comp92 </haml:loud></td>
+        </tr>
+        <tr>
+        <td>Credit Card:</td>
+        <td><haml:loud> text_field_tag :creditcard </haml:loud></td>
+        <td>&amp;nbsp;</td>
+        <td>Comp93:</td>
+        <td><haml:loud> text_field_tag :comp93 </haml:loud></td>
+        </tr>
+        <tr>
+        <td>&amp;nbsp;</td>
+        <td>&amp;nbsp;</td>
+        <td>&amp;nbsp;</td>
+        <td>Comp94:</td>
+        <td><haml:loud> text_field_tag :comp94 </haml:loud></td>
+        </tr>
+        <tr>
+        <td>Gift Certificate:</td>
+        <td><haml:loud> text_field_tag :giftcertificate </haml:loud></td>
+        <td>&amp;nbsp;</td>
+        <td>Comp95:</td>
+        <td><haml:loud> text_field_tag :comp95 </haml:loud></td>
+        </tr>
+        <tr>
+        <td>&amp;nbsp;</td>
+        <td>&amp;nbsp;</td>
+        <td>&amp;nbsp;</td>
+        <td>Comp96:</td>
+        <td><haml:loud> text_field_tag :comp96 </haml:loud></td>
+        </tr>
+    %tr
+      %td VOIDS:
+      %td= f.text_field :void
+      %td &nbsp;
+      %td
+      %td
+    %tr
+      %td GROSS TOTAL:
+      %td= f.text_field :gross_total
+      %td &nbsp;
+      %td NET TOTAL:
+      %td= f.text_field :net_total
+    %tr
+      %td &nbsp;
+      %td &nbsp;
+      %td
+        %b SALES DATA:
+      %td &nbsp;
+      %td &nbsp;
+    %tr
+      %td
+        %b DINE IN:
+      %td &nbsp;
+      %td &nbsp;
+      %td
+        %b DELIVERY:
+      %td &nbsp;
+    %tr
+      %td Customer Count (CC):
+      %td= f.text_field :dinein_cc
+      %td &nbsp;
+      %td Delivery Sales (DS):
+      %td= f.text_field :delivery_sales
+    %tr
+      %td Transaction Count (TC):
+      %td= f.text_field :dinein_tc
+      %td &nbsp;
+      %td Transaction Count (TC):
+      %td= f.text_field :delivery_tc
+    %tr
+      %td Per Person Average (PPA):
+      %td= f.text_field :dinein_ppa
+      %td &nbsp;
+      %td Per Transaction Average (PTA):
+      %td= f.text_field :delivery_pta
+    %tr
+      %td Per Transaction Average (PTA):
+      %td= f.text_field :dinein_pta
+      %td &nbsp;
+      %td &nbsp;
+      %td &nbsp;
+    %tr
+      %td &nbsp;
+      %td &nbsp;
+      %td &nbsp;
+      %td &nbsp;
+      %td &nbsp;
+    %tr
+      %td
+        %b TAKE OUT:
+      %td &nbsp;
+      %td &nbsp;
+      %td &nbsp;
+      %td &nbsp;
+    %tr
+      %td Transaction Count (TC):
+      %td= f.text_field :takeout_tc
+      %td &nbsp;
+      %td &nbsp;
+      %td &nbsp;
+    %tr
+      %td Per Transaction Average (PTA):
+      %td= f.text_field :takeout_pta
+      %td &nbsp;
+      %td &nbsp;
+      %td &nbsp;
+    %tr
+      %td &nbsp;
+      %td &nbsp;
+      %td &nbsp;
+      %td= f.submit "Save as Draft"
+      %td= f.submit "Save"
+  %br/
+  = link_to 'Cancel', settlement_sales_path

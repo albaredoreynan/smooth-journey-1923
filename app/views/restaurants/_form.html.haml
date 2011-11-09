@@ -1,0 +1,34 @@
+= form_for(@restaurant) do |f|
+  - if @restaurant.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(@restaurant.errors.count, "error")
+        prohibited this restaurant from being saved:
+      %ul
+        - @restaurant.errors.full_messages.each do |msg|
+          %li= msg
+  %table
+    %tr
+  .field
+  %td= f.label :store_id
+  %td= f.text_field :store_id
+  %tr
+  .field
+  %td= f.label :restaurant_name
+  %td= f.text_field :restaurant_name
+  %tr
+  .field
+  %td Company
+  %td= f.collection_select :company_id, Company.find(:all), :id, :company_name, :prompt => "Select Company"
+  %tr
+  .field
+  %td= f.label :restaurant_description
+  %td= f.text_area :restaurant_description, :rows => 4
+  %tr
+  .field
+  %td= f.label :currency_id
+  %td= f.text_field :currency_id
+  %tr
+  .actions
+  %td &nbsp;
+  %td= f.submit

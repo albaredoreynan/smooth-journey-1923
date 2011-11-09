@@ -1,0 +1,10 @@
+%p#notice= notice
+%p
+  %b Department name:
+  = @department.department_name
+%p
+  %b Restaurant:
+  = @department.restaurant_id
+= link_to 'Edit', edit_department_path(@department)
+|
+\#{link_to 'Back', departments_path}

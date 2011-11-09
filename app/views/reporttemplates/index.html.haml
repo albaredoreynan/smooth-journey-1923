@@ -1,0 +1,23 @@
+.left
+  %h2
+    %a{:href => "#"} VIEW REPORT TEMPLATES
+  %hr/
+  %br/
+.right
+%div{:style => "clear: both;"}
+%table{:border => "1"}
+  %tr
+    %th Report name
+    %th Report description
+    %th
+    %th
+    %th
+  - @reporttemplates.each do |reporttemplate|
+    %tr
+      %td= reporttemplate.report_name
+      %td= reporttemplate.report_description
+      %td= link_to 'Show', reporttemplate
+      %td= link_to 'Edit', edit_reporttemplate_path(reporttemplate)
+      %td= link_to 'Destroy', reporttemplate, :confirm => 'Are you sure?', :method => :delete
+%br/
+= link_to 'New Reporttemplate', new_reporttemplate_path

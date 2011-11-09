@@ -1,0 +1,25 @@
+%p#notice= notice
+%p
+  %b Employee:
+  = Employee.find(@settlement_sale.employee_id)
+%p
+  %b Date:
+  = @settlement_sale.ss_date
+%p
+  %b VAT:
+  = @settlement_sale.vat
+%p
+  %b VOID:
+  = @settlement_sale.void
+%p
+  %b Revenue:
+  = @settlement_sale.ss_revenue
+%p
+  %b Customer Count:
+  = @settlement_sale.customerCount
+%p
+  %b Transactioncount:
+  = @settlement_sale.transactionCount
+= link_to 'Edit', edit_settlement_sale_path(@settlement_sale)
+|
+\#{link_to 'Back', settlement_sales_path}

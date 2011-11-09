@@ -1,0 +1,50 @@
+%p#notice= notice
+%p
+  %b Purchase date:
+  = @purchase.purchase_date.strftime("%B %d, %Y")
+%p
+  %b Invoice:
+  = @purchase.invoice_id
+%p
+  %b Supplier:
+  - supplierId = @purchase.supplier_id
+  - s = Supplier.find(supplierId)
+  = s.supplier_name
+%p
+  %b Branch:
+  - branchId = @purchase.branch_id
+  - b = Branch.find(branchId)
+  = b.branch_location
+%ol
+  - for purchaserow in @purchase.purchaserows
+    %hr/
+    %b Inventory item:
+    - inventoryId = purchaserow.inventoryitem_id
+    - i = Inventoryitem.find(inventoryId)
+    = i.item_name
+    %br/
+    %b Purchase unit:
+    - unitId = purchaserow.purchase_unit
+    - u = Unit.find(unitId)
+    = u.unit_name
+    %br/
+    %b Purchase unit cost:
+    = number_with_precision(purchaserow.purchase_unitCost, :precision => 2)
+    %br/
+    %b Purchase quantity:
+    = number_with_precision(purchaserow.purchase_quantity, :precision => 0)
+    %br/
+    %b Purchase amount:
+    = number_with_precision(purchaserow.purchase_amount, :precision => 2)
+    %br/
+    %b Vat type:
+    = purchaserow.vat_type
+    %br/
+    %b Vat amount:
+    = number_with_precision(purchaserow.vat_amount, :precision => 2)
+    %br/
+    %b Net amount:
+    = number_with_precision(purchaserow.net_amount, :precision => 2)
+    %br/
+/ <haml:loud> link_to 'Edit', edit_purchase_path(@purchase) </haml:loud> |
+= link_to 'Back', purchases_path

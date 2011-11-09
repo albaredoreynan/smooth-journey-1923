@@ -1,0 +1,21 @@
+.left
+  %h2
+    %a{:href => "#"} VIEW COMPANIES
+  %hr/
+  %br/
+.right
+%div{:style => "clear: both;"}
+%table{:border => "1"}
+  %tr
+    %th Company name
+    %th Company address
+    %th Company number
+    %th
+  - @companies.each do |company|
+    %tr
+      %td= company.company_name
+      %td= company.company_address
+      %td= company.company_number
+      %td= link_to 'Edit', edit_company_path(company)
+%br/
+= link_to 'New Company', new_company_path

@@ -1,0 +1,23 @@
+.left
+  %h2
+    %a{:href => "#"} VIEW DEPARTMENTS
+  %hr/
+  %br/
+.right
+%div{:style => "clear: both;"}
+%table{:border => "1"}
+  %tr
+    %th Department name
+    %th Restaurant
+    %th
+    %th
+    %th
+  - @departments.each do |department|
+    %tr
+      %td= department.department_name
+      %td= department.restaurant_id
+      %td= link_to 'Show', department
+      %td= link_to 'Edit', edit_department_path(department)
+      %td= link_to 'Destroy', department, :confirm => 'Are you sure?', :method => :delete
+%br/
+= link_to 'New Department', new_department_path

@@ -1,0 +1,7 @@
+%p#notice= notice
+%p
+  %b St name:
+  = @settlement_type.st_name
+= link_to 'Edit', edit_settlement_type_path(@settlement_type)
+|
+\#{link_to 'Back', settlement_types_path}

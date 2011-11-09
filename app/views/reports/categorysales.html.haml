@@ -1,0 +1,45 @@
+.left
+  %h2
+    %a{:href => "#"} SALES BY CATEGORY REPORTS
+  %hr/
+  %br/
+  - form_tag '/' do
+    %table{:border => "0", :width => "500"}
+      %tr
+        %td From:
+        %td= date_select(:start, '', :start_year => 1950)
+        %td= label_tag :restaurant
+        %td= text_field_tag :restaurant
+      %tr
+        %td To:
+        %td= date_select(:end, '', :start_year => 2000)
+        %td Branch:
+        %td= text_field_tag :branch
+      %tr
+        %td &nbsp;
+        %td &nbsp;
+        %td &nbsp;
+        %td= submit_tag :Search
+  %br/
+.right
+  %strong Change View:
+  %br/
+  = link_to 'Sales by Category Reports', '/reports/categorysales'
+  %br/
+  = link_to 'Purchase Reports', purchasereports_path
+%div{:style => "clear:both;"}
+%hr/
+%div
+  %h1
+    %a{:href => "#"} Daily Sales
+  %table{:width => "500"}
+    %tr
+      %td
+        %b Resturant:
+      %td= text_field_tag :restaurant
+      %td
+        %b Branch:
+      %td= text_field_tag :branch
+      %td
+        %b Category:
+      %td= text_field_tag :category

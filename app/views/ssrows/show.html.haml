@@ -1,0 +1,10 @@
+%p#notice= notice
+%p
+  %b St:
+  = @ssrow.st_id
+%p
+  %b Ss amount:
+  = @ssrow.ss_amount
+= link_to 'Edit', edit_ssrow_path(@ssrow)
+|
+\#{link_to 'Back', ssrows_path}

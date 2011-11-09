@@ -1,0 +1,27 @@
+.left
+  %h2
+    %a{:href => "#"} VIEW BRANCHES
+  %hr/
+  %br/
+.right
+%div{:style => "clear: both;"}
+%table{:border => "1"}
+  %tr
+    %th Restaurant
+    %th Location
+    %th Address
+    %th Contact Number
+    %th
+    %th
+    %th
+  - @branches.each do |branch|
+    %tr
+      %td= branch.restaurant_id
+      %td= branch.branch_location
+      %td= branch.branch_address
+      %td= branch.branch_contactNumber
+      %td= link_to 'Show', branch
+      %td= link_to 'Edit', edit_branch_path(branch)
+      %td= link_to 'Destroy', branch, :confirm => 'Are you sure?', :method => :delete
+%br/
+= link_to 'New Branch', new_branch_path

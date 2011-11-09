@@ -1,0 +1,27 @@
+.left
+  %h2
+    %a{:href => "#"} VIEW PERIOD END
+  %hr/
+  %br/
+.right
+%div{:style => "clear: both;"}
+%table
+  - form_tag units_path, :method => 'get' do
+    %tr
+      %td Unit
+      %td= text_field_tag :search, params[:search]
+      %td= submit_tag "Search", :name => nil
+%table{:border => "1"}
+  %tr
+    %th Unit name
+    %th
+    %th
+    %th
+  - @units.each do |unit|
+    %tr
+      %td= unit.unit_name
+      %td= link_to 'Show', unit
+      %td= link_to 'Edit', edit_unit_path(unit)
+      %td= link_to 'Destroy', unit, :confirm => 'Are you sure?', :method => :delete
+%br/
+= link_to 'New Unit', new_unit_path

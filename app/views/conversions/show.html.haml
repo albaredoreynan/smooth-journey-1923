@@ -1,0 +1,13 @@
+%p#notice= notice
+%p
+  %b B unit:
+  = @conversion.b_unit
+%p
+  %b S unit:
+  = @conversion.s_unit
+%p
+  %b Conversionnumber:
+  = @conversion.conversionNumber
+= link_to 'Edit', edit_conversion_path(@conversion)
+|
+\#{link_to 'Back', conversions_path}

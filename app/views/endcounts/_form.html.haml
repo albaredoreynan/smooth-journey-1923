@@ -1,0 +1,35 @@
+= form_for(@endcount) do |f|
+  - if @endcount.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(@endcount.errors.count, "error")
+        prohibited this endcount from being saved:
+      %ul
+        - @endcount.errors.full_messages.each do |msg|
+          %li= msg
+  %table
+    %tr
+  .field
+  %td= f.label :beginning_date
+  %td= f.date_select :beginning_date, :default => { :day => 1 }
+  %tr
+  .field
+  %td= f.label :end_date
+  %td= f.date_select :end_date
+  %table{:border => "1"}
+    %tr
+      %th Item
+      %th Beginning Count
+      %th End Count
+    - f.fields_for :ecrows do |builder|
+      %tr
+        = builder.hidden_field :inventoryitem_id, :value => @item_ids.pop
+        %td= @inventoryitems.pop
+        %td= builder.text_field :beginning_count, :value => @beginning_counts.pop, :readonly => true, :style=>"background-color : #ccc"
+        %td= builder.text_field :end_count
+  %table
+    %tr
+  .actions
+  %td
+    / <haml:loud> f.submit </haml:loud>
+    = f.submit "Save as draft"

@@ -1,0 +1,59 @@
+= form_for(@employee) do |f|
+  - if @employee.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(@employee.errors.count, "error")
+        prohibited this employee from being saved:
+      %ul
+        - @employee.errors.full_messages.each do |msg|
+          %li= msg
+  .field
+    = f.label :employee_firstName
+    %br/
+    = f.text_field :employee_firstName
+  .field
+    = f.label :employee_lastName
+    %br/
+    = f.text_field :employee_lastName
+  .field
+    = f.label :branch_id
+    %br/
+    = f.text_field :branch_id
+  .field
+    = f.label :employee_dateEmployed
+    %br/
+    = f.date_select :employee_dateEmployed
+  .field
+    = f.label :job_id
+    %br/
+    = f.text_field :job_id
+  .field
+    = f.label :department_id
+    %br/
+    = f.text_field :department_id
+  .field
+    = f.label :employee_birthday
+    %br/
+    = f.date_select :employee_birthday
+  .field
+    = f.label :employee_age
+    %br/
+    = f.text_field :employee_age
+  .field
+    = f.label :employee_contactNumber
+    %br/
+    = f.text_field :employee_contactNumber
+  .field
+    = f.label :employee_sss
+    %br/
+    = f.text_field :employee_sss
+  .field
+    = f.label :employee_tin
+    %br/
+    = f.text_field :employee_tin
+  .field
+    = f.label :employee_address
+    %br/
+    = f.text_area :employee_address
+  .actions
+    = f.submit

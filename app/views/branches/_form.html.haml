@@ -1,0 +1,30 @@
+= form_for(@branch) do |f|
+  - if @branch.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(@branch.errors.count, "error")
+        prohibited this branch from being saved:
+      %ul
+        - @branch.errors.full_messages.each do |msg|
+          %li= msg
+  %table
+    %tr
+  .field
+  %td Restaurant
+  %td= f.collection_select :restaurant_id, Restaurant.find(:all), :id, :restaurant_name, :prompt => "Select Restaurant"
+  %tr
+  .field
+  %td Location
+  %td= f.text_field :branch_location
+  %tr
+  .field
+  %td Address
+  %td= f.text_area :branch_address, :rows => 3
+  %tr
+  .field
+  %td Contact Number
+  %td= f.text_field :branch_contactNumber
+  %tr
+  .actions
+  %td &nbsp;
+  %td= f.submit

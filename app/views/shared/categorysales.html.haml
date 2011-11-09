@@ -1,0 +1,72 @@
+.left
+  %h2
+    %a{:href => "#"} SALES BY CATEGORY
+  %hr/
+  %br/
+  - form_tag "/categorysales/index" do
+    %table{:border => "0", :width => "500"}
+      %tr
+        %td From:
+        %td= date_select(:start, '', :start_year => 2000)
+        %td= label_tag :restaurant
+        %td= text_field_tag :restaurant
+      %tr
+        %td To:
+        %td= date_select(:end, '', :start_year => 2000)
+        %td Branch:
+        %td= text_field_tag :branch
+      %tr
+        %td &nbsp;
+        %td &nbsp;
+        %td= submit_tag :Search
+  %br/
+.right
+  %strong Change View:
+  %br/
+  /
+    <select>
+    <option>Sales by Category</option>
+    <option>Sales by Settlement Type</option>
+    <option>Sales by Server:</option>
+    <option>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Category</option>
+    <option>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Settlement Type</option>
+    </select>
+  = link_to 'Sales by Category Type', categorysales_path
+  %br/
+  = link_to 'Sales by Settlement Type', settlement_sales_path
+  %br/
+  = link_to 'Server Sales by Settlement Type', serversales_path
+%div{:style => "clear:both;"}
+%hr/
+%h2
+  %a{:href => "#"}
+    Listing Category Sales #{"(" + @duration + ")"}
+%br/
+%table{:border => "1", :width => "1000"}
+  %tr
+    %th Date
+    - @categories.each do |category|
+      %th= category.category_name
+    %th Vat
+    %th Void
+    %th Service Charge
+    %th Total Revenue
+    %th Customer Count
+    %th Transaction Count
+    %th Edit
+  - @categorysales.each do |categorysale|
+    %tr
+      %td= categorysale.cs_date.strftime("%B %d, %Y")
+      - categorysale.csrows.each do |csrow|
+        %td= csrow.cs_amount
+      %td= categorysale.vat
+      %td= categorysale.void
+      %td= categorysale.servicecharge
+      %td= number_to_currency(categorysale.cs_revenue, :precision => 2, :strip_insignificant_zeros => true)
+      %td= categorysale.customer_count
+      %td= categorysale.transaction_count
+      %td
+        - if categorysale.save_as_draft == 1
+          = link_to "Edit", edit_categorysale_path(categorysale)
+%br/
+= link_to 'New Category Sale', new_categorysale_path

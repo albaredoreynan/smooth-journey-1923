@@ -1,0 +1,30 @@
+= form_for(@inventoryitem) do |f|
+  - if @inventoryitem.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(@inventoryitem.errors.count, "error")
+        prohibited this inventoryitem from being saved:
+      %ul
+        - @inventoryitem.errors.full_messages.each do |msg|
+          %li= msg
+  %table
+    %tr
+  .field
+  %td= f.label :item_name
+  %td= f.text_field :item_name
+  %tr
+  .field
+  %td= f.label :branch_id
+  %td= f.text_field :branch_id
+  %tr
+  .field
+  %td Unit
+  %td= f.collection_select :unit_id, Unit.find(:all), :id, :unit_name, :prompt => "Select Unit"
+  %tr
+  .field
+  %td= f.label :beginning_count
+  %td= f.text_field :beginning_count
+  %tr
+  .actions
+  %td &nbsp;
+  %td= f.submit

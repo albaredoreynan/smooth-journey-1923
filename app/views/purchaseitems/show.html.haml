@@ -1,0 +1,43 @@
+%p#notice= notice
+%p
+  %b Purchase date:
+  = @purchaseitem.purchase_date.strftime("%B %d, %Y")
+%p
+  %b Invoice:
+  = @purchaseitem.invoice_id
+%p
+  %b Supplier:
+  - supplierId = @purchaseitem.supplier_id
+  - s = Supplier.find(supplierId)
+  = s.supplier_name
+%p
+  %b Branch:
+  - branchId = @purchaseitem.branch_id
+  - b = Branch.find(branchId)
+  = b.branch_location
+%p
+  %b Inventory:
+  - inventoryId = @purchaseitem.inventory_id
+  - i = Inventoryitem.find(inventoryId)
+  = i.item_name
+%p
+  %b Purchase unitcost:
+  = @purchaseitem.purchase_unitCost
+%p
+  %b Purchase quantity:
+  = @purchaseitem.purchase_quantity
+%p
+  %b Purchase amount:
+  = @purchaseitem.purchase_amount
+%p
+  %b Vat type:
+  = @purchaseitem.vat_type
+%p
+  %b Vat amount:
+  = @purchaseitem.vat_amount
+%p
+  %b Net amount:
+  = @purchaseitem.net_amount
+= link_to 'Edit', edit_purchaseitem_path(@purchaseitem)
+|
+\#{link_to 'Back', purchaseitems_path}

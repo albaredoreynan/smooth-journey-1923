@@ -1,0 +1,86 @@
+.left
+  %h2
+    %a{:href => "#"} SERVER SALES BY SETTLEMENT TYPE
+  %hr/
+  %br/
+  - form_tag '/serversales/search' do
+    %table{:border => "0", :width => "500"}
+      %tr
+        %td From:
+        %td= date_select(:start, '', :start_year => 2000)
+        %td= label_tag :restaurant
+        %td= text_field_tag :restaurant
+      %tr
+        %td To:
+        %td= date_select(:end, '', :start_year => 2000)
+        %td= label_tag :branch
+        %td= text_field_tag :branch
+      %tr
+        %td &nbsp;
+        %td &nbsp;
+        %td &nbsp;
+        %td &nbsp;
+      %tr
+        %td
+          %b Server:
+        %td &nbsp;
+        %td &nbsp;
+        %td &nbsp;
+      %tr
+        %td &nbsp;
+        %td= collection_select("employee", "employee_id", Employee.all, :id, :name_with_initial, :prompt => true)
+        %td &nbsp;
+        %td &nbsp;
+      %tr
+        %td &nbsp;
+        %td &nbsp;
+        %td &nbsp;
+        %td= submit_tag :Search
+  %br/
+.right
+  %strong Change View:
+  %br/
+  /
+    <select>
+    <option>Sales by Category</option>
+    <option>Sales by Settlement Type</option>
+    <option>Sales by Server:</option>
+    <option>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Category</option>
+    <option>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Settlement Type</option>
+    </select>
+  = link_to 'Sales by Category Type', categorysales_path
+  %br/
+  = link_to 'Sales by Settlement Type', settlement_sales_path
+  %br/
+  = link_to 'Server Sales by Settlement Type', serversales_path
+%div{:style => "clear:both;"}
+%hr/
+%h2
+  %a{:href => "#"} Listing Server Sales by Settlement Type
+- if @header!=nil
+  %h2= p "#{@header}"
+%br/
+%table{:border => "1"}
+  %tr
+    %th Date
+    %th Server Name
+    - @settlement_types.each do |settlementtype|
+      %th= settlementtype.st_name
+    %th VOIDS
+    %th GROSS TOTAL
+    %th NET TOTAL
+    %th
+  - @settlement_sales.each do |settlement_sale|
+    %tr
+      %td= settlement_sale.ss_date
+      %td= settlement_sale.employee.employee_firstName
+      - settlement_sale.ssrows.each do |ss|
+        %td= ss.ss_amount
+      %td= settlement_sale.void
+      %td= settlement_sale.gross_total
+      %td= settlement_sale.net_total
+      %td
+        - if settlement_sale.save_as_draft == 1
+          = link_to "Edit", edit_settlement_sale_path(settlement_sale)
+%br/
+= link_to 'New Settlement sale', new_settlement_sale_path

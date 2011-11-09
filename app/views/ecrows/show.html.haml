@@ -1,0 +1,16 @@
+%p#notice= notice
+%p
+  %b Endcount:
+  = @ecrow.endcount_id
+%p
+  %b Inventory:
+  = @ecrow.inventory_id
+%p
+  %b Beginning count:
+  = @ecrow.beginning_count
+%p
+  %b End count:
+  = @ecrow.end_count
+= link_to 'Edit', edit_ecrow_path(@ecrow)
+|
+\#{link_to 'Back', ecrows_path}

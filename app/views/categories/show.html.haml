@@ -1,0 +1,13 @@
+%p#notice= notice
+%p
+  %b Category name:
+  = @category.category_name
+%p
+  %b Category description:
+  = @category.category_description
+%p
+  %b Restaurant category:
+  = @category.restaurant_category_id
+= link_to 'Edit', edit_category_path(@category)
+|
+\#{link_to 'Back', categories_path}

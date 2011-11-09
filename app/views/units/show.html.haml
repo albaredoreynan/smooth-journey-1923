@@ -1,0 +1,7 @@
+%p#notice= notice
+%p
+  %b Unit name:
+  = @unit.unit_name
+= link_to 'Edit', edit_unit_path(@unit)
+|
+\#{link_to 'Back', units_path}

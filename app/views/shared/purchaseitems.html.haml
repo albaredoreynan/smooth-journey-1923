@@ -1,0 +1,49 @@
+.left
+  %h2
+    %a{:href => "#"} VIEW PURCHASES
+  %hr/
+  %br/
+.right
+%div{:style => "clear: both;"}
+- form_tag '/purchaseitems/index' do
+  %table
+    %tr
+      %td From
+      %td= date_select(:start, '', :start_year => 2010)
+      %td To
+      %td= date_select(:end, '', :start_year => 2010)
+      %td= submit_tag "Search", :name => nil
+%table{:border => "1"}
+  %tr
+    %th Purchase date
+    %th Invoice
+    %th Supplier
+    %th Branch
+    %th Inventory
+    %th Purchase unitcost
+    %th Purchase quantity
+    %th Purchase amount
+    %th Vat type
+    %th Vat amount
+    %th Net amount
+    %th
+    %th
+    %th
+  - @purchaseitems.each do |purchaseitem|
+    %tr
+      %td= purchaseitem.purchase_date
+      %td= purchaseitem.invoice_id
+      %td= purchaseitem.supplier_id
+      %td= purchaseitem.branch_id
+      %td= purchaseitem.inventory_id
+      %td= purchaseitem.purchase_unitCost
+      %td= purchaseitem.purchase_quantity
+      %td= purchaseitem.purchase_amount
+      %td= purchaseitem.vat_type
+      %td= purchaseitem.vat_amount
+      %td= purchaseitem.net_amount
+      %td= link_to 'Show', purchaseitem
+      %td= link_to 'Edit', edit_purchaseitem_path(purchaseitem)
+      %td= link_to 'Destroy', purchaseitem, :confirm => 'Are you sure?', :method => :delete
+%br/
+= link_to 'New Purchaseitem', new_purchaseitem_path

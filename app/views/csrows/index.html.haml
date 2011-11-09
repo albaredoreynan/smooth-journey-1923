@@ -1,0 +1,17 @@
+%h1 Listing csrows
+%table
+  %tr
+    %th Cs
+    %th Cs amount
+    %th
+    %th
+    %th
+  - @csrows.each do |csrow|
+    %tr
+      %td= csrow.cs_id
+      %td= csrow.cs_amount
+      %td= link_to 'Show', csrow
+      %td= link_to 'Edit', edit_csrow_path(csrow)
+      %td= link_to 'Destroy', csrow, :confirm => 'Are you sure?', :method => :delete
+%br/
+= link_to 'New Csrow', new_csrow_path

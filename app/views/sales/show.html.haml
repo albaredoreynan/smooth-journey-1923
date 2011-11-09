@@ -1,0 +1,70 @@
+%p#notice= notice
+%p
+  %b Employee:
+  = @sale.employee_id
+%p
+  %b Vat:
+  = @sale.vat
+%p
+  %b Void:
+  = @sale.void
+%p
+  %b Date:
+  = @sale.date
+%p
+  %b Revenue ss:
+  = @sale.revenue_ss
+%p
+  %b Customer count:
+  = @sale.customer_count
+%p
+  %b Transaction count:
+  = @sale.transaction_count
+%p
+  %b Gross total ss:
+  = @sale.gross_total_ss
+%p
+  %b Net total ss:
+  = @sale.net_total_ss
+%p
+  %b Dinein cc:
+  = @sale.dinein_cc
+%p
+  %b Dinein tc:
+  = @sale.dinein_tc
+%p
+  %b Dinein ppa:
+  = @sale.dinein_ppa
+%p
+  %b Delivery sales:
+  = @sale.delivery_sales
+%p
+  %b Delivery tc:
+  = @sale.delivery_tc
+%p
+  %b Delivery pta:
+  = @sale.delivery_pta
+%p
+  %b Takeout tc:
+  = @sale.takeout_tc
+%p
+  %b Takeout pta:
+  = @sale.takeout_pta
+%p
+  %b Total amount cs:
+  = @sale.total_amount_cs
+%p
+  %b Total revenue cs:
+  = @sale.total_revenue_cs
+%p
+  %b Restaurant:
+  = @sale.restaurant_id
+%p
+  %b Service charge:
+  = @sale.service_charge
+%p
+  %b Save as draft:
+  = @sale.save_as_draft
+= link_to 'Edit', edit_sale_path(@sale)
+|
+\#{link_to 'Back', sales_path}

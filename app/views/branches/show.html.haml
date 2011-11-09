@@ -1,0 +1,16 @@
+%p#notice= notice
+%p
+  %b Restaurant:
+  = @branch.restaurant_id
+%p
+  %b Branch location:
+  = @branch.branch_location
+%p
+  %b Branch address:
+  = @branch.branch_address
+%p
+  %b Branch contactnumber:
+  = @branch.branch_contactNumber
+= link_to 'Edit', edit_branch_path(@branch)
+|
+\#{link_to 'Back', branches_path}

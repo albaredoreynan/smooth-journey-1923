@@ -1,0 +1,133 @@
+%h1 Editing purchase
+= nested_form_for(@purchase) do |f|
+  - if @purchase.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(@purchase.errors.count, "error")
+        prohibited this purchase from being saved:
+      %ul
+        - @purchase.errors.full_messages.each do |msg|
+          %li= msg
+  :css
+    div#field {
+    	width: 300px;
+    	float: left;
+    }
+    
+    div#preview td {
+    	background-color: #F0F0F0;
+    	padding: 10px;
+    	text-align: right;
+    	width: 100px;
+    }
+    
+    div#preview tr:first-child td{
+    	background-color: #0066CC;
+    	padding: 10px;	
+    	color: #FFF;
+    	width: 100px;
+    	font-weight: bold;
+    	}
+  %table
+    %tr
+  .field
+  %td Date
+  %td &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  %td= f.date_select :purchase_date
+  %tr
+  .field
+  %td#length= f.label :invoice_id
+  %td &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  %td= f.text_field :invoice_id
+  %tr
+  .field
+  %td= f.label :supplier_id
+  %td &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  %td= f.collection_select :supplier_id, Supplier.find(:all), :id, :supplier_name, {:prompt => "Select Supplier"}, {:style => "width:215px"}
+  %tr
+  .field
+  %td= f.label :branch_id
+  %td &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  %td= f.collection_select :branch_id, Branch.find(:all), :id, :branch_location, {:prompt => "Select Branch"},  {:style => "width:215px"}
+  = f.fields_for :purchaserows do |purchaserow_form|
+    %table
+    %hr/
+    %tr
+      %td= purchaserow_form.label :inventoryitem_id, "Item"
+      %td= purchaserow_form.collection_select :inventoryitem_id, Inventoryitem.find(:all), :id, :item_name, {:prompt => "Select Item"},  {:style => "width:215px"}
+    %tr
+      %td= purchaserow_form.label :purchase_unit, "Purchase unit"
+      %td= purchaserow_form.collection_select :purchase_unit, Unit.find(:all), :id, :unit_name, {:prompt => "Select Purchase unit"},  {:style => "width:215px"}
+    %tr
+      %td= purchaserow_form.label :purchase_unitCost, "Purchase unit cost"
+      %td= purchaserow_form.text_field :purchase_unitCost, :id => "purchase_unitCost", :onchange => "updateVatAmount(this.form)"
+    %tr
+      %td= purchaserow_form.label :purchase_quantity, "Purchase quantity"
+      %td= purchaserow_form.text_field :purchase_quantity, :id => "purchase_quantity", :onchange => "updateVatAmount(this.form)"
+    %tr
+      %td= purchaserow_form.label :purchase_amount, "Purchase amount"
+      %td= purchaserow_form.text_field :purchase_amount, :id => "purchase_amount", :onchange => "updateVatAmount(this.form)", :readonly => true, :style=>"background-color : #ccc"
+    %tr
+      %td
+        = purchaserow_form.label :vat_type, ""
+        / radio button
+      %td
+        = purchaserow_form.radio_button :vat_type, "VAT-Inclusive", :onchange => "updateVatAmount(this.form)", :id => "VAT-Inclusive"
+        VAT-Inclusive
+        %br/
+        = purchaserow_form.radio_button :vat_type, "VAT-Exclusive", :onchange => "updateVatAmount(this.form)", :id => "VAT-Exclusive"
+        VAT-Exclusive
+        %br/
+        = purchaserow_form.radio_button :vat_type, "VAT-Exempted", :onchange => "updateVatAmount(this.form)", :id => "VAT-Exempted"
+        VAT-Exempted
+    %tr
+      %td= purchaserow_form.label :vat_amount, "Vat amount"
+      %td= purchaserow_form.text_field :vat_amount, :id => "vat_amount", :readonly => true, :style=>"background-color : #ccc"
+    %tr
+      %td= purchaserow_form.label :net_amount, "Net amount"
+      %td= purchaserow_form.text_field :net_amount, :id => "net_amount", :readonly => true, :style=>"background-color : #ccc"
+    = purchaserow_form.link_to_remove "Remove"
+  %div
+    %p= f.link_to_add "Add item", :purchaserows
+  .actions
+    = f.submit "Save as draft"
+  %html
+    :javascript
+      function updateVatAmount(form){
+      	var length = form.elements.length;
+      	//document.getElementById("length").innerHTML = form.elements[43].value;
+      	//12,23,33,43
+      	
+          for(var i=0; i<length; ++i){
+      		var amount = form.elements[i].value;
+      		var next = form.elements[i+1].value;
+      		
+      		if(next==form.elements[14].value){	//if next = vat-inclusive
+      			var unitCost = form.elements[i-2].value;
+          		var quantity = form.elements[i-1].value;
+      			var product = unitCost*quantity;
+      			form.elements[i].value = product;
+      			
+      			
+      			if(form.elements[i+1].checked){
+                      vatAmount = amount / 1.12;
+                      vatAmount = amount - vatAmount;
+                      netAmount = amount - vatAmount;
+                      //vatAmount = amount * (3/28); //alternate computation
+              	}
+              	if(form.elements[i+2].checked){
+                      vatAmount = amount * .12;
+                      netAmount = amount;
+              	}    
+              	if(form.elements[i+3].checked){
+                      vatAmount = 0;
+                      netAmount = amount;
+              	}
+      			form.elements[i+4].value = vatAmount;
+      			form.elements[i+5].value = netAmount;
+      		}
+      	}
+      }
+= link_to 'Show', @purchase
+|
+\#{link_to 'Back', purchases_path}

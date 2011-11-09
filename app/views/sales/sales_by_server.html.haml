@@ -1,0 +1,113 @@
+.left
+  %h2
+    %a{:href => "#"} SALES BY SERVER
+  %hr/
+  %br/
+  - form_tag :sales_by_server do
+    %table{:border => "0", :width => "500"}
+      %tr
+        %td From:
+        %td= date_select(:from, '', :start_year => 2000)
+        %td= label_tag :restaurant
+        %td= collection_select(:restaurant, :restaurant_name, Restaurant.all, :id, :restaurant_name, :prompt => true)
+      %tr
+        %td To:
+        %td= date_select(:to, '', :start_year => 2000)
+        %td= label_tag :branch
+        %td= collection_select(:branch, :branch_location, Branch.all, :id, :branch_location, :prompt => true)
+      %tr
+        %td &nbsp;
+        %td &nbsp;
+        %td &nbsp;
+        %td &nbsp;
+      %tr
+        %td
+          %b Server:
+        %td &nbsp;
+        %td &nbsp;
+        %td &nbsp;
+      %tr
+        %td &nbsp;
+        %td= collection_select(:employee, :employee_id, Employee.all, :id, :name_with_initial, :prompt => true)
+        %td &nbsp;
+        %td &nbsp;
+      %tr
+        %td &nbsp;
+        %td &nbsp;
+        %td &nbsp;
+        %td= submit_tag :Search
+  %br/
+.right
+  %strong Change View:
+  %br/
+  /
+    <select>
+    <option>Sales by Category</option>
+    <option>Sales by Settlement Type</option>
+    <option>Sales by Server:</option>
+    <option>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Category</option>
+    <option>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Settlement Type</option>
+    </select>
+  = link_to 'Sales by Category Type', sales_path
+  %br/
+  = link_to 'Sales by Settlement Type', sales_by_settlement_type_path
+  %br/
+  = link_to 'Sales by Server', sales_by_server_path
+%div{:style => "clear:both;"}
+%hr/
+%h2
+  %a{:href => "#"} Listing Sales by Server
+%br/
+- totalst = Hash.new
+%table{:border => "1", :width => "1000"}
+  %tr
+    %th
+    %th Date
+    %th Server Name
+    - @settlement_types.each do |settlementtype|
+      %th= settlementtype.st_name
+      - totalst = Hash[settlementtype.id => 0]
+    %th VOIDS
+    %th GROSS TOTAL
+    %th NET TOTAL
+    %th
+  - totalvoid = 0
+  - totalgross   = 0
+  - totalnet  = 0
+  = form_tag '/sales/savemultiple' do
+    - @sales.each do |sale|
+      %tr
+        %td
+          - if sale.save_as_draft == 1
+            %center
+              = check_box_tag "sale_ids[]", sale.id
+              %center
+        %td= sale.date.strftime("%b %d, %Y")
+        %td= sale.employee.employee_firstName
+        - sale.ssrows.each do |ss|
+          %td= number_to_currency(ss.ss_amount, :precision => 2, :unit => " ")
+          - totalst[ss.settlement_type_id] = totalst[ss.settlement_type_id].to_f + ss.ss_amount
+        %td= number_to_currency(sale.void, :precision => 2, :unit => " ")
+        - totalvoid = totalvoid + sale.void
+        %td= number_to_currency(sale.gross_total_ss, :precision => 2, :unit => " ")
+        - totalgross = totalgross + sale.gross_total_ss
+        %td= number_to_currency(sale.net_total_ss, :precision => 2, :unit => " ")
+        - totalnet  = totalnet + sale.net_total_ss
+        %td
+          - if sale.save_as_draft == 1
+            = link_to "Edit", edit_sale_path(sale)
+    %tr
+      %td
+      %td
+        %center
+          %b TOTAL
+      %td &nbsp;
+      - @settlement_types.each do |settlementtype|
+        %td= number_to_currency(totalst[settlementtype.id], :precision => 2, :unit => " ")
+      %td= number_to_currency(totalvoid, :precision => 2, :unit => " ")
+      %td= number_to_currency(totalgross, :precision => 2, :unit => " ")
+      %td= number_to_currency(totalnet, :precision => 2, :unit => " ")
+      %td
+%br/
+= submit_tag 'Submit records'
+= link_to 'New Sale', new_sale_path

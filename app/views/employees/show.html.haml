@@ -1,0 +1,40 @@
+%p#notice= notice
+%p
+  %b Employee firstname:
+  = @employee.employee_firstName
+%p
+  %b Employee lastname:
+  = @employee.employee_lastName
+%p
+  %b Branch:
+  = @employee.branch_id
+%p
+  %b Employee dateemployed:
+  = @employee.employee_dateEmployed
+%p
+  %b Job:
+  = @employee.job_id
+%p
+  %b Department:
+  = @employee.department_id
+%p
+  %b Employee birthday:
+  = @employee.employee_birthday
+%p
+  %b Employee age:
+  = @employee.employee_age
+%p
+  %b Employee contactnumber:
+  = @employee.employee_contactNumber
+%p
+  %b Employee sss:
+  = @employee.employee_sss
+%p
+  %b Employee tin:
+  = @employee.employee_tin
+%p
+  %b Employee address:
+  = @employee.employee_address
+= link_to 'Edit', edit_employee_path(@employee)
+|
+\#{link_to 'Back', employees_path}
