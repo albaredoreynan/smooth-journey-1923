@@ -49,6 +49,7 @@
                 %a{:href => ""} User Accounts
         #wrapper.wat-cf
           #main
-            %p.notice= notice
-            %p.alert= alert
+            .flash
+              = content_tag(:div, content_tag(:p, notice), :class => 'message notice') if notice
+              = content_tag(:div, content_tag(:p, alert), :class => 'message error') if alert
             = yield
