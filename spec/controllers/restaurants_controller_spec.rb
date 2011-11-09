@@ -1,6 +1,12 @@
 require 'spec_helper'
 
 describe RestaurantsController do
+  include Devise::TestHelpers
+
+  before do
+    @user = User.create!(:email => 'test@appsource.com', :password => 'password')
+    sign_in @user
+  end
 
   def mock_restaurant(stubs={})
     (@mock_restaurant ||= mock_model(Restaurant).as_null_object).tap do |restaurant|

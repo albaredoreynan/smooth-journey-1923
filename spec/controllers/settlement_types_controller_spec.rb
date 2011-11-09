@@ -1,6 +1,12 @@
 require 'spec_helper'
 
 describe SettlementTypesController do
+  include Devise::TestHelpers
+
+  before do
+    @user = User.create!(:email => 'test@appsource.com', :password => 'password')
+    sign_in @user
+  end
 
   def mock_settlement_type(stubs={})
     (@mock_settlement_type ||= mock_model(SettlementType).as_null_object).tap do |settlement_type|

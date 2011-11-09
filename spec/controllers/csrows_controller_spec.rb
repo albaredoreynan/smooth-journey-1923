@@ -1,6 +1,12 @@
 require 'spec_helper'
 
 describe CsrowsController do
+  include Devise::TestHelpers
+
+  before do
+    @user = User.create!(:email => 'test@appsource.com', :password => 'password')
+    sign_in @user
+  end
 
   def mock_csrow(stubs={})
     (@mock_csrow ||= mock_model(Csrow).as_null_object).tap do |csrow|

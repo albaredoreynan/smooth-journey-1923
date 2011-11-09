@@ -1,6 +1,12 @@
 require 'spec_helper'
 
 describe CompaniesController do
+  include Devise::TestHelpers
+
+  before do
+    @user = User.create!(:email => 'test@appsource.com', :password => 'password')
+    sign_in @user
+  end
 
   def mock_company(stubs={})
     (@mock_company ||= mock_model(Company).as_null_object).tap do |company|

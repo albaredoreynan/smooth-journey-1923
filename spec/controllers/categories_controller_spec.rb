@@ -1,6 +1,12 @@
 require 'spec_helper'
 
 describe CategoriesController do
+  include Devise::TestHelpers
+
+  before do
+    @user = User.create!(:email => 'test@appsource.com', :password => 'password')
+    sign_in @user
+  end
 
   def mock_category(stubs={})
     (@mock_category ||= mock_model(Category).as_null_object).tap do |category|

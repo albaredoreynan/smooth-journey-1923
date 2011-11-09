@@ -1,6 +1,12 @@
 require 'spec_helper'
 
 describe SettlementSalesController do
+  include Devise::TestHelpers
+
+  before do
+    @user = User.create!(:email => 'test@appsource.com', :password => 'password')
+    sign_in @user
+  end
 
   def mock_settlement_sale(stubs={})
     (@mock_settlement_sale ||= mock_model(SettlementSale).as_null_object).tap do |settlement_sale|

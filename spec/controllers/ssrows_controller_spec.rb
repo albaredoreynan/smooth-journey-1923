@@ -1,6 +1,12 @@
 require 'spec_helper'
 
 describe SsrowsController do
+  include Devise::TestHelpers
+
+  before do
+    @user = User.create!(:email => 'test@appsource.com', :password => 'password')
+    sign_in @user
+  end
 
   def mock_ssrow(stubs={})
     (@mock_ssrow ||= mock_model(Ssrow).as_null_object).tap do |ssrow|
