@@ -1,7 +1,7 @@
 !!!
 %html
   %head
-    %title RRBS
+    %title= title
     = stylesheet_link_tag 'web-app-theme/base.css'
     = stylesheet_link_tag 'web-app-theme/themes/activo/style.css?body=1'
     = javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"
@@ -22,7 +22,8 @@
     %body
       #container
         #header
-          %h1 RBBS
+          %h1
+            %a{:href => '/'}= title
           /%h2 Restaurant Report and Backup System
           #user-navigation
             .sign_in
