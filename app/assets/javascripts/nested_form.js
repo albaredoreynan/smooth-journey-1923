@@ -1,3 +1,5 @@
+// nested_forms.js
+
 jQuery(function($) {
   $('form a.add_nested_fields').live('click', function() {
     // Setup
