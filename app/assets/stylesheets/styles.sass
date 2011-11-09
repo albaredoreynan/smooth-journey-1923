@@ -1,0 +1,41 @@
+﻿/*
+ *= require web-app-theme/base.css
+ *= require web-app-theme/themes/activo/style.css
+ *= require_self
+ */
+#main
+  width: 100%
+
+table
+  width: 100%
+  border-collapse: collapse
+  margin-bottom: 15px
+
+  th
+    padding: 10px
+    font-weight: bold
+    text-align: left
+
+    .first
+      width: 30px
+
+    .last
+      width: 200px
+
+  .checkbox
+    margin-left: 10px
+
+  td
+    padding: 10px
+
+    .last
+      text-align: right
+
+  tr:nth-child(odd)
+    background: #F8F8F8
+
+  &.table_form
+    width: auto
+
+    tr
+      background: none

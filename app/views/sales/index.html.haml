@@ -6,14 +6,14 @@
       %li
         = link_to 'Sales by Settlement Type', sales_by_settlement_type_path
       %li
-        = link_to 'Sales by Server', sales_by_server_path   
+        = link_to 'Sales by Server', sales_by_server_path
   .content
     /%h2.title SALES BY CATEGORY
     .left
       %hr/
       %br/
-      - form_tag "/sales/search" do
-        %table{:border => "0", :width => "500"}
+      = form_tag "/sales/search" do
+        %table.table_form
           %tr
             %td From:
             %td= date_select(:from, '', :start_year => 2000)
@@ -29,10 +29,10 @@
             %td &nbsp;
             %td= submit_tag :Search
     %h2.title Listing Category Sales
-    
+
     .inner
       - totalcateg = Hash.new
-      %table.table
+      %table
         %tr
           %th Date
           - @categories.each do |category|
