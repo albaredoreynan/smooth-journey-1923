@@ -1,4 +1,4 @@
-= nested_form_for(@purchase) do |f|
+= form_for(@purchase) do |f|
   - if @purchase.errors.any?
     #error_explanation
       %h2
@@ -85,9 +85,9 @@
     %tr
       %td= purchaserow_form.label :net_amount, "Net amount"
       %td= purchaserow_form.text_field :net_amount, :id => "net_amount", :readonly => true, :style=>"background-color : #ccc"
-    = purchaserow_form.link_to_remove "Remove"
+    /= purchaserow_form.link_to_remove "Remove"
   %div
-    %p= f.link_to_add "Add item", :purchaserows
+    /%p= f.link_to_add "Add item", :purchaserows
   .actions
     = f.submit "Save as draft"
   %html
