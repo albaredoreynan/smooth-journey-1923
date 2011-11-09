@@ -1,6 +1,12 @@
 require 'spec_helper'
 
 describe BranchesController do
+  include Devise::TestHelpers
+
+  before do
+    @user = User.create!(:email => 'test@appsource.com', :password => 'password')
+    sign_in @user
+  end
 
   def mock_branch(stubs={})
     (@mock_branch ||= mock_model(Branch).as_null_object).tap do |branch|

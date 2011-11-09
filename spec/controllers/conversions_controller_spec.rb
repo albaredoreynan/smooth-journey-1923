@@ -1,6 +1,12 @@
 require 'spec_helper'
 
 describe ConversionsController do
+  include Devise::TestHelpers
+
+  before do
+    @user = User.create!(:email => 'test@appsource.com', :password => 'password')
+    sign_in @user
+  end
 
   def mock_conversion(stubs={})
     (@mock_conversion ||= mock_model(Conversion).as_null_object).tap do |conversion|
