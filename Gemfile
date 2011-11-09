@@ -24,6 +24,7 @@ group :development do
   gem 'factory_girl_rails'
   gem 'hpricot'
   gem 'ruby_parser'
+  gem 'web-app-theme'
 end
 
 group :test do
