@@ -1,85 +1,66 @@
-.left
-  %h2
-    %a{:href => "#"} SALES BY SETTLEMENT TYPE
-  %hr/
-  %br/
-  - form_tag :sales_by_settlement_type do
-    %table{:border => "0", :width => "500"}
-      %tr
-        %td From:
-        %td= date_select(:from, '', :start_year => 2000)
-        %td= label_tag :restaurant
-        %td= collection_select(:restaurant, :restaurant_name, Restaurant.all, :id, :restaurant_name, :prompt => true)
-      %tr
-        %td To:
-        %td= date_select(:to, '', :start_year => 2000)
-        %td= label_tag :branch
-        %td= collection_select(:branch, :branch_location, Branch.all, :id, :branch_location, :prompt => true)
-      %tr
-        %td &nbsp;
-        %td &nbsp;
-        %td &nbsp;
-        %td &nbsp;
-      %tr
-        %td &nbsp;
-        %td &nbsp;
-        %td &nbsp;
-        %td= submit_tag :Search
-  %br/
-.right
-  %strong Change View:
-  %br/
-  /
-    <select>
-    <option>Sales by Category</option>
-    <option>Sales by Settlement Type</option>
-    <option>Sales by Server:</option>
-    <option>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Category</option>
-    <option>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Settlement Type</option>
-    </select>
-  = link_to 'Sales by Category Type', sales_path
-  %br/
-  = link_to 'Sales by Settlement Type', sales_by_settlement_type_path
-  %br/
-  = link_to 'Sales by Server', sales_by_server_path
-%div{:style => "clear:both;"}
-%hr/
-%h2
-  %a{:href => "#"} Listing Sales by Settlement Type
-%br/
-- totalst = Hash.new
-%table{:border => "1", :width => "1000"}
-  %tr
-    %th Date
-    - @settlement_types.each do |settlementtype|
-      %th= settlementtype.st_name
-      - totalst = Hash[settlementtype.id => 0]
-    %th VOIDS
-    %th GROSS TOTAL
-    %th NET TOTAL
-  - totalvat = 0
-  - totalgross = 0
-  - totalnet = 0
-  - @sales.each do |date,sale|
-    %tr
-      %td= date.strftime("%b %d, %Y")
-      - @settlement_types.each do |settlementtype|
-        %td= number_to_currency(Ssrow.settlement_sales_sum(date,settlementtype.id), :precision => 2, :unit => " ")
-        - totalst[settlementtype.id] = totalst[settlementtype.id].to_f + Ssrow.settlement_sales_sum(date,settlementtype.id)
-      %td= number_to_currency(sale.map(&:void).sum, :precision => 2, :unit => " ")
-      - totalvat = totalvat + sale.map(&:void).sum
-      %td= number_to_currency(sale.map(&:gross_total_ss).sum, :precision => 2, :unit => " ")
-      - totalgross = totalgross + sale.map(&:gross_total_ss).sum
-      %td= number_to_currency(sale.map(&:net_total_ss).sum, :precision => 2, :unit => " ")
-      - totalnet = totalnet + sale.map(&:net_total_ss).sum
-  %tr
-    %td
-      %center
-        %b TOTAL
-    - @settlement_types.each do |settlementtype|
-      %td= number_to_currency(totalst[settlementtype.id], :precision => 2, :unit => " ")
-    %td= number_to_currency(totalvat, :precision => 2, :unit => " ")
-    %td= number_to_currency(totalgross, :precision => 2, :unit => " ")
-    %td= number_to_currency(totalnet, :precision => 2, :unit => " ")
-%br/
-= link_to 'New Sale', new_sale_path
+.block
+  .secondary-navigation
+    %ul.wat-cf
+      %li
+        = link_to 'Sales by Category Type', sales_path
+      %li
+        = link_to 'Sales by Settlement Type', sales_by_settlement_type_path
+      %li
+        = link_to 'Sales by Server', sales_by_server_path
+  .content
+    /%h2.title SALES BY CATEGORY
+    .left
+      = form_tag :sales_by_settlement_type do
+        %table.table_form
+          %tr
+            %td 
+              = 'From:'
+              = date_select(:from, '', :start_year => 2000)
+              = label_tag :restaurant
+              = collection_select(:restaurant, :restaurant_name, Restaurant.all, :id, :restaurant_name, :prompt => true)
+            %td 
+              = 'To:'
+              = date_select(:to, '', :start_year => 2000)
+              = label_tag :branch
+              = collection_select(:branch, :branch_location, Branch.all, :id, :branch_location, :prompt => true)
+            %td= submit_tag :Search
+      %br/
+    
+    %h2.title Listing Sales by Settlement Type
+    
+    .inner
+      - totalst = Hash.new
+      %table
+        %tr
+          %th Date
+          - @settlement_types.each do |settlementtype|
+            %th= settlementtype.st_name
+            - totalst = Hash[settlementtype.id => 0]
+          %th VOIDS
+          %th GROSS TOTAL
+          %th NET TOTAL
+        - totalvat = 0
+        - totalgross = 0
+        - totalnet = 0
+        - @sales.each do |date,sale|
+          %tr
+            %td= date.strftime("%b %d, %Y")
+            - @settlement_types.each do |settlementtype|
+              %td= number_to_currency(Ssrow.settlement_sales_sum(date,settlementtype.id), :precision => 2, :unit => " ")
+              - totalst[settlementtype.id] = totalst[settlementtype.id].to_f + Ssrow.settlement_sales_sum(date,settlementtype.id)
+            %td= number_to_currency(sale.map(&:void).sum, :precision => 2, :unit => " ")
+            - totalvat = totalvat + sale.map(&:void).sum
+            %td= number_to_currency(sale.map(&:gross_total_ss).sum, :precision => 2, :unit => " ")
+            - totalgross = totalgross + sale.map(&:gross_total_ss).sum
+            %td= number_to_currency(sale.map(&:net_total_ss).sum, :precision => 2, :unit => " ")
+            - totalnet = totalnet + sale.map(&:net_total_ss).sum
+        %tr
+          %td
+            %center
+              %b TOTAL
+          - @settlement_types.each do |settlementtype|
+            %td= number_to_currency(totalst[settlementtype.id], :precision => 2, :unit => " ")
+          %td= number_to_currency(totalvat, :precision => 2, :unit => " ")
+          %td= number_to_currency(totalgross, :precision => 2, :unit => " ")
+          %td= number_to_currency(totalnet, :precision => 2, :unit => " ")
+      = link_to 'New Sale', new_sale_path, :class => :button

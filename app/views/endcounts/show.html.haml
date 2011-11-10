@@ -1,10 +1,13 @@
-%p#notice= notice
-%p
-  %b Beginning date:
-  = @endcount.beginning_date.strftime("%B %d, %Y")
-%p
-  %b End date:
-  = @endcount.end_date.strftime("%B %d, %Y")
-= link_to 'Edit', edit_endcount_path(@endcount)
-|
-\#{link_to 'Back', endcounts_path}
+.block
+  .content
+    /%h2.title New purchase
+    .inner
+      %p
+        %b Beginning date:
+        = @endcount.beginning_date.strftime("%B %d, %Y")
+      %p
+        %b End date:
+        = @endcount.end_date.strftime("%B %d, %Y")
+      = link_to 'Edit', edit_endcount_path(@endcount)
+      |
+      \#{link_to 'Back', endcounts_path}

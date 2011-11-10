@@ -1,4 +1,4 @@
-%h1 Editing purchase
+%h1 Edit Purchase
 = nested_form_for(@purchase) do |f|
   - if @purchase.errors.any?
     #error_explanation
@@ -8,49 +8,29 @@
       %ul
         - @purchase.errors.full_messages.each do |msg|
           %li= msg
-  :css
-    div#field {
-    	width: 300px;
-    	float: left;
-    }
-    
-    div#preview td {
-    	background-color: #F0F0F0;
-    	padding: 10px;
-    	text-align: right;
-    	width: 100px;
-    }
-    
-    div#preview tr:first-child td{
-    	background-color: #0066CC;
-    	padding: 10px;	
-    	color: #FFF;
-    	width: 100px;
-    	font-weight: bold;
-    	}
-  %table
+  %table.table_form
     %tr
-  .field
+  
   %td Date
   %td &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   %td= f.date_select :purchase_date
   %tr
-  .field
+ 
   %td#length= f.label :invoice_id
   %td &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   %td= f.text_field :invoice_id
   %tr
-  .field
+
   %td= f.label :supplier_id
   %td &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   %td= f.collection_select :supplier_id, Supplier.find(:all), :id, :supplier_name, {:prompt => "Select Supplier"}, {:style => "width:215px"}
   %tr
-  .field
+
   %td= f.label :branch_id
   %td &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   %td= f.collection_select :branch_id, Branch.find(:all), :id, :branch_location, {:prompt => "Select Branch"},  {:style => "width:215px"}
   = f.fields_for :purchaserows do |purchaserow_form|
-    %table
+    %table.table_form
     %hr/
     %tr
       %td= purchaserow_form.label :inventoryitem_id, "Item"
@@ -130,4 +110,4 @@
       }
 = link_to 'Show', @purchase
 |
-\#{link_to 'Back', purchases_path}
+\#{link_to 'Back', purchases_path, :class => :button}

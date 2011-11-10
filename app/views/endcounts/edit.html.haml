@@ -1,5 +1,7 @@
-%h1 Editing endcount
-= render 'form'
-= link_to 'Show', @endcount
-|
-\#{link_to 'Back', endcounts_path}
+.block
+  .content
+    %h1.title Edit End Count
+    .inner
+      = render 'form'
+      = link_to 'Show', @endcount, :class => :button
+      \#{link_to 'Back', endcounts_path, :class => :button}

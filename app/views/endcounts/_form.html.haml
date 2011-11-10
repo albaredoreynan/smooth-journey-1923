@@ -7,16 +7,17 @@
       %ul
         - @endcount.errors.full_messages.each do |msg|
           %li= msg
-  %table
+  
+  %table.table_form
     %tr
-  .field
-  %td= f.label :beginning_date
-  %td= f.date_select :beginning_date, :default => { :day => 1 }
-  %tr
-  .field
-  %td= f.label :end_date
-  %td= f.date_select :end_date
-  %table{:border => "1"}
+      %td
+        = f.label :beginning_date
+        = f.date_select :beginning_date, :default => { :day => 1 }
+      %td
+        = f.label :end_date
+        = f.date_select :end_date
+  
+  %table
     %tr
       %th Item
       %th Beginning Count
@@ -27,9 +28,9 @@
         %td= @inventoryitems.pop
         %td= builder.text_field :beginning_count, :value => @beginning_counts.pop, :readonly => true, :style=>"background-color : #ccc"
         %td= builder.text_field :end_count
-  %table
+  
+  %table.table_form
     %tr
-  .actions
-  %td
-    / <haml:loud> f.submit </haml:loud>
-    = f.submit "Save as draft"
+      %td
+        / <haml:loud> f.submit </haml:loud>
+        = f.submit "Save as draft"

@@ -10,23 +10,19 @@
   .content
     /%h2.title SALES BY CATEGORY
     .left
-      %hr/
-      %br/q`
       = form_tag "/sales/search" do
         %table.table_form
           %tr
-            %td From:
-            %td= date_select(:from, '', :start_year => 2000)
-            %td= label_tag :restaurant
-            %td= collection_select(:restaurant, :restaurant_name, Restaurant.all, :id, :restaurant_name, :prompt => true)
-          %tr
-            %td To:
-            %td= date_select(:to, '', :start_year => 2000)
-            %td= label_tag :branch
-            %td= collection_select(:branch, :branch_location, Branch.all, :id, :branch_location, :prompt => true)
-          %tr
-            %td &nbsp;
-            %td &nbsp;
+            %td 
+              = 'From:'
+              = date_select(:from, '', :start_year => 2000)
+              = label_tag :restaurant
+              = collection_select(:restaurant, :restaurant_name, Restaurant.all, :id, :restaurant_name, :prompt => true)
+            %td 
+              = 'To:'
+              = date_select(:to, '', :start_year => 2000)
+              = label_tag :branch
+              = collection_select(:branch, :branch_location, Branch.all, :id, :branch_location, :prompt => true)
             %td= submit_tag :Search
     %h2.title Listing Category Sales
 
@@ -80,5 +76,4 @@
           %td= number_to_currency(totalrev, :precision => 2, :unit => " ")
           %td= totalcc
           %td= totaltc
-      %br/
-      = link_to 'New Sale', new_sale_path
+      = link_to 'New Sale', new_sale_path, :class => :button

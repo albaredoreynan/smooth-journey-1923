@@ -10,8 +10,9 @@
     .content
       .inner
         padding-bottom: 37px
-
+        
 table
+  $checkbox: 10px
   width: 100%
   border-collapse: collapse
   margin-bottom: 15px
@@ -20,7 +21,10 @@ table
     padding: 10px
     font-weight: bold
     text-align: left
-
+    
+    &.checkbox
+      width: $checkbox
+      
     .first
       width: 30px
 
@@ -32,12 +36,15 @@ table
 
   td
     padding: 10px
-
+    
+    &.checkbox
+      width: $checkbox
+      
     .last
       text-align: right
 
   tr:nth-child(odd)
-    background: #F8F8F8
+    background: #e0e0e0
 
   &.table_form
     width: auto

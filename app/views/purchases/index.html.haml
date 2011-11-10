@@ -1,156 +1,137 @@
-.left
-  %h2
-    %a{:href => "#"} VIEW PURCHASES
-  %hr/
-  %br/
-.right
-%div{:style => "clear: both;"}
-= form_tag '/purchases/search' do
-  %table
-    %tr
-      %td From
-      %td= date_select(:start, '', :start_year => 2010)
-    %tr
-      %td To
-      %td= date_select(:end, '', :start_year => 2010)
-    %tr
-      %td &nbsp;
-      %td= submit_tag :Search
-%table
-  %tr
-    %th
-    %th Invoice number
-    %th Invoice date
-    %th Supplier
-    %th Branch
-    %th Category
-    %th Subcategory
-    %th Inventory item
-    %th Purchase quantity
-    %th Purchase Unit
-    %th Purchase Unit Cost
-    %th Inventory Quantity
-    %th Inventory Unit
-    %th Inventory Unit Cost
-    %th Purchase Amount
-    %th VAT-Type
-    %th VAT-Amount
-    %th Net-Amount
-    %th Invoice total
-    %th Show
-    %th Edit
-  - totalamount = 0
-  - totalnet = 0
-  - totalvat = 0
-  = form_tag '/purchases/savemultiple' do
-    - @purchases.each do |purchase|
-      - for purchaserow in purchase.purchaserows
-        %tr
-          %td
-            %center
-              - if purchase.save_as_draft == 1
-                = check_box_tag "purchase_ids[]", purchase.id
-          - purchase.created_at.strftime("%B %d, %Y")
-          %td= purchase.invoice_id
-          %td= purchase.purchase_date.strftime("%B %d, %Y")
-          %td
-            - supplierId = purchase.supplier_id
-            - s = Supplier.find(supplierId)
-            = s.supplier_name
-          %td
-            - branchId = purchase.branch_id
-            - b = Branch.find(branchId)
-            = b.branch_location
-          - itemId = purchaserow.inventoryitem_id
-          - i = Inventoryitem.find(itemId)
-          - subcatId = i.subcategory_id
-          - s = Subcategory.find(subcatId)
-          - catId = s.category_id
-          - c = Category.find(catId)
-          %td= c.category_name
-          %td= s.subcategory_name
-          %td
-            = h i.item_name
-          %td= h number_with_precision(purchaserow.purchase_quantity, :precision => 0)
-          %td
-            - unitId1 = purchaserow.purchase_unit
-            - u = Unit.find(unitId1)
-            - unit1 = u.unit_name
-            = h unit1
-          %td= h number_with_precision(purchaserow.purchase_unitCost, :precision => 2)
-          - q = purchaserow.purchase_quantity
-          - i = Inventoryitem.find(itemId)
-          - unitId2 = i.unit_id
-          - u = Unit.find(unitId2)
-          - unit2 = u.unit_name
-          %td
-            - if unitId1==unitId2
-              = h number_with_precision(purchaserow.purchase_quantity, :precision => 0)
-            - else
-              - temp1 = Conversion.where("b_unit = ? and s_unit = ?",unitId1,unitId2)
-              - temp2 = Conversion.where("b_unit = ? and s_unit = ?",unitId2,unitId1)
-              - if temp1.count>0
-                - conversion_num = temp1.first.conversionNumber
-                - inventory_quantity = q*(1/(1/conversion_num))
-                = inventory_quantity
-              - else
-                - if temp2.count>0
-                  - conversion_num = temp2.first.conversionNumber
-                  - inventory_quantity = q*(1/conversion_num)
-                  = inventory_quantity
-          %td= unit2
-          %td
-            = unit1
-            and #{unit2}
-          - number_with_precision(purchaserow.purchase_unitCost, :precision => 2)
-          %td= number_with_precision(purchaserow.purchase_amount, :precision => 2)
-          - totalamount = totalamount + purchaserow.purchase_amount
-          %td= purchaserow.vat_type
-          %td= number_with_precision(purchaserow.vat_amount, :precision => 2)
-          - totalvat = totalvat + purchaserow.vat_amount
-          %td= number_with_precision(purchaserow.net_amount, :precision => 2)
-          - totalnet = totalnet + purchaserow.net_amount
-          - invoicetotal = 0
-          %td
-            - @p = Purchaserow.where(:purchase_id => purchase.id)
-            - @p.each do |purchaserow|
-              - invoicetotal = invoicetotal + purchaserow.purchase_amount
-            = number_with_precision(invoicetotal, :precision => 2)
-          %td= link_to 'Show', purchase
-          %td
-            - if purchase.save_as_draft == 1
-              = link_to 'Edit', edit_purchase_path(purchase)
-          / <td><haml:silent> if purchase.save_as_draft == 1 </haml:silent><haml:block><haml:loud> link_to 'Destroy', purchase, :confirm =&amp;gt; 'Are you sure?', :method =&amp;gt; :delete </haml:loud></haml:block></td>
-    %tr
-      %td
-        = submit_tag 'Submit records'
-        = submit_tag 'Delete records '
-      / select checkboxes na checked
-      %td
-        %center
-          %b Total
-      %td
-      %td
-      %td
-      %td
-      %td
-      %td
-      %td
-      %td
-      %td
-      %td
-      %td
-      %td
-      %td
-        %b= number_with_precision(totalamount, :precision => 2)
-      %td
-      %td
-        %b= number_with_precision(totalvat, :precision => 2)
-      %td
-        %b= number_with_precision(totalnet, :precision => 2)
-      %td
-        %b= number_with_precision(totalamount, :precision => 2)
-      %td
-      %td
-%br/
-= link_to 'New purchase', new_purchase_path
+.block
+  .content
+    .left
+      = form_tag '/purchases/search' do
+        %table.table_form
+          %tr
+            %td 
+              = 'From:'
+              = date_select(:start, '', :start_year => 2010)
+            %td 
+              = 'To:'
+              = date_select(:end, '', :start_year => 2010)
+            %td= submit_tag :Search
+      %h2.title View Purchases
+      .inner
+        %table
+          %tr
+            %th{:class => 'checkbox'}
+            %th Invoice number
+            %th Invoice date
+            %th Supplier
+            %th Branch
+            %th Category
+            %th Subcategory
+            %th Inventory item
+            %th Purchase quantity
+            %th Purchase Unit
+            %th Purchase Unit Cost
+            %th Inventory Quantity
+            %th Inventory Unit
+            %th Inventory Unit Cost
+            %th Purchase Amount
+            %th VAT-Type
+            %th VAT-Amount
+            %th Net-Amount
+            %th Invoice total
+            %th Show
+            %th Edit
+          - totalamount = 0
+          - totalnet = 0
+          - totalvat = 0
+          = form_tag '/purchases/savemultiple' do
+            - @purchases.each do |purchase|
+              - for purchaserow in purchase.purchaserows
+                %tr
+                  %td{:class => 'checkbox'}
+                    - if purchase.save_as_draft == 1
+                      = check_box_tag "purchase_ids[]", purchase.id
+                  - purchase.created_at.strftime("%B %d, %Y")
+                  %td= purchase.invoice_id
+                  %td= purchase.purchase_date.strftime("%B %d, %Y")
+                  %td
+                    - supplierId = purchase.supplier_id
+                    - s = Supplier.find(supplierId)
+                    = s.supplier_name
+                  %td
+                    - branchId = purchase.branch_id
+                    - b = Branch.find(branchId)
+                    = b.branch_location
+                  - itemId = purchaserow.inventoryitem_id
+                  - i = Inventoryitem.find(itemId)
+                  - subcatId = i.subcategory_id
+                  - s = Subcategory.find(subcatId)
+                  - catId = s.category_id
+                  - c = Category.find(catId)
+                  %td= c.category_name
+                  %td= s.subcategory_name
+                  %td
+                    = h i.item_name
+                  %td= h number_with_precision(purchaserow.purchase_quantity, :precision => 0)
+                  %td
+                    - unitId1 = purchaserow.purchase_unit
+                    - u = Unit.find(unitId1)
+                    - unit1 = u.unit_name
+                    = h unit1
+                  %td= h number_with_precision(purchaserow.purchase_unitCost, :precision => 2)
+                  - q = purchaserow.purchase_quantity
+                  - i = Inventoryitem.find(itemId)
+                  - unitId2 = i.unit_id
+                  - u = Unit.find(unitId2)
+                  - unit2 = u.unit_name
+                  %td
+                    - if unitId1==unitId2
+                      = h number_with_precision(purchaserow.purchase_quantity, :precision => 0)
+                    - else
+                      - temp1 = Conversion.where("b_unit = ? and s_unit = ?",unitId1,unitId2)
+                      - temp2 = Conversion.where("b_unit = ? and s_unit = ?",unitId2,unitId1)
+                      - if temp1.count>0
+                        - conversion_num = temp1.first.conversionNumber
+                        - inventory_quantity = q*(1/(1/conversion_num))
+                        = inventory_quantity
+                      - else
+                        - if temp2.count>0
+                          - conversion_num = temp2.first.conversionNumber
+                          - inventory_quantity = q*(1/conversion_num)
+                          = inventory_quantity
+                  %td= unit2
+                  %td
+                    = unit1
+                    and #{unit2}
+                  - number_with_precision(purchaserow.purchase_unitCost, :precision => 2)
+                  %td= number_with_precision(purchaserow.purchase_amount, :precision => 2)
+                  - totalamount = totalamount + purchaserow.purchase_amount
+                  %td= purchaserow.vat_type
+                  %td= number_with_precision(purchaserow.vat_amount, :precision => 2)
+                  - totalvat = totalvat + purchaserow.vat_amount
+                  %td= number_with_precision(purchaserow.net_amount, :precision => 2)
+                  - totalnet = totalnet + purchaserow.net_amount
+                  - invoicetotal = 0
+                  %td
+                    - @p = Purchaserow.where(:purchase_id => purchase.id)
+                    - @p.each do |purchaserow|
+                      - invoicetotal = invoicetotal + purchaserow.purchase_amount
+                    = number_with_precision(invoicetotal, :precision => 2)
+                  %td= link_to 'Show', purchase
+                  %td
+                    - if purchase.save_as_draft == 1
+                      = link_to 'Edit', edit_purchase_path(purchase)
+                  / <td><haml:silent> if purchase.save_as_draft == 1 </haml:silent><haml:block><haml:loud> link_to 'Destroy', purchase, :confirm =&amp;gt; 'Are you sure?', :method =&amp;gt; :delete </haml:loud></haml:block></td>
+            %tr
+              %td{:colspan => 5}
+                = submit_tag 'Submit records'
+                = submit_tag 'Delete records '
+              / select checkboxes na checked
+              %td{:colspan => 8} 
+                %center
+                  %b Total
+              %td
+                %b= number_with_precision(totalamount, :precision => 2)
+              %td
+              %td
+                %b= number_with_precision(totalvat, :precision => 2)
+              %td
+                %b= number_with_precision(totalnet, :precision => 2)
+              %td{:colspan => 4} 
+                %b= number_with_precision(totalamount, :precision => 2)
+        = link_to 'New purchase', new_purchase_path, :class => :button

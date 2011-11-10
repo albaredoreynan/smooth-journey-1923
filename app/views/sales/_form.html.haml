@@ -5,8 +5,8 @@
       %ul
         - @sale.errors.full_messages.each do |msg|
           / <li><haml:loud> msg </haml:loud></li>
-  %table{:border => "0", :width => "1000"}
-    %tr
+  %table.table_form
+    %tr  
       %td Branch:
       %td
         = text_field_tag :branch,'',:disabled => :true
@@ -279,7 +279,3 @@
     	  	checkTotal();   
         } 
      }
-     
-     
-     
-     
