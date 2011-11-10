@@ -13,7 +13,7 @@ class BranchesController < ApplicationController
   # GET /branches/1
   # GET /branches/1.xml
   def show
-    @branch = Branch.find(params[:id])
+    @branch = Branch.joins(:restaurant).find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb

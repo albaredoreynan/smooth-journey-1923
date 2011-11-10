@@ -8,16 +8,16 @@
         - @subcategory.errors.full_messages.each do |msg|
           %li= msg
   .field
-    = f.label :subcategory_name
+    = f.label 'Name'
     %br/
     = f.text_field :subcategory_name
   .field
-    = f.label :subcategory_description
+    = f.label 'Description'
     %br/
     = f.text_area :subcategory_description
   .field
-    = f.label :category_id
+    = f.label 'Category'
     %br/
-    = f.text_field :category_id
+    = f.select :category_id, Category.all.map { |category| [category.category_name, category.id] }
   .actions
     = f.submit
