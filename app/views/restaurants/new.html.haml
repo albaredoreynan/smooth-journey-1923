@@ -1,5 +1,6 @@
-%h2
-  %a{:href => "#"} ADD RESTAURANT
-%br/
-= render 'form'
-= link_to 'Back', restaurants_path
+.block
+  .content
+    %h2 Add Restaurant
+    .inner
+      = render 'form'
+      = link_to 'Back', restaurants_path

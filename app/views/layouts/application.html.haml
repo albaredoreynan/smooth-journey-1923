@@ -2,9 +2,8 @@
 %html
   %head
     %title= title
-    <!--[if lt IE 9]
-    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    ![endif]-->
+    /[if lt IE 9]
+      %script{:src => "http://html5shim.googlecode.com/svn/trunk/html5.js"}
     = stylesheet_link_tag 'styles'
     = javascript_include_tag :defaults
     = csrf_meta_tag

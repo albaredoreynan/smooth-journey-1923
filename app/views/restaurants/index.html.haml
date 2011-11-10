@@ -1,29 +1,26 @@
-.left
-  %h2
-    %a{:href => "#"} VIEW RESTAURANTS
-  %hr/
-  %br/
-.right
-%div{:style => "clear: both;"}
-%table{:border => "1"}
-  %tr
-    %th Store
-    %th Restaurant name
-    %th Company
-    %th Restaurant description
-    %th Currency
-    %th
-    %th
-    %th
-  - @restaurants.each do |restaurant|
-    %tr
-      %td= restaurant.store_id
-      %td= restaurant.restaurant_name
-      %td= restaurant.company_id
-      %td= restaurant.restaurant_description
-      %td= restaurant.currency_id
-      %td= link_to 'Show', restaurant
-      %td= link_to 'Edit', edit_restaurant_path(restaurant)
-      %td= link_to 'Destroy', restaurant, :confirm => 'Are you sure?', :method => :delete
-%br/
-= link_to 'New Restaurant', new_restaurant_path
+.block
+  .content
+    %h2 Restaurants
+    .inner
+      %table
+        %tr
+          %th Store
+          %th Restaurant name
+          %th Company
+          %th Restaurant description
+          %th Currency
+          %th
+          %th
+          %th
+        - @restaurants.each do |restaurant|
+          %tr
+            %td= restaurant.store_id
+            %td= restaurant.restaurant_name
+            %td= restaurant.company_id
+            %td= restaurant.restaurant_description
+            %td= restaurant.currency_id
+            %td
+              = link_to 'Show', restaurant
+              = link_to 'Edit', edit_restaurant_path(restaurant)
+              = link_to 'Destroy', restaurant, :confirm => 'Are you sure?', :method => :delete
+      = link_to 'New Restaurant', new_restaurant_path, :class => :button
