@@ -1,15 +1,16 @@
-%h1 Listing settlement_types
-%table
-  %tr
-    %th St name
-    %th
-    %th
-    %th
-  - @settlement_types.each do |settlement_type|
-    %tr
-      %td= settlement_type.st_name
-      %td= link_to 'Show', settlement_type
-      %td= link_to 'Edit', edit_settlement_type_path(settlement_type)
-      %td= link_to 'Destroy', settlement_type, :confirm => 'Are you sure?', :method => :delete
-%br/
-= link_to 'New Settlement type', new_settlement_type_path
+.block
+  .content
+    %h2 Settlement Types
+    .inner
+      %table
+        %tr
+          %th Name
+          %th.actions Action
+        - @settlement_types.each do |settlement_type|
+          %tr
+            %td= settlement_type.st_name
+            %td
+              = link_to 'Show', settlement_type
+              = link_to 'Edit', edit_settlement_type_path(settlement_type)
+              = link_to 'Destroy', settlement_type, :confirm => 'Are you sure?', :method => :delete
+      = link_to 'New Settlement type', new_settlement_type_path, :class => 'button'

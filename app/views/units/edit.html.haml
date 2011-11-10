@@ -1,5 +1,8 @@
-%h1 Editing unit
-= render 'form'
-= link_to 'Show', @unit
-|
-\#{link_to 'Back', units_path}
+.block
+  .content
+    %h2 Edit Unit
+    .inner
+      = render 'form'
+      = link_to 'Show', @unit
+      |
+      \#{link_to 'Back', units_path}

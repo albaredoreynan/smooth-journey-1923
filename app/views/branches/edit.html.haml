@@ -1,5 +1,8 @@
-%h1 Editing branch
-= render 'form'
-= link_to 'Show', @branch
-|
-\#{link_to 'Back', branches_path}
+.block
+  .content
+    %h2 Edit Branch
+    .inner
+      = render 'form'
+      = link_to 'Show', @branch
+      |
+      \#{link_to 'Back', branches_path}

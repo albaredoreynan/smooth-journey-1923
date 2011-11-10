@@ -1,19 +1,20 @@
-%h1 Listing categories
-%table
-  %tr
-    %th Category name
-    %th Category description
-    %th Restaurant category
-    %th
-    %th
-    %th
-  - @categories.each do |category|
-    %tr
-      %td= category.category_name
-      %td= category.category_description
-      %td= category.restaurant_category_id
-      %td= link_to 'Show', category
-      %td= link_to 'Edit', edit_category_path(category)
-      %td= link_to 'Destroy', category, :confirm => 'Are you sure?', :method => :delete
-%br/
-= link_to 'New Category', new_category_path
+.block
+  .content
+    %h2 Categories
+    .inner
+      %table
+        %tr
+          %th Name
+          %th Description
+          %th Restaurant Category
+          %th.actions Actions
+        - @categories.each do |category|
+          %tr
+            %td= category.category_name
+            %td= category.category_description
+            %td= category.restaurant_category_id
+            %td
+              = link_to 'Show', category
+              = link_to 'Edit', edit_category_path(category)
+              = link_to 'Destroy', category, :confirm => 'Are you sure?', :method => :delete
+      = link_to 'New Category', new_category_path, :class => 'button'
