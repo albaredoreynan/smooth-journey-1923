@@ -8,51 +8,51 @@
         - @employee.errors.full_messages.each do |msg|
           %li= msg
   .field
-    = f.label :employee_firstName
+    = f.label 'First Name'
     %br/
     = f.text_field :employee_firstName
   .field
-    = f.label :employee_lastName
+    = f.label 'Last Name'
     %br/
     = f.text_field :employee_lastName
   .field
-    = f.label :branch_id
+    = f.label 'Branch'
     %br/
     = f.text_field :branch_id
   .field
-    = f.label :employee_dateEmployed
+    = f.label 'Date Employed'
     %br/
     = f.date_select :employee_dateEmployed
   .field
-    = f.label :job_id
+    = f.label 'Job'
     %br/
     = f.text_field :job_id
   .field
-    = f.label :department_id
+    = f.label 'Department'
     %br/
     = f.text_field :department_id
   .field
-    = f.label :employee_birthday
+    = f.label 'Birthdate'
     %br/
     = f.date_select :employee_birthday
   .field
-    = f.label :employee_age
+    = f.label 'Age'
     %br/
     = f.text_field :employee_age
   .field
-    = f.label :employee_contactNumber
+    = f.label 'Contact Number'
     %br/
     = f.text_field :employee_contactNumber
   .field
-    = f.label :employee_sss
+    = f.label 'SSS'
     %br/
     = f.text_field :employee_sss
   .field
-    = f.label :employee_tin
+    = f.label 'TIN'
     %br/
     = f.text_field :employee_tin
   .field
-    = f.label :employee_address
+    = f.label 'Address'
     %br/
     = f.text_area :employee_address
   .actions

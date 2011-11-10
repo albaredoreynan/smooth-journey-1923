@@ -1,46 +1,41 @@
-.left
-  %h2
-    %a{:href => "#"} VIEW EMPLOYEES
-  %hr/
-  %br/
-.right
-%div{:style => "clear: both;"}
-%table{:border => "1"}
-  %tr
-    %th Employee firstname
-    %th Employee lastname
-    %th Branch
-    %th Employee date employed
-    %th Job
-    %th Department
-    %th Employee birthday
-    %th Employee age
-    %th Employee contact number
-    %th Employee sss
-    %th Employee tin
-    %th Employee address
-    %th
-    %th
-    %th
-  - @employees.each do |employee|
-    %tr
-      %td= employee.employee_firstName
-      %td= employee.employee_lastName
-      %td
-        - branchId = employee.branch_id
-        - b = Branch.find(branchId)
-        = b.branch_location
-      %td= employee.employee_dateEmployed
-      %td= employee.job_id
-      %td= employee.department_id
-      %td= employee.employee_birthday
-      %td= employee.employee_age
-      %td= employee.employee_contactNumber
-      %td= employee.employee_sss
-      %td= employee.employee_tin
-      %td= employee.employee_address
-      %td= link_to 'Show', employee
-      %td= link_to 'Edit', edit_employee_path(employee)
-      %td= link_to 'Destroy', employee, :confirm => 'Are you sure?', :method => :delete
-%br/
-= link_to 'New Employee', new_employee_path
+.block
+  .content
+    %h2 Employess
+    .inner
+      %table
+        %tr
+          %th Firstname
+          %th Lastname
+          %th Branch
+          %th Date employed
+          %th Job
+          %th Department
+          %th Birthday
+          %th Age
+          %th Contact number
+          %th SSS
+          %th TIN
+          %th Address
+          %th.actions Actions
+        - @employees.each do |employee|
+          %tr
+            %td= employee.employee_firstName
+            %td= employee.employee_lastName
+            %td
+              - branchId = employee.branch_id
+              - b = Branch.find(branchId)
+              = b.branch_location
+            %td= employee.employee_dateEmployed
+            %td= employee.job_id
+            %td= employee.department_id
+            %td= employee.employee_birthday
+            %td= employee.employee_age
+            %td= employee.employee_contactNumber
+            %td= employee.employee_sss
+            %td= employee.employee_tin
+            %td= employee.employee_address
+            %td
+              = link_to 'Show', employee
+              = link_to 'Edit', edit_employee_path(employee)
+              = link_to 'Destroy', employee, :confirm => 'Are you sure?', :method => :delete
+      = link_to 'New Employee', new_employee_path, :class => 'button'
