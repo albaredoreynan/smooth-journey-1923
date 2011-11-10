@@ -1,5 +1,8 @@
-%h1 Editing purchaseitem
-= render 'form'
-= link_to 'Show', @purchaseitem
-|
-\#{link_to 'Back', purchaseitems_path}
+.block
+  .content
+    %h2 Edit Purchase Item
+    .inner
+      = render 'form'
+      = link_to 'Show', @purchaseitem
+      |
+      \#{link_to 'Back', purchaseitems_path}

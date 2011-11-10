@@ -1,22 +1,22 @@
-%p#notice= notice
-%p
-  %b Branch:
-  = @supplier.branch_id
-%p
-  %b Supplier name:
-  = @supplier.supplier_name
-%p
-  %b Supplier email:
-  = @supplier.supplier_email
-%p
-  %b Supplier address:
-  = @supplier.supplier_address
-%p
-  %b Supplier description:
-  = @supplier.supplier_description
-%p
-  %b Supplier number:
-  = @supplier.supplier_number
-= link_to 'Edit', edit_supplier_path(@supplier)
-|
-\#{link_to 'Back', suppliers_path}
+.block
+  .content
+    %h2= "Supplier: #{@supplier.supplier_name}"
+    .inner
+      %p
+        %b Branch:
+        = @supplier.branch.branch_location
+      %p
+        %b Email:
+        = @supplier.supplier_email
+      %p
+        %b Address:
+        = @supplier.supplier_address
+      %p
+        %b Description:
+        = @supplier.supplier_description
+      %p
+        %b Number:
+        = @supplier.supplier_number
+      = link_to 'Edit', edit_supplier_path(@supplier)
+      |
+      \#{link_to 'Back', suppliers_path}

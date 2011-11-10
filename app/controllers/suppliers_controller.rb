@@ -2,7 +2,7 @@ class SuppliersController < ApplicationController
   # GET /suppliers
   # GET /suppliers.xml
   def index
-    @suppliers = Supplier.all
+    @suppliers = Supplier.joins(:branch).all
 
     respond_to do |format|
       format.html # index.html.erb
@@ -13,7 +13,7 @@ class SuppliersController < ApplicationController
   # GET /suppliers/1
   # GET /suppliers/1.xml
   def show
-    @supplier = Supplier.find(params[:id])
+    @supplier = Supplier.joins(:branch).find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb

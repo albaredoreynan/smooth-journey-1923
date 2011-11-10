@@ -5,9 +5,9 @@ class PurchaseitemsController < ApplicationController
     if params[:commit]=="Search"
         startdate = params[:start]['(1i)']+ '-' + params[:start]['(2i)'] + '-' + params[:start]['(3i)']
         enddate = params[:end]['(1i)']+ '-' + params[:end]['(2i)'] + '-' + params[:end]['(3i)']
-        
+
         @duration = startdate + ' to ' + enddate
-        @purchaseitems = Purchaseitem.search_by_date(startdate, enddate) 
+        @purchaseitems = Purchaseitem.search_by_date(startdate, enddate)
         #@categories = Category.all
     elsif params[:commit]=="Save"
       Purchaseitem.update_all(["save_as_draft=?", 0], :id => params[:purchaseitem_ids])
@@ -20,11 +20,11 @@ class PurchaseitemsController < ApplicationController
           format.xml  { render :xml => @purchaseitems }
         end # end respond_to
         #@categories = Category.all
-        
+
       end # end if else
-    
+
     #@purchaseitems = Purchaseitem.search(params[:from],params[:to])
-	  
+
 	  #respond_to do |format|
      # format.html # index.html.erb
       #format.xml  { render :xml => @purchaseitems }
@@ -47,12 +47,12 @@ class PurchaseitemsController < ApplicationController
   def new
     @purchaseitem = Purchaseitem.new
     @purchaseitems = Purchaseitem.all # for preview
-    
+
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @purchaseitem }
     end
-    
+
   end
 
   # GET /purchaseitems/1/edit
@@ -60,7 +60,7 @@ class PurchaseitemsController < ApplicationController
     @purchaseitem = Purchaseitem.find(params[:id])
     @purchaseitems = Purchaseitem.all # for preview
     @invoiceNumber = params[:invoiceNumber]
-    
+
     #for preview
     respond_to do |format|
       format.html # edit.html.erbv
@@ -74,12 +74,12 @@ class PurchaseitemsController < ApplicationController
   def create
     @purchaseitem = Purchaseitem.new(params[:purchaseitem])
 
-    if params[:commit]=="Save"       
+    if params[:commit]=="Save"
         @purchaseitem.save_as_draft = 0
     elsif params[:commit]=="Save as draft"
         @purchaseitem.save_as_draft = 1
     end
-    
+
     respond_to do |format|
       if @purchaseitem.save
         format.html { redirect_to(@purchaseitem, :notice => 'Purchase item/s successfully created.') }
@@ -88,14 +88,14 @@ class PurchaseitemsController < ApplicationController
         #category_count = Category.all.count
         #@category_names = Category.all.map(&:category_name).reverse
         #@category_ids = Category.all.map(&:id).reverse
-        #@categorysale.csrows.build  
-        
+        #@categorysale.csrows.build
+
         format.html { render :action => "new" }
         format.xml  { render :xml => @purchaseitem.errors, :status => :unprocessable_entity }
       end
     end
-    
-    
+
+
     #respond_to do |format|
       #if @purchaseitem.save
         #format.html { redirect_to(@purchaseitem, :notice => 'Purchaseitem was successfully created.') }
@@ -105,14 +105,14 @@ class PurchaseitemsController < ApplicationController
         #format.xml  { render :xml => @purchaseitem.errors, :status => :unprocessable_entity }
       #end
     #end
-    
+
   end
 
   # PUT /purchaseitems/1
   # PUT /purchaseitems/1.xml
   def update
     @purchaseitem = Purchaseitem.find(params[:id])
-    
+
     if params[:commit]=="Save"
         @purchaseitem.save_as_draft = 0
     elsif params[:commit]=="Save as draft"
@@ -141,7 +141,7 @@ class PurchaseitemsController < ApplicationController
       format.xml  { head :ok }
     end
   end
-  
+
   def update_subcategories
     category = Category.find(params[:category_id])
     subcategories = category.subcategories
@@ -150,7 +150,7 @@ class PurchaseitemsController < ApplicationController
       format.replace_html 'subcategories', :partial => 'subcategories', :object => subcategories
     end
   end
-  
+
   def savemultiple
     Purchaseitem.update_all(["save_as_draft=?", 0], :id => params[:purchaseitem_ids])
     #@purchaseitems = Purchaseitems.find(params[:purchaseitem_ids])
