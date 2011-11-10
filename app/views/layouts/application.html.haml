@@ -9,34 +9,13 @@
       #container
         #header
           %h1
-            %a{:href => '/'}= title
-          /%h2 Restaurant Report and Backup System
-          #user-navigation
-            .sign_in
-              - if user_signed_in?
-                Signed in as #{current_user.email}. Not you?
-                \#{link_to "Sign out", destroy_user_session_path}
-              - else
-                = link_to "Sign up", new_user_registration_path
-                or #{link_to "sign in", new_user_session_path}
-          #main-navigation
-            %ul.wat-cf
-              %li= link_to 'Sales', sales_path
-              %li= link_to 'Purchases', purchases_path
-              %li= link_to 'Period End', endcounts_path
-              %li
-                %a{:href => ""} Inventory
-              %li= link_to 'Employees', employees_path
-              %li= link_to 'Reports', reports_path
-              %li
-                %a{:href => ""} Database
-              %li
-                %a{:href => ""} Records
-              %li
-                %a{:href => ""} User Accounts
+            %a{:href => root_path}= title
+          = render 'shared/usernav'
+          = render 'shared/mainnav'
         #wrapper.wat-cf
           #main
-            .flash
-              = content_tag(:div, content_tag(:p, notice), :class => 'message notice') if notice
-              = content_tag(:div, content_tag(:p, alert), :class => 'message error') if alert
+            - if notice || alert
+              .flash
+                = content_tag(:div, content_tag(:p, notice), :class => 'message notice') if notice
+                = content_tag(:div, content_tag(:p, alert), :class => 'message error') if alert
             = yield
