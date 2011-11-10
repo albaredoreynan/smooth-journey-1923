@@ -8,51 +8,51 @@
         - @employee.errors.full_messages.each do |msg|
           %li= msg
   .field
-    = f.label 'First Name'
+    = f.label :employee_firstName, 'First Name'
     %br/
     = f.text_field :employee_firstName
   .field
-    = f.label 'Last Name'
+    = f.label :employee_lastName, 'Last Name'
     %br/
     = f.text_field :employee_lastName
   .field
-    = f.label 'Branch'
+    = f.label :branch_id, 'Branch'
     %br/
     = f.text_field :branch_id
   .field
-    = f.label 'Date Employed'
+    = f.label :employee_dateEmployed, 'Date Employed'
     %br/
     = f.date_select :employee_dateEmployed
   .field
-    = f.label 'Job'
+    = f.label :job_id, 'Job'
     %br/
     = f.text_field :job_id
   .field
-    = f.label 'Department'
+    = f.label :department_id, 'Department'
     %br/
     = f.text_field :department_id
   .field
-    = f.label 'Birthdate'
+    = f.label :employee_birthday, 'Birthdate'
     %br/
     = f.date_select :employee_birthday
   .field
-    = f.label 'Age'
+    = f.label :employee_age, 'Age'
     %br/
     = f.text_field :employee_age
   .field
-    = f.label 'Contact Number'
+    = f.label :employee_contactNumber, 'Contact Number'
     %br/
     = f.text_field :employee_contactNumber
   .field
-    = f.label 'SSS'
+    = f.label :employee_sss, 'SSS'
     %br/
     = f.text_field :employee_sss
   .field
-    = f.label 'TIN'
+    = f.label :employee_tin, 'TIN'
     %br/
     = f.text_field :employee_tin
   .field
-    = f.label 'Address'
+    = f.label :employee_address, 'Address'
     %br/
     = f.text_area :employee_address
   .actions
