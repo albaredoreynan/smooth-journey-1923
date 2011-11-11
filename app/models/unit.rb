@@ -1,3 +1,3 @@
 class Unit < ActiveRecord::Base
-	has_many :inventory_items
+  validates :unit_name, :presence => true
 end

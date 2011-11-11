@@ -1,4 +1,7 @@
 class Category < ActiveRecord::Base
-  has_many :subcategories
+
+  validates :category_name, :presence => true
+
   belongs_to :csrow
+  has_many :subcategories
 end

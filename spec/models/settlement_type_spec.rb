@@ -1,5 +1,11 @@
 require 'spec_helper'
 
 describe SettlementType do
-  pending "add some examples to (or delete) #{__FILE__}"
+
+  context 'Validation' do
+    it 'should be invalid without name' do
+      settlement_type = SettlementType.new
+      settlement_type.should have(1).error_on :st_name
+    end
+  end
 end

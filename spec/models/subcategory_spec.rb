@@ -1,5 +1,11 @@
 require 'spec_helper'
 
 describe Subcategory do
-  pending "add some examples to (or delete) #{__FILE__}"
+
+  context 'Validation' do
+    it 'should be invalid without name' do
+      subcategory = Subcategory.new
+      subcategory.should have(1).error_on :subcategory_name
+    end
+  end
 end

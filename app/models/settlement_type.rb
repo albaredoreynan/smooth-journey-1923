@@ -1,3 +1,6 @@
 class SettlementType < ActiveRecord::Base
-	has_many :ssrows
+
+  validates :st_name, :presence => true
+
+  has_many :ssrows
 end
