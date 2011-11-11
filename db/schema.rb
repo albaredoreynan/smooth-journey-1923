@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111111045829) do
+ActiveRecord::Schema.define(:version => 20111111131404) do
 
   create_table "branches", :force => true do |t|
     t.integer  "restaurant_id"
@@ -50,9 +50,9 @@ ActiveRecord::Schema.define(:version => 20111111045829) do
   add_index "categorysales", ["employee_id"], :name => "employee_id"
 
   create_table "companies", :force => true do |t|
-    t.string   "company_name"
-    t.text     "company_address"
-    t.string   "company_number"
+    t.string   "name"
+    t.text     "address"
+    t.string   "contact_number"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

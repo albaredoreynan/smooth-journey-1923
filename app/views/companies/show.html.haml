@@ -1,16 +1,15 @@
 .block
   .content
-    /%h2.title New purchase
     .inner
       %p#notice= notice
       %p
         %b Company name:
-        = @company.company_name
+        = @company.name
       %p
         %b Company address:
-        = @company.company_address
+        = @company.address
       %p
         %b Company number:
-        = @company.company_number
+        = @company.contact_number
       = link_to 'Edit', edit_company_path(@company), :class => 'button'
       = link_to 'Back', companies_path, :class => 'button'

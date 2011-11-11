@@ -2,13 +2,17 @@ require 'spec_helper'
 
 describe Company do
 
+  it 'should save company given a valid attributes' do
+    Company.create!({:name => 'Company A'})
+  end
+
   context 'Validation' do
     before do
       @company = Company.new
     end
 
     it 'should have company name' do
-      @company.should have(1).error_on :company_name
+      @company.should have(1).error_on :name
     end
   end
 

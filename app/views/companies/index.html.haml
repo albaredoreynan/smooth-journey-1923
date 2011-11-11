@@ -3,18 +3,18 @@
   .content
     .left
       %h2.title Companies
-      .inner  
-        %table       
+      .inner
+        %table
           %tr
-            %th Company name
-            %th Company address
-            %th Company number
-            %th
+            %th Name
+            %th Address
+            %th Contact Number
+            %th.actions Action
           - @companies.each do |company|
             %tr
-              %td= company.company_name
-              %td= company.company_address
-              %td= company.company_number
+              %td= company.name
+              %td= company.address
+              %td= company.contact_number
               %td= link_to 'Edit', edit_company_path(company)
-        
+
         = link_to 'New Company', new_company_path, :class => 'button'
