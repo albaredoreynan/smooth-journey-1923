@@ -1,3 +1,3 @@
 class Unit < ActiveRecord::Base
-  validates :unit_name, :presence => true
+  validates :name, :presence => true
 end
