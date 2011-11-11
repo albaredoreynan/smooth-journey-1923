@@ -14,16 +14,16 @@
   %td= f.text_field :store_id
   %tr
   .field
-  %td= f.label :restaurant_name
-  %td= f.text_field :restaurant_name
+  %td= f.label :name
+  %td= f.text_field :name
   %tr
   .field
   %td Company
-  %td= f.collection_select :company_id, Company.find(:all), :id, :company_name, :prompt => "Select Company"
+  %td= f.collection_select :company_id, Company.find(:all), :id, :name, :prompt => "Select Company"
   %tr
   .field
-  %td= f.label :restaurant_description
-  %td= f.text_area :restaurant_description, :rows => 4
+  %td= f.label :description
+  %td= f.text_area :description, :rows => 4
   %tr
   .field
   %td= f.label :currency_id

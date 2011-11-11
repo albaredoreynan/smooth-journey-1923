@@ -11,8 +11,7 @@ describe Restaurant do
     end
 
     it 'should have be invalid without name' do
-      # TODO Please rename this field to :name
-      @restaurant.should have(1).error_on :restaurant_name
+      @restaurant.should have(1).error_on :name
     end
   end
 end

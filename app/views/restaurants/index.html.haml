@@ -14,9 +14,9 @@
         - @restaurants.each do |restaurant|
           %tr
             %td= restaurant.store_id
-            %td= restaurant.restaurant_name
-            %td= restaurant.company.company_name
-            %td= restaurant.restaurant_description
+            %td= restaurant.name
+            %td= restaurant.company.name
+            %td= restaurant.description
             %td= restaurant.currency_id
             %td
               = link_to 'Show', restaurant
