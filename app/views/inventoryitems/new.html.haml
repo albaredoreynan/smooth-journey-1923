@@ -1,5 +1,6 @@
-%h2
-  %a{:href => "#"} ADD INVENTORY ITEM
-%br/
-= render 'form'
-= link_to 'Back', inventoryitems_path
+.block
+  .content
+    %h2.title Inventory Items
+    .inner
+      = render 'form'
+      = link_to 'Back', inventoryitems_path

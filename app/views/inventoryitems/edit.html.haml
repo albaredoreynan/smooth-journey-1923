@@ -1,5 +1,7 @@
-%h1 Editing inventoryitem
-= render 'form'
-= link_to 'Show', @inventoryitem
-|
-\#{link_to 'Back', inventoryitems_path}
+.block
+  .content
+    %h1.title Editing Inventory Item
+    = render 'form'
+    = link_to 'Show', @inventoryitem
+    |
+    \#{link_to 'Back', inventoryitems_path}

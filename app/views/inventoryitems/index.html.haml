@@ -1,31 +1,31 @@
-.left
-  %h2
-    %a{:href => "#"} VIEW INVENTORY ITEMS
-  %hr/
-  %br/
-.right
-%div{:style => "clear: both;"}
-%table
-  - form_tag inventoryitems_path, :method => 'get' do
-    %tr
-      %td Inventory Item
-      %td= text_field_tag :search, params[:search]
-      %td= submit_tag "Search", :name => nil
-%table{:border => "1"}
-  %tr
-    %th Item name
-    %th Unit
-    %th Beginning Count
-    %th
-    %th
-    %th
-  - @inventoryitems.each do |inventoryitem|
-    %tr
-      %td= inventoryitem.item_name
-      %td= inventoryitem.unit.unit_name
-      %td= inventoryitem.beginning_count
-      %td= link_to 'Show', inventoryitem
-      %td= link_to 'Edit', edit_inventoryitem_path(inventoryitem)
-      %td= link_to 'Destroy', inventoryitem, :confirm => 'Are you sure?', :method => :delete
-%br/
-= link_to 'New Inventoryitem', new_inventoryitem_path
+.block
+  = render 'shared/menu/database'
+  .content
+    .left
+      %h2.title Inventory Item List
+      .inner
+        %table.table_form
+          = form_tag inventoryitems_path, :method => 'get' do
+            %tr
+              %td
+                = 'Inventory Item'
+                = text_field_tag :search, params[:search]
+                = submit_tag "Search", :name => nil
+        %table
+          %tr
+            %th Item name
+            %th Unit
+            %th Beginning Count
+            %th
+            %th
+            %th
+          - @inventoryitems.each do |inventoryitem|
+            %tr
+              %td= inventoryitem.item_name
+              %td= inventoryitem.unit.unit_name
+              %td= inventoryitem.beginning_count
+              %td= link_to 'Show', inventoryitem
+              %td= link_to 'Edit', edit_inventoryitem_path(inventoryitem)
+              %td= link_to 'Destroy', inventoryitem, :confirm => 'Are you sure?', :method => :delete
+        %br/
+        = link_to 'New Inventoryitem', new_inventoryitem_path, :class => :button 

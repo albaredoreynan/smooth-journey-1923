@@ -1,19 +1,24 @@
-%h1 Listing conversions
-%table
-  %tr
-    %th B unit
-    %th S unit
-    %th Conversionnumber
-    %th
-    %th
-    %th
-  - @conversions.each do |conversion|
-    %tr
-      %td= conversion.b_unit
-      %td= conversion.s_unit
-      %td= conversion.conversionNumber
-      %td= link_to 'Show', conversion
-      %td= link_to 'Edit', edit_conversion_path(conversion)
-      %td= link_to 'Destroy', conversion, :confirm => 'Are you sure?', :method => :delete
-%br/
-= link_to 'New Conversion', new_conversion_path
+.block
+  = render 'shared/menu/database'
+  .content
+    .left
+      %h2.title Convertion List
+      .inner
+        %table
+          %tr
+            %th B unit
+            %th S unit
+            %th Conversionnumber
+            %th
+            %th
+            %th
+          - @conversions.each do |conversion|
+            %tr
+              %td= conversion.b_unit
+              %td= conversion.s_unit
+              %td= conversion.conversionNumber
+              %td= link_to 'Show', conversion
+              %td= link_to 'Edit', edit_conversion_path(conversion)
+              %td= link_to 'Destroy', conversion, :confirm => 'Are you sure?', :method => :delete
+        %br/
+        = link_to 'New Conversion', new_conversion_path, :class => :button

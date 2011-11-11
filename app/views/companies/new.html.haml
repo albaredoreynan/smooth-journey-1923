@@ -1,5 +1,6 @@
-%h2
-  %a{:href => "#"} ADD COMPANY
-%br/
-= render 'form'
-= link_to 'Back', companies_path
+.block
+  .content
+    %h2.title Company
+    .inner
+      = render 'form'
+      = link_to 'Back', companies_path

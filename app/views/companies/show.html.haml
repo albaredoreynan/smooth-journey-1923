@@ -1,13 +1,16 @@
-%p#notice= notice
-%p
-  %b Company name:
-  = @company.company_name
-%p
-  %b Company address:
-  = @company.company_address
-%p
-  %b Company number:
-  = @company.company_number
-= link_to 'Edit', edit_company_path(@company)
-|
-\#{link_to 'Back', companies_path}
+.block
+  .content
+    /%h2.title New purchase
+    .inner
+      %p#notice= notice
+      %p
+        %b Company name:
+        = @company.company_name
+      %p
+        %b Company address:
+        = @company.company_address
+      %p
+        %b Company number:
+        = @company.company_number
+      = link_to 'Edit', edit_company_path(@company), :class => 'button'
+      = link_to 'Back', companies_path, :class => 'button'
