@@ -11,8 +11,8 @@
           %th.actions Actions
         - @categories.each do |category|
           %tr
-            %td= category.category_name
-            %td= category.category_description
+            %td= category.name
+            %td= category.description
             %td= category.restaurant_category_id
             %td
               = link_to 'Show', category
