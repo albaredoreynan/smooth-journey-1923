@@ -1,9 +1,0 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-
-one:
-  beginning_date: MyString
-  endcount_date: MyString
-
-two:
-  beginning_date: MyString
-  endcount_date: MyString

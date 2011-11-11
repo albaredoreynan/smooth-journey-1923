@@ -1,5 +1,18 @@
 require 'spec_helper'
 
 describe Company do
-  pending "add some examples to (or delete) #{__FILE__}"
+
+  context 'Validation' do
+    before do
+      @company = Company.new
+    end
+
+    it 'should have company name' do
+      @company.should have(1).error_on :company_name
+    end
+  end
+
+  context 'Association' do
+    it { should have_many :restaurants }
+  end
 end
