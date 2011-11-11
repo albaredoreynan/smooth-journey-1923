@@ -12,10 +12,10 @@
           %th Actions
         - @branches.each do |branch|
           %tr
-            %td= branch.restaurant.restaurant_name
-            %td= branch.branch_location
-            %td= branch.branch_address
-            %td= branch.branch_contactNumber
+            %td= branch.restaurant.name unless branch.restaurant.nil?
+            %td= branch.location
+            %td= branch.address
+            %td= branch.contact_number
             %td
               = link_to 'Show', branch
               = link_to 'Edit', edit_branch_path(branch)

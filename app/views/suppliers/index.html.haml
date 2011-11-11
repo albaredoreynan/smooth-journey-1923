@@ -14,7 +14,7 @@
           %th.actions Actions
         - @suppliers.each do |supplier|
           %tr
-            %td= supplier.branch.branch_location
+            %td= supplier.branch.location unless supplier.branch.nil?
             %td= supplier.name
             %td= supplier.email
             %td= supplier.address

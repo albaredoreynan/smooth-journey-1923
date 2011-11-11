@@ -8,7 +8,7 @@ describe Branch do
     end
 
     it 'should be invalid without location' do
-      @branch.should have(1).error_on :branch_location
+      @branch.should have(1).error_on :location
     end
   end
 

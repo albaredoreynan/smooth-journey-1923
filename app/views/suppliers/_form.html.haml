@@ -11,7 +11,7 @@
     %tr
   .field
   %td= f.label :branch_id
-  %td= f.collection_select :branch_id, Branch.find(:all), :id, :branch_location, :prompt => "Select Branch"
+  %td= f.collection_select :branch_id, Branch.find(:all), :id, :location, :prompt => "Select Branch"
   %tr
   .field
   %td= f.label :name
@@ -26,7 +26,7 @@
   %td= f.text_area :address, :rows => 3
   %tr
   .field
-  %td= f.label :supplier_description
+  %td= f.label :description
   %td= f.text_area :description, :rows => 3
   %tr
   .field

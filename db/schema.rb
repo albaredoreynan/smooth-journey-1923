@@ -11,13 +11,13 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111111141738) do
+ActiveRecord::Schema.define(:version => 20111111142501) do
 
   create_table "branches", :force => true do |t|
     t.integer  "restaurant_id"
-    t.string   "branch_location"
-    t.string   "branch_contactNumber"
-    t.text     "branch_address"
+    t.string   "location"
+    t.string   "contact_number"
+    t.text     "address"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -3,16 +3,16 @@
     .inner
       %p
         %b Restaurant:
-        = @branch.restaurant.restaurant_name
+        = @branch.restaurant.name unless @branch.restaurant.nil?
       %p
-        %b Branch location:
-        = @branch.branch_location
+        %b Location:
+        = @branch.location
       %p
-        %b Branch address:
-        = @branch.branch_address
+        %b Address:
+        = @branch.address
       %p
-        %b Branch contactnumber:
-        = @branch.branch_contactNumber
+        %b Contact Number:
+        = @branch.contact_number
       = link_to 'Edit', edit_branch_path(@branch)
       |
       \#{link_to 'Back', branches_path}

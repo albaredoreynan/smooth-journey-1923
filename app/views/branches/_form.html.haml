@@ -11,19 +11,19 @@
     %tr
   .field
   %td Restaurant
-  %td= f.collection_select :restaurant_id, Restaurant.find(:all), :id, :restaurant_name, :prompt => "Select Restaurant"
+  %td= f.collection_select :restaurant_id, Restaurant.find(:all), :id, :name, :prompt => "Select Restaurant"
   %tr
   .field
-  %td Location
-  %td= f.text_field :branch_location
+  %td= f.label :location
+  %td= f.text_field :location
   %tr
   .field
-  %td Address
-  %td= f.text_area :branch_address, :rows => 3
+  %td= f.label :address
+  %td= f.text_area :address, :rows => 3
   %tr
   .field
-  %td Contact Number
-  %td= f.text_field :branch_contactNumber
+  %td= f.label :contact_number
+  %td= f.text_field :contact_number
   %tr
   .actions
   %td &nbsp;
