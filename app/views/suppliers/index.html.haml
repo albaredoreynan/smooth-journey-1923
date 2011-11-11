@@ -6,20 +6,20 @@
       %table
         %tr
           %th Branch
-          %th Supplier name
-          %th Supplier email
-          %th Supplier address
-          %th Supplier description
-          %th Supplier number
+          %th Name
+          %th Email
+          %th Address
+          %th Description
+          %th Contact Number
           %th.actions Actions
         - @suppliers.each do |supplier|
           %tr
             %td= supplier.branch.branch_location
-            %td= supplier.supplier_name
-            %td= supplier.supplier_email
-            %td= supplier.supplier_address
-            %td= supplier.supplier_description
-            %td= supplier.supplier_number
+            %td= supplier.name
+            %td= supplier.email
+            %td= supplier.address
+            %td= supplier.description
+            %td= supplier.contact_number
             %td
               = link_to 'Show', supplier
               = link_to 'Edit', edit_supplier_path(supplier)

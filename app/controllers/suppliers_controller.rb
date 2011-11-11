@@ -13,7 +13,7 @@ class SuppliersController < ApplicationController
   # GET /suppliers/1
   # GET /suppliers/1.xml
   def show
-    @supplier = Supplier.joins(:branch).find(params[:id])
+    @supplier = Supplier.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb

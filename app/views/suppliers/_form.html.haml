@@ -14,24 +14,24 @@
   %td= f.collection_select :branch_id, Branch.find(:all), :id, :branch_location, :prompt => "Select Branch"
   %tr
   .field
-  %td= f.label :supplier_name
-  %td= f.text_field :supplier_name
+  %td= f.label :name
+  %td= f.text_field :name
   %tr
   .field
-  %td= f.label :supplier_email
-  %td= f.text_field :supplier_email
+  %td= f.label :email
+  %td= f.text_field :email
   %tr
   .field
-  %td= f.label :supplier_address
-  %td= f.text_area :supplier_address, :rows => 3
+  %td= f.label :address
+  %td= f.text_area :address, :rows => 3
   %tr
   .field
   %td= f.label :supplier_description
-  %td= f.text_area :supplier_description, :rows => 3
+  %td= f.text_area :description, :rows => 3
   %tr
   .field
-  %td= f.label :supplier_number
-  %td= f.text_field :supplier_number
+  %td= f.label :contact_number
+  %td= f.text_field :contact_number
   %tr
   .actions
   %td &nbsp;

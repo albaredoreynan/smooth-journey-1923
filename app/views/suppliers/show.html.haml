@@ -1,22 +1,22 @@
 .block
   .content
-    %h2= "Supplier: #{@supplier.supplier_name}"
+    %h2= "Supplier: #{@supplier.name}"
     .inner
       %p
         %b Branch:
-        = @supplier.branch.branch_location
+        = @supplier.branch.branch_location unless @supplier.branch.nil?
       %p
         %b Email:
-        = @supplier.supplier_email
+        = @supplier.email
       %p
         %b Address:
-        = @supplier.supplier_address
+        = @supplier.address
       %p
         %b Description:
-        = @supplier.supplier_description
+        = @supplier.description
       %p
         %b Number:
-        = @supplier.supplier_number
+        = @supplier.contact_number
       = link_to 'Edit', edit_supplier_path(@supplier)
       |
       \#{link_to 'Back', suppliers_path}
