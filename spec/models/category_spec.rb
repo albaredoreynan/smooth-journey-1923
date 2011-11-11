@@ -8,7 +8,7 @@ describe Category do
     end
 
     it 'should be invalid without name' do
-      @category.should have(1).error_on :category_name
+      @category.should have(1).error_on :name
     end
   end
 

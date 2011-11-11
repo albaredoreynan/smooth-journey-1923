@@ -13,7 +13,7 @@ class SubcategoriesController < ApplicationController
   # GET /subcategories/1
   # GET /subcategories/1.xml
   def show
-    @subcategory = Subcategory.joins(:category).find(params[:id])
+    @subcategory = Subcategory.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb

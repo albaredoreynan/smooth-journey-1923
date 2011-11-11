@@ -11,9 +11,9 @@
           %th.actions Action
         - @subcategories.each do |subcategory|
           %tr
-            %td= subcategory.subcategory_name
-            %td= subcategory.subcategory_description
-            %td= subcategory.category.category_name
+            %td= subcategory.name
+            %td= subcategory.description
+            %td= subcategory.category.name
             %td
               = link_to 'Show', subcategory
               = link_to 'Edit', edit_subcategory_path(subcategory)

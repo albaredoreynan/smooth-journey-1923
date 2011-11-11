@@ -1,13 +1,13 @@
 .block
   .content
-    %h2= "Subcategory: #{@subcategory.subcategory_name}"
+    %h2= "Subcategory: #{@subcategory.name}"
     .inner
       %p
         %b Description:
-        = @subcategory.subcategory_description
+        = @subcategory.description
       %p
         %b Category:
-        = @subcategory.category.category_name
+        = @subcategory.category.name
       = link_to 'Edit', edit_subcategory_path(@subcategory)
       |
       \#{link_to 'Back', subcategories_path}
