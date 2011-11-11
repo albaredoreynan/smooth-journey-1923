@@ -3,16 +3,16 @@
     .inner
       %p
         %b First name:
-        = @employee.employee_firstName
+        = @employee.first_name
       %p
         %b Last name:
-        = @employee.employee_lastName
+        = @employee.last_name
       %p
         %b Branch:
         = @employee.branch_id
       %p
         %b Employee dateemployed:
-        = @employee.employee_dateEmployed
+        = @employee.date_employed
       %p
         %b Job:
         = @employee.job_id
@@ -21,22 +21,22 @@
         = @employee.department_id
       %p
         %b Birthday:
-        = @employee.employee_birthday
+        = @employee.birthdate
       %p
         %b Age:
-        = @employee.employee_age
+        = @employee.age
       %p
         %b Contact number:
-        = @employee.employee_contactNumber
+        = @employee.contact_number
       %p
         %b SSS:
-        = @employee.employee_sss
+        = @employee.sss
       %p
         %b TIN:
-        = @employee.employee_tin
+        = @employee.tin
       %p
         %b Address:
-        = @employee.employee_address
+        = @employee.address
       = link_to 'Edit', edit_employee_path(@employee)
       |
       \#{link_to 'Back', employees_path}

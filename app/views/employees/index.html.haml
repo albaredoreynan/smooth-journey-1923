@@ -19,21 +19,21 @@
           %th.actions Actions
         - @employees.each do |employee|
           %tr
-            %td= employee.employee_firstName
-            %td= employee.employee_lastName
+            %td= employee.first_name
+            %td= employee.last_name
             %td
               - branchId = employee.branch_id
               - b = Branch.find(branchId)
               = b.branch_location
-            %td= employee.employee_dateEmployed
+            %td= employee.date_employed
             %td= employee.job_id
             %td= employee.department_id
-            %td= employee.employee_birthday
-            %td= employee.employee_age
-            %td= employee.employee_contactNumber
-            %td= employee.employee_sss
-            %td= employee.employee_tin
-            %td= employee.employee_address
+            %td= employee.birthdate
+            %td= employee.age
+            %td= employee.contact_number
+            %td= employee.sss
+            %td= employee.tin
+            %td= employee.address
             %td
               = link_to 'Show', employee
               = link_to 'Edit', edit_employee_path(employee)

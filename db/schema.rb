@@ -1,3 +1,4 @@
+# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -10,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111016135842) do
+ActiveRecord::Schema.define(:version => 20111111032113) do
 
   create_table "branches", :force => true do |t|
     t.integer  "restaurant_id"
@@ -90,18 +91,18 @@ ActiveRecord::Schema.define(:version => 20111016135842) do
   end
 
   create_table "employees", :force => true do |t|
-    t.string   "employee_firstName"
-    t.string   "employee_lastName"
+    t.string   "first_name"
+    t.string   "last_name"
     t.integer  "branch_id"
-    t.date     "employee_dateEmployed"
+    t.date     "date_employed"
     t.integer  "job_id"
     t.integer  "department_id"
-    t.date     "employee_birthday"
-    t.integer  "employee_age"
-    t.string   "employee_contactNumber"
-    t.string   "employee_sss"
-    t.string   "employee_tin"
-    t.text     "employee_address"
+    t.date     "birthdate"
+    t.integer  "age"
+    t.string   "contact_number"
+    t.string   "sss"
+    t.string   "tin"
+    t.text     "address"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
