@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111111151204) do
+ActiveRecord::Schema.define(:version => 20111111151912) do
 
   create_table "branches", :force => true do |t|
     t.integer  "restaurant_id"
@@ -294,6 +294,7 @@ ActiveRecord::Schema.define(:version => 20111111151204) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "description"
   end
 
   create_table "users", :force => true do |t|

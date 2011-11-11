@@ -12,10 +12,12 @@
       %table
         %tr
           %th Name
+          %th Description
           %th.actions Actions
         - @units.each do |unit|
           %tr
             %td= unit.name
+            %td= unit.description
             %td
               = link_to 'Show', unit
               = link_to 'Edit', edit_unit_path(unit)
