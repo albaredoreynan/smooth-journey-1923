@@ -1,4 +1,5 @@
 class Inventoryitem < ActiveRecord::Base
-	belongs_to :unit
-	has_many :purchase_items
+  belongs_to :unit
+  belongs_to :branch
+  has_many :purchase_items
 end

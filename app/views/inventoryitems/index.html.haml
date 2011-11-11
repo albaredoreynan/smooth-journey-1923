@@ -18,8 +18,8 @@
           %th.actions Actions
         - @inventoryitems.each do |inventoryitem|
           %tr
-            %td= inventoryitem.item_name
-            %td= inventoryitem.unit.unit_name
+            %td= inventoryitem.name
+            %td= inventoryitem.unit.name
             %td= inventoryitem.beginning_count
             %td
               = link_to 'Show', inventoryitem

@@ -3,13 +3,13 @@
     .inner
       %p
         %b Item name:
-        = @inventoryitem.item_name
+        = @inventoryitem.name
       %p
         %b Branch:
-        = @inventoryitem.branch_id
+        = @inventoryitem.branch.location
       %p
         %b Unit:
-        = @inventoryitem.unit_id
+        = @inventoryitem.unit.name
       = link_to 'Edit', edit_inventoryitem_path(@inventoryitem)
       |
       \#{link_to 'Back', inventoryitems_path}

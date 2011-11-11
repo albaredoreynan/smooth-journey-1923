@@ -10,16 +10,16 @@
   %table
     %tr
   .field
-  %td= f.label :item_name
-  %td= f.text_field :item_name
+  %td= f.label :name
+  %td= f.text_field :name
   %tr
   .field
   %td= f.label :branch_id
-  %td= f.select :branch_id, Branch.all.map { |branch| [branch.branch_location, branch.id] }
+  %td= f.select :branch_id, Branch.all.map { |branch| [branch.location, branch.id] }
   %tr
   .field
   %td Unit
-  %td= f.collection_select :unit_id, Unit.find(:all), :id, :unit_name, :prompt => "Select Unit"
+  %td= f.collection_select :unit_id, Unit.find(:all), :id, :name, :prompt => "Select Unit"
   %tr
   .field
   %td= f.label :beginning_count
