@@ -2,7 +2,7 @@ class EmployeesController < ApplicationController
   # GET /employees
   # GET /employees.xml
   def index
-    @employees = Employee.all
+    @employees = Employee.all(:joins => :branch)
 
     respond_to do |format|
       format.html # index.html.erb

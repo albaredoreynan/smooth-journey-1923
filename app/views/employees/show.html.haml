@@ -2,11 +2,8 @@
   .content
     .inner
       %p
-        %b First name:
-        = @employee.first_name
-      %p
-        %b Last name:
-        = @employee.last_name
+        %b Name
+        = @employee.full_name
       %p
         %b Branch:
         = @employee.branch_id
@@ -22,9 +19,6 @@
       %p
         %b Birthday:
         = @employee.birthdate
-      %p
-        %b Age:
-        = @employee.age
       %p
         %b Contact number:
         = @employee.contact_number

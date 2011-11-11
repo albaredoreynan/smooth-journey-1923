@@ -4,14 +4,12 @@
     .inner
       %table
         %tr
-          %th Firstname
-          %th Lastname
+          %th Name
           %th Branch
           %th Date employed
           %th Job
           %th Department
           %th Birthday
-          %th Age
           %th Contact number
           %th SSS
           %th TIN
@@ -19,17 +17,12 @@
           %th.actions Actions
         - @employees.each do |employee|
           %tr
-            %td= employee.first_name
-            %td= employee.last_name
-            %td
-              - branchId = employee.branch_id
-              - b = Branch.find(branchId)
-              = b.branch_location
+            %td= employee.full_name
+            %td= employee.branch.branch_location
             %td= employee.date_employed
             %td= employee.job_id
             %td= employee.department_id
             %td= employee.birthdate
-            %td= employee.age
             %td= employee.contact_number
             %td= employee.sss
             %td= employee.tin

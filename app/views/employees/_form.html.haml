@@ -18,7 +18,7 @@
   .field
     = f.label :branch_id, 'Branch'
     %br/
-    = f.text_field :branch_id
+    = f.select :branch_id, Branch.all.map { |branch| [branch.branch_location, branch.id] }
   .field
     = f.label :date_employed
     %br/
@@ -35,10 +35,6 @@
     = f.label :birthdate
     %br/
     = f.date_select :birthdate
-  .field
-    = f.label :age
-    %br/
-    = f.text_field :age
   .field
     = f.label :contact_number
     %br/

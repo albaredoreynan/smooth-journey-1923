@@ -18,18 +18,18 @@
               = date_select(:from, '', :start_year => 2000)
               = label_tag :restaurant
               = collection_select(:restaurant, :restaurant_name, Restaurant.all, :id, :restaurant_name, :prompt => true)
-            %td 
+            %td
               = 'To:'
               = date_select(:to, '', :start_year => 2000)
               = label_tag :branch
               = collection_select(:branch, :branch_location, Branch.all, :id, :branch_location, :prompt => true)
-            %td 
+            %td
               = 'Server:'
-              = collection_select(:employee, :employee_id, Employee.all, :id, :name_with_initial, :prompt => true)
+              = collection_select(:employee, :employee_id, Employee.all, :id, :full_name, :prompt => true)
             %td= submit_tag :Search
-            
-    %h2.title Listing Sales By Server 
-     
+
+    %h2.title Listing Sales By Server
+
     .inner
       - totalst = Hash.new
       %table
