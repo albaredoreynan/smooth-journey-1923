@@ -3,11 +3,6 @@
   .content
     %h2 Branches
     .inner
-      .left
-        %hr/
-        %br/
-      .right
-      %div{:style => "clear: both;"}
       %table
         %tr
           %th Restaurant
@@ -17,7 +12,7 @@
           %th Actions
         - @branches.each do |branch|
           %tr
-            %td= branch.restaurant_id
+            %td= branch.restaurant.restaurant_name
             %td= branch.branch_location
             %td= branch.branch_address
             %td= branch.branch_contactNumber

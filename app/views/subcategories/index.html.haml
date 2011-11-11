@@ -13,7 +13,7 @@
           %tr
             %td= subcategory.subcategory_name
             %td= subcategory.subcategory_description
-            %td= subcategory.category_id
+            %td= subcategory.category.category_name
             %td
               = link_to 'Show', subcategory
               = link_to 'Edit', edit_subcategory_path(subcategory)

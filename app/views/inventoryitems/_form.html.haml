@@ -15,7 +15,7 @@
   %tr
   .field
   %td= f.label :branch_id
-  %td= f.text_field :branch_id
+  %td= f.select :branch_id, Branch.all.map { |branch| [branch.branch_location, branch.id] }
   %tr
   .field
   %td Unit

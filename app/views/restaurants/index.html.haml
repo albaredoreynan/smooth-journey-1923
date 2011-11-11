@@ -6,18 +6,16 @@
       %table
         %tr
           %th Store
-          %th Restaurant name
+          %th Name
           %th Company
-          %th Restaurant description
+          %th Description
           %th Currency
-          %th
-          %th
-          %th
+          %th.actions Actions
         - @restaurants.each do |restaurant|
           %tr
             %td= restaurant.store_id
             %td= restaurant.restaurant_name
-            %td= restaurant.company_id
+            %td= restaurant.company.company_name
             %td= restaurant.restaurant_description
             %td= restaurant.currency_id
             %td
