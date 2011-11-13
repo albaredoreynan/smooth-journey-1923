@@ -4,7 +4,7 @@ class EndcountsController < ApplicationController
   def index
     #@endcounts = Endcount.all
     #@items = Inventoryitem.all.map(&:item_name).reverse
-  
+
     if params[:commit]=="Search"
     startdate = params[:start]['(1i)']+ '-' + params[:start]['(2i)'] + '-' + params[:start]['(3i)']
     enddate = params[:end]['(1i)']+ '-' + params[:end]['(2i)'] + '-' + params[:end]['(3i)']
@@ -20,9 +20,9 @@ class EndcountsController < ApplicationController
           @endcounts.each do |endcount|
             endcount.destroy
             i += 1
-          end  
- 
-          redirect_to(endcounts_path)    
+          end
+
+          redirect_to(endcounts_path)
           flash[:notice] = 'Record/s destroyed.'
     else
       @endcounts = Endcount.all
@@ -45,17 +45,17 @@ class EndcountsController < ApplicationController
   @endcount = Endcount.new
 
   count = Inventoryitem.all.count
-  
+
   @monthbeginning = Date.today.at_beginning_of_month
-  
+
   count.times do
     @item_ids = Inventoryitem.all.map(&:id).reverse
-    @inventoryitems = Inventoryitem.all.map(&:item_name).reverse
+    @inventoryitems = Inventoryitem.all.map(&:name).reverse
     @beginning_counts = Inventoryitem.all.map(&:beginning_count).reverse
-    
+
     @endcount.ecrows.build
   end
-  
+
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @endcount }
@@ -68,13 +68,13 @@ class EndcountsController < ApplicationController
 
     #@endcounts = Endcount.all # for preview/save the draft
     count = Inventoryitem.all.count
-  
+
     @monthbeginning = Date.today.at_beginning_of_month
-  
+
     @item_ids = Inventoryitem.all.map(&:id).reverse
     @inventoryitems = Inventoryitem.all.map(&:item_name).reverse
     @beginning_counts = Inventoryitem.all.map(&:beginning_count).reverse
-  
+
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @endcount }
@@ -86,12 +86,12 @@ class EndcountsController < ApplicationController
   def create
     @endcount = Endcount.new(params[:endcount])
 
-    if params[:commit]=="Save"       
+    if params[:commit]=="Save"
         @endcount.save_as_draft = 0
     elsif params[:commit]=="Save as draft"
         @endcount.save_as_draft = 1
-    end 
-    
+    end
+
     respond_to do |format|
       if @endcount.save
         format.html { redirect_to(@endcount, :notice => 'Endcount was successfully created.') }
@@ -107,8 +107,8 @@ class EndcountsController < ApplicationController
   # PUT /endcounts/1.xml
   def update
     @endcount = Endcount.find(params[:id])
-    
-    if params[:commit]=="Save"       
+
+    if params[:commit]=="Save"
         @endcount.save_as_draft = 0
     elsif params[:commit]=="Save as draft"
         @endcount.save_as_draft = 1
@@ -136,7 +136,7 @@ class EndcountsController < ApplicationController
       format.xml  { head :ok }
     end
   end
-  
+
   def savechecked
     Endcount.update_all(["save_as_draft=?", 0], :id => params[:endcount_ids])
     redirect_to endcounts_path
