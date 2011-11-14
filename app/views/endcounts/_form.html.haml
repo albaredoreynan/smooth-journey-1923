@@ -7,7 +7,7 @@
       %ul
         - @endcount.errors.full_messages.each do |msg|
           %li= msg
-  
+
   %table.table_form
     %tr
       %td
@@ -16,19 +16,19 @@
       %td
         = f.label :end_date
         = f.date_select :end_date
-  
-  %table
+
+  %table.table_form
     %tr
       %th Item
       %th Beginning Count
       %th End Count
-    - f.fields_for :ecrows do |builder|
+    = f.fields_for :ecrows do |builder|
       %tr
         = builder.hidden_field :inventoryitem_id, :value => @item_ids.pop
         %td= @inventoryitems.pop
         %td= builder.text_field :beginning_count, :value => @beginning_counts.pop, :readonly => true, :style=>"background-color : #ccc"
         %td= builder.text_field :end_count
-  
+
   %table.table_form
     %tr
       %td
