@@ -1,23 +1,7 @@
-= form_for(@conversion) do |f|
-  - if @conversion.errors.any?
-    #error_explanation
-      %h2
-        = pluralize(@conversion.errors.count, "error")
-        prohibited this conversion from being saved:
-      %ul
-        - @conversion.errors.full_messages.each do |msg|
-          %li= msg
-  .field
-    = f.label :b_unit
-    %br/
-    = f.text_area :b_unit
-  .field
-    = f.label :s_unit
-    %br/
-    = f.text_area :s_unit
-  .field
-    = f.label :conversion_number
-    %br/
-    = f.text_field :conversion_number
-  .actions
-    = f.submit
+= simple_form_for @conversion do |f|
+  %fieldset
+    = f.input :b_unit
+    = f.input :s_unit
+    = f.input :conversion_number
+    .actions
+      = f.button :submit

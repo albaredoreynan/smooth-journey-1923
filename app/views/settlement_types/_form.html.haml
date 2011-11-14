@@ -1,15 +1,5 @@
-= form_for(@settlement_type) do |f|
-  - if @settlement_type.errors.any?
-    #error_explanation
-      %h2
-        = pluralize(@settlement_type.errors.count, "error")
-        prohibited this settlement_type from being saved:
-      %ul
-        - @settlement_type.errors.full_messages.each do |msg|
-          %li= msg
-  .field
-    = f.label 'Name'
-    %br/
-    = f.text_field :st_name
-  .actions
-    = f.submit
+= simple_form_for @settlement_type do |f|
+  %fieldset
+    = f.input :st_name
+    .actions
+      = f.button :submit 

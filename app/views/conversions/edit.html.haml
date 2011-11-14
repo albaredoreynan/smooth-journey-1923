@@ -1,5 +1,8 @@
-%h1 Editing conversion
-= render 'form'
-= link_to 'Show', @conversion
-|
-\#{link_to 'Back', conversions_path}
+.block
+  .content
+    %h2 Edit Conversion
+    .inner
+      = render 'form'
+      = link_to 'Show', @conversion
+      |
+      \#{link_to 'Back', conversions_path}

@@ -1,16 +1,6 @@
-= form_for @currency do |f|
-  -if @currency.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@currency.errors.count, "error")} prohibited this currency from being saved:"
-      %ul
-        - @currency.errors.full_messages.each do |msg|
-          %li= msg
-
-  .field
-    = f.label :currency
-    = f.text_field :currency
-  .field
-    = f.label :symbol
-    = f.text_field :symbol
-  .actions
-    = f.submit 'Save'
+= simple_form_for @currency do |f|
+  %fieldset
+    = f.input :currency
+    = f.input :symbol
+    .actions
+      = f.button :submit

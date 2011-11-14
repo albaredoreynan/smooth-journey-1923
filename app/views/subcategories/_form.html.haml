@@ -1,23 +1,8 @@
-= form_for(@subcategory) do |f|
-  - if @subcategory.errors.any?
-    #error_explanation
-      %h2
-        = pluralize(@subcategory.errors.count, "error")
-        prohibited this subcategory from being saved:
-      %ul
-        - @subcategory.errors.full_messages.each do |msg|
-          %li= msg
-  .field
-    = f.label :name
-    %br/
-    = f.text_field :name
-  .field
-    = f.label :description
-    %br/
-    = f.text_area :description
-  .field
-    = f.label 'Category'
-    %br/
-    = f.select :category_id, Category.all.map { |category| [category.name, category.id] }
-  .actions
-    = f.submit
+= simple_form_for @subcategory do |f|
+  %fieldset
+    = f.input :name
+    = f.input :description
+    = f.association :category, :prompt => "(select)"
+    .actions
+      = f.button :submit 
+  
