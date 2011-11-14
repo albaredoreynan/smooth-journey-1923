@@ -1,4 +1,4 @@
-= form_for(@purchase) do |f|
+= form_for @purchase do |f|
   - if @purchase.errors.any?
     #error_explanation
       %h2
@@ -10,7 +10,7 @@
 
   %table.table_form
     %tr
-      %td{:colspan => 2} 
+      %td{:colspan => 2}
         = 'Date'
       %td= f.date_select :purchase_date
     %tr
@@ -18,26 +18,26 @@
         = f.label :invoice_id
       %td= f.text_field :invoice_id
     %tr
-  
+
       %td{:colspan => 2}
         = f.label :supplier_id
-      %td= f.collection_select :supplier_id, Supplier.find(:all), :id, :supplier_name, {:prompt => "Select Supplier"}, {:style => "width:215px"}
+      %td= f.collection_select :supplier_id, Supplier.find(:all), :id, :name, {:prompt => "Select Supplier"}, {:style => "width:215px"}
     %tr
       %td{:colspan => 2}
         = f.label :branch_id
-      %td= f.collection_select :branch_id, Branch.find(:all), :id, :branch_location, {:prompt => "Select Branch"},  {:style => "width:215px"}
-  
+      %td= f.collection_select :branch_id, Branch.find(:all), :id, :location, {:prompt => "Select Branch"},  {:style => "width:215px"}
+
   %hr/
-  
+
   = f.fields_for :purchaserows do |purchaserow_form|
-    
+
     %table.table_form
       %tr
         %td= purchaserow_form.label :inventoryitem_id, "Item"
-        %td= purchaserow_form.collection_select :inventoryitem_id, Inventoryitem.find(:all), :id, :item_name, {:prompt => "Select Item"},  {:style => "width:215px"}
+        %td= purchaserow_form.collection_select :inventoryitem_id, Inventoryitem.find(:all), :id, :name, {:prompt => "Select Item"},  {:style => "width:215px"}
       %tr
         %td= purchaserow_form.label :purchase_unit, "Purchase unit"
-        %td= purchaserow_form.collection_select :purchase_unit, Unit.find(:all), :id, :unit_name, {:prompt => "Select Purchase unit"},  {:style => "width:215px"}
+        %td= purchaserow_form.collection_select :purchase_unit, Unit.find(:all), :id, :name, {:prompt => "Select Purchase unit"},  {:style => "width:215px"}
       %tr
         %td= purchaserow_form.label :purchase_unitCost, "Purchase unit cost"
         %td= purchaserow_form.text_field :purchase_unitCost, :id => "purchase_unitCost", :onchange => "updateVatAmount(this.form)"
@@ -76,17 +76,17 @@
       function updateVatAmount(form){
       	var length = form.elements.length;
       	//document.getElementById("length").innerHTML = length;
-      	
+
           for(var i=0; i<length; ++i){
           	var amount = form.elements[i].value;
       		var next = form.elements[i+1].value;
-      		
+
       		if(next==form.elements[13].value){
       			var unitCost = form.elements[i-2].value;
           		var quantity = form.elements[i-1].value;
       			var product = unitCost*quantity;
       			form.elements[i].value = product;
-      			
+
       			if(form.elements[i+1].checked){
                       vatAmount = amount / 1.12;
                       vatAmount = amount - vatAmount;
@@ -96,7 +96,7 @@
               	if(form.elements[i+2].checked){
                       vatAmount = amount * .12;
                       netAmount = amount;
-              	}    
+              	}
               	if(form.elements[i+3].checked){
                       vatAmount = 0;
                       netAmount = amount;
@@ -106,10 +106,10 @@
       		}
       	}
       }
-      
+
       function updateUQA(form){
       	var length = form.elements.length;
-      	
+
       	for(var i=0; i<length; ++i){
       		var unitCost = form.elements[i].value;
       		var mark = form.element[i+3].value;
