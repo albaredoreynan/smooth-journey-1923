@@ -12,25 +12,25 @@
       %p
         %b Supplier:
         - supplierId = @purchase.supplier_id
-        - s = Supplier.find(supplierId)
-        = s.supplier_name
+        - supplier = Supplier.find(supplierId)
+        = supplier.name
       %p
         %b Branch:
         - branchId = @purchase.branch_id
-        - b = Branch.find(branchId)
-        = b.branch_location
+        - branch = Branch.find(branchId)
+        = branch.location
       %ol
         - for purchaserow in @purchase.purchaserows
           %hr/
           %b Inventory item:
           - inventoryId = purchaserow.inventoryitem_id
-          - i = Inventoryitem.find(inventoryId)
-          = i.item_name
+          - item = Item.find(inventoryId)
+          = item.name
           %br/
           %b Purchase unit:
           - unitId = purchaserow.purchase_unit
-          - u = Unit.find(unitId)
-          = u.unit_name
+          - unit = Unit.find(unitId)
+          = unit.name
           %br/
           %b Purchase unit cost:
           = number_with_precision(purchaserow.purchase_unitCost, :precision => 2)

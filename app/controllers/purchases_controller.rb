@@ -16,10 +16,10 @@ class PurchasesController < ApplicationController
       @duration = startdate + ' to ' + enddate
       @purchases = Purchase.search_by_date(startdate, enddate)
       #@categories = Category.all
-    elsif params[:commit]=="Submit records"
+    elsif params[:commit] == "Submit records"
       Purchase.update_all(["save_as_draft=?", 0], :id => params[:purchase_ids])
       redirect_to purchases_path
-    elsif params[:commit]=="Delete records "
+    elsif params[:commit] == "Delete records "
       i = 0
       arr_item = Array.new
       @purchases = Purchase.find(params[:purchase_ids])
@@ -32,8 +32,7 @@ class PurchasesController < ApplicationController
       flash[:notice] = 'Record/s destroyed.'
     else
       @purchases = Purchase.all
-
-      end # end if else
+    end # end if else
   end
 
   # GET /purchases/1
@@ -70,10 +69,10 @@ class PurchasesController < ApplicationController
   def create
     @purchase = Purchase.new(params[:purchase])
 
-    if params[:commit]=="Save"
-        @purchase.save_as_draft = 0
-    elsif params[:commit]=="Save as draft"
-        @purchase.save_as_draft = 1
+    if params[:commit] == "Save"
+      @purchase.save_as_draft = 0
+    elsif params[:commit] == "Save as draft"
+      @purchase.save_as_draft = 1
     end
 
     respond_to do |format|
@@ -92,10 +91,10 @@ class PurchasesController < ApplicationController
   def update
     @purchase = Purchase.find(params[:id])
 
-    if params[:commit]=="Save"
-        @purchase.save_as_draft = 0
-    elsif params[:commit]=="Save as draft"
-        @purchase.save_as_draft = 1
+    if params[:commit] == "Save"
+      @purchase.save_as_draft = 0
+    elsif params[:commit] == "Save as draft"
+      @purchase.save_as_draft = 1
     end
 
     respond_to do |format|

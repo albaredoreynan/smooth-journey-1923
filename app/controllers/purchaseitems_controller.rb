@@ -3,12 +3,12 @@ class PurchaseitemsController < ApplicationController
   # GET /purchaseitems.xml
   def index
     if params[:commit]=="Search"
-        startdate = params[:start]['(1i)']+ '-' + params[:start]['(2i)'] + '-' + params[:start]['(3i)']
-        enddate = params[:end]['(1i)']+ '-' + params[:end]['(2i)'] + '-' + params[:end]['(3i)']
+      startdate = params[:start]['(1i)']+ '-' + params[:start]['(2i)'] + '-' + params[:start]['(3i)']
+      enddate = params[:end]['(1i)']+ '-' + params[:end]['(2i)'] + '-' + params[:end]['(3i)']
 
-        @duration = startdate + ' to ' + enddate
-        @purchaseitems = Purchaseitem.search_by_date(startdate, enddate)
-        #@categories = Category.all
+      @duration = startdate + ' to ' + enddate
+      @purchaseitems = Purchaseitem.search_by_date(startdate, enddate)
+      #@categories = Category.all
     elsif params[:commit]=="Save"
       Purchaseitem.update_all(["save_as_draft=?", 0], :id => params[:purchaseitem_ids])
       redirect_to purchaseitems_path

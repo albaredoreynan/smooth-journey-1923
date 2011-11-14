@@ -1,4 +1,4 @@
-= form_for(@endcount) do |f|
+= form_for @endcount do |f|
   - if @endcount.errors.any?
     #error_explanation
       %h2
@@ -22,7 +22,7 @@
       %th Item
       %th Beginning Count
       %th End Count
-    = f.fields_for :ecrows do |builder|
+    = f.fields_for :item_counts do |builder|
       %tr
         = builder.hidden_field :inventoryitem_id, :value => @item_ids.pop
         %td= @inventoryitems.pop

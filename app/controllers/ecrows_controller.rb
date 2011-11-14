@@ -1,54 +1,54 @@
-class EcrowsController < ApplicationController
+class EcrowController < ApplicationController
   # GET /ecrows
   # GET /ecrows.xml
   def index
-    @ecrows = Ecrow.all
+    @item_counts = ItemCount.all
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @ecrows }
+      format.xml  { render :xml => @item_counts }
     end
   end
 
   # GET /ecrows/1
   # GET /ecrows/1.xml
   def show
-    @ecrow = Ecrow.find(params[:id])
+    @item_count = ItemCount.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  { render :xml => @ecrow }
+      format.xml  { render :xml => @item_count }
     end
   end
 
   # GET /ecrows/new
   # GET /ecrows/new.xml
   def new
-    @ecrow = Ecrow.new
+    @item_count = ItemCount.new
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render :xml => @ecrow }
+      format.xml  { render :xml => @item_count }
     end
   end
 
   # GET /ecrows/1/edit
   def edit
-    @ecrow = Ecrow.find(params[:id])
+    @item_count = ItemCount.find(params[:id])
   end
 
   # POST /ecrows
   # POST /ecrows.xml
   def create
-    @ecrow = Ecrow.new(params[:ecrow])
+    @item_count = ItemCount.new(params[:item_count])
 
     respond_to do |format|
-      if @ecrow.save
-        format.html { redirect_to(@ecrow, :notice => 'Ecrow was successfully created.') }
-        format.xml  { render :xml => @ecrow, :status => :created, :location => @ecrow }
+      if @item_count.save
+        format.html { redirect_to(@item_count, :notice => 'ItemCount was successfully created.') }
+        format.xml  { render :xml => @item_count, :status => :created, :location => @ecrow }
       else
         format.html { render :action => "new" }
-        format.xml  { render :xml => @ecrow.errors, :status => :unprocessable_entity }
+        format.xml  { render :xml => @item_count.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -56,15 +56,15 @@ class EcrowsController < ApplicationController
   # PUT /ecrows/1
   # PUT /ecrows/1.xml
   def update
-    @ecrow = Ecrow.find(params[:id])
+    @item_count = ItemCount.find(params[:id])
 
     respond_to do |format|
-      if @ecrow.update_attributes(params[:ecrow])
-        format.html { redirect_to(@ecrow, :notice => 'Ecrow was successfully updated.') }
+      if @item_count.update_attributes(params[:ecrow])
+        format.html { redirect_to(@item_count, :notice => 'ItemCount was successfully updated.') }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
-        format.xml  { render :xml => @ecrow.errors, :status => :unprocessable_entity }
+        format.xml  { render :xml => @item_count.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -72,8 +72,8 @@ class EcrowsController < ApplicationController
   # DELETE /ecrows/1
   # DELETE /ecrows/1.xml
   def destroy
-    @ecrow = Ecrow.find(params[:id])
-    @ecrow.destroy
+    @item_count = ItemCount.find(params[:id])
+    @item_count.destroy
 
     respond_to do |format|
       format.html { redirect_to(ecrows_url) }

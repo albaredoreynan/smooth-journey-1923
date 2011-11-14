@@ -20,7 +20,7 @@
       %p
         %b Inventory:
         - inventoryId = @purchaseitem.inventory_id
-        - i = Inventoryitem.find(inventoryId)
+        - i = Item.find(inventoryId)
         = i.item_name
       %p
         %b Purchase unitcost:
