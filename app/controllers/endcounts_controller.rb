@@ -2,9 +2,6 @@ class EndcountsController < ApplicationController
   # GET /endcounts
   # GET /endcounts.xml
   def index
-    #@endcounts = Endcount.all
-    #@items = Inventoryitem.all.map(&:item_name).reverse
-
     if params[:commit]=="Search"
     startdate = params[:start]['(1i)']+ '-' + params[:start]['(2i)'] + '-' + params[:start]['(3i)']
     enddate = params[:end]['(1i)']+ '-' + params[:end]['(2i)'] + '-' + params[:end]['(3i)']
@@ -72,7 +69,7 @@ class EndcountsController < ApplicationController
     @monthbeginning = Date.today.at_beginning_of_month
 
     @item_ids = Inventoryitem.all.map(&:id).reverse
-    @inventoryitems = Inventoryitem.all.map(&:item_name).reverse
+    @inventoryitems = Inventoryitem.all.map(&:name).reverse
     @beginning_counts = Inventoryitem.all.map(&:beginning_count).reverse
 
     respond_to do |format|
