@@ -18,7 +18,7 @@
   .field
     = f.label :branch_id, 'Branch'
     %br/
-    = f.select :branch_id, Branch.all.map { |branch| [branch.branch_location, branch.id] }
+    = f.select :branch_id, Branch.all.map { |branch| [branch.location, branch.id] }
   .field
     = f.label :date_employed
     %br/

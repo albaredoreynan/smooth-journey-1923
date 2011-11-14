@@ -132,6 +132,29 @@ ActiveRecord::Schema.define(:version => 20111114030007) do
     t.integer  "subcategory_id"
   end
 
+  create_table "item_counts", :force => true do |t|
+    t.integer  "item_id"
+    t.float    "count"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "item_counts", ["item_id"], :name => "index_item_counts_on_item_id"
+
+  create_table "items", :force => true do |t|
+    t.string   "name"
+    t.string   "item_type"
+    t.integer  "subcategory_id"
+    t.integer  "branch_id"
+    t.integer  "unit_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "items", ["branch_id"], :name => "index_items_on_branch_id"
+  add_index "items", ["subcategory_id"], :name => "index_items_on_subcategory_id"
+  add_index "items", ["unit_id"], :name => "index_items_on_unit_id"
+
   create_table "jobs", :force => true do |t|
     t.string   "job_name"
     t.integer  "department_id"
