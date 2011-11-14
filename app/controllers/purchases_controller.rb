@@ -8,14 +8,14 @@ class PurchasesController < ApplicationController
      # format.html # index.html.erb
       #format.xml  { render :xml => @purchases }
     #end
-    
-    if params[:commit]=="Search"
-        startdate = params[:start]['(1i)']+ '-' + params[:start]['(2i)'] + '-' + params[:start]['(3i)']
-        enddate = params[:end]['(1i)']+ '-' + params[:end]['(2i)'] + '-' + params[:end]['(3i)']
-        
-        @duration = startdate + ' to ' + enddate
-        @purchases = Purchase.search_by_date(startdate, enddate) 
-        #@categories = Category.all
+
+    if params[:commit] == "Search"
+      startdate = params[:start]['(1i)']+ '-' + params[:start]['(2i)'] + '-' + params[:start]['(3i)']
+      enddate = params[:end]['(1i)']+ '-' + params[:end]['(2i)'] + '-' + params[:end]['(3i)']
+
+      @duration = startdate + ' to ' + enddate
+      @purchases = Purchase.search_by_date(startdate, enddate)
+      #@categories = Category.all
     elsif params[:commit]=="Submit records"
       Purchase.update_all(["save_as_draft=?", 0], :id => params[:purchase_ids])
       redirect_to purchases_path
@@ -24,15 +24,15 @@ class PurchasesController < ApplicationController
       arr_item = Array.new
       @purchases = Purchase.find(params[:purchase_ids])
       @purchases.each do |purchase|
-      purchase.destroy
-         i += 1
-         end  
- 
-      redirect_to(purchases_path)    
+        purchase.destroy
+        i += 1
+      end
+
+      redirect_to(purchases_path)
       flash[:notice] = 'Record/s destroyed.'
     else
       @purchases = Purchase.all
-        
+
       end # end if else
   end
 
@@ -69,8 +69,8 @@ class PurchasesController < ApplicationController
   # POST /purchases.xml
   def create
     @purchase = Purchase.new(params[:purchase])
-    
-    if params[:commit]=="Save"       
+
+    if params[:commit]=="Save"
         @purchase.save_as_draft = 0
     elsif params[:commit]=="Save as draft"
         @purchase.save_as_draft = 1
@@ -91,8 +91,8 @@ class PurchasesController < ApplicationController
   # PUT /purchases/1.xml
   def update
     @purchase = Purchase.find(params[:id])
-    
-    if params[:commit]=="Save"       
+
+    if params[:commit]=="Save"
         @purchase.save_as_draft = 0
     elsif params[:commit]=="Save as draft"
         @purchase.save_as_draft = 1
@@ -120,7 +120,7 @@ class PurchasesController < ApplicationController
       format.xml  { head :ok }
     end
   end
-  
+
   def savemultiple #for bulk saving
     Purchase.update_all(["save_as_draft=?", 0], :id => params[:purchase_ids])
     #@purchases = Purchases.find(params[:purchase_ids])
