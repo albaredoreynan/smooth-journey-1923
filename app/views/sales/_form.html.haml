@@ -13,10 +13,7 @@
       %td{:width => "100"} &nbsp;
       %td &nbsp;
     %tr
-      %td &nbsp;
-      %td &nbsp;
-      %td &nbsp;
-      %td &nbsp;
+      %td{:colspan => 5} &nbsp;
     %tr
       %td= f.label "Date"
       %td= f.date_select :date
@@ -30,16 +27,10 @@
       %td= f.label :transaction_count
       %td= f.text_field :transaction_count
     %tr
-      %td &nbsp;
-      %td &nbsp;
-      %td &nbsp;
-      %td &nbsp;
+      %td{:colspan => 5} &nbsp;
     %tr
-      %td
-      %td
-      %td
-        %b SALES BY CATEGORY
-      %td
+      %td{:colspan => 5}
+        %h3 SALES BY CATEGORY
     - @category_names = Category.all.map(&:name).reverse
     - @category_ids = Category.all.map(&:id).reverse
     - @settlement_type_names = SettlementType.all.map(&:st_name).reverse
@@ -67,17 +58,11 @@
       %td GROSS TOTAL
       %td= text_field_tag :gross_total,'',:size => 30
     %tr
-      %td &nbsp;
-      %td &nbsp;
-      %td &nbsp;
-      %td &nbsp;
+      %td{:colspan => 5} &nbsp;
     %tr
-      %td
-      %td
-      %td
-        %b SALES BY SETTLEMENT TYPE
-      %td
-    - f.fields_for :ssrows do |builder|
+      %td{:colspan => 5}
+        %h3 SALES BY SETTLEMENT TYPE
+    = f.fields_for :ssrows do |builder|
       - id =  @settlement_type_ids.pop
       - if id!=nil
         = builder.hidden_field :settlement_type_id, :value => id
@@ -97,10 +82,7 @@
       %td NET TOTAL
       %td= f.text_field :net_total_ss
     %tr
-      %td &nbsp;
-      %td &nbsp;
-      %td &nbsp;
-      %td &nbsp;
+      %td{:colspan => 5} &nbsp;
     %tr
       %td
       %td
@@ -136,11 +118,7 @@
       %td &nbsp;
       %td &nbsp;
     %tr
-      %td &nbsp;
-      %td &nbsp;
-      %td &nbsp;
-      %td &nbsp;
-      %td &nbsp;
+      %td{:colspan => 5} &nbsp;
     %tr
       %td
       %td
@@ -166,10 +144,7 @@
       %td
       %td
     %tr
-      %td &nbsp;
-      %td &nbsp;
-      %td &nbsp;
-      %td &nbsp;
+      %td{:colspan => 5} &nbsp;
     %tr
       %td
       %td
