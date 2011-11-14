@@ -4,9 +4,9 @@ class SalesController < ApplicationController
     @sales = Sale.all.group_by{ |sale| sale.date.to_date }
     @categories = Category.all
 
-    if(params[:commit]=="Search")
-    @sales = Sale.all.group_by{ |sale| sale.date.to_date }
-    @categories = Category.all
+    if params[:commit] == "Search"
+      @sales = Sale.all.group_by{ |sale| sale.date.to_date }
+      @categories = Category.all
       from = params[:from]['(1i)']+ '-' + params[:from]['(2i)'] + '-' + params[:from]['(3i)']
       to = params[:to]['(1i)']+ '-' + params[:to]['(2i)'] + '-' + params[:to]['(3i)']
       @sales = Sale.search_date_range(from,to)
@@ -33,9 +33,9 @@ class SalesController < ApplicationController
     end
 
     settlement_type_count.times do
-        @settlement_type_names = SettlementType.all.map(&:st_name).reverse
-        @settlement_type_ids = SettlementType.all.map(&:id).reverse
-        @sale.ssrows.build
+      @settlement_type_names = SettlementType.all.map(&:st_name).reverse
+      @settlement_type_ids = SettlementType.all.map(&:id).reverse
+      @sale.ssrows.build
     end
     respond_to do |format|
 
@@ -47,10 +47,10 @@ class SalesController < ApplicationController
   def edit
     @sale = Sale.find(params[:id])
 
-    if params[:commit]=="Save"
-       @sale.save_as_draft = 0
-    elsif params[:commit]=="Save as Draft"
-       @sale.save_as_draft = 1
+    if params[:commit] == "Save"
+      @sale.save_as_draft = 0
+    elsif params[:commit] == "Save as Draft"
+      @sale.save_as_draft = 1
     end
 
     @category_names = Category.all.map(&:name).reverse
@@ -61,10 +61,10 @@ class SalesController < ApplicationController
 
   def create
     @sale = Sale.new(params[:sale])
-    if params[:commit]=="Save"
-       @sale.save_as_draft = 0
-    elsif params[:commit]=="Save as Draft"
-       @sale.save_as_draft = 1
+    if params[:commit] == "Save"
+      @sale.save_as_draft = 0
+    elsif params[:commit] == "Save as Draft"
+      @sale.save_as_draft = 1
     end
 
     respond_to do |format|
@@ -81,10 +81,10 @@ class SalesController < ApplicationController
   def update
     @sale = Sale.find(params[:id])
 
-    if params[:commit]=="Save"
-       @sale.save_as_draft = 0
-    elsif params[:commit]=="Save as Draft"
-       @sale.save_as_draft = 1
+    if params[:commit] == "Save"
+      @sale.save_as_draft = 0
+    elsif params[:commit] == "Save as Draft"
+      @sale.save_as_draft = 1
     end
 
     respond_to do |format|
@@ -112,8 +112,7 @@ class SalesController < ApplicationController
     @sales = Sale.all.group_by{ |sale| sale.date.to_date }
     @settlement_types = SettlementType.all
 
-    if(params[:commit]=="Search")
-
+    if params[:commit]=="Search"
       from = params[:from]['(1i)']+ '-' + params[:from]['(2i)'] + '-' + params[:from]['(3i)']
       to = params[:to]['(1i)']+ '-' + params[:to]['(2i)'] + '-' + params[:to]['(3i)']
       @sales = Sale.search_date_range(from,to).group_by{ |sale| sale.date.to_date }
@@ -124,13 +123,13 @@ class SalesController < ApplicationController
     @sales = Sale.all
     @settlement_types = SettlementType.all
 
-    if(params[:commit]=="Search")
+    if params[:commit] == "Search"
       from = params[:from]['(1i)']+ '-' + params[:from]['(2i)'] + '-' + params[:from]['(3i)']
       to = params[:to]['(1i)']+ '-' + params[:to]['(2i)'] + '-' + params[:to]['(3i)']
       @sales = Sale.search_by_employee_or_date(from,to,params[:employee][:employee_id])
-    elsif params[:commit]=="Submit records"
-    Sale.update_all(["save_as_draft=?", 0], :id => params[:sale_ids])
-    redirect_to sales_by_server_path
+    elsif params[:commit] == "Submit records"
+      Sale.update_all(["save_as_draft=?", 0], :id => params[:sale_ids])
+      redirect_to sales_by_server_path
     end
   end
 end
