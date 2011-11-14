@@ -42,19 +42,19 @@ class EndcountsController < ApplicationController
   # GET /endcounts/new
   # GET /endcounts/new.xml
   def new
-  @endcount = Endcount.new
+    @endcount = Endcount.new
 
-  count = Inventoryitem.all.count
+    count = Inventoryitem.all.count
 
-  @monthbeginning = Date.today.at_beginning_of_month
+    @monthbeginning = Date.today.at_beginning_of_month
 
-  count.times do
-    @item_ids = Inventoryitem.all.map(&:id).reverse
-    @inventoryitems = Inventoryitem.all.map(&:name).reverse
-    @beginning_counts = Inventoryitem.all.map(&:beginning_count).reverse
+    count.times do
+      @item_ids = Inventoryitem.all.map(&:id).reverse
+      @inventoryitems = Inventoryitem.all.map(&:name).reverse
+      @beginning_counts = Inventoryitem.all.map(&:beginning_count).reverse
 
-    @endcount.ecrows.build
-  end
+      @endcount.ecrows.build
+    end
 
     respond_to do |format|
       format.html # new.html.erb

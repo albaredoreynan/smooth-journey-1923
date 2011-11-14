@@ -13,21 +13,21 @@
       = form_tag :sales_by_settlement_type do
         %table.table_form
           %tr
-            %td 
+            %td
               = 'From:'
               = date_select(:from, '', :start_year => 2000)
               = label_tag :restaurant
-              = collection_select(:restaurant, :restaurant_name, Restaurant.all, :id, :restaurant_name, :prompt => true)
-            %td 
+              = collection_select(:restaurant, :name, Restaurant.all, :id, :name, :prompt => true)
+            %td
               = 'To:'
               = date_select(:to, '', :start_year => 2000)
               = label_tag :branch
-              = collection_select(:branch, :branch_location, Branch.all, :id, :branch_location, :prompt => true)
+              = collection_select(:branch, :location, Branch.all, :id, :location, :prompt => true)
             %td= submit_tag :Search
       %br/
-    
+
     %h2.title Listing Sales by Settlement Type
-    
+
     .inner
       - totalst = Hash.new
       %table

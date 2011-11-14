@@ -17,12 +17,12 @@
               = 'From:'
               = date_select(:from, '', :start_year => 2000)
               = label_tag :restaurant
-              = collection_select(:restaurant, :restaurant_name, Restaurant.all, :id, :restaurant_name, :prompt => true)
+              = collection_select(:restaurant, :name, Restaurant.all, :id, :name, :prompt => true)
             %td
               = 'To:'
               = date_select(:to, '', :start_year => 2000)
               = label_tag :branch
-              = collection_select(:branch, :branch_location, Branch.all, :id, :branch_location, :prompt => true)
+              = collection_select(:branch, :location, Branch.all, :id, :location, :prompt => true)
             %td
               = 'Server:'
               = collection_select(:employee, :employee_id, Employee.all, :id, :full_name, :prompt => true)
@@ -56,7 +56,7 @@
                     = check_box_tag "sale_ids[]", sale.id
                     %center
               %td= sale.date.strftime("%b %d, %Y")
-              %td= sale.employee.employee_firstName
+              %td= sale.employee.first_name
               - sale.ssrows.each do |ss|
                 %td= number_to_currency(ss.ss_amount, :precision => 2, :unit => " ")
                 - totalst[ss.settlement_type_id] = totalst[ss.settlement_type_id].to_f + ss.ss_amount

@@ -27,7 +27,7 @@ class SalesController < ApplicationController
     category_count = Category.all.count
     settlement_type_count = SettlementType.all.count
       category_count.times do
-        @category_names = Category.all.map(&:category_name).reverse
+        @category_names = Category.all.map(&:name).reverse
         @category_ids = Category.all.map(&:id).reverse
         @sale.csrows.build
       end
@@ -53,7 +53,7 @@ class SalesController < ApplicationController
        @sale.save_as_draft = 1
     end
 
-    @category_names = Category.all.map(&:category_name).reverse
+    @category_names = Category.all.map(&:name).reverse
     @category_ids = Category.all.map(&:id).reverse
     @settlement_type_names = SettlementType.all.map(&:st_name).reverse
     @settlement_type_ids = SettlementType.all.map(&:id).reverse
