@@ -1,30 +1,7 @@
-= form_for(@inventoryitem) do |f|
-  - if @inventoryitem.errors.any?
-    #error_explanation
-      %h2
-        = pluralize(@inventoryitem.errors.count, "error")
-        prohibited this inventoryitem from being saved:
-      %ul
-        - @inventoryitem.errors.full_messages.each do |msg|
-          %li= msg
-  %table
-    %tr
-  .field
-  %td= f.label :name
-  %td= f.text_field :name
-  %tr
-  .field
-  %td= f.label :branch_id
-  %td= f.select :branch_id, Branch.all.map { |branch| [branch.location, branch.id] }
-  %tr
-  .field
-  %td Unit
-  %td= f.collection_select :unit_id, Unit.find(:all), :id, :name, :prompt => "Select Unit"
-  %tr
-  .field
-  %td= f.label :beginning_count
-  %td= f.text_field :beginning_count
-  %tr
+= simple_form_for @inventoryitem do |f|
+  = f.input :name
+  = f.association :branch, :collection => Branch.all.map { |branch| [branch.location, branch.id] }, :prompt => 'select'
+  = f.association :unit, :prompt => '(select)'
+  = f.input :beginning_count
   .actions
-  %td &nbsp;
-  %td= f.submit
+    = f.button :submit
