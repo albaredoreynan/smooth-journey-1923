@@ -4,10 +4,10 @@
       = form_tag '/purchases/search' do
         %table.table_form
           %tr
-            %td 
+            %td
               = 'From:'
               = date_select(:start, '', :start_year => 2010)
-            %td 
+            %td
               = 'To:'
               = date_select(:end, '', :start_year => 2010)
             %td= submit_tag :Search
@@ -52,33 +52,35 @@
                   %td
                     - supplierId = purchase.supplier_id
                     - s = Supplier.find(supplierId)
-                    = s.supplier_name
+                    = s.name
                   %td
                     - branchId = purchase.branch_id
                     - b = Branch.find(branchId)
-                    = b.branch_location
+                    = b.location
                   - itemId = purchaserow.inventoryitem_id
-                  - i = Inventoryitem.find(itemId)
+                  - i = Item.find(itemId)
                   - subcatId = i.subcategory_id
-                  - s = Subcategory.find(subcatId)
-                  - catId = s.category_id
-                  - c = Category.find(catId)
-                  %td= c.category_name
-                  %td= s.subcategory_name
+                  /- s = Subcategory.find(subcatId)
+                  /- catId = s.category_id
+                  /- c = Category.find(catId)
                   %td
-                    = h i.item_name
+                    /= c.name
+                  %td
+                    /= s.name
+                  %td
+                    = h i.name
                   %td= h number_with_precision(purchaserow.purchase_quantity, :precision => 0)
                   %td
                     - unitId1 = purchaserow.purchase_unit
                     - u = Unit.find(unitId1)
-                    - unit1 = u.unit_name
+                    - unit1 = u.name
                     = h unit1
                   %td= h number_with_precision(purchaserow.purchase_unitCost, :precision => 2)
                   - q = purchaserow.purchase_quantity
-                  - i = Inventoryitem.find(itemId)
+                  - i = Item.find(itemId)
                   - unitId2 = i.unit_id
                   - u = Unit.find(unitId2)
-                  - unit2 = u.unit_name
+                  - unit2 = u.name
                   %td
                     - if unitId1==unitId2
                       = h number_with_precision(purchaserow.purchase_quantity, :precision => 0)
@@ -122,7 +124,7 @@
                 = submit_tag 'Submit records'
                 = submit_tag 'Delete records '
               / select checkboxes na checked
-              %td{:colspan => 8} 
+              %td{:colspan => 8}
                 %center
                   %b Total
               %td
@@ -132,6 +134,6 @@
                 %b= number_with_precision(totalvat, :precision => 2)
               %td
                 %b= number_with_precision(totalnet, :precision => 2)
-              %td{:colspan => 4} 
+              %td{:colspan => 4}
                 %b= number_with_precision(totalamount, :precision => 2)
         = link_to 'New purchase', new_purchase_path, :class => :button

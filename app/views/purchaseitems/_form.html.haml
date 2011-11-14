@@ -70,15 +70,15 @@
   %td
     Supplier
     %br/
-  %td= f.collection_select :supplier_id, Supplier.find(:all), :id, :supplier_name, {:prompt => "Select Supplier"}, {:style => "width:215px"}
+  %td= f.collection_select :supplier_id, Supplier.find(:all), :id, :name, {:prompt => "Select Supplier"}, {:style => "width:215px"}
   %tr
   .field
   %td Branch
-  %td= f.collection_select :branch_id, Branch.find(:all), :id, :branch_location, {:prompt => "Select Branch"},  {:style => "width:215px"}
+  %td= f.collection_select :branch_id, Branch.find(:all), :id, :location, {:prompt => "Select Branch"},  {:style => "width:215px"}
   %tr
   .field
   %td Item
-  %td= f.collection_select :inventory_id, Inventoryitem.find(:all), :id, :item_name, {:prompt => "Select Item"},  {:style => "width:215px"}
+  %td= f.collection_select :inventory_id, Item.find(:all), :id, :name, {:prompt => "Select Item"},  {:style => "width:215px"}
   %tr
   .field
   %td Unit Cost
