@@ -1,7 +1,8 @@
 .block
   .content
-    %h1.title Editing Company
-    = render 'form'
-    = link_to 'Show', @company
-    |
-    \#{link_to 'Back', companies_path}
+    .inner
+      %h1.title Edit Company
+      = render 'form'
+      = link_to 'Show', @company
+      |
+      \#{link_to 'Back', companies_path}

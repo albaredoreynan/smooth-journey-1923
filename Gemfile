@@ -10,6 +10,7 @@ gem 'client_side_validations'
 gem 'execjs'
 gem 'therubyracer'
 gem 'haml-rails'
+gem 'simple_form'
 
 group :assets do
   gem 'sass-rails', "  ~> 3.1.0"
@@ -40,6 +41,6 @@ group :linux do
   gem 'rb-inotify'
 end
 
-# Put here your MacOSX specific gem
+# Put your MacOSX specific gem here
 group :darwin do
 end
