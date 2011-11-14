@@ -35,7 +35,7 @@
                 %td= endcount.end_date.strftime("%B %d, %Y")
                 %td
                   - inventoryId = item_count.inventoryitem_id
-                  - i = Inventoryitem.find(inventoryId)
+                  - i = Item.find(inventoryId)
                   = h i.name
                 %td= h number_with_precision(item_count.beginning_count, :precision => 0)
                 %td= h number_with_precision(item_count.end_count, :precision => 0)

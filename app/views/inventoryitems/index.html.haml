@@ -1,5 +1,4 @@
 .block
-  /= render 'shared/menu/database'
   = render 'shared/menu/inventory'
   .content
     %h2.title Inventory Item
@@ -17,13 +16,13 @@
           %th Unit
           %th Beginning Count
           %th.actions Actions
-        - @inventoryitems.each do |inventoryitem|
+        - @items.each do |item|
           %tr
-            %td= inventoryitem.name
-            %td= inventoryitem.unit.name
-            %td= inventoryitem.beginning_count
+            %td= item.name
+            %td= item.unit.name unless item.unit.nil?
+            %td= item.beginning_count
             %td
-              = link_to 'Show', inventoryitem
-              = link_to 'Edit', edit_inventoryitem_path(inventoryitem)
-              = link_to 'Destroy', inventoryitem, :confirm => 'Are you sure?', :method => :delete
+              = link_to 'Show', inventoryitem_path(item)
+              = link_to 'Edit', edit_inventoryitem_path(item)
+              = link_to 'Destroy', inventoryitem_path(item), :confirm => 'Are you sure?', :method => :delete
       = link_to 'New Inventory Item', new_inventoryitem_path, :class => :button

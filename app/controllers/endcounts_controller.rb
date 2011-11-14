@@ -2,15 +2,15 @@ class EndcountsController < ApplicationController
   # GET /endcounts
   # GET /endcounts.xml
   def index
-    if params[:commit]=="Search"
+    if params[:commit] == "Search"
       startdate = params[:start]['(1i)']+ '-' + params[:start]['(2i)'] + '-' + params[:start]['(3i)']
       enddate = params[:end]['(1i)']+ '-' + params[:end]['(2i)'] + '-' + params[:end]['(3i)']
 
       @endcounts = Endcount.where("beginning_date >= ? AND beginning_date <= ?",startdate,enddate).all
-    elsif params[:commit]=="Submit records "
+    elsif params[:commit] == "Submit records "
       Endcount.update_all(["save_as_draft=?", 0], :id => params[:endcount_ids]) #passed an empty hash
       redirect_to(endcounts_path, :notice => "Record/s submitted.")
-    elsif params[:commit]=="Destroy records"
+    elsif params[:commit] == "Destroy records"
       i = 0
       arr_item = Array.new
       @endcounts = Endcount.find(params[:endcount_ids])
@@ -41,14 +41,14 @@ class EndcountsController < ApplicationController
   def new
     @endcount = Endcount.new
 
-    count = Inventoryitem.all.count
+    count = Item.all.count
 
     @monthbeginning = Date.today.at_beginning_of_month
 
     count.times do
-      @item_ids = Inventoryitem.all.map(&:id).reverse
-      @inventoryitems = Inventoryitem.all.map(&:name).reverse
-      @beginning_counts = Inventoryitem.all.map(&:beginning_count).reverse
+      @item_ids = Item.all.map(&:id).reverse
+      @inventoryitems = Item.all.map(&:name).reverse
+      @beginning_counts = Item.all.map(&:beginning_count).reverse
 
       @endcount.item_counts.build
     end
@@ -64,13 +64,13 @@ class EndcountsController < ApplicationController
     @endcount = Endcount.find(params[:id])
 
     #@endcounts = Endcount.all # for preview/save the draft
-    count = Inventoryitem.all.count
+    count = Item.all.count
 
     @monthbeginning = Date.today.at_beginning_of_month
 
-    @item_ids = Inventoryitem.all.map(&:id).reverse
-    @inventoryitems = Inventoryitem.all.map(&:name).reverse
-    @beginning_counts = Inventoryitem.all.map(&:beginning_count).reverse
+    @item_ids = Item.all.map(&:id).reverse
+    @inventoryitems = Item.all.map(&:name).reverse
+    @beginning_counts = Item.all.map(&:beginning_count).reverse
 
     respond_to do |format|
       format.html # new.html.erb

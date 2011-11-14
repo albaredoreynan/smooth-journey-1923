@@ -1,6 +1,6 @@
 class Purchaserow < ActiveRecord::Base
   belongs_to :purchase
-  
+
   validates :inventoryitem_id, :presence => true
   validates :purchase_amount, :presence => true
   validates :purchase_quantity, :presence => true, :numericality => true
