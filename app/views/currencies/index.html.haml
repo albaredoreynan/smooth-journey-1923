@@ -1,0 +1,25 @@
+.block
+  = render 'shared/menu/database'
+  .content
+    .left
+      %h2.title Currency
+      .inner
+        %table
+          %tr
+            %th Currency
+            %th Symbol
+            %th
+            %th
+            %th
+        
+          - @currencies.each do |currency|
+            %tr
+              %td= currency.currency
+              %td= currency.symbol
+              %td= link_to 'Show', currency
+              %td= link_to 'Edit', edit_currency_path(currency)
+              %td= link_to 'Destroy', currency, :confirm => 'Are you sure?', :method => :delete
+        
+        %br
+        
+        = link_to 'New Currency', new_currency_path

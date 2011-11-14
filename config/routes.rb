@@ -1,5 +1,7 @@
 Rrbs::Application.routes.draw do
 
+  resources :currencies
+
   resources :conversions
 
   resources :jobs

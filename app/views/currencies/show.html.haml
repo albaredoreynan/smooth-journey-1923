@@ -1,0 +1,13 @@
+.block
+  .content
+    .inner
+      %p
+        %b Currency:
+        = @currency.currency
+      %p
+        %b Symbol:
+        = @currency.symbol
+      
+      = link_to 'Edit', edit_currency_path(@currency)
+      \|
+      = link_to 'Back', currencies_path
