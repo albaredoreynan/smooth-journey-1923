@@ -50,7 +50,7 @@ class EndcountsController < ApplicationController
       @inventoryitems = Inventoryitem.all.map(&:name).reverse
       @beginning_counts = Inventoryitem.all.map(&:beginning_count).reverse
 
-      @endcount.ecrows.build
+      @endcount.item_counts.build
     end
 
     respond_to do |format|
@@ -83,10 +83,10 @@ class EndcountsController < ApplicationController
   def create
     @endcount = Endcount.new(params[:endcount])
 
-    if params[:commit]=="Save"
-        @endcount.save_as_draft = 0
-    elsif params[:commit]=="Save as draft"
-        @endcount.save_as_draft = 1
+    if params[:commit] == "Save"
+      @endcount.save_as_draft = 0
+    elsif params[:commit] == "Save as draft"
+      @endcount.save_as_draft = 1
     end
 
     respond_to do |format|
@@ -105,9 +105,9 @@ class EndcountsController < ApplicationController
   def update
     @endcount = Endcount.find(params[:id])
 
-    if params[:commit]=="Save"
+    if params[:commit] == "Save"
         @endcount.save_as_draft = 0
-    elsif params[:commit]=="Save as draft"
+    elsif params[:commit] == "Save as draft"
         @endcount.save_as_draft = 1
     end
 

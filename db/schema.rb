@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111114030007) do
+ActiveRecord::Schema.define(:version => 20111114130950) do
 
   create_table "branches", :force => true do |t|
     t.integer  "restaurant_id"
@@ -88,15 +88,6 @@ ActiveRecord::Schema.define(:version => 20111114030007) do
     t.datetime "updated_at"
   end
 
-  create_table "ecrows", :force => true do |t|
-    t.integer  "endcount_id"
-    t.integer  "inventoryitem_id"
-    t.float    "beginning_count"
-    t.float    "end_count"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "employees", :force => true do |t|
     t.string   "first_name"
     t.string   "last_name"
@@ -133,27 +124,13 @@ ActiveRecord::Schema.define(:version => 20111114030007) do
   end
 
   create_table "item_counts", :force => true do |t|
-    t.integer  "item_id"
-    t.float    "count"
+    t.integer  "endcount_id"
+    t.integer  "inventoryitem_id"
+    t.float    "beginning_count"
+    t.float    "end_count"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  add_index "item_counts", ["item_id"], :name => "index_item_counts_on_item_id"
-
-  create_table "items", :force => true do |t|
-    t.string   "name"
-    t.string   "item_type"
-    t.integer  "subcategory_id"
-    t.integer  "branch_id"
-    t.integer  "unit_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "items", ["branch_id"], :name => "index_items_on_branch_id"
-  add_index "items", ["subcategory_id"], :name => "index_items_on_subcategory_id"
-  add_index "items", ["unit_id"], :name => "index_items_on_unit_id"
 
   create_table "jobs", :force => true do |t|
     t.string   "job_name"
