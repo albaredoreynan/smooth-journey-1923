@@ -28,7 +28,7 @@ describe SalesController do
     end
 
     it 'should assign all settlement types' do
-      assigns[:settlement_type_names].should == [@settlement_type.st_name]
+      assigns[:settlement_type_names].should == [@settlement_type.name]
       assigns[:settlement_type_ids].should == [@settlement_type.id]
     end
   end

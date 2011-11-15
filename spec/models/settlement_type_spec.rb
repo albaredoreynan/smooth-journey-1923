@@ -5,7 +5,7 @@ describe SettlementType do
   context 'Validation' do
     it 'should be invalid without name' do
       settlement_type = SettlementType.new
-      settlement_type.should have(1).error_on :st_name
+      settlement_type.should have(1).error_on :name
     end
   end
 end
