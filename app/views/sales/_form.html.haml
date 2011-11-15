@@ -42,7 +42,7 @@
         - if id!=nil
           = builder.hidden_field :category_id, :value => id
           %td= @category_names.pop
-          %td= builder.text_field :cs_amount, :class => :category, :onblur =>"calculateCategoryTotal();"
+          %td= builder.text_field :cs_amount, :class => :category
     %tr
       %td Total Amount
       %td= f.text_field :total_amount_cs
@@ -54,7 +54,7 @@
       %td= text_field_tag :vat,'',:size => 30
     %tr
       %td= f.label "Service Charge"
-      %td= f.text_field :service_charge , :onChange => "computeTotal()"
+      %td= f.text_field :service_charge
     %tr
       %td GROSS TOTAL
       %td= text_field_tag :gross_total,'',:size => 30
@@ -69,7 +69,7 @@
         = builder.hidden_field :settlement_type_id, :value => id
         %tr
           %td= @settlement_type_names.pop
-          %td= builder.text_field :ss_amount, :class => :settlementtype, :onblur =>"calculateSettlementtypeTotal();"
+          %td= builder.text_field :ss_amount, :class => :settlementtype
     %tr
       %td VOIDS
       %td= f.text_field :void
@@ -78,7 +78,7 @@
       %td= f.text_field :vat
     %tr
       %td GROSS TOTAL
-      %td= f.text_field :gross_total_ss, :onblur =>"computeVat();"
+      %td= f.text_field :gross_total_ss
       %td &nbsp;
       %td NET TOTAL
       %td= f.text_field :net_total_ss

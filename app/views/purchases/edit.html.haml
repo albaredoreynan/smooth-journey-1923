@@ -1,14 +1,6 @@
 - content_for(:head, javascript_include_tag(:purchase_edit))
 %h1 Edit Purchase
-= nested_form_for(@purchase) do |f|
-  - if @purchase.errors.any?
-    #error_explanation
-      %h2
-        = pluralize(@purchase.errors.count, "error")
-        prohibited this purchase from being saved:
-      %ul
-        - @purchase.errors.full_messages.each do |msg|
-          %li= msg
+= simple_form_for(@purchase) do |f|
   %table.table_form
     %tr
 
