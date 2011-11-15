@@ -30,6 +30,18 @@ Spork.prefork do
     config.use_transactional_fixtures = true
   end
 
+  # Don't need passwords in test DB to be secure
+  module Devise
+    module Models
+      module DatabaseAuthenticatable
+        protected
+        def password_digest(password)
+          password
+        end
+      end
+    end
+  end
+
 end
 
 Spork.each_run do
