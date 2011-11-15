@@ -1,3 +1,4 @@
+- content_for(:head, javascript_include_tag(:categorysales))
 = form_for(@categorysale) do |f|
   - if @categorysale.errors.any?
     #error_explanation
@@ -71,9 +72,3 @@
       %td &nbsp;
       %td= f.submit "Save as Draft"
       %td= f.submit "Save"
-  :javascript
-    $(document).ready(function(){
-        $('#shares').keyup(function(){
-            $('#result').text($('#shares').val() * .12);
-        });   
-    });
