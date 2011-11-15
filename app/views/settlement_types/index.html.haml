@@ -9,7 +9,7 @@
           %th.actions Action
         - @settlement_types.each do |settlement_type|
           %tr
-            %td= settlement_type.st_name
+            %td= settlement_type.name
             %td
               = link_to 'Show', settlement_type
               = link_to 'Edit', edit_settlement_type_path(settlement_type)

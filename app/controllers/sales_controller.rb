@@ -33,7 +33,7 @@ class SalesController < ApplicationController
     end
 
     settlement_type_count.times do
-      @settlement_type_names = SettlementType.all.map(&:st_name).reverse
+      @settlement_type_names = SettlementType.all.map(&:name).reverse
       @settlement_type_ids = SettlementType.all.map(&:id).reverse
       @sale.ssrows.build
     end
@@ -55,7 +55,7 @@ class SalesController < ApplicationController
 
     @category_names = Category.all.map(&:name).reverse
     @category_ids = Category.all.map(&:id).reverse
-    @settlement_type_names = SettlementType.all.map(&:st_name).reverse
+    @settlement_type_names = SettlementType.all.map(&:name).reverse
     @settlement_type_ids = SettlementType.all.map(&:id).reverse
   end
 

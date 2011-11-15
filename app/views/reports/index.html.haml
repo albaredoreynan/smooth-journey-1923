@@ -76,7 +76,7 @@
               - total = total + Ssrow.settlement_sales_sum(date,settlement_type.id)
             - @settlement_types.each do |settlement_type|
               %tr
-                %td= settlement_type.st_name
+                %td= settlement_type.name
                 %td= Ssrow.settlement_sales_sum(date,settlement_type.id)
                 %td
                   = Ssrow.settlement_sales_sum(date,settlement_type.id)/total*100

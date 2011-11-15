@@ -34,7 +34,7 @@
         %h3 SALES BY CATEGORY
     - @category_names = Category.all.map(&:name).reverse
     - @category_ids = Category.all.map(&:id).reverse
-    - @settlement_type_names = SettlementType.all.map(&:st_name).reverse
+    - @settlement_type_names = SettlementType.all.map(&:name).reverse
     - @settlement_type_ids = SettlementType.all.map(&:id).reverse
     = f.fields_for :csrows do |builder|
       %tr

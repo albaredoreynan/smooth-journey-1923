@@ -34,7 +34,7 @@
         %tr
           %th Date
           - @settlement_types.each do |settlementtype|
-            %th= settlementtype.st_name
+            %th= settlementtype.name
             - totalst = Hash[settlementtype.id => 0]
           %th VOIDS
           %th GROSS TOTAL
