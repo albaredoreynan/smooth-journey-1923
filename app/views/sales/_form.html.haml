@@ -10,7 +10,7 @@
     %tr
       %td Branch:
       %td
-        = text_field_tag :branch,'',:disabled => :true
+        = f.collection_select :branch_id, Branch.all, :id, :location, :prompt => true
       %td{:width => "100"} &nbsp;
       %td &nbsp;
     %tr
