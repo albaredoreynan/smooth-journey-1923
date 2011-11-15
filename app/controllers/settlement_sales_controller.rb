@@ -110,11 +110,11 @@ class SettlementSalesController < ApplicationController
     @settlement_types = SettlementType.all
     @searchdate = params[:start]['(1i)']+ '-' + params[:start]['(2i)'] + '-' + params[:start]['(3i)']
     @enddate = params[:end]['(1i)']+ '-' + params[:end]['(2i)'] + '-' + params[:end]['(3i)']
-    @employee_firstName = params[:employee][:employee_id]
+    @first_name = params[:employee][:employee_id]
 
-    @header = "Search results for: " + Employee.find(@employee_firstName).employee_firstName + ',' + @searchdate + ' to ' + @enddate
+    @header = "Search results for: " + Employee.find(@first_name).first_name + ',' + @searchdate + ' to ' + @enddate
 
-    employee_id = Employee.where("employee_firstName = ? AND employee_lastName = ?",@employee_firstName,@employee_lastName)
+    employee_id = Employee.where("first_name = ? AND last_name = ?",@first_name,@last_name)
     @settlement_sales = SettlementSale.where("(ss_date >= ? AND ss_date <= ?) OR (employee_id = ?)",@searchdate,@enddate,employee_id)
     render :template => 'shared/server_sales_by_settlement_type'
   end

@@ -73,7 +73,7 @@
   - @settlement_sales.each do |settlement_sale|
     %tr
       %td= settlement_sale.ss_date
-      %td= settlement_sale.employee.employee_firstName
+      %td= settlement_sale.employee.first_name
       - settlement_sale.ssrows.each do |ss|
         %td= ss.ss_amount
       %td= settlement_sale.void

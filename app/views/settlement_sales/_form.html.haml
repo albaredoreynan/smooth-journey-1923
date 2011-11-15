@@ -30,7 +30,7 @@
       %td &nbsp;
     %tr
       %td Name:
-      %td= select(:settlement_sale, :employee_id, Employee.all.collect {|p| [ p.employee_firstName, p.id ] }, {:prompt => 'Select Server'})
+      %td= select(:settlement_sale, :employee_id, Employee.all.collect {|p| [ p.first_name, p.id ] }, {:prompt => 'Select Server'})
       %td
       %td
       %td

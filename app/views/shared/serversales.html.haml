@@ -91,7 +91,7 @@
       - giftcertificate = SettlementSale.where("employee_id = ? AND ss_date = ? AND st_id = ?",employee,date,11).map(&:ss_amount)
       %tr
         %td= p "#{date}"
-        %td= ss.first.employee.employee_firstName + " " + ss.first.employee.employee_lastName
+        %td= ss.first.employee.first_name + " " + ss.first.employee.last_name
         %td= cash.sum
         %td= creditcard.sum
         %td= comp91.sum

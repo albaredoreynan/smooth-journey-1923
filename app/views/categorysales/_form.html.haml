@@ -13,7 +13,7 @@
     /
       <tr>
       <td><haml:loud> label_tag :ServerName </haml:loud></td>
-      <td><haml:loud> collection_select('categorysale','employee_id',Employee.all.collect,'id','employee_firstName') </haml:loud></td>
+      <td><haml:loud> collection_select('categorysale','employee_id',Employee.all.collect,'id','first_name') </haml:loud></td>
       </table>
       <br />
   %table{:border => "0", :width => "700"}
@@ -53,7 +53,7 @@
       %td= f.label "Service Charge"
       %td= f.text_field :servicecharge
       %td Server Name:
-      %td= f.collection_select :employee_id, Employee.find(:all), :id, :employee_firstName, :prompt => "Select server"
+      %td= f.collection_select :employee_id, Employee.find(:all), :id, :first_name, :prompt => "Select server"
     %tr
       %td= f.label :customer_count
       %td= f.text_field :customer_count
