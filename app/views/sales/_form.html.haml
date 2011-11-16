@@ -6,17 +6,17 @@
       %ul
         - @sale.errors.full_messages.each do |msg|
           / <li><haml:loud> msg </haml:loud></li>
- 
+
   %fieldset#colleft
     .multi_input
       .input
         %span
           = f.label :branch_id
           = f.collection_select :branch_id, Branch.all, :id, :location, :prompt => true
-        %span  
+        %span
           = f.label :date
           = f.date_select :date
-        %span  
+        %span
           = f.label :employee_id
           = collection_select(:sale, :employee_id, Employee.all, :id, :full_name, :prompt => true)
       .input
@@ -55,7 +55,7 @@
         .input
           = f.label "GROSS TOTAL"
           = text_field_tag :gross_total,'',:size => 30
-           
+
     .colright
       %fieldset.field_divider
         %legend.box_name= "Sales By Settlement"
@@ -69,10 +69,10 @@
         .input
           = f.label "VOIDS"
           = f.text_field :void
-        .input  
+        .input
           = f.label "VAT"
           = f.text_field :vat
-        .input  
+        .input
           = f.label "GROSS TOTAL"
           = f.text_field :gross_total_ss
         .input
@@ -94,26 +94,26 @@
         .input
           = f.label "Per Transaction Average (PTA)"
           = f.text_field :dinein_pta
-    
+
         %h4.title DELIVERY:
         .input
           = f.label "Delivery Sales (DS)"
           = f.text_field :delivery_sales
-        .input  
+        .input
           = f.label "Transaction Count (TC)"
           = f.text_field :delivery_tc
-        .input  
+        .input
           = f.label "Per Transaction Average (PTA)"
           = f.text_field :delivery_pta
-  
+
         %h4.title TAKE OUT:
-        .input  
+        .input
           = f.label "Transaction Count (TC)"
           = f.text_field :takeout_tc
-        .input  
+        .input
           = f.label "Per Transaction Average (PTA)"
           = f.text_field :takeout_pta
-        .input  
+        .input
           = f.label "Service Charge"
           = f.text_field :service_charge
     .actions

@@ -115,6 +115,16 @@ form
     padding-top: 8px
     clear: left
 
+    &.field_with_errors
+      border: solid 1px red
+      display: inline
+
+      &:after
+        content: ''
+
+      label:after
+        content: ''
+
     &:after
       content: ':'
 

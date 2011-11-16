@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111116070652) do
+ActiveRecord::Schema.define(:version => 20111116075752) do
 
   create_table "branches", :force => true do |t|
     t.integer  "restaurant_id"
@@ -279,6 +279,8 @@ ActiveRecord::Schema.define(:version => 20111116070652) do
     t.date    "updated_at",         :null => false
     t.integer "sale_id"
   end
+
+  add_index "ssrows", ["sale_id"], :name => "index_ssrows_on_sale_id"
 
   create_table "subcategories", :force => true do |t|
     t.string   "name"
