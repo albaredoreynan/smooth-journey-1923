@@ -9,7 +9,7 @@
   - @category_sales.each do |category_sale|
     %tr
       %td= category_sale.cs_id
-      %td= category_sale.cs_amount
+      %td= category_sale.amount
       %td= link_to 'Show', category_sale
       %td= link_to 'Edit', edit_category_sale_path(category_sale)
       %td= link_to 'Destroy', category_sale, :confirm => 'Are you sure?', :method => :delete

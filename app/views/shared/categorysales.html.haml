@@ -58,7 +58,7 @@
     %tr
       %td= categorysale.cs_date.strftime("%B %d, %Y")
       - categorysale.category_sales.each do |category_sale|
-        %td= category_sale.cs_amount
+        %td= category_sale.amount
       %td= categorysale.vat
       %td= categorysale.void
       %td= categorysale.servicecharge

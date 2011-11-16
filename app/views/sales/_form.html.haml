@@ -39,7 +39,7 @@
             - if id!=nil
               = builder.hidden_field :category_id, :value => id
               = f.label @category_names.pop
-              = builder.text_field :cs_amount, :class => :category
+              = builder.text_field :amount, :class => :category
         .input
           = f.label "Total Amount"
           = f.text_field :total_amount_cs

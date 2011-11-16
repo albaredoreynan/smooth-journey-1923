@@ -85,10 +85,10 @@ describe SalesController do
             "category_sales_attributes"=>{
               "0"=>{
                 "category_id"=>@category_a.id,
-                "cs_amount"=>"10"},
+                "amount"=>"10"},
               "1"=>{
                 "category_id"=>@category_b.id,
-                "cs_amount"=>"10"},
+                "amount"=>"10"},
             },
             "ssrows_attributes"=>{
               "0"=>{

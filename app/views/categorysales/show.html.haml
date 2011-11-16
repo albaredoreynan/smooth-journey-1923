@@ -1,9 +1,9 @@
 %p#notice= notice
 %p
   %b CS amount:
-  = @categorysale.cs_amount
+  = @categorysale.amount
 - @categorysale.category_sales.each do |csr|
-  = csr.cs_amount
+  = csr.amount
 %p
   %b Employee:
   = @categorysale.employee_id

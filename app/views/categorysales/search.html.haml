@@ -63,9 +63,9 @@
       - liquor = 0
       - beverage = 0
       - hash = {}
-      - cs_amounts = categorysale.map(&:cs_amount)
+      - amounts = categorysale.map(&:cs_amount)
       - category_ids = categorysale.map(&:category_id)
-      - category_ids.size.times { |i| hash[category_ids[i]] = cs_amounts[i]}
+      - category_ids.size.times { |i| hash[category_ids[i]] = amounts[i]}
       - hash.each_pair do |ci,amt|
         - if ci==0
           - food = amt

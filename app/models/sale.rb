@@ -28,7 +28,7 @@ class Sale < ActiveRecord::Base
   accepts_nested_attributes_for :ssrows
 
   def category_total
-    category_sales.map(&:cs_amount).sum
+    category_sales.map(&:amount).sum
   end
 
   def settlement_type_total
