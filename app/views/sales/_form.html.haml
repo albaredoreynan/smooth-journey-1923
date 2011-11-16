@@ -6,149 +6,115 @@
       %ul
         - @sale.errors.full_messages.each do |msg|
           / <li><haml:loud> msg </haml:loud></li>
-  %table.table_form
-    %tr
-      %td Branch:
-      %td
-        = f.collection_select :branch_id, Branch.all, :id, :location, :prompt => true
-      %td{:width => "100"} &nbsp;
-      %td &nbsp;
-    %tr
-      %td{:colspan => 5} &nbsp;
-    %tr
-      %td= f.label "Date"
-      %td= f.date_select :date
-      %td &nbsp;
-      %td= f.label :employee_id
-      %td= collection_select(:sale, :employee_id, Employee.all, :id, :full_name, :prompt => true)
-    %tr
-      %td= f.label :customer_count
-      %td= f.text_field :customer_count
-      %td &nbsp;
-      %td= f.label :transaction_count
-      %td= f.text_field :transaction_count
-    %tr
-      %td{:colspan => 5} &nbsp;
-    %tr
-      %td{:colspan => 5}
-        %h3 SALES BY CATEGORY
-    - @category_names = Category.all.map(&:name).reverse
-    - @category_ids = Category.all.map(&:id).reverse
-    - @settlement_type_names = SettlementType.all.map(&:name).reverse
-    - @settlement_type_ids = SettlementType.all.map(&:id).reverse
-    = f.fields_for :csrows do |builder|
-      %tr
-        - id = @category_ids.pop
-        - if id!=nil
-          = builder.hidden_field :category_id, :value => id
-          %td= @category_names.pop
-          %td= builder.text_field :cs_amount, :class => :category
-    %tr
-      %td Total Amount
-      %td= f.text_field :total_amount_cs
-      %td &nbsp;
-      %td Total Revenue
-      %td= f.text_field :total_revenue_cs
-    %tr
-      %td VAT
-      %td= text_field_tag :vat,'',:size => 30
-    %tr
-      %td= f.label "Service Charge"
-      %td= f.text_field :service_charge
-    %tr
-      %td GROSS TOTAL
-      %td= text_field_tag :gross_total,'',:size => 30
-    %tr
-      %td{:colspan => 5} &nbsp;
-    %tr
-      %td{:colspan => 5}
-        %h3 SALES BY SETTLEMENT TYPE
-    = f.fields_for :ssrows do |builder|
-      - id =  @settlement_type_ids.pop
-      - if id!=nil
-        = builder.hidden_field :settlement_type_id, :value => id
-        %tr
-          %td= @settlement_type_names.pop
-          %td= builder.text_field :ss_amount, :class => :settlementtype
-    %tr
-      %td VOIDS
-      %td= f.text_field :void
-      %td &nbsp;
-      %td VAT
-      %td= f.text_field :vat
-    %tr
-      %td GROSS TOTAL
-      %td= f.text_field :gross_total_ss
-      %td &nbsp;
-      %td NET TOTAL
-      %td= f.text_field :net_total_ss
-    %tr
-      %td{:colspan => 5} &nbsp;
-    %tr
-      %td
-      %td
-        %center
-          %b DINE IN:
-      %td
-      %td &nbsp;
-      %td
-        %center
-          %b DELIVERY:
-    %tr
-      %td Customer Count (CC):
-      %td= f.text_field :dinein_cc
-      %td &nbsp;
-      %td Delivery Sales (DS):
-      %td= f.text_field :delivery_sales
-    %tr
-      %td Transaction Count (TC):
-      %td= f.text_field :dinein_tc
-      %td &nbsp;
-      %td Transaction Count (TC):
-      %td= f.text_field :delivery_tc
-    %tr
-      %td Per Person Average (PPA):
-      %td= f.text_field :dinein_ppa
-      %td &nbsp;
-      %td Per Transaction Average (PTA):
-      %td= f.text_field :delivery_pta
-    %tr
-      %td Per Transaction Average (PTA):
-      %td= f.text_field :dinein_pta
-      %td &nbsp;
-      %td &nbsp;
-      %td &nbsp;
-    %tr
-      %td{:colspan => 5} &nbsp;
-    %tr
-      %td
-      %td
-        %b TAKE OUT:
-      %td &nbsp;
-      %td &nbsp;
-      %td &nbsp;
-    %tr
-      %td Transaction Count (TC):
-      %td= f.text_field :takeout_tc
-      %td &nbsp;
-      %td &nbsp;
-      %td &nbsp;
-    %tr
-      %td Per Transaction Average (PTA):
-      %td= f.text_field :takeout_pta
-      %td &nbsp;
-      %td &nbsp;
-      %td &nbsp;
-    %tr
-      %td= f.label "Service Charge"
-      %td= f.text_field :service_charge
-      %td
-      %td
-    %tr
-      %td{:colspan => 5} &nbsp;
-    %tr
-      %td
-      %td
-      %td
-      %td
-      %td= f.submit "Save as Draft", :onHover => "checkTotal()"
+ 
+  %fieldset#colleft
+    .multi_input
+      .input
+        %span
+          = f.label :branch_id
+          = f.collection_select :branch_id, Branch.all, :id, :location, :prompt => true
+        %span  
+          = f.label :date
+          = f.date_select :date
+        %span  
+          = f.label :employee_id
+          = collection_select(:sale, :employee_id, Employee.all, :id, :full_name, :prompt => true)
+      .input
+        %span
+          = f.label :customer_count
+          = f.text_field :customer_count
+        %span
+          = f.label :transaction_count
+          = f.text_field :transaction_count
+    .colleft
+      %fieldset.field_divider
+        %legend.box_name= "Sales By Category"
+        - @category_names = Category.all.map(&:name).reverse
+        - @category_ids = Category.all.map(&:id).reverse
+        - @settlement_type_names = SettlementType.all.map(&:name).reverse
+        - @settlement_type_ids = SettlementType.all.map(&:id).reverse
+        = f.fields_for :csrows do |builder|
+          .input
+            - id = @category_ids.pop
+            - if id!=nil
+              = builder.hidden_field :category_id, :value => id
+              = f.label @category_names.pop
+              = builder.text_field :cs_amount, :class => :category
+        .input
+          = f.label "Total Amount"
+          = f.text_field :total_amount_cs
+        .input
+          = f.label "Total Revenue"
+          = f.text_field :total_revenue_cs
+        .input
+          = f.label :vat, 'VAT'
+          = text_field_tag :vat,'',:size => 30
+        .input
+          = f.label "Service Charge"
+          = f.text_field :service_charge
+        .input
+          = f.label "GROSS TOTAL"
+          = text_field_tag :gross_total,'',:size => 30
+           
+    .colright
+      %fieldset.field_divider
+        %legend.box_name= "Sales By Settlement"
+        = f.fields_for :ssrows do |builder|
+          - id =  @settlement_type_ids.pop
+          - if id!=nil
+            = builder.hidden_field :settlement_type_id, :value => id
+            .input
+              = f.label @settlement_type_names.pop
+              = builder.text_field :ss_amount, :class => :settlementtype
+        .input
+          = f.label "VOIDS"
+          = f.text_field :void
+        .input  
+          = f.label "VAT"
+          = f.text_field :vat
+        .input  
+          = f.label "GROSS TOTAL"
+          = f.text_field :gross_total_ss
+        .input
+          = f.label "NET TOTAL"
+          = f.text_field :net_total_ss
+    .colleft
+      %fieldset.field_divider
+        %legend.box_name= "Types Of Transaction"
+        %h4.title DINE IN
+        .input
+          = f.label "Customer Count (CC)"
+          = f.text_field :dinein_cc
+        .input
+          = f.label "Transaction Count (TC)"
+          = f.text_field :dinein_tc
+        .input
+          = f.label "Per Person Average (PPA)"
+          = f.text_field :dinein_ppa
+        .input
+          = f.label "Per Transaction Average (PTA)"
+          = f.text_field :dinein_pta
+    
+        %h4.title DELIVERY:
+        .input
+          = f.label "Delivery Sales (DS)"
+          = f.text_field :delivery_sales
+        .input  
+          = f.label "Transaction Count (TC)"
+          = f.text_field :delivery_tc
+        .input  
+          = f.label "Per Transaction Average (PTA)"
+          = f.text_field :delivery_pta
+  
+        %h4.title TAKE OUT:
+        .input  
+          = f.label "Transaction Count (TC)"
+          = f.text_field :takeout_tc
+        .input  
+          = f.label "Per Transaction Average (PTA)"
+          = f.text_field :takeout_pta
+        .input  
+          = f.label "Service Charge"
+          = f.text_field :service_charge
+    .actions
+      = f.submit "Save as Draft", :onHover => "checkTotal()"
