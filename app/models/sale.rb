@@ -27,6 +27,14 @@ class Sale < ActiveRecord::Base
   accepts_nested_attributes_for :csrows
   accepts_nested_attributes_for :ssrows
 
+  def category_total
+    csrows.map(&:cs_amount).sum
+  end
+
+  def settlement_type_total
+    ssrows.map(&:ss_amount).sum
+  end
+
   def self.search_date_range(from,to)
     where("date >= ? and date <= ?",from,to)
   end
@@ -35,35 +43,35 @@ class Sale < ActiveRecord::Base
     where("(date >= ? and date <= ?) or employee_id = ?",from,to,employee_id)
   end
 
-  def self.total_void()
+  def self.total_void
     all.map(&:void).sum
   end
 
-  def self.total_vat()
+  def self.total_vat
     all.map(&:vat).sum
   end
 
-  def self.total_service_charge()
+  def self.total_service_charge
     all.map(&:service_charge).sum
   end
 
-  def self.total_revenue()
+  def self.total_revenue
     all.map(&:total_revenue_cs).sum
   end
 
-  def self.total_customer_count()
+  def self.total_customer_count
     all.map(&:customer_count).sum
   end
 
-  def self.total_transaction_count()
+  def self.total_transaction_count
     all.map(&:transaction_count).sum
   end
 
-  def self.total_gross_total_ss()
+  def self.total_gross_total_ss
     all.map(&:gross_total_ss).sum
   end
 
-  def self.total_net_total_ss()
+  def self.total_net_total_ss
     all.map(&:net_total_ss).sum
   end
 

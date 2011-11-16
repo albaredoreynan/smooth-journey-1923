@@ -37,7 +37,22 @@ describe Sale do
     }.should change(Sale, :count).by 1
   end
 
-  it 'should save csrows' do
+  context 'Total attributes' do
+    before do
+      @sale = Sale.new
+    end
+
+    it 'should total categories' do
+      @sale.csrows << Csrow.new({:cs_amount => 10})
+      @sale.csrows << Csrow.new({:cs_amount => 5})
+      @sale.category_total.should == 15
+    end
+
+    it 'should total settlement_types' do
+      @sale.ssrows << Ssrow.new({:ss_amount => 7})
+      @sale.ssrows << Ssrow.new({:ss_amount => 8})
+      @sale.settlement_type_total.should == 15
+    end
   end
 
 end
