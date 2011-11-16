@@ -35,7 +35,7 @@ class SalesController < ApplicationController
     settlement_type_count.times do
       @settlement_type_names = SettlementType.all.map(&:name).reverse
       @settlement_type_ids = SettlementType.all.map(&:id).reverse
-      @sale.ssrows.build
+      @sale.settlement_type_sales.build
     end
     respond_to do |format|
 

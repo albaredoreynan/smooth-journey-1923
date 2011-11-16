@@ -59,7 +59,7 @@
     .colright
       %fieldset.field_divider
         %legend.box_name= "Sales By Settlement"
-        = f.fields_for :ssrows do |builder|
+        = f.fields_for :settlement_type_sales do |builder|
           - id =  @settlement_type_ids.pop
           - if id!=nil
             = builder.hidden_field :settlement_type_id, :value => id

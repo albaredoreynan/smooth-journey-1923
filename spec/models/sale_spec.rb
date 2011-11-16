@@ -49,8 +49,8 @@ describe Sale do
     end
 
     it 'should total settlement_types' do
-      @sale.ssrows << Ssrow.new({:ss_amount => 7})
-      @sale.ssrows << Ssrow.new({:ss_amount => 8})
+      @sale.settlement_type_sales << SettlementTypeSale.new({:ss_amount => 7})
+      @sale.settlement_type_sales << SettlementTypeSale.new({:ss_amount => 8})
       @sale.settlement_type_total.should == 15
     end
   end

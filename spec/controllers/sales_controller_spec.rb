@@ -90,7 +90,7 @@ describe SalesController do
                 "category_id"=>@category_b.id,
                 "amount"=>"10"},
             },
-            "ssrows_attributes"=>{
+            "settlement_type_sales_attributes"=>{
               "0"=>{
                 "settlement_type_id"=>@settlement_type_a.id,
                 "ss_amount"=>"10"
@@ -113,16 +113,16 @@ describe SalesController do
         }.should change(Sale, :count).by 1
       end
 
-      it 'should save category_sales' do
+      it 'should save category sales' do
         lambda {
           post 'create', @post_param
         }.should change(CategorySale, :count).by 2
       end
 
-      it 'should save ssrows' do
+      it 'should save settlement type sales' do
         lambda {
           post 'create', @post_param
-        }.should change(Ssrow, :count).by 2
+        }.should change(SettlementTypeSale, :count).by 2
       end
     end
   end

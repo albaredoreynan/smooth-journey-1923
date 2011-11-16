@@ -21,18 +21,18 @@ class Sale < ActiveRecord::Base
   validates_presence_of :void
 
   has_many :category_sales
-  has_many :ssrows
+  has_many :settlement_type_sales
   belongs_to :employee
 
   accepts_nested_attributes_for :category_sales
-  accepts_nested_attributes_for :ssrows
+  accepts_nested_attributes_for :settlement_type_sales
 
   def category_total
     category_sales.map(&:amount).sum
   end
 
   def settlement_type_total
-    ssrows.map(&:ss_amount).sum
+    settlement_type_sales.map(&:ss_amount).sum
   end
 
   def self.search_date_range(from,to)

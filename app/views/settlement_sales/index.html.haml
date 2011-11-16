@@ -54,7 +54,7 @@
     %tr
       %td= date
       - @settlement_types.each do |st|
-        %td= Ssrow.joins('JOIN settlement_sales ON ssrows.settlement_sale_id = settlement_sales.id').where("settlement_type_id = ? AND ss_date = ?",st,date).all.map(&:ss_amount).sum
+        %td= settlement_type_sale.joins('JOIN settlement_sales ON ssrows.settlement_sale_id = settlement_sales.id').where("settlement_type_id = ? AND ss_date = ?",st,date).all.map(&:ss_amount).sum
       %td= settlement_sale.first.void
       %td= settlement_sale.first.gross_total
       %td= settlement_sale.first.net_total

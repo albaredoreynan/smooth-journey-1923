@@ -46,8 +46,8 @@
           %tr
             %td= date.strftime("%b %d, %Y")
             - @settlement_types.each do |settlementtype|
-              %td= number_to_currency(Ssrow.settlement_sales_sum(date,settlementtype.id), :precision => 2, :unit => " ")
-              - totalst[settlementtype.id] = totalst[settlementtype.id].to_f + Ssrow.settlement_sales_sum(date,settlementtype.id)
+              %td= number_to_currency(settlement_type_sale.settlement_sales_sum(date,settlementtype.id), :precision => 2, :unit => " ")
+              - totalst[settlementtype.id] = totalst[settlementtype.id].to_f + settlement_type_sale.settlement_sales_sum(date,settlementtype.id)
             %td= number_to_currency(sale.map(&:void).sum, :precision => 2, :unit => " ")
             - totalvat = totalvat + sale.map(&:void).sum
             %td= number_to_currency(sale.map(&:gross_total_ss).sum, :precision => 2, :unit => " ")
