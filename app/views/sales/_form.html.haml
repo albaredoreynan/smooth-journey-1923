@@ -33,7 +33,7 @@
         - @category_ids = Category.all.map(&:id).reverse
         - @settlement_type_names = SettlementType.all.map(&:name).reverse
         - @settlement_type_ids = SettlementType.all.map(&:id).reverse
-        = f.fields_for :csrows do |builder|
+        = f.fields_for :category_sales do |builder|
           .input
             - id = @category_ids.pop
             - if id!=nil

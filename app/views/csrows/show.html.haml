@@ -1,10 +1,10 @@
 %p#notice= notice
 %p
   %b Cs:
-  = @csrow.cs_id
+  = @category_sale.cs_id
 %p
   %b Cs amount:
-  = @csrow.cs_amount
-= link_to 'Edit', edit_csrow_path(@csrow)
+  = @category_sale.cs_amount
+= link_to 'Edit', edit_category_sale_path(@category_sale)
 |
-\#{link_to 'Back', csrows_path}
+\#{link_to 'Back', category_sales_path}

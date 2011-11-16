@@ -82,7 +82,7 @@ describe SalesController do
             "dinein_pta"=>"10",
             "takeout_tc"=>"10",
             "takeout_pta"=>"10",
-            "csrows_attributes"=>{
+            "category_sales_attributes"=>{
               "0"=>{
                 "category_id"=>@category_a.id,
                 "cs_amount"=>"10"},
@@ -113,10 +113,10 @@ describe SalesController do
         }.should change(Sale, :count).by 1
       end
 
-      it 'should save csrows' do
+      it 'should save category_sales' do
         lambda {
           post 'create', @post_param
-        }.should change(Csrow, :count).by 2
+        }.should change(CategorySale, :count).by 2
       end
 
       it 'should save ssrows' do

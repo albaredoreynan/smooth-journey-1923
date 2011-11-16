@@ -1,4 +1,4 @@
-%h1 Listing csrows
+%h1 Listing category_sales
 %table
   %tr
     %th Cs
@@ -6,12 +6,12 @@
     %th
     %th
     %th
-  - @csrows.each do |csrow|
+  - @category_sales.each do |category_sale|
     %tr
-      %td= csrow.cs_id
-      %td= csrow.cs_amount
-      %td= link_to 'Show', csrow
-      %td= link_to 'Edit', edit_csrow_path(csrow)
-      %td= link_to 'Destroy', csrow, :confirm => 'Are you sure?', :method => :delete
+      %td= category_sale.cs_id
+      %td= category_sale.cs_amount
+      %td= link_to 'Show', category_sale
+      %td= link_to 'Edit', edit_category_sale_path(category_sale)
+      %td= link_to 'Destroy', category_sale, :confirm => 'Are you sure?', :method => :delete
 %br/
-= link_to 'New Csrow', new_csrow_path
+= link_to 'New category_sale', new_category_sale_path

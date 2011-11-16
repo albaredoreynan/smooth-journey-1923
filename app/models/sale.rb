@@ -20,15 +20,15 @@ class Sale < ActiveRecord::Base
   validates_presence_of :vat
   validates_presence_of :void
 
-  has_many :csrows
+  has_many :category_sales
   has_many :ssrows
   belongs_to :employee
 
-  accepts_nested_attributes_for :csrows
+  accepts_nested_attributes_for :category_sales
   accepts_nested_attributes_for :ssrows
 
   def category_total
-    csrows.map(&:cs_amount).sum
+    category_sales.map(&:cs_amount).sum
   end
 
   def settlement_type_total

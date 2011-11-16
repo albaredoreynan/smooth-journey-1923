@@ -43,8 +43,8 @@ describe Sale do
     end
 
     it 'should total categories' do
-      @sale.csrows << Csrow.new({:cs_amount => 10})
-      @sale.csrows << Csrow.new({:cs_amount => 5})
+      @sale.category_sales << CategorySale.new({:cs_amount => 10})
+      @sale.category_sales << CategorySale.new({:cs_amount => 5})
       @sale.category_total.should == 15
     end
 

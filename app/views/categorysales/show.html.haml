@@ -2,7 +2,7 @@
 %p
   %b CS amount:
   = @categorysale.cs_amount
-- @categorysale.csrows.each do |csr|
+- @categorysale.category_sales.each do |csr|
   = csr.cs_amount
 %p
   %b Employee:

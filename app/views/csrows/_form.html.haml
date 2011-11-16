@@ -1,11 +1,11 @@
-= form_for(@csrow) do |f|
-  - if @csrow.errors.any?
+= form_for(@category_sale) do |f|
+  - if @category_sale.errors.any?
     #error_explanation
       %h2
-        = pluralize(@csrow.errors.count, "error")
-        prohibited this csrow from being saved:
+        = pluralize(@category_sale.errors.count, "error")
+        prohibited this category_sale from being saved:
       %ul
-        - @csrow.errors.full_messages.each do |msg|
+        - @category_sale.errors.full_messages.each do |msg|
           %li= msg
   .field
     = f.label :cs_id

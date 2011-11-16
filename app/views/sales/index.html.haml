@@ -50,8 +50,8 @@
           %tr
             %td= date.strftime("%b %d, %Y")
             - @categories.each do |category|
-              %td= number_to_currency(Csrow.category_sales_sum(date,category.id), :precision => 2, :unit => " ")
-              - totalcateg[category.id] = totalcateg[category.id].to_f + Csrow.category_sales_sum(date,category.id)
+              %td= number_to_currency(CategorySale.category_sales_sum(date,category.id), :precision => 2, :unit => " ")
+              - totalcateg[category.id] = totalcateg[category.id].to_f + CategorySale.category_sales_sum(date,category.id)
             %td= number_to_currency(sale.map(&:vat).sum, :precision => 2, :unit => " ")
             - totalvat = totalvat + sale.map(&:vat).sum
             %td= number_to_currency(sale.map(&:void).sum, :precision => 2, :unit => " ")

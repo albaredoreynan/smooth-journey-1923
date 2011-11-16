@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :csrow do
+  factory :category_sale do
     association :category
     cs_amount 1
   end

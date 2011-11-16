@@ -10,7 +10,7 @@ class CategorysalesController < ApplicationController
         @categories = Category.all
       else
         @duration = 'all'
-        @categorysales = Categorysale.where("cs_date ").includes(:csrows)
+        @categorysales = Categorysale.where("cs_date ").includes(:category_sales)
         @categories = Category.all
       end
 
@@ -36,7 +36,7 @@ class CategorysalesController < ApplicationController
       category_count.times do
         @category_names = Category.all.map(&:name).reverse
         @category_ids = Category.all.map(&:id).reverse
-        @categorysale.csrows.build
+        @categorysale.category_sales.build
       end
       format.html # new.html.erb
       format.xml  { render :xml => @categorysale }
@@ -46,12 +46,12 @@ class CategorysalesController < ApplicationController
 
   def edit
     @categorysale = Categorysale.find(params[:id])
-    category_count = @categorysale.csrows.count
+    category_count = @categorysale.category_sales.count
 
     @category_names = Category.all.map(&:name).reverse
     @category_ids = Category.all.map(&:id).reverse
     #category_count.times do
-    @categorysale.csrows.build
+    @categorysale.category_sales.build
     #end
   end
 
@@ -72,7 +72,7 @@ class CategorysalesController < ApplicationController
         category_count = Category.all.count
         @category_names = Category.all.map(&:name).reverse
         @category_ids = Category.all.map(&:id).reverse
-        @categorysale.csrows.build
+        @categorysale.category_sales.build
 
         format.html { render :action => "new" }
         format.xml  { render :xml => @categorysale.errors, :status => :unprocessable_entity }

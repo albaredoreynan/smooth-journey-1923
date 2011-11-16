@@ -88,7 +88,7 @@ class PurchaseitemsController < ApplicationController
         #category_count = Category.all.count
         #@category_names = Category.all.map(&:category_name).reverse
         #@category_ids = Category.all.map(&:id).reverse
-        #@categorysale.csrows.build
+        #@categorysale.category_sales.build
 
         format.html { render :action => "new" }
         format.xml  { render :xml => @purchaseitem.errors, :status => :unprocessable_entity }

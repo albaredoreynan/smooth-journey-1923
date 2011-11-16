@@ -29,7 +29,7 @@ class SalesController < ApplicationController
     category_count.times do
       @category_names = Category.all.map(&:name).reverse
       @category_ids = Category.all.map(&:id).reverse
-      @sale.csrows.build
+      @sale.category_sales.build
     end
 
     settlement_type_count.times do

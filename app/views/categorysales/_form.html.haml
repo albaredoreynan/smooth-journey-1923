@@ -32,7 +32,7 @@
       %td= f.date_select :cs_date
       %td &nbsp;
       %td &nbsp;
-    - f.fields_for :csrows do |builder|
+    - f.fields_for :category_sales do |builder|
       %tr
         - id = @category_ids.pop
         - if id!=nil
