@@ -2,8 +2,11 @@ class UnitsController < ApplicationController
   # GET /units
   # GET /units.xml
   def index
+    
+    #@units = Unit.all
+    
     @units = Unit.all
-
+    
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @units }
