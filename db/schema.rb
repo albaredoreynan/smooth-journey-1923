@@ -30,14 +30,16 @@ ActiveRecord::Schema.define(:version => 20111116133339) do
     t.datetime "updated_at"
   end
 
-  create_table "category_sales", :id => false, :force => true do |t|
-    t.integer  "id",          :null => false
+  create_table "category_sales", :force => true do |t|
     t.integer  "sale_id",     :null => false
     t.float    "amount"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "category_id", :null => false
   end
+
+  add_index "category_sales", ["category_id"], :name => "index_csrows_on_category_id"
+  add_index "category_sales", ["sale_id"], :name => "index_csrows_on_sale_id"
 
   create_table "categorysales", :force => true do |t|
     t.float    "cs_amount"
