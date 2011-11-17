@@ -11,42 +11,64 @@ describe SalesController do
     @settlement_type = FactoryGirl.create(:settlement_type)
   end
 
-  # describe 'GET #new' do
-      # before do
-        # get 'new'
-      # end
-#   
-      # it 'should assign a new Sale' do
-        # assigns[:sale].should_not be_nil
-        # assigns[:sale].should be_kind_of(Sale)
-        # assigns[:sale].should be_new_record
-      # end
-#   
-      # it 'should assign all categories' do
-        # assigns[:category_names].should == [@category.name]
-        # assigns[:category_ids].should == [@category.id]
-      # end
-#   
-      # it 'should assign all settlement types' do
-        # assigns[:settlement_type_names].should == [@settlement_type.name]
-        # assigns[:settlement_type_ids].should == [@settlement_type.id]
-      # end
-    # end
-#   
-    # describe 'GET #edit' do
-      # before do
-        # @sale = FactoryGirl.create(:sale)
-        # get 'edit', :id => @sale.id
-      # end
-#   
-      # it 'should assign an existing Sale' do
-        # assigns[:sale].should == @sale
-      # end
-#   
-      # it 'should assign all categories' do
-        # assigns[:category_names].should == [@category.name]
-      # end
-    # end
+  describe 'GET #new' do
+    before do
+      get 'new'
+    end
+
+    it 'should assign a new Sale' do
+      assigns[:sale].should_not be_nil
+      assigns[:sale].should be_kind_of(Sale)
+      assigns[:sale].should be_new_record
+    end
+
+    it 'should assign all categories' do
+      assigns[:category_names].should == [@category.name]
+      assigns[:category_ids].should == [@category.id]
+    end
+
+    it 'should assign all settlement types' do
+      assigns[:settlement_type_names].should == [@settlement_type.name]
+      assigns[:settlement_type_ids].should == [@settlement_type.id]
+    end
+
+    context 'Category Sale' do
+      it 'should have blank a category_sales' do
+        assigns[:sale].category_sales.should_not be_empty
+        assigns[:sale].category_sales.length.should eq 1
+      end
+
+      it 'should default category_id to Category' do
+        assigns[:sale].category_sales.first.category_id.should eq @category.id
+      end
+    end
+
+    context 'Settlement Type Sale' do
+      it 'should have a blank settlement_type_sales' do
+        assigns[:sale].settlement_type_sales.should_not be_empty
+        assigns[:sale].settlement_type_sales.length.should eq 1
+      end
+
+      it 'should default settlement_type_id to Settlement' do
+        assigns[:sale].settlement_type_sales.first.settlement_type_id.should eq @settlement_type.id
+      end
+    end
+  end
+
+  describe 'GET #edit' do
+    before do
+      @sale = FactoryGirl.create(:sale)
+      get 'edit', :id => @sale.id
+    end
+
+    it 'should assign an existing Sale' do
+      assigns[:sale].should == @sale
+    end
+
+    it 'should assign all categories' do
+      assigns[:category_names].should == [@category.name]
+    end
+  end
 
   describe 'POST #create' do
     context 'when successful' do

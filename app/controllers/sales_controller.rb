@@ -24,21 +24,22 @@ class SalesController < ApplicationController
 
   def new
     @sale = Sale.new
-    category_count = Category.all.count
-    settlement_type_count = SettlementType.all.count
-    category_count.times do
-      @category_names = Category.all.map(&:name).reverse
-      @category_ids = Category.all.map(&:id).reverse
-      @sale.category_sales.build
+    @category_names = Category.all.map(&:name).reverse
+    @category_ids = Category.all.map(&:id).reverse
+    @settlement_type_names = SettlementType.all.map(&:name).reverse
+    @settlement_type_ids = SettlementType.all.map(&:id).reverse
+
+    categories = Category.all
+    categories.each do |c|
+      @sale.category_sales << CategorySale.new(:category_id => c.id)
     end
 
-    settlement_type_count.times do
-      @settlement_type_names = SettlementType.all.map(&:name).reverse
-      @settlement_type_ids = SettlementType.all.map(&:id).reverse
-      @sale.settlement_type_sales.build
+    settlement_types = SettlementType.all
+    settlement_types.each do |st|
+      @sale.settlement_type_sales << SettlementTypeSale.new(:settlement_type_id => st.id)
     end
+
     respond_to do |format|
-
       format.html # new.html.erb
       format.xml  { render :xml => @sale }
     end
