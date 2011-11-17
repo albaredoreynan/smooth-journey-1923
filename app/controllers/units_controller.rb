@@ -5,7 +5,7 @@ class UnitsController < ApplicationController
     
     #@units = Unit.all
     
-    @units = Unit.all
+    @units = Unit.search(params[:search])
     
     respond_to do |format|
       format.html # index.html.erb
