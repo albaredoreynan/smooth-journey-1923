@@ -48,13 +48,13 @@
               %td &nbsp;
             - total = 0
             - @categories.each do |category|
-              - total = total + category_sale.category_sales_sum(date,category.id)
+              - total = total + CategorySale.category_sales_sum(date,category.id)
             - @categories.each do |category|
               %tr
-                %td= category.category_name
-                %td= category_sale.category_sales_sum(date,category.id)
+                %td= category.name
+                %td= CategorySale.category_sales_sum(date,category.id)
                 %td
-                  = category_sale.category_sales_sum(date,category.id)/total*100
+                  = CategorySale.category_sales_sum(date,category.id)/total*100
                   \&nbsp;%
             %tr
               %td &nbsp;
@@ -73,7 +73,7 @@
               %td &nbsp;
             - total = 0
             - @settlement_types.each do |settlement_type|
-              - total = total + settlement_type_sale.settlement_sales_sum(date,settlement_type.id)
+              - total = total + SettlementTypeSale.settlement_sales_sum(date,settlement_type.id)
             - @settlement_types.each do |settlement_type|
               %tr
                 %td= settlement_type.name
