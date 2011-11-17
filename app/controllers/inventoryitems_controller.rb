@@ -2,8 +2,9 @@ class InventoryitemsController < ApplicationController
   # GET /inventoryitems
   # GET /inventoryitems.xml
   def index
-    @items = Item.all
-
+    
+    @items = Item.search(params[:search])
+    
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @items }
