@@ -37,9 +37,9 @@ describe Sale do
     }.should change(Sale, :count).by 1
   end
 
-  context 'Total attributes' do
+  context 'total attributes' do
     before do
-      @sale = Sale.new
+      @sale = Sale.new(FactoryGirl.attributes_for(:sale))
     end
 
     it 'should total categories' do
@@ -52,6 +52,14 @@ describe Sale do
       @sale.settlement_type_sales << SettlementTypeSale.new({:ss_amount => 7})
       @sale.settlement_type_sales << SettlementTypeSale.new({:ss_amount => 8})
       @sale.settlement_type_total.should == 15
+    end
+
+    it 'should not be valid when totals are not equal' do
+      @sale.category_sales << CategorySale.new({:amount => 1})
+      @sale.settlement_type_sales << SettlementTypeSale.new({:ss_amount => 22})
+      @sale.category_total.should eq 1
+      @sale.settlement_type_total.should eq 22
+      @sale.should_not be_valid
     end
   end
 

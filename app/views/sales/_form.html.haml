@@ -3,9 +3,9 @@
   - if @sale.errors.any?
     #error_explanation
       / <h2><haml:loud> pluralize(@sale.errors.count, &amp;quot;error&amp;quot;) </haml:loud> prohibited this sale from being saved:</h2>
-      %ul
+      %ul.errors
         - @sale.errors.full_messages.each do |msg|
-          / <li><haml:loud> msg </haml:loud></li>
+          %li= msg
 
   %fieldset#colleft
     .multi_input

@@ -27,6 +27,12 @@ class Sale < ActiveRecord::Base
   accepts_nested_attributes_for :category_sales
   accepts_nested_attributes_for :settlement_type_sales
 
+  validate :check_total
+
+  def check_total
+    errors.add(:base, "The total doesn't add up.") if category_total != settlement_type_total
+  end
+
   def category_total
     category_sales.map(&:amount).sum
   end
