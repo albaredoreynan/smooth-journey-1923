@@ -5,7 +5,7 @@ class SettlementTypeSale < ActiveRecord::Base
   validates_numericality_of :ss_amount
 
   def self.settlement_sales_sum(date, settlementtype)
-    joins('JOIN sales ON ssrows.sale_id = sales.id').where("date = ? and settlement_type_id = ?", date,settlementtype).map(&:ss_amount).sum
+    joins('JOIN sales ON settlement_type_sales.sale_id = sales.id').where("date = ? and settlement_type_id = ?", date,settlementtype).map(&:ss_amount).sum
   end
 
   def self.total_settlement_sales_sum(settlementtype)
