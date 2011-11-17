@@ -57,7 +57,7 @@
                     %center
               %td= sale.date.strftime("%b %d, %Y")
               %td= sale.employee.first_name
-              - sale.ssrows.each do |ss|
+              - sale.settlement_type_sales.each do |ss|
                 %td= number_to_currency(ss.ss_amount, :precision => 2, :unit => " ")
                 - totalst[ss.settlement_type_id] = totalst[ss.settlement_type_id].to_f + ss.ss_amount
               %td= number_to_currency(sale.void, :precision => 2, :unit => " ")

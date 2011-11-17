@@ -3,9 +3,9 @@
   - if @sale.errors.any?
     #error_explanation
       / <h2><haml:loud> pluralize(@sale.errors.count, &amp;quot;error&amp;quot;) </haml:loud> prohibited this sale from being saved:</h2>
-      %ul
+      %ul.errors
         - @sale.errors.full_messages.each do |msg|
-          / <li><haml:loud> msg </haml:loud></li>
+          %li= msg
 
   %fieldset#colleft
     .multi_input
@@ -59,7 +59,7 @@
     .colright
       %fieldset.field_divider
         %legend.box_name= "Sales By Settlement"
-        = f.fields_for :ssrows do |builder|
+        = f.fields_for :settlement_type_sales do |builder|
           - id =  @settlement_type_ids.pop
           - if id!=nil
             = builder.hidden_field :settlement_type_id, :value => id
