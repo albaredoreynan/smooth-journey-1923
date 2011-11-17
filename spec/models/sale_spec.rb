@@ -37,9 +37,14 @@ describe Sale do
     }.should change(Sale, :count).by 1
   end
 
-  context 'total attributes' do
+  context 'totals' do
     before do
       @sale = Sale.new(FactoryGirl.attributes_for(:sale))
+    end
+
+    it 'should return total of 0 as default' do
+      @sale.category_total.should == 0
+      @sale.settlement_type_total.should == 0
     end
 
     it 'should total categories' do
