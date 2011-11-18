@@ -29,17 +29,11 @@
     .colleft
       %fieldset.field_divider
         %legend.box_name= "Sales By Category"
-        - @category_names = Category.all.map(&:name).reverse
-        - @category_ids = Category.all.map(&:id).reverse
-        - @settlement_type_names = SettlementType.all.map(&:name).reverse
-        - @settlement_type_ids = SettlementType.all.map(&:id).reverse
-        = f.fields_for :category_sales do |builder|
+        = f.fields_for :category_sales do |cs|
           .input
-            - id = @category_ids.pop
-            - if id!=nil
-              = builder.hidden_field :category_id, :value => id
-              = f.label @category_names.pop
-              = builder.text_field :amount, :class => :category
+            = cs.hidden_field :category_id, :value => cs.object.category_id
+            = f.label cs.object.category.name
+            = cs.text_field :amount, :class => :category
         .input
           = f.label "Total Amount"
           = f.text_field :total_amount_cs
@@ -59,13 +53,11 @@
     .colright
       %fieldset.field_divider
         %legend.box_name= "Sales By Settlement"
-        = f.fields_for :settlement_type_sales do |builder|
-          - id =  @settlement_type_ids.pop
-          - if id!=nil
-            = builder.hidden_field :settlement_type_id, :value => id
-            .input
-              = f.label @settlement_type_names.pop
-              = builder.text_field :ss_amount, :class => :settlementtype
+        = f.fields_for :settlement_type_sales do |sts|
+          .input
+            = sts.hidden_field :settlement_type_id, :value => sts.object.settlement_type_id
+            = f.label sts.object.settlement_type.name
+            = sts.text_field :ss_amount, :class => :settlementtype
         .input
           = f.label "VOIDS"
           = f.text_field :void
