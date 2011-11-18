@@ -7,10 +7,6 @@ class Item < ActiveRecord::Base
   has_many :purchase_items
   
   def self.search(keyword)
-    unless keyword.empty?
-      where("name LIKE ?", '%'+keyword+'%')
-    else
-      all
-    end
+    where("name LIKE ?", '%'+keyword+'%')
   end
 end

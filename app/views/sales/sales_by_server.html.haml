@@ -58,13 +58,13 @@
               %td= sale.date.strftime("%b %d, %Y")
               %td= sale.employee.first_name
               - sale.settlement_type_sales.each do |ss|
-                %td= number_to_currency(ss.ss_amount, :precision => 2, :unit => " ")
+                %td.monetary= number_to_currency(ss.ss_amount, :precision => 2, :unit => "&#8369;")
                 - totalst[ss.settlement_type_id] = totalst[ss.settlement_type_id].to_f + ss.ss_amount
-              %td= number_to_currency(sale.void, :precision => 2, :unit => " ")
+              %td.monetary= number_to_currency(sale.void, :precision => 2, :unit => "&#8369;")
               - totalvoid = totalvoid + sale.void
-              %td= number_to_currency(sale.gross_total_ss, :precision => 2, :unit => " ")
+              %td.monetary= number_to_currency(sale.gross_total_ss, :precision => 2, :unit => "&#8369;")
               - totalgross = totalgross + sale.gross_total_ss
-              %td= number_to_currency(sale.net_total_ss, :precision => 2, :unit => " ")
+              %td.monetary= number_to_currency(sale.net_total_ss, :precision => 2, :unit => "&#8369;")
               - totalnet  = totalnet + sale.net_total_ss
               %td
                 - if sale.save_as_draft == 1
@@ -76,9 +76,9 @@
                 %b TOTAL
             %td &nbsp;
             - @settlement_types.each do |settlementtype|
-              %td= number_to_currency(totalst[settlementtype.id], :precision => 2, :unit => " ")
-            %td= number_to_currency(totalvoid, :precision => 2, :unit => " ")
-            %td= number_to_currency(totalgross, :precision => 2, :unit => " ")
-            %td= number_to_currency(totalnet, :precision => 2, :unit => " ")
+              %td.monetary= number_to_currency(totalst[settlementtype.id], :precision => 2, :unit => "&#8369;")
+            %td.monetary= number_to_currency(totalvoid, :precision => 2, :unit => "&#8369;")
+            %td.monetary= number_to_currency(totalgross, :precision => 2, :unit => "&#8369;")
+            %td.monetary= number_to_currency(totalnet, :precision => 2, :unit => "&#8369;")
             %td
       = link_to 'New Sale', new_sale_path, :class => :button

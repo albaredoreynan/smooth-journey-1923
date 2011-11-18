@@ -3,7 +3,11 @@ class InventoryitemsController < ApplicationController
   # GET /inventoryitems.xml
   def index
     
-    @items = Item.search(params[:search])
+    if params[:search]
+      @items = Item.search(params[:search])
+    else
+      @items = Item.all
+    end
     
     respond_to do |format|
       format.html # index.html.erb

@@ -4,8 +4,11 @@ class UnitsController < ApplicationController
   def index
     
     #@units = Unit.all
-    
-    @units = Unit.search(params[:search])
+    if params[:search]
+      @units = Unit.search(params[:search])
+    else
+      @units = Unit.all
+    end
     
     respond_to do |format|
       format.html # index.html.erb
