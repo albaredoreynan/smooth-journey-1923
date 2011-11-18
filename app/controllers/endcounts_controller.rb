@@ -45,12 +45,17 @@ class EndcountsController < ApplicationController
 
     @monthbeginning = Date.today.at_beginning_of_month
 
-    count.times do
-      @item_ids = Item.all.map(&:id).reverse
-      @inventoryitems = Item.all.map(&:name).reverse
-      @beginning_counts = Item.all.map(&:beginning_count).reverse
-
-      @endcount.item_counts.build
+    @items = Item.all
+    @items.each do |i|
+      last_end_count = Endcount.order('endcounts.end_date DESC').first
+      last_item_count = ItemCount.order('item_counts.created_at DESC').where(:inventoryitem_id => i.id, :endcount_id => last_end_count.id).first
+      item_count_attr = {:inventoryitem_id => i.id}
+      unless last_item_count.nil?
+        item_count_attr.merge!({:beginning_count => last_item_count.end_count})
+      else
+        item_count_attr.merge!({:beginning_count => 0})
+      end
+      @endcount.item_counts.build item_count_attr
     end
 
     respond_to do |format|
