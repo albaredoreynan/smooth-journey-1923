@@ -75,7 +75,7 @@
                     - u = Unit.find(unitId1)
                     - unit1 = u.name
                     = h unit1
-                  %td.monetary= h number_to_currency(purchaserow.purchase_unitCost, :precision => 2, :unit => "&#8369;")
+                  %td.monetary= number_to_currency(purchaserow.purchase_unitCost, :precision => 2, :unit => "&#8369;")
                   - q = purchaserow.purchase_quantity
                   - i = Item.find(itemId)
                   - unitId2 = i.unit_id
@@ -120,11 +120,11 @@
                       = link_to 'Edit', edit_purchase_path(purchase)
                   / <td><haml:silent> if purchase.save_as_draft == 1 </haml:silent><haml:block><haml:loud> link_to 'Destroy', purchase, :confirm =&amp;gt; 'Are you sure?', :method =&amp;gt; :delete </haml:loud></haml:block></td>
             %tr
-              %td{:colspan => 5}
+              %td{:colspan => 13}
                 = submit_tag 'Submit records'
                 = submit_tag 'Delete records '
               / select checkboxes na checked
-              %td{:colspan => 8}
+              %td
                 %center
                   %b Total
               %td.monetary
