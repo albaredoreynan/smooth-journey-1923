@@ -50,15 +50,15 @@
           %tr
             %td= date.strftime("%b %d, %Y")
             - @categories.each do |category|
-              %td.monetary= number_to_currency(CategorySale.category_sales_sum(date,category.id), :precision => 2, :unit => "&#8369;")
+              %td.monetary= number_to_currency(CategorySale.category_sales_sum(date,category.id), :precision => 2, :unit => peso_sign)
               - totalcateg[category.id] = totalcateg[category.id].to_f + CategorySale.category_sales_sum(date,category.id)
-            %td.monetary= number_to_currency(sale.map(&:vat).sum, :unit => "&#8369;")
+            %td.monetary= number_to_currency(sale.map(&:vat).sum, :unit => peso_sign)
             - totalvat = totalvat + sale.map(&:vat).sum
-            %td.monetary= number_to_currency(sale.map(&:void).sum, :precision => 2, :unit => "&#8369;")
+            %td.monetary= number_to_currency(sale.map(&:void).sum, :precision => 2, :unit => peso_sign)
             - totalvoid = totalvoid + sale.map(&:void).sum
-            %td.monetary= number_to_currency(sale.map(&:service_charge).sum, :precision => 2, :unit => "&#8369;")
+            %td.monetary= number_to_currency(sale.map(&:service_charge).sum, :precision => 2, :unit => peso_sign)
             - totalsc = totalsc + sale.map(&:service_charge).sum
-            %td.monetary= number_to_currency(sale.map(&:total_revenue_cs).sum, :precision => 2, :unit => "&#8369;")
+            %td.monetary= number_to_currency(sale.map(&:total_revenue_cs).sum, :precision => 2, :unit => peso_sign)
             - totalrev = totalrev + sale.map(&:total_revenue_cs).sum
             %td= sale.map(&:customer_count).sum
             - totalcc = totalcc + sale.map(&:customer_count).sum
@@ -69,11 +69,11 @@
             %b/
             %center TOTAL
           - @categories.each do |category|
-            %td.monetary= number_to_currency(totalcateg[category.id], :precision => 2, :unit => "&#8369;")
-          %td.monetary= number_to_currency(totalvat, :precision => 2, :unit => "&#8369;")
-          %td.monetary= number_to_currency(totalvoid, :precision => 2, :unit => "&#8369;")
-          %td.monetary= number_to_currency(totalsc, :precision => 2, :unit => "&#8369;")
-          %td.monetary= number_to_currency(totalrev, :precision => 2, :unit => "&#8369;")
+            %td.monetary= number_to_currency(totalcateg[category.id], :precision => 2, :unit => peso_sign)
+          %td.monetary= number_to_currency(totalvat, :precision => 2, :unit => peso_sign)
+          %td.monetary= number_to_currency(totalvoid, :precision => 2, :unit => peso_sign)
+          %td.monetary= number_to_currency(totalsc, :precision => 2, :unit => peso_sign)
+          %td.monetary= number_to_currency(totalrev, :precision => 2, :unit => peso_sign)
           %td= totalcc
           %td= totaltc
       = link_to 'New Sale', new_sale_path, :class => :button

@@ -75,7 +75,7 @@
                     - u = Unit.find(unitId1)
                     - unit1 = u.name
                     = h unit1
-                  %td.monetary= number_to_currency(purchaserow.purchase_unitCost, :precision => 2, :unit => "&#8369;")
+                  %td.monetary= number_to_currency(purchaserow.purchase_unitCost, :precision => 2, :unit => peso_sign)
                   - q = purchaserow.purchase_quantity
                   - i = Item.find(itemId)
                   - unitId2 = i.unit_id
@@ -100,20 +100,20 @@
                   %td.monetary
                     = unit1
                     and #{unit2}
-                  - number_to_currency(purchaserow.purchase_unitCost, :precision => 2, :unit => "&#8369;")
-                  %td.monetary= number_to_currency(purchaserow.purchase_amount, :precision => 2, :unit => "&#8369;")
+                  - number_to_currency(purchaserow.purchase_unitCost, :precision => 2, :unit => peso_sign)
+                  %td.monetary= number_to_currency(purchaserow.purchase_amount, :precision => 2, :unit => peso_sign)
                   - totalamount = totalamount + purchaserow.purchase_amount
                   %td.monetary= purchaserow.vat_type
-                  %td.monetary= number_to_currency(purchaserow.vat_amount, :precision => 2, :unit => "&#8369;")
+                  %td.monetary= number_to_currency(purchaserow.vat_amount, :precision => 2, :unit => peso_sign)
                   - totalvat = totalvat + purchaserow.vat_amount
-                  %td= number_to_currency(purchaserow.net_amount, :precision => 2, :unit => "&#8369;")
+                  %td= number_to_currency(purchaserow.net_amount, :precision => 2, :unit => peso_sign)
                   - totalnet = totalnet + purchaserow.net_amount
                   - invoicetotal = 0
                   %td.monetary
                     - @p = Purchaserow.where(:purchase_id => purchase.id)
                     - @p.each do |purchaserow|
                       - invoicetotal = invoicetotal + purchaserow.purchase_amount
-                    = number_to_currency(invoicetotal, :precision => 2, :unit => "&#8369;")
+                    = number_to_currency(invoicetotal, :precision => 2, :unit => peso_sign)
                   %td= link_to 'Show', purchase
                   %td
                     - if purchase.save_as_draft == 1
@@ -128,12 +128,12 @@
                 %center
                   %b Total
               %td.monetary
-                %b= number_to_currency(totalamount, :precision => 2, :unit => "&#8369;")
+                %b= number_to_currency(totalamount, :precision => 2, :unit => peso_sign)
               %td
               %td.monetary
-                %b= number_to_currency(totalvat, :precision => 2, :unit => "&#8369;")
+                %b= number_to_currency(totalvat, :precision => 2, :unit => peso_sign)
               %td.monetary
-                %b= number_to_currency(totalnet, :precision => 2, :unit => "&#8369;")
+                %b= number_to_currency(totalnet, :precision => 2, :unit => peso_sign)
               %td.monetary{:colspan => 4}
-                %b= number_to_currency(totalamount, :precision => 2, :unit => "&#8369;")
+                %b= number_to_currency(totalamount, :precision => 2, :unit => peso_sign)
         = link_to 'New purchase', new_purchase_path, :class => :button
