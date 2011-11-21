@@ -4,6 +4,7 @@ class Item < ActiveRecord::Base
 
   belongs_to :unit
   belongs_to :branch
+  belongs_to :subcategory
   has_many :purchase_items
 
   def self.search(keyword)
