@@ -34,8 +34,8 @@
 
     %table.table_form
       %tr
-        %td= purchaserow_form.label :inventoryitem_id, "Item"
-        %td= purchaserow_form.collection_select :inventoryitem_id, Item.find(:all), :id, :name, {:prompt => "Select Item"},  {:style => "width:215px"}
+        %td= purchaserow_form.label :item_id, "Item"
+        %td= purchaserow_form.collection_select :item_id, Item.find(:all), :id, :name, {:prompt => "Select Item"},  {:style => "width:215px"}
       %tr
         %td= purchaserow_form.label :purchase_unit, "Purchase unit"
         %td= purchaserow_form.collection_select :purchase_unit, Unit.find(:all), :id, :name, {:prompt => "Select Purchase unit"},  {:style => "width:215px"}

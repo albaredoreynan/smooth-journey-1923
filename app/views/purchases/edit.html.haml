@@ -10,7 +10,7 @@
           = f.association :supplier
           = f.association :branch, :collection => Branch.all.map { |b| [b.location, b.id] }
           = simple_fields_for :purchaserows do |pf|
-            = pf.input :inventoryitem_id
+            = pf.input :item_id
             = pf.input :purchase_unit
             = pf.input :purchase_unitCost, :label => 'Unit Cost'
             = pf.input :purchase_quantity, :label => 'Quantity'

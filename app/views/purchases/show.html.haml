@@ -23,7 +23,7 @@
         - for purchaserow in @purchase.purchaserows
           %hr/
           %b Inventory item:
-          - inventoryId = purchaserow.inventoryitem_id
+          - inventoryId = purchaserow.item_id
           - item = Item.find(inventoryId)
           = item.name
           %br/

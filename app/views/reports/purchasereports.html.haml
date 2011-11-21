@@ -29,7 +29,7 @@
       %td Subategory
       %td= collection_select(:subcategory, :subcategory_id, Subcategory.all, :id, :subcategory_name, :prompt => true)
       %td Item
-      %td= collection_select(:inventoryitem, :inventoryitem_id, Inventoryitem.all, :id, :item_name, :prompt => true)
+      %td= collection_select(:inventoryitem, :item_id, Inventoryitem.all, :id, :item_name, :prompt => true)
     %tr
       %td &nbsp;
       %td= submit_tag "Search by supplier"
@@ -77,7 +77,7 @@
           - b = Branch.find(branchId)
           = b.branch_location
         %td
-          - itemId = purchaserow.inventoryitem_id
+          - itemId = purchaserow.item_id
           - i = Inventoryitem.find(itemId)
           = h i.item_name
         %td= h number_with_precision(purchaserow.purchase_quantity, :precision => 0)

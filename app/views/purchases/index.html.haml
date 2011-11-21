@@ -57,33 +57,30 @@
                     - branchId = purchase.branch_id
                     - b = Branch.find(branchId)
                     = b.location
-                  - itemId = purchaserow.inventoryitem_id
-                  - i = Item.find(itemId)
-                  - subcatId = i.subcategory_id
+                  - itemId = purchaserow.item_id
+                  - item = Item.find(itemId)
+                  /- subcatId = i.subcategory_id
                   /- s = Subcategory.find(subcatId)
                   /- catId = s.category_id
                   /- c = Category.find(catId)
+                  %td= item.subcategory.category.name
+                  %td= item.subcategory.name unless item.subcategory.nil?
+                  %td= item.name
+                  %td= number_with_precision(purchaserow.quantity, :precision => 0)
                   %td
-                    /= c.name
-                  %td
-                    /= s.name
-                  %td
-                    = h i.name
-                  %td= h number_with_precision(purchaserow.purchase_quantity, :precision => 0)
-                  %td
-                    - unitId1 = purchaserow.purchase_unit
+                    - unitId1 = purchaserow.unit_id
                     - u = Unit.find(unitId1)
                     - unit1 = u.name
                     = h unit1
-                  %td.monetary= number_to_currency(purchaserow.purchase_unitCost, :precision => 2, :unit => peso_sign)
-                  - q = purchaserow.purchase_quantity
+                  %td.monetary= number_to_currency(purchaserow.unit_cost, :precision => 2, :unit => peso_sign)
+                  - q = purchaserow.quantity
                   - i = Item.find(itemId)
                   - unitId2 = i.unit_id
                   - u = Unit.find(unitId2)
                   - unit2 = u.name
                   %td
                     - if unitId1==unitId2
-                      = h number_with_precision(purchaserow.purchase_quantity, :precision => 0)
+                      = number_with_precision(purchaserow.quantity, :precision => 0)
                     - else
                       - temp1 = Conversion.where("b_unit = ? and s_unit = ?",unitId1,unitId2)
                       - temp2 = Conversion.where("b_unit = ? and s_unit = ?",unitId2,unitId1)
@@ -100,9 +97,9 @@
                   %td.monetary
                     = unit1
                     and #{unit2}
-                  - number_to_currency(purchaserow.purchase_unitCost, :precision => 2, :unit => peso_sign)
-                  %td.monetary= number_to_currency(purchaserow.purchase_amount, :precision => 2, :unit => peso_sign)
-                  - totalamount = totalamount + purchaserow.purchase_amount
+                  - number_to_currency(purchaserow.unit_cost, :precision => 2, :unit => peso_sign)
+                  %td.monetary= number_to_currency(purchaserow.amount, :precision => 2, :unit => peso_sign)
+                  - totalamount = totalamount + purchaserow.amount
                   %td.monetary= purchaserow.vat_type
                   %td.monetary= number_to_currency(purchaserow.vat_amount, :precision => 2, :unit => peso_sign)
                   - totalvat = totalvat + purchaserow.vat_amount
@@ -112,7 +109,7 @@
                   %td.monetary
                     - @p = Purchaserow.where(:purchase_id => purchase.id)
                     - @p.each do |purchaserow|
-                      - invoicetotal = invoicetotal + purchaserow.purchase_amount
+                      - invoicetotal = invoicetotal + purchaserow.amount
                     = number_to_currency(invoicetotal, :precision => 2, :unit => peso_sign)
                   %td= link_to 'Show', purchase
                   %td

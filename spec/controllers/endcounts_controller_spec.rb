@@ -31,13 +31,13 @@ describe EndcountsController do
       # I inserted two item_counts to make sure that the last item will be
       # fetched regardless of date
       @endcount.item_counts.create ({
-        :inventoryitem_id => @item.id,
+        :item_id => @item.id,
         :beginning_count => 5,
         :end_count => 10,
         :created_at => 60.seconds.ago
       })
       @endcount.item_counts.create ({
-        :inventoryitem_id => @item.id,
+        :item_id => @item.id,
         :beginning_count => 10,
         :end_count => 12,
         :created_at => Time.now
@@ -45,7 +45,7 @@ describe EndcountsController do
       get 'new'
       item_counts = assigns[:endcount].item_counts
       item_counts.first.beginning_count.should eq 12
-      item_counts.first.inventoryitem_id.should eq @item.id
+      item_counts.first.item_id.should eq @item.id
     end
   end
 end
