@@ -11,17 +11,17 @@
         %b Supplier:
         - supplierId = @purchaseitem.supplier_id
         - s = Supplier.find(supplierId)
-        = s.supplier_name
+        = s.name
       %p
         %b Branch:
         - branchId = @purchaseitem.branch_id
         - b = Branch.find(branchId)
-        = b.branch_location
+        = b.location
       %p
         %b Inventory:
         - inventoryId = @purchaseitem.inventory_id
-        - i = Item.find(inventoryId)
-        = i.item_name
+        - item = Item.find(inventoryId)
+        = item.name
       %p
         %b Purchase unitcost:
         = @purchaseitem.purchase_unitCost
