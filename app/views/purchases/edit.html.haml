@@ -1,69 +1,21 @@
 - content_for(:head, javascript_include_tag(:purchase_edit))
-%h1 Edit Purchase
-= simple_form_for(@purchase) do |f|
-  %table.table_form
-    %tr
-
-  %td Date
-  %td &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  %td= f.date_select :purchase_date
-  %tr
-
-  %td#length= f.label :invoice_id
-  %td &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  %td= f.text_field :invoice_id
-  %tr
-
-  %td= f.label :supplier_id
-  %td &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  %td= f.collection_select :supplier_id, Supplier.find(:all), :id, :supplier_name, {:prompt => "Select Supplier"}, {:style => "width:215px"}
-  %tr
-
-  %td= f.label :branch_id
-  %td &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  %td= f.collection_select :branch_id, Branch.find(:all), :id, :branch_location, {:prompt => "Select Branch"},  {:style => "width:215px"}
-  = f.fields_for :purchaserows do |purchaserow_form|
-    %table.table_form
-    %hr/
-    %tr
-      %td= purchaserow_form.label :inventoryitem_id, "Item"
-      %td= purchaserow_form.collection_select :inventoryitem_id, Inventoryitem.find(:all), :id, :item_name, {:prompt => "Select Item"},  {:style => "width:215px"}
-    %tr
-      %td= purchaserow_form.label :purchase_unit, "Purchase unit"
-      %td= purchaserow_form.collection_select :purchase_unit, Unit.find(:all), :id, :unit_name, {:prompt => "Select Purchase unit"},  {:style => "width:215px"}
-    %tr
-      %td= purchaserow_form.label :purchase_unitCost, "Purchase unit cost"
-      %td= purchaserow_form.text_field :purchase_unitCost, :id => "purchase_unitCost", :onchange => "updateVatAmount(this.form)"
-    %tr
-      %td= purchaserow_form.label :purchase_quantity, "Purchase quantity"
-      %td= purchaserow_form.text_field :purchase_quantity, :id => "purchase_quantity", :onchange => "updateVatAmount(this.form)"
-    %tr
-      %td= purchaserow_form.label :purchase_amount, "Purchase amount"
-      %td= purchaserow_form.text_field :purchase_amount, :id => "purchase_amount", :onchange => "updateVatAmount(this.form)", :readonly => true, :style=>"background-color : #ccc"
-    %tr
-      %td
-        = purchaserow_form.label :vat_type, ""
-        / radio button
-      %td
-        = purchaserow_form.radio_button :vat_type, "VAT-Inclusive", :onchange => "updateVatAmount(this.form)", :id => "VAT-Inclusive"
-        VAT-Inclusive
-        %br/
-        = purchaserow_form.radio_button :vat_type, "VAT-Exclusive", :onchange => "updateVatAmount(this.form)", :id => "VAT-Exclusive"
-        VAT-Exclusive
-        %br/
-        = purchaserow_form.radio_button :vat_type, "VAT-Exempted", :onchange => "updateVatAmount(this.form)", :id => "VAT-Exempted"
-        VAT-Exempted
-    %tr
-      %td= purchaserow_form.label :vat_amount, "Vat amount"
-      %td= purchaserow_form.text_field :vat_amount, :id => "vat_amount", :readonly => true, :style=>"background-color : #ccc"
-    %tr
-      %td= purchaserow_form.label :net_amount, "Net amount"
-      %td= purchaserow_form.text_field :net_amount, :id => "net_amount", :readonly => true, :style=>"background-color : #ccc"
-    = purchaserow_form.link_to_remove "Remove"
-  %div
-    %p= f.link_to_add "Add item", :purchaserows
-  .actions
-    = f.submit "Save as draft"
-= link_to 'Show', @purchase
-|
-\#{link_to 'Back', purchases_path, :class => :button}
+.block
+  .content
+    %h2 Edit Purchase
+    .inner
+      = simple_form_for(@purchase) do |f|
+        %fieldset
+          = f.input :purchase_date
+          = f.input :invoice_id
+          = f.association :supplier
+          = f.association :branch, :collection => Branch.all.map { |b| [b.location, b.id] }
+          = simple_fields_for :purchaserows do |pf|
+            = pf.input :inventoryitem_id
+            = pf.input :purchase_unit
+            = pf.input :purchase_unitCost, :label => 'Unit Cost'
+            = pf.input :purchase_quantity, :label => 'Quantity'
+            = pf.input :purchase_amount, :label => 'Amount'
+            = pf.input :vat_type, :label => 'VAT Type'
+            = pf.input :vat_amount, :label => 'VAT Amount'
+            = pf.input :net_amount
+          = f.button :submit
