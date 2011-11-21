@@ -1,0 +1,90 @@
+.block
+  .content
+    %h2 Purchase Items
+    .inner
+      - form_tag '/purchase_items/search' do
+        %table
+          %tr
+            %td From
+            %td= date_select(:start, '', :start_year => 2010)
+          %tr
+            %td To
+            %td= date_select(:end, '', :start_year => 2010)
+          %tr
+            %td &nbsp;
+            %td= submit_tag :Search
+      %table
+        %tr
+          %th
+          %th Purchase date
+          %th Invoice
+          %th Supplier
+          %th Branch
+          %th Inventory
+          %th Purchase unitcost
+          %th Purchase quantity
+          %th Purchase amount
+          %th Vat type
+          %th Vat amount
+          %th Net amount
+          %th
+          %th
+          %th
+        - totalamount = 0
+        - totalnet = 0
+        - totalvat = 0
+        - form_tag '/purchase_items/savemultiple' do
+          - @purchase_items.each do |purchaseitem|
+            %tr
+              %td
+                %center
+                  - if purchase_item.save_as_draft == 1
+                    = check_box_tag "purchase_item_ids[]", purchaseitem.id
+              %td= purchase_item.purchase_date.strftime("%B %d, %Y")
+              %td= purchase_item.invoice_id
+              %td
+                - supplierId = purchase_item.supplier_id
+                - s = Supplier.find(supplierId)
+                = s.name
+              %td
+                - branchId = purchase_item.branch_id
+                - b = Branch.find(branchId)
+                = b.location
+              %td
+                - inventoryId = purchase_item.inventory_id
+                - item = Item.find(inventoryId)
+                = item.name
+              %td= purchase_item.unit_cost
+              %td= purchase_item.quantity
+              %td= #number_to_currency(purchase_item.amount, :precision => 2)   |
+                  number_with_precision(purchase_item.amount, :precision => 2) |
+              - totalamount = totalamount + purchase_item.amount
+              %td= purchase_item.vat_type
+              %td= number_with_precision(purchase_item.vat_amount, :precision => 2)
+              - totalvat = totalvat + purchase_item.vat_amount
+              %td= number_with_precision(purchase_item.net_amount, :precision => 2)
+              - totalnet = totalnet + purchase_item.net_amount
+              %td= link_to 'Show', purchase_item
+              %td= link_to 'Edit', edit_purchase_item_path(purchaseitem)
+              %td= link_to 'Destroy', purchase_item, :confirm => 'Are you sure?', :method => :delete
+          %tr
+            %td= submit_tag 'Save'
+            / select checkboxes na checked
+            %td
+              %center
+                %b Total
+            %td
+            %td
+            %td
+            %td
+            %td
+            %td
+            %td= number_with_precision(totalamount, :precision => 2)
+            %td
+            %td= number_with_precision(totalvat, :precision => 2)
+            %td= number_with_precision(totalnet, :precision => 2)
+            %td
+            %td
+            %td
+      %br/
+      = link_to 'New Purchase Item', new_purchase_item_path, :class => 'button'

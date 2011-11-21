@@ -1,0 +1,45 @@
+.block
+  .content
+    .inner
+      %p
+        %b Purchase date:
+        = @purchase_item.purchase_date.strftime("%B %d, %Y")
+      %p
+        %b Invoice:
+        = @purchase_item.invoice_id
+      %p
+        %b Supplier:
+        - supplierId = @purchase_item.supplier_id
+        - s = Supplier.find(supplierId)
+        = s.name
+      %p
+        %b Branch:
+        - branchId = @purchase_item.branch_id
+        - b = Branch.find(branchId)
+        = b.location
+      %p
+        %b Inventory:
+        - inventoryId = @purchase_item.inventory_id
+        - item = Item.find(inventoryId)
+        = item.name
+      %p
+        %b Purchase unitcost:
+        = @purchase_item.unit_cost
+      %p
+        %b Purchase quantity:
+        = @purchase_item.quantity
+      %p
+        %b Purchase amount:
+        = @purchase_item.amount
+      %p
+        %b Vat type:
+        = @purchase_item.vat_type
+      %p
+        %b Vat amount:
+        = @purchase_item.vat_amount
+      %p
+        %b Net amount:
+        = @purchase_item.net_amount
+      = link_to 'Edit', edit_purchase_item_path(@purchaseitem)
+      |
+      \#{link_to 'Back', purchase_items_path}

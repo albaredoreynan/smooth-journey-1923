@@ -1,9 +1,9 @@
-class Purchaseitem < ActiveRecord::Base
+class PurchaseItem < ActiveRecord::Base
   belongs_to :item
 
   validates :branch_id, :presence => true
   validates :invoice_id, :presence => true
-  validates :purchase_amount, :presence => true
+  validates :amount, :presence => true
   validates :net_amount, :presence => true
 
   #def self.search(from,to)

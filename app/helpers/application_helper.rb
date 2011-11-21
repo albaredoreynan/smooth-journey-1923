@@ -14,4 +14,8 @@ module ApplicationHelper
   def title
     'RRBS'
   end
+
+  def peso_sign
+    "&#8369;"
+  end
 end

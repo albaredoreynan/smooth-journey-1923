@@ -1,6 +1,5 @@
 class Endcount < ActiveRecord::Base
-  has_many :item_counts, :dependent => :destroy #when endcount is destroyed, item_count will also be destroyed
-  accepts_nested_attributes_for :item_counts
+  has_many :item_counts, :dependent => :destroy
 
-  #validates :end_count, :presence => true
+  accepts_nested_attributes_for :item_counts
 end

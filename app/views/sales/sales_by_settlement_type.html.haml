@@ -46,21 +46,21 @@
           %tr
             %td= date.strftime("%b %d, %Y")
             - @settlement_types.each do |settlementtype|
-              %td.monetary= number_to_currency(SettlementTypeSale.settlement_sales_sum(date,settlementtype.id), :precision => 2, :unit => "&#8369;")
+              %td.monetary= number_to_currency(SettlementTypeSale.settlement_sales_sum(date,settlementtype.id), :precision => 2, :unit => peso_sign)
               - totalst[settlementtype.id] = totalst[settlementtype.id].to_f + SettlementTypeSale.settlement_sales_sum(date,settlementtype.id)
-            %td.monetary= number_to_currency(sale.map(&:void).sum, :precision => 2, :unit => "&#8369;")
+            %td.monetary= number_to_currency(sale.map(&:void).sum, :precision => 2, :unit => peso_sign)
             - totalvat = totalvat + sale.map(&:void).sum
-            %td.monetary= number_to_currency(sale.map(&:gross_total_ss).sum, :precision => 2, :unit => "&#8369;")
+            %td.monetary= number_to_currency(sale.map(&:gross_total_ss).sum, :precision => 2, :unit => peso_sign)
             - totalgross = totalgross + sale.map(&:gross_total_ss).sum
-            %td.monetary= number_to_currency(sale.map(&:net_total_ss).sum, :precision => 2, :unit => "&#8369;")
+            %td.monetary= number_to_currency(sale.map(&:net_total_ss).sum, :precision => 2, :unit => peso_sign)
             - totalnet = totalnet + sale.map(&:net_total_ss).sum
         %tr
           %td
             %center
               %b TOTAL
           - @settlement_types.each do |settlementtype|
-            %td.monetary= number_to_currency(totalst[settlementtype.id], :precision => 2, :unit => "&#8369;")
-          %td.monetary= number_to_currency(totalvat, :precision => 2, :unit => "&#8369;")
-          %td.monetary= number_to_currency(totalgross, :precision => 2, :unit => "&#8369;")
-          %td.monetary= number_to_currency(totalnet, :precision => 2, :unit => "&#8369;")
+            %td.monetary= number_to_currency(totalst[settlementtype.id], :precision => 2, :unit => peso_sign)
+          %td.monetary= number_to_currency(totalvat, :precision => 2, :unit => peso_sign)
+          %td.monetary= number_to_currency(totalgross, :precision => 2, :unit => peso_sign)
+          %td.monetary= number_to_currency(totalnet, :precision => 2, :unit => peso_sign)
       = link_to 'New Sale', new_sale_path, :class => :button

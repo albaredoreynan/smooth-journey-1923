@@ -5,14 +5,19 @@
   %br/
 .right
 %div{:style => "clear: both;"}
-- form_tag '/purchase_items/index' do
+- form_tag '/purchase_items/search' do
   %table
     %tr
       %td From
       %td= date_select(:start, '', :start_year => 2010)
       %td To
       %td= date_select(:end, '', :start_year => 2010)
-      %td= submit_tag "Search", :name => nil
+      %td= submit_tag "Search"
+%hr/
+%h2
+  %a{:href => "#"}
+    SEARCH: #{p "#{@searchdate} - #{@enddate}"}
+%br/
 %table{:border => "1"}
   %tr
     %th Purchase date
@@ -29,19 +34,19 @@
     %th
     %th
     %th
-  - @purchase_items.each do |purchaseitem|
+  - @purchase_items.each do |date,purchaseitem|
     %tr
-      %td= purchase_item.purchase_date
-      %td= purchase_item.invoice_id
-      %td= purchase_item.supplier_id
-      %td= purchase_item.branch_id
-      %td= purchase_item.inventory_id
-      %td= purchase_item.unit_cost
-      %td= purchase_item.quantity
-      %td= purchase_item.amount
-      %td= purchase_item.vat_type
-      %td= purchase_item.vat_amount
-      %td= purchase_item.net_amount
+      %td= date
+      %td= purchase_item.map(&:invoice_id).first
+      %td= purchase_item.map(&:supplier_id).first
+      %td= purchase_item.map(&:branch_id).first
+      %td= purchase_item.map(&:inventory_id).first
+      %td= purchase_item.map(&:unit_cost).first
+      %td= purchase_item.map(&:quantity).first
+      %td= purchase_item.map(&:amount).first
+      %td= purchase_item.map(&:vat_type).first
+      %td= purchase_item.map(&:vat_amount).first
+      %td= purchase_item.map(&:net_amount).first
       %td= link_to 'Show', purchase_item
       %td= link_to 'Edit', edit_purchase_item_path(purchaseitem)
       %td= link_to 'Destroy', purchase_item, :confirm => 'Are you sure?', :method => :delete

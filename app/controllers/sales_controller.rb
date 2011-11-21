@@ -31,12 +31,12 @@ class SalesController < ApplicationController
 
     categories = Category.all
     categories.each do |c|
-      @sale.category_sales << CategorySale.new(:category_id => c.id)
+      @sale.category_sales.build({:category_id => c.id})
     end
 
     settlement_types = SettlementType.all
     settlement_types.each do |st|
-      @sale.settlement_type_sales << SettlementTypeSale.new(:settlement_type_id => st.id)
+      @sale.settlement_type_sales.build({:settlement_type_id => st.id})
     end
 
     respond_to do |format|

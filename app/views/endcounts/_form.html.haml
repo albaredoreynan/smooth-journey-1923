@@ -22,12 +22,12 @@
       %th Item
       %th Beginning Count
       %th End Count
-    = f.fields_for :item_counts do |builder|
+    = f.fields_for :item_counts do |ic|
       %tr
-        = builder.hidden_field :inventoryitem_id, :value => @item_ids.pop
-        %td= @inventoryitems.pop
-        %td= builder.text_field :beginning_count, :value => @beginning_counts.pop, :readonly => true, :style=>"background-color : #ccc"
-        %td= builder.text_field :end_count
+        = ic.hidden_field :item_id, :value => ic.object.item_id
+        %td= ic.object.item.name
+        %td= ic.text_field :beginning_count, :value => ic.object.beginning_count, :readonly => true, :style=>"background-color : #ccc"
+        %td= ic.text_field :end_count
 
   %table.table_form
     %tr

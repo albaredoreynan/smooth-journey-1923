@@ -20,22 +20,18 @@
             %th Invoice date
             %th Supplier
             %th Branch
-            %th Category
             %th Subcategory
             %th Inventory item
             %th Purchase quantity
-            %th Purchase Unit
             %th Purchase Unit Cost
             %th Inventory Quantity
-            %th Inventory Unit
             %th Inventory Unit Cost
             %th Purchase Amount
             %th VAT-Type
             %th VAT-Amount
             %th Net-Amount
             %th Invoice total
-            %th Show
-            %th Edit
+            %th.actions Actions
           - totalamount = 0
           - totalnet = 0
           - totalvat = 0
@@ -46,44 +42,39 @@
                   %td{:class => 'checkbox'}
                     - if purchase.save_as_draft == 1
                       = check_box_tag "purchase_ids[]", purchase.id
-                  - purchase.created_at.strftime("%B %d, %Y")
+                  - purchase.created_at.strftime("%b %d, %Y")
                   %td= purchase.invoice_id
-                  %td= purchase.purchase_date.strftime("%B %d, %Y")
+                  %td= purchase.purchase_date.strftime("%b %d, %Y")
                   %td
                     - supplierId = purchase.supplier_id
                     - s = Supplier.find(supplierId)
-                    = s.name
+                    = purchaserow.purchase.supplier.name
                   %td
                     - branchId = purchase.branch_id
                     - b = Branch.find(branchId)
                     = b.location
-                  - itemId = purchaserow.inventoryitem_id
-                  - i = Item.find(itemId)
-                  - subcatId = i.subcategory_id
-                  /- s = Subcategory.find(subcatId)
-                  /- catId = s.category_id
-                  /- c = Category.find(catId)
                   %td
-                    /= c.name
-                  %td
-                    /= s.name
-                  %td
-                    = h i.name
-                  %td= h number_with_precision(purchaserow.purchase_quantity, :precision => 0)
-                  %td
-                    - unitId1 = purchaserow.purchase_unit
-                    - u = Unit.find(unitId1)
-                    - unit1 = u.name
-                    = h unit1
-                  %td.monetary= h number_to_currency(purchaserow.purchase_unitCost, :precision => 2, :unit => "&#8369;")
-                  - q = purchaserow.purchase_quantity
+                    = purchaserow.item.category_name
+                    = purchaserow.item.subcategory_name
+                  %td= purchaserow.item.name
+                  %td= number_with_precision(purchaserow.quantity, :precision => 0)+' '+purchaserow.unit.name
+                  - itemId = purchaserow.item_id
+                  - item = Item.find(itemId)
+                  - q = purchaserow.quantity
                   - i = Item.find(itemId)
                   - unitId2 = i.unit_id
-                  - u = Unit.find(unitId2)
-                  - unit2 = u.name
+                  - unless unitId2.nil?
+                    - u = Unit.find(unitId2)
+                    - unit2 = u.name
+                  - else
+                    - unit2 = ''
+                  %td.monetary= number_to_currency(purchaserow.unit_cost, :precision => 2, :unit => peso_sign)+' '+unit2
                   %td
+                    - unitId1 = purchaserow.unit_id
+                    - u = Unit.find(unitId1)
+                    - unit1 = u.name
                     - if unitId1==unitId2
-                      = h number_with_precision(purchaserow.purchase_quantity, :precision => 0)
+                      = number_with_precision(purchaserow.quantity, :precision => 0)
                     - else
                       - temp1 = Conversion.where("b_unit = ? and s_unit = ?",unitId1,unitId2)
                       - temp2 = Conversion.where("b_unit = ? and s_unit = ?",unitId2,unitId1)
@@ -96,44 +87,43 @@
                           - conversion_num = temp2.first.conversionNumber
                           - inventory_quantity = q*(1/conversion_num)
                           = inventory_quantity
-                  %td= unit2
-                  %td.monetary
+                  %td
                     = unit1
                     and #{unit2}
-                  - number_to_currency(purchaserow.purchase_unitCost, :precision => 2, :unit => "&#8369;")
-                  %td.monetary= number_to_currency(purchaserow.purchase_amount, :precision => 2, :unit => "&#8369;")
-                  - totalamount = totalamount + purchaserow.purchase_amount
+                  - number_to_currency(purchaserow.unit_cost, :precision => 2, :unit => peso_sign)
+                  %td.monetary= number_to_currency(purchaserow.amount, :precision => 2, :unit => peso_sign)
+                  - totalamount = totalamount + purchaserow.amount
                   %td.monetary= purchaserow.vat_type
-                  %td.monetary= number_to_currency(purchaserow.vat_amount, :precision => 2, :unit => "&#8369;")
+                  %td.monetary= number_to_currency(purchaserow.vat_amount, :precision => 2, :unit => peso_sign)
                   - totalvat = totalvat + purchaserow.vat_amount
-                  %td= number_to_currency(purchaserow.net_amount, :precision => 2, :unit => "&#8369;")
+                  %td= number_to_currency(purchaserow.net_amount, :precision => 2, :unit => peso_sign)
                   - totalnet = totalnet + purchaserow.net_amount
                   - invoicetotal = 0
                   %td.monetary
                     - @p = Purchaserow.where(:purchase_id => purchase.id)
                     - @p.each do |purchaserow|
-                      - invoicetotal = invoicetotal + purchaserow.purchase_amount
-                    = number_to_currency(invoicetotal, :precision => 2, :unit => "&#8369;")
-                  %td= link_to 'Show', purchase
+                      - invoicetotal = invoicetotal + purchaserow.amount
+                    = number_to_currency(invoicetotal, :precision => 2, :unit => peso_sign)
                   %td
+                    = link_to 'Show', purchase
                     - if purchase.save_as_draft == 1
                       = link_to 'Edit', edit_purchase_path(purchase)
                   / <td><haml:silent> if purchase.save_as_draft == 1 </haml:silent><haml:block><haml:loud> link_to 'Destroy', purchase, :confirm =&amp;gt; 'Are you sure?', :method =&amp;gt; :delete </haml:loud></haml:block></td>
             %tr
-              %td{:colspan => 5}
+              %td{:colspan => 10}
                 = submit_tag 'Submit records'
                 = submit_tag 'Delete records '
               / select checkboxes na checked
-              %td{:colspan => 8}
-                %center
-                  %b Total
+              %td
+                %b Total
               %td.monetary
-                %b= number_to_currency(totalamount, :precision => 2, :unit => "&#8369;")
+                %b= number_to_currency(totalamount, :precision => 2, :unit => peso_sign)
               %td
               %td.monetary
-                %b= number_to_currency(totalvat, :precision => 2, :unit => "&#8369;")
+                %b= number_to_currency(totalvat, :precision => 2, :unit => peso_sign)
               %td.monetary
-                %b= number_to_currency(totalnet, :precision => 2, :unit => "&#8369;")
-              %td.monetary{:colspan => 4}
-                %b= number_to_currency(totalamount, :precision => 2, :unit => "&#8369;")
+                %b= number_to_currency(totalnet, :precision => 2, :unit => peso_sign)
+              %td.monetary
+                %b= number_to_currency(totalamount, :precision => 2, :unit => peso_sign)
+              %td &nbsp;
         = link_to 'New purchase', new_purchase_path, :class => :button
