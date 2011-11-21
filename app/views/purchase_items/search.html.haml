@@ -41,9 +41,9 @@
       %td= purchase_item.map(&:supplier_id).first
       %td= purchase_item.map(&:branch_id).first
       %td= purchase_item.map(&:inventory_id).first
-      %td= purchase_item.map(&:purchase_unitCost).first
-      %td= purchase_item.map(&:purchase_quantity).first
-      %td= purchase_item.map(&:purchase_amount).first
+      %td= purchase_item.map(&:unit_cost).first
+      %td= purchase_item.map(&:quantity).first
+      %td= purchase_item.map(&:amount).first
       %td= purchase_item.map(&:vat_type).first
       %td= purchase_item.map(&:vat_amount).first
       %td= purchase_item.map(&:net_amount).first

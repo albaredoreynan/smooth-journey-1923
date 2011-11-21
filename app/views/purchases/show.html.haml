@@ -28,18 +28,18 @@
           = item.name
           %br/
           %b Purchase unit:
-          - unitId = purchaserow.purchase_unit
+          - unitId = purchaserow.unit_id
           - unit = Unit.find(unitId)
           = unit.name
           %br/
           %b Purchase unit cost:
-          = number_with_precision(purchaserow.purchase_unitCost, :precision => 2)
+          = number_with_precision(purchaserow.unit_cost, :precision => 2)
           %br/
           %b Purchase quantity:
-          = number_with_precision(purchaserow.purchase_quantity, :precision => 0)
+          = number_with_precision(purchaserow.quantity, :precision => 0)
           %br/
           %b Purchase amount:
-          = number_with_precision(purchaserow.purchase_amount, :precision => 2)
+          = number_with_precision(purchaserow.amount, :precision => 2)
           %br/
           %b Vat type:
           = purchaserow.vat_type

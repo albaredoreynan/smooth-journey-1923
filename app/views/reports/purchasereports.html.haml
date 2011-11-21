@@ -111,18 +111,18 @@
         %td
           = unit1
           and #{unit2}
-        %td= h number_with_precision(purchaserow.purchase_amount, :precision => 2)
+        %td= h number_with_precision(purchaserow.amount, :precision => 2)
         %td= h purchaserow.vat_type
         %td= h number_with_precision(purchaserow.vat_amount, :precision => 2)
         %td= h number_with_precision(purchaserow.net_amount, :precision => 2)
-        - totalamount = totalamount + purchaserow.purchase_amount
+        - totalamount = totalamount + purchaserow.amount
         - totalvat = totalvat + purchaserow.vat_amount
         - totalnet = totalnet + purchaserow.net_amount
         - invoicetotal = 0
         %td
           - @p = Purchaserow.where(:purchase_id => purchase.id)
           - @p.each do |purchaserow|
-            - invoicetotal = invoicetotal + purchaserow.purchase_amount
+            - invoicetotal = invoicetotal + purchaserow.amount
           = number_with_precision(invoicetotal, :precision => 2)
   %tr
     %td

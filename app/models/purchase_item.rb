@@ -3,7 +3,7 @@ class PurchaseItem < ActiveRecord::Base
 
   validates :branch_id, :presence => true
   validates :invoice_id, :presence => true
-  validates :purchase_amount, :presence => true
+  validates :amount, :presence => true
   validates :net_amount, :presence => true
 
   #def self.search(from,to)

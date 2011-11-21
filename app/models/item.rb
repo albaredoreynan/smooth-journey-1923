@@ -10,4 +10,12 @@ class Item < ActiveRecord::Base
   def self.search(keyword)
     where("name LIKE ?", '%'+keyword+'%')
   end
+
+  def category_name
+    subcategory.category.name unless subcategory.nil?
+  end
+
+  def subcategory_name
+    subcategory.name unless subcategory.nil?
+  end
 end
