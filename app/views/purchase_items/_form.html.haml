@@ -24,15 +24,15 @@
     font-weight: bold;
   }
 
-- content_for(:head, javascript_include_tag(:purchaseitems))
-= form_for(@purchaseitem) do |f|
-  - if @purchaseitem.errors.any?
+- content_for(:head, javascript_include_tag(:purchase_items))
+= form_for(@purchase_item) do |f|
+  - if @purchase_item.errors.any?
     #error_explanation
       %h2
-        = pluralize(@purchaseitem.errors.count, "error")
-        prohibited this purchaseitem from being saved:
+        = pluralize(@purchase_item.errors.count, "error")
+        prohibited this purchase_item from being saved:
       %ul
-        - @purchaseitem.errors.full_messages.each do |msg|
+        - @purchase_item.errors.full_messages.each do |msg|
           %li= msg
   %table
   %td

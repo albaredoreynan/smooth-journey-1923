@@ -1,4 +1,4 @@
-class Purchaseitem < ActiveRecord::Base
+class PurchaseItem < ActiveRecord::Base
   belongs_to :item
 
   validates :branch_id, :presence => true

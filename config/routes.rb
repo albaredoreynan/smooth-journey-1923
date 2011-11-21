@@ -44,7 +44,7 @@ Rrbs::Application.routes.draw do
 
   resources :sales_reports
 
-  resources :purchaseitems
+  resources :purchase_items
 
   resources :purchases
 
