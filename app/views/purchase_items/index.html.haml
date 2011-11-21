@@ -34,12 +34,12 @@
         - totalnet = 0
         - totalvat = 0
         - form_tag '/purchase_items/savemultiple' do
-          - @purchase_items.each do |purchaseitem|
+          - @purchase_items.each do |purchase_item|
             %tr
               %td
                 %center
                   - if purchase_item.save_as_draft == 1
-                    = check_box_tag "purchase_item_ids[]", purchaseitem.id
+                    = check_box_tag "purchase_item_ids[]", purchase_item.id
               %td= purchase_item.purchase_date.strftime("%B %d, %Y")
               %td= purchase_item.invoice_id
               %td
@@ -65,7 +65,7 @@
               %td= number_with_precision(purchase_item.net_amount, :precision => 2)
               - totalnet = totalnet + purchase_item.net_amount
               %td= link_to 'Show', purchase_item
-              %td= link_to 'Edit', edit_purchase_item_path(purchaseitem)
+              %td= link_to 'Edit', edit_purchase_item_path(purchase_item)
               %td= link_to 'Destroy', purchase_item, :confirm => 'Are you sure?', :method => :delete
           %tr
             %td= submit_tag 'Save'

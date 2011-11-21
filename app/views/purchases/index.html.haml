@@ -1,7 +1,7 @@
 .block
   .content
     .left
-      = form_tag '/purchases/search' do
+      = form_tag '/purchases/search', :method => :get do
         %table.table_form
           %tr
             %td
