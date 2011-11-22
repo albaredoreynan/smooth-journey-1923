@@ -27,21 +27,21 @@
         = f.collection_select :inventory_id, Item.find(:all), :id, :name, {:prompt => "Select Item"}
       .input
         = f.label "Unit Cost"
-        = f.text_field :unit_cost, :id => "unit_cost", :onchange => "updateVatAmount()"
+        = f.text_field :unit_cost, :class => 'updates_vat_amount'
 
     .colright
       .input
         = f.label :quantity
-        = f.text_field :quantity, :id => "quantity", :onchange => "updateVatAmount()"
+        = f.text_field :quantity, :class => 'updates_vat_amount'
       .input
         = f.label :amount
-        = f.text_field :amount, :id => "amount", :onchange => "updateVatAmount()"
+        = f.text_field :amount, :class => 'updates_vat_amount'
       %fieldset
         %legend='VAT Type'
         .radio_group
-          = f.radio_button( :vat_type, "VAT-Exclusive", :onchange => "updateVatAmount()", :id => "VAT-Exclusive") + "VAT-Inclusive"
-          = f.radio_button( :vat_type, "VAT-Inclusive", :onchange => "updateVatAmount()", :id => "VAT-Inclusive") + "VAT-Exclusive"
-          = f.radio_button( :vat_type, "VAT-Exempted", :onchange => "updateVatAmount()", :id => "VAT-Exempted") + "VAT-Exempted"
+          = f.radio_button(:vat_type, "VAT-Inclusive", :class => 'updates_vat_amount') + "VAT-Inclusive"
+          = f.radio_button(:vat_type, "VAT-Exclusive", :class => 'updates_vat_amount') + "VAT-Exclusive"
+          = f.radio_button(:vat_type, "VAT-Exempted", :class => 'updates_vat_amount') + "VAT-Exempted"
       .input
         = f.label :vat_amount
         = f.text_field :vat_amount, :readonly => true, :id => "vat_amount"
