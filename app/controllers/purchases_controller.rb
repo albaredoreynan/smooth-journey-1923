@@ -21,6 +21,11 @@ class PurchasesController < ApplicationController
     else
       @purchases = Purchase.all
     end # end if else
+
+    respond_to do |format|
+      format.html
+      format.csv { render :layout => false }
+    end
   end
 
   # GET /purchases/1

@@ -1,0 +1,9 @@
+:ruby
+  require 'csv'
+  csv_string = CSV.generate do |csv|
+    csv << ['date', 'invoice_id', 'supplier', 'branch']
+    @purchases.each do |purchase|
+      csv << [purchase.purchase_date, purchase.invoice_id, purchase.supplier.name, purchase.branch.location]
+    end
+  end
+  puts csv_string
