@@ -1,15 +1,18 @@
-%p
-  %b Email:
-  = @user.email
-%p
-  %b Password:
-  = @user.password
-%p
-  %b Role:
-  = @user.role_id
-%p
-  %b Employee:
-  = @user.employee_id
-= link_to 'Edit', edit_user_path(@user)
-|
-\#{link_to 'Back', users_path}
+.block
+  .content
+    .inner
+      %p
+        %b Email:
+        = @user.email
+      %p
+        %b Password:
+        = @user.password
+      %p
+        %b Role:
+        = @user.role_id
+      %p
+        %b Employee:
+        = @user.employee_id
+      = link_to 'Edit', edit_user_path(@user)
+      |
+      \#{link_to 'Back', users_path}

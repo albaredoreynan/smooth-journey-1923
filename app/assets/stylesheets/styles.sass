@@ -48,10 +48,10 @@ table
 
     .last
       text-align: right
-    
+
     &.monetary
       text-align: right
-         
+
   tr:nth-child(odd)
     background: #e0e0e0
 
@@ -94,6 +94,16 @@ form
       border: solid 1px #909090
       padding: 10px        /* padding in fieldset support spotty in IE */
       margin: 0
+
+    label
+      display: inline
+      float: left
+      &:after
+        content: ''
+
+    .radio_group
+      margin: -10px 0 -10px 0
+      padding-left: $form-left-column
 
     legend
       color: #404040

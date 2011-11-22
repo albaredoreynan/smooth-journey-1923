@@ -2,20 +2,8 @@ class PurchasesController < ApplicationController
   # GET /purchases
   # GET /purchases.xml
   def index
-    #@purchases = Purchase.all
-
-    #respond_to do |format|
-     # format.html # index.html.erb
-      #format.xml  { render :xml => @purchases }
-    #end
-
     if params[:commit] == "Search"
-      startdate = params[:start]['(1i)']+ '-' + params[:start]['(2i)'] + '-' + params[:start]['(3i)']
-      enddate = params[:end]['(1i)']+ '-' + params[:end]['(2i)'] + '-' + params[:end]['(3i)']
-
-      @duration = startdate + ' to ' + enddate
-      @purchases = Purchase.search_by_date(startdate, enddate)
-      #@categories = Category.all
+      @purchases = Purchase.search_by_date params['start'], params['end']
     elsif params[:commit] == "Submit records"
       Purchase.update_all(["save_as_draft=?", 0], :id => params[:purchase_ids])
       redirect_to purchases_path

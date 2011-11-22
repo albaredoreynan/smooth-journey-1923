@@ -1,5 +1,7 @@
 Rrbs::Application.routes.draw do
 
+  match "/purchases/search" => 'purchases#index'
+
   resources :currencies
 
   resources :conversions
@@ -30,8 +32,6 @@ Rrbs::Application.routes.draw do
 
   resources :ssrows
 
-  root :to => 'home#index'
-
   resources :settlement_types
 
   resources :settlement_sales
@@ -58,16 +58,11 @@ Rrbs::Application.routes.draw do
 
   resources :endcounts
 
-  #resources :javascripts
-
   match "/purchaseitems/search" => "purchaseitems#index"
 
   match "/purchaseitems/index" => "purchaseitems#index", :as => :purchaseitems_index
 
   match "/endcounts/search" => "endcounts#index"
-
-  match "/purchases/search" => "purchases#index"
-
 
   #match "/endcounts/index" => "endcounts#index", :as => :endcounts_index #don't include, messes up search then save
 
@@ -127,6 +122,8 @@ Rrbs::Application.routes.draw do
      get 'search'
     end
   end
+
+  root :to => 'home#index'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
