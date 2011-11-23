@@ -11,6 +11,17 @@ describe SalesController do
     @settlement_type = FactoryGirl.create(:settlement_type)
   end
 
+  context 'GET #index' do
+    before do
+      @sale = FactoryGirl.create(:sale)
+      get 'index'
+    end
+
+    it 'should load all sales' do
+      assigns[:sales].should eq ({Date.today => [@sale]})
+    end
+  end
+
   describe 'GET #new' do
     before do
       get 'new'

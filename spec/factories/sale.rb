@@ -2,7 +2,7 @@ FactoryGirl.define do
   factory :sale do
     vat '1'
     void '1'
-    date Time.now
+    date Date.today
     revenue_ss '1'
     customer_count '1'
     transaction_count '1'
