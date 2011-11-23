@@ -47,15 +47,7 @@ class EndcountsController < ApplicationController
 
     @items = Item.all
     @items.each do |i|
-      last_end_count = Endcount.order('endcounts.end_date DESC').first
-      last_item_count = ItemCount.order('item_counts.created_at DESC').where(:item_id => i.id, :endcount_id => last_end_count.id).first
-      item_count_attr = {:item_id => i.id}
-      unless last_item_count.nil?
-        item_count_attr.merge!({:begin_count => last_item_count.end_count})
-      else
-        item_count_attr.merge!({:begin_count => 0})
-      end
-      @endcount.item_counts.build item_count_attr
+      @endcount.item_counts.build ({item_id: i.id, begin_count: i.end_count})
     end
 
     respond_to do |format|
