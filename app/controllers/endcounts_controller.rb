@@ -6,7 +6,7 @@ class EndcountsController < ApplicationController
       startdate = params[:start]['(1i)']+ '-' + params[:start]['(2i)'] + '-' + params[:start]['(3i)']
       enddate = params[:end]['(1i)']+ '-' + params[:end]['(2i)'] + '-' + params[:end]['(3i)']
 
-      @endcounts = Endcount.where("beginning_date >= ? AND beginning_date <= ?",startdate,enddate).all
+      @endcounts = Endcount.where("begin_date >= ? AND begin_date <= ?",startdate,enddate).all
     elsif params[:commit] == "Submit records "
       Endcount.update_all(["save_as_draft=?", 0], :id => params[:endcount_ids]) #passed an empty hash
       redirect_to(endcounts_path, :notice => "Record/s submitted.")
@@ -51,9 +51,9 @@ class EndcountsController < ApplicationController
       last_item_count = ItemCount.order('item_counts.created_at DESC').where(:item_id => i.id, :endcount_id => last_end_count.id).first
       item_count_attr = {:item_id => i.id}
       unless last_item_count.nil?
-        item_count_attr.merge!({:beginning_count => last_item_count.end_count})
+        item_count_attr.merge!({:begin_count => last_item_count.end_count})
       else
-        item_count_attr.merge!({:beginning_count => 0})
+        item_count_attr.merge!({:begin_count => 0})
       end
       @endcount.item_counts.build item_count_attr
     end
@@ -75,7 +75,7 @@ class EndcountsController < ApplicationController
 
     @item_ids = Item.all.map(&:id).reverse
     @inventoryitems = Item.all.map(&:name).reverse
-    @beginning_counts = Item.all.map(&:beginning_count).reverse
+    @begin_counts = Item.all.map(&:begin_count).reverse
 
     respond_to do |format|
       format.html # new.html.erb
