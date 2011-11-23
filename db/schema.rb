@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111123070333) do
+ActiveRecord::Schema.define(:version => 20111123092254) do
 
   create_table "branches", :force => true do |t|
     t.integer  "restaurant_id"
@@ -272,7 +272,7 @@ ActiveRecord::Schema.define(:version => 20111123070333) do
 
   create_table "settlement_type_sales", :force => true do |t|
     t.integer "settlement_type_id"
-    t.float   "ss_amount"
+    t.float   "amount"
     t.date    "created_at",         :null => false
     t.date    "updated_at",         :null => false
     t.integer "sale_id"

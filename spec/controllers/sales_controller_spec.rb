@@ -115,11 +115,11 @@ describe SalesController do
             "settlement_type_sales_attributes"=>{
               "0"=>{
                 "settlement_type_id"=>@settlement_type_a.id,
-                "ss_amount"=>"10"
+                "amount"=>"10"
               },
               "1"=>{
                 "settlement_type_id"=>@settlement_type_b.id,
-                "ss_amount"=>"10"
+                "amount"=>"10"
               }
             },
           },

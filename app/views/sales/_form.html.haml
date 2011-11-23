@@ -57,7 +57,7 @@
           .input
             = sts.hidden_field :settlement_type_id, :value => sts.object.settlement_type_id
             = f.label sts.object.settlement_type.name
-            = sts.text_field :ss_amount, :class => :settlementtype
+            = sts.text_field :amount, :class => :settlementtype
         .input
           = f.label "VOIDS"
           = f.text_field :void
