@@ -8,7 +8,7 @@ class Item < ActiveRecord::Base
   has_many :purchase_items
 
   def self.search(keyword)
-    where("name LIKE ?", '%'+keyword+'%')
+    where("name ILIKE ?", '%'+keyword+'%')
   end
 
   def category_name

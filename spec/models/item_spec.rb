@@ -39,7 +39,7 @@ describe Item do
 
     it 'should search an item that begins with a keyword' do
       @items = Item.search('item')
-      @items.first.name.should == 'Item A'
+      @items.should eq [@item]
     end
 
     it 'should not return result if no item found' do
