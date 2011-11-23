@@ -9,11 +9,11 @@ jQuery ->
     calculateCategoryTotal()
 
 checkTotal = ->
-  totalGross1 = document.getElementById 'gross_total'
-  totalGross2 = document.getElementById 'sale_gross_total_ss'
-  saveButton = document.getElementById 'sale_submit'
+  totalGross1 = $('#gross_total')
+  totalGross2 = $('#sale_gross_total_ss')
+  saveButton = $('#sale_submit')
   saveButton.disabled = false
-  if totalGross1.value != totalGross2.value
+  if totalGross1.val() != totalGross2.val()
     saveButton.disabled = true
 
 computeVat = ->
@@ -40,24 +40,24 @@ calculateSettlementtypeTotal = ->
   updateVatAmount()
 
 updateVatAmount = ->
-  totalAmount = document.getElementById('sale_gross_total_ss')
+  totalAmount = $('#sale_gross_total_ss')
   vatAmount = 0
-  if totalAmount.value == ""
+  if totalAmount.val() == ""
 
   else
-    vatAmount = totalAmount.value * 0.12
+    vatAmount = totalAmount.val() * 0.12
 
     totalVat = vatAmount
-    netTotal = totalAmount.value - totalVat
+    netTotal = totalAmount.val() - totalVat
 
-    totalVatField = document.getElementById('sale_vat')
-    totalVatField.value = totalVat
-    netField = document.getElementById('sale_net_total_ss')
-    netField.value = netTotal
+    totalVatField = $('#sale_vat')
+    totalVatField.val(totalVat)
+    netField = $('#sale_net_total_ss')
+    netField.val(netTotal)
   checkTotal()
 
 updateVatAmount2 = ->
-  totalAmount = document.getElementById('sale_total_amount_cs')
+  totalAmount = $('#sale_total_amount_cs')
   vatAmount = 0
   totalGross = 0
   if totalAmount.value == ""
@@ -67,25 +67,25 @@ updateVatAmount2 = ->
 
     totalVat = vatAmount
 
-    totalVatField = document.getElementById('vat')
-    totalVatField.value = totalVat
+    totalVatField = $('#vat')
+    totalVatField.val(totalVat)
 
-    totalGrossField = document.getElementById('gross_total')
-    totalGross = totalAmount.value * 0.12 + totalAmount.value * 1
-    totalGrossField.value = totalGross
+    totalGrossField = $('#gross_total')
+    totalGross = totalAmount.val() * 0.12 + totalAmount.val() * 1
+    totalGrossField.val(totalGross)
 
   checkTotal()
 
 computeTotal = ->
-  serviceCharge = document.getElementById('sale_service_charge')
+  serviceCharge = $('#sale_service_charge')
   totalGross = 0
   if serviceCharge.value == ""
 
   else
-    totalAmount = document.getElementById('sale_total_amount_cs')
+    totalAmount = $('#sale_total_amount_cs')
 
-    totalGrossField = document.getElementById('gross_total')
-    totalGross = totalAmount.value * 0.12 + totalAmount.value * 1 + serviceCharge.value * 1
-    totalGrossField.value = totalGross
+    totalGrossField = $('#gross_total')
+    totalGross = totalAmount.val() * 0.12 + totalAmount.val() * 1 + serviceCharge.val() * 1
+    totalGrossField.val(totalGross)
 
   checkTotal()
