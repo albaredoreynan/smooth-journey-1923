@@ -13,7 +13,7 @@
           %tr
             %td= subcategory.name
             %td= subcategory.description
-            %td= subcategory.category.name
+            %td= subcategory.category.name unless subcategory.category.nil?
             %td
               = link_to 'Show', subcategory
               = link_to 'Edit', edit_subcategory_path(subcategory)
