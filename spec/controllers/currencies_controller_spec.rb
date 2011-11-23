@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe RestaurantsController do
+describe CurrenciesController do
   include Devise::TestHelpers
 
   before do
@@ -10,29 +10,29 @@ describe RestaurantsController do
 
   context 'GET #index' do
     before do
-      @restaurant = FactoryGirl.create(:restaurant)
+      @currency = FactoryGirl.create(:currency)
       get 'index'
     end
 
-    it 'should load all restaurants' do
-      assigns[:restaurants].should eq [@restaurant]
+    it 'should load all currencies' do
+      assigns[:currencies].should eq [@currency]
     end
   end
 
   context 'POST #create' do
     before do
-      @post_params = { restaurant: { store_id: '123', name: 'Restaurant X' } }
+      @post_params = { currency: { currency: 'Dollar', symbol: '$' } }
     end
 
     it 'should redirect to #index' do
       post 'create', @post_params
-      response.should redirect_to restaurants_path
+      response.should redirect_to currencies_path
     end
 
-    it 'should save a restaurant' do
+    it 'should save a currency' do
       lambda {
         post 'create', @post_params
-      }.should change(Restaurant, :count).by 1
+      }.should change(Currency, :count).by 1
     end
   end
 end

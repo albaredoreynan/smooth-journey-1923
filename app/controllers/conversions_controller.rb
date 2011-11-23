@@ -44,7 +44,7 @@ class ConversionsController < ApplicationController
 
     respond_to do |format|
       if @conversion.save
-        format.html { redirect_to(@conversion, :notice => 'Conversion was successfully created.') }
+        format.html { redirect_to(conversions_path, :notice => 'Conversion was successfully created.') }
         format.xml  { render :xml => @conversion, :status => :created, :location => @conversion }
       else
         format.html { render :action => "new" }
