@@ -18,7 +18,7 @@ describe EndcountsController do
 
   context 'GET #new' do
     it 'should load all items' do
-      pending 'Something weird happens here'
+      pending 'Called id for nil, which would mistakenly be 4 -- if you really wanted the id of nil, use object_id'
       @item = FactoryGirl.create(:item)
       get 'new'
       assigns[:endcount].item_counts.length.should eq 1
