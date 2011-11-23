@@ -2,14 +2,12 @@ class UnitsController < ApplicationController
   # GET /units
   # GET /units.xml
   def index
-    
-    #@units = Unit.all
     if params[:search]
       @units = Unit.search(params[:search])
     else
       @units = Unit.all
     end
-    
+
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @units }
@@ -50,7 +48,7 @@ class UnitsController < ApplicationController
 
     respond_to do |format|
       if @unit.save
-        format.html { redirect_to(@unit, :notice => 'Unit was successfully created.') }
+        format.html { redirect_to(units_path, :notice => 'Unit was successfully created.') }
         format.xml  { render :xml => @unit, :status => :created, :location => @unit }
       else
         format.html { render :action => "new" }

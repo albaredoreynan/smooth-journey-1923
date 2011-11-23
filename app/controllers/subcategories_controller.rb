@@ -44,7 +44,7 @@ class SubcategoriesController < ApplicationController
 
     respond_to do |format|
       if @subcategory.save
-        format.html { redirect_to(@subcategory, :notice => 'Subcategory was successfully created.') }
+        format.html { redirect_to(subcategories_path, :notice => 'Subcategory was successfully created.') }
         format.xml  { render :xml => @subcategory, :status => :created, :location => @subcategory }
       else
         format.html { render :action => "new" }

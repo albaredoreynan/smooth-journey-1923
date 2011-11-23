@@ -75,7 +75,7 @@
       %td= settlement_sale.ss_date
       %td= settlement_sale.employee.first_name
       - settlement_sale.settlement_type_sales.each do |ss|
-        %td= ss.ss_amount
+        %td= ss.amount
       %td= settlement_sale.void
       %td= settlement_sale.gross_total
       %td= settlement_sale.net_total

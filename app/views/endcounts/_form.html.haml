@@ -11,8 +11,8 @@
   %table.table_form
     %tr
       %td
-        = f.label :beginning_date
-        = f.date_select :beginning_date, :default => { :day => 1 }
+        = f.label :begin_date
+        = f.date_select :begin_date, :default => { :day => 1 }
       %td
         = f.label :end_date
         = f.date_select :end_date
@@ -26,7 +26,7 @@
       %tr
         = ic.hidden_field :item_id, :value => ic.object.item_id
         %td= ic.object.item.name
-        %td= ic.text_field :beginning_count, :value => ic.object.beginning_count, :readonly => true, :style=>"background-color : #ccc"
+        %td= ic.text_field :begin_count, :value => ic.object.begin_count, :readonly => true, :style=>"background-color : #ccc"
         %td= ic.text_field :end_count
 
   %table.table_form

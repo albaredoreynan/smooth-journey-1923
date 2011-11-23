@@ -38,7 +38,7 @@ class Sale < ActiveRecord::Base
   end
 
   def settlement_type_total
-    settlement_type_sales.map(&:ss_amount).reject(&:nil?).sum
+    settlement_type_sales.map(&:amount).reject(&:nil?).sum
   end
 
   def self.search_date_range(from,to)

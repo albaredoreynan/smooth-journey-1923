@@ -54,14 +54,14 @@ describe Sale do
     end
 
     it 'should total settlement_types' do
-      @sale.settlement_type_sales << SettlementTypeSale.new({:ss_amount => 7})
-      @sale.settlement_type_sales << SettlementTypeSale.new({:ss_amount => 8})
+      @sale.settlement_type_sales << SettlementTypeSale.new({:amount => 7})
+      @sale.settlement_type_sales << SettlementTypeSale.new({:amount => 8})
       @sale.settlement_type_total.should == 15
     end
 
     it 'should not be valid when totals are not equal' do
       @sale.category_sales << CategorySale.new({:amount => 1})
-      @sale.settlement_type_sales << SettlementTypeSale.new({:ss_amount => 22})
+      @sale.settlement_type_sales << SettlementTypeSale.new({:amount => 22})
       @sale.category_total.should eq 1
       @sale.settlement_type_total.should eq 22
       @sale.should_not be_valid

@@ -58,8 +58,8 @@
               %td= sale.date.strftime("%b %d, %Y")
               %td= sale.employee.first_name
               - sale.settlement_type_sales.each do |ss|
-                %td.monetary= number_to_currency(ss.ss_amount, :precision => 2, :unit => peso_sign)
-                - totalst[ss.settlement_type_id] = totalst[ss.settlement_type_id].to_f + ss.ss_amount
+                %td.monetary= number_to_currency(ss.amount, :precision => 2, :unit => peso_sign)
+                - totalst[ss.settlement_type_id] = totalst[ss.settlement_type_id].to_f + ss.amount
               %td.monetary= number_to_currency(sale.void, :precision => 2, :unit => peso_sign)
               - totalvoid = totalvoid + sale.void
               %td.monetary= number_to_currency(sale.gross_total_ss, :precision => 2, :unit => peso_sign)

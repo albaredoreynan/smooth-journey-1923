@@ -18,7 +18,6 @@ describe EndcountsController do
 
   context 'GET #new' do
     it 'should load all items' do
-      pending 'Something weird happens here'
       @item = FactoryGirl.create(:item)
       get 'new'
       assigns[:endcount].item_counts.length.should eq 1
@@ -32,20 +31,20 @@ describe EndcountsController do
       # fetched regardless of date
       @endcount.item_counts.create ({
         :item_id => @item.id,
-        :beginning_count => 5,
+        :begin_count => 5,
         :end_count => 10,
         :created_at => 60.seconds.ago
       })
       @endcount.item_counts.create ({
         :item_id => @item.id,
-        :beginning_count => 10,
+        :begin_count => 10,
         :end_count => 12,
         :created_at => Time.now
       })
       get 'new'
-      item_counts = assigns[:endcount].item_counts
-      item_counts.first.beginning_count.should eq 12
-      item_counts.first.item_id.should eq @item.id
+      item_count = assigns[:endcount].item_counts.first
+      item_count.begin_count.should eq 12
+      item_count.item_id.should eq @item.id
     end
   end
 end

@@ -62,16 +62,16 @@
   - @settlement_sales.each do |date, settlement_sale|
     %tr
       %td= p "#{date}"
-      - cash = SettlementSale.where("ss_date = ? AND st_id = ?",date,10).map(&:ss_amount)
-      - creditcard = SettlementSale.where("ss_date = ? AND st_id = ?",date,9).map(&:ss_amount)
-      - comp92 = SettlementSale.where("ss_date = ? AND st_id = ?",date,2).map(&:ss_amount)
-      - comp91 = SettlementSale.where("ss_date = ? AND st_id = ?",date,1).map(&:ss_amount)
-      - comp93 = SettlementSale.where("ss_date = ? AND st_id = ?",date,3).map(&:ss_amount)
-      - comp94 = SettlementSale.where("ss_date = ? AND st_id = ?",date,4).map(&:ss_amount)
-      - comp95 = SettlementSale.where("ss_date = ? AND st_id = ?",date,5).map(&:ss_amount)
-      - comp96 = SettlementSale.where("ss_date = ? AND st_id = ?",date,6).map(&:ss_amount)
-      - comp97 = SettlementSale.where("ss_date = ? AND st_id = ?",date,7).map(&:ss_amount)
-      - giftcertificate = SettlementSale.where("ss_date = ? AND st_id = ?",date,11).map(&:ss_amount)
+      - cash = SettlementSale.where("ss_date = ? AND st_id = ?",date,10).map(&:amount)
+      - creditcard = SettlementSale.where("ss_date = ? AND st_id = ?",date,9).map(&:amount)
+      - comp92 = SettlementSale.where("ss_date = ? AND st_id = ?",date,2).map(&:amount)
+      - comp91 = SettlementSale.where("ss_date = ? AND st_id = ?",date,1).map(&:amount)
+      - comp93 = SettlementSale.where("ss_date = ? AND st_id = ?",date,3).map(&:amount)
+      - comp94 = SettlementSale.where("ss_date = ? AND st_id = ?",date,4).map(&:amount)
+      - comp95 = SettlementSale.where("ss_date = ? AND st_id = ?",date,5).map(&:amount)
+      - comp96 = SettlementSale.where("ss_date = ? AND st_id = ?",date,6).map(&:amount)
+      - comp97 = SettlementSale.where("ss_date = ? AND st_id = ?",date,7).map(&:amount)
+      - giftcertificate = SettlementSale.where("ss_date = ? AND st_id = ?",date,11).map(&:amount)
       %td= cash.sum
       %td= creditcard.sum
       %td= comp91.sum

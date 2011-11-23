@@ -14,10 +14,10 @@ class Purchase < ActiveRecord::Base
 
 
   def self.search_by_date(start_date, end_date)
-    #if start_date.class == Hash && end_date.class == Hash
-    start_date = Date.parse(start_date.to_a.sort.collect{|c| c[1]}.join('-'))
-    end_date = Date.parse(end_date.to_a.sort.collect{|c| c[1]}.join('-'))
-    #end
+    if start_date.is_a?(Hash) && end_date.is_a?(Hash)
+      start_date = Date.parse(start_date.to_a.sort.collect{|c| c[1]}.join('-'))
+      end_date = Date.parse(end_date.to_a.sort.collect{|c| c[1]}.join('-'))
+    end
     where("purchase_date >= ? and purchase_date <= ?", start_date, end_date)
   end
 

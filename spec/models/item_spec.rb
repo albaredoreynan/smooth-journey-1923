@@ -39,12 +39,34 @@ describe Item do
 
     it 'should search an item that begins with a keyword' do
       @items = Item.search('item')
-      @items.first.name.should == 'Item A'
+      @items.should eq [@item]
     end
 
     it 'should not return result if no item found' do
       @items = Item.search('abcdef')
       @items.should be_empty
+    end
+  end
+
+  context 'Endcount' do
+    before do
+      @endcount = FactoryGirl.create(:endcount)
+      @item = FactoryGirl.create(:item)
+      @item_count = FactoryGirl.create(:item_count, {
+        endcount: @endcount,
+        item: @item,
+        begin_count: 0,
+        end_count: 5
+      })
+    end
+
+    it 'should return the last count' do
+      @item.end_count.should eq 5
+    end
+
+    it 'should return 0 count if there is no endcount' do
+      Endcount.destroy_all
+      @item.end_count.should eq 0
     end
   end
 end

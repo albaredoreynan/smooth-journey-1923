@@ -79,16 +79,16 @@
   - @settlement_sales.each do |date, settlement_sale|
     - @settlementsale = settlement_sale
     - @settlementsale.group_by(&:employee_id).each do |employee, ss|
-      - cash = SettlementSale.where("employee_id = ? AND ss_date = ? AND st_id = ?",employee,date,10).map(&:ss_amount)
-      - creditcard = SettlementSale.where("employee_id = ? AND ss_date = ? AND st_id = ?",employee,date,9).map(&:ss_amount)
-      - comp92 = SettlementSale.where("employee_id = ? AND ss_date = ? AND st_id = ?",employee,date,2).map(&:ss_amount)
-      - comp91 = SettlementSale.where("employee_id = ? AND ss_date = ? AND st_id = ?",employee,date,1).map(&:ss_amount)
-      - comp93 = SettlementSale.where("employee_id = ? AND ss_date = ? AND st_id = ?",employee,date,3).map(&:ss_amount)
-      - comp94 = SettlementSale.where("employee_id = ? AND ss_date = ? AND st_id = ?",employee,date,4).map(&:ss_amount)
-      - comp95 = SettlementSale.where("employee_id = ? AND ss_date = ? AND st_id = ?",employee,date,5).map(&:ss_amount)
-      - comp96 = SettlementSale.where("employee_id = ? AND ss_date = ? AND st_id = ?",employee,date,6).map(&:ss_amount)
-      - comp97 = SettlementSale.where("employee_id = ? AND ss_date = ? AND st_id = ?",employee,date,7).map(&:ss_amount)
-      - giftcertificate = SettlementSale.where("employee_id = ? AND ss_date = ? AND st_id = ?",employee,date,11).map(&:ss_amount)
+      - cash = SettlementSale.where("employee_id = ? AND ss_date = ? AND st_id = ?",employee,date,10).map(&:amount)
+      - creditcard = SettlementSale.where("employee_id = ? AND ss_date = ? AND st_id = ?",employee,date,9).map(&:amount)
+      - comp92 = SettlementSale.where("employee_id = ? AND ss_date = ? AND st_id = ?",employee,date,2).map(&:amount)
+      - comp91 = SettlementSale.where("employee_id = ? AND ss_date = ? AND st_id = ?",employee,date,1).map(&:amount)
+      - comp93 = SettlementSale.where("employee_id = ? AND ss_date = ? AND st_id = ?",employee,date,3).map(&:amount)
+      - comp94 = SettlementSale.where("employee_id = ? AND ss_date = ? AND st_id = ?",employee,date,4).map(&:amount)
+      - comp95 = SettlementSale.where("employee_id = ? AND ss_date = ? AND st_id = ?",employee,date,5).map(&:amount)
+      - comp96 = SettlementSale.where("employee_id = ? AND ss_date = ? AND st_id = ?",employee,date,6).map(&:amount)
+      - comp97 = SettlementSale.where("employee_id = ? AND ss_date = ? AND st_id = ?",employee,date,7).map(&:amount)
+      - giftcertificate = SettlementSale.where("employee_id = ? AND ss_date = ? AND st_id = ?",employee,date,11).map(&:amount)
       %tr
         %td= p "#{date}"
         %td= ss.first.employee.first_name + " " + ss.first.employee.last_name

@@ -44,7 +44,7 @@ class SettlementTypesController < ApplicationController
 
     respond_to do |format|
       if @settlement_type.save
-        format.html { redirect_to(@settlement_type, :notice => 'Settlement type was successfully created.') }
+        format.html { redirect_to(settlement_types_path, :notice => 'Settlement type was successfully created.') }
         format.xml  { render :xml => @settlement_type, :status => :created, :location => @settlement_type }
       else
         format.html { render :action => "new" }
