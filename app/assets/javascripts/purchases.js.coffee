@@ -1,32 +1,23 @@
-console.log('purchases loaded')
+jQuery ->
+  $('.update_vat_amount').change ->
+    $('#vat_amount').val(vatAmount($('#purchase_amount').val(), $(this).val())[0])
+    $('#net_amount').val(vatAmount($('#purchase_amount').val(), $(this).val())[1])
 
-updateVatAmount = (form) ->
-  length = form.elements.length
-  i = 0
 
-  while i < length
-    amount = form.elements[i].value
-    next = form.elements[i + 1].value
-    if next is form.elements[13].value
-      unitCost = form.elements[i - 2].value
-      quantity = form.elements[i - 1].value
-      product = unitCost * quantity
-      form.elements[i].value = product
-      if form.elements[i + 1].checked
-        vatAmount = amount / 1.12
-        vatAmount = amount - vatAmount
-        netAmount = amount - vatAmount
-      if form.elements[i + 2].checked
-        vatAmount = amount * .12
-        netAmount = amount
-      if form.elements[i + 3].checked
-        vatAmount = 0
-        netAmount = amount
-      form.elements[i + 4].value = vatAmount
-      form.elements[i + 5].value = netAmount
-    ++i
+vatAmount = (amount, vat) ->
+  net_amount = amount
+  switch vat
+    when 'VAT-Inclusive'
+      vat_amount = amount / 1.12
+      vat_amount = amount - vat_amount
+      net_amount = amount - vat_amount
+    when 'VAT-Exclusive'
+      vat_amount = amount * 0.12
+    when 'VAT-Exempted'
+      vat_amount = amount
+  [vat_amount, net_amount]
 
-updateUQA = (form) ->
+updateUQA = ->
   length = form.elements.length
   i = 0
 

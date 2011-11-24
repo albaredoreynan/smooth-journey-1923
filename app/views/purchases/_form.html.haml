@@ -41,25 +41,25 @@
         %td= purchaserow_form.collection_select :unit_id, Unit.find(:all), :id, :name, {:prompt => "Select Purchase unit"},  {:style => "width:215px"}
       %tr
         %td= purchaserow_form.label :unit_cost
-        %td= purchaserow_form.text_field :unit_cost, :id => "purchase_unitCost", :onchange => "updateVatAmount(this.form)"
+        %td= purchaserow_form.text_field :unit_cost
       %tr
         %td= purchaserow_form.label :quantity
-        %td= purchaserow_form.text_field :quantity, :id => "purchase_quantity", :onchange => "updateVatAmount(this.form)"
+        %td= purchaserow_form.text_field :quantity
       %tr
         %td= purchaserow_form.label :amount
-        %td= purchaserow_form.text_field :amount, :id => "purchase_amount", :onchange => "updateVatAmount(this.form)", :readonly => true, :style=>"background-color : #ccc"
+        %td= purchaserow_form.text_field :amount, :id => 'purchase_amount'
       %tr
         %td
           = purchaserow_form.label :vat_type, ""
           / radio button
         %td
-          = purchaserow_form.radio_button :vat_type, "VAT-Inclusive", :onchange => "updateVatAmount(this.form)", :id => "VAT-Inclusive"
+          = purchaserow_form.radio_button :vat_type, "VAT-Inclusive", :class => 'update_vat_amount'
           VAT-Inclusive
           %br/
-          = purchaserow_form.radio_button :vat_type, "VAT-Exclusive", :onchange => "updateVatAmount(this.form)", :id => "VAT-Exclusive"
+          = purchaserow_form.radio_button :vat_type, "VAT-Exclusive", :class => 'update_vat_amount'
           VAT-Exclusive
           %br/
-          = purchaserow_form.radio_button :vat_type, "VAT-Exempted", :onchange => "updateVatAmount(this.form)", :id => "VAT-Exempted"
+          = purchaserow_form.radio_button :vat_type, "VAT-Exempted", :class => 'update_vat_amount'
           VAT-Exempted
       %tr
         %td= purchaserow_form.label :vat_amount, "Vat amount"
