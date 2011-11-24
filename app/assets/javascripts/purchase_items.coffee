@@ -8,7 +8,6 @@ jQuery ->
     $("ucP").innerHTML = $('#purchase_item_unit_cost').val()
     $("pqP").innerHTML = $('#purchase_item_amount').val()
   
-
 updateVatAmount = ->
   purchaseAmount = $('#purchase_item_amount')
   vatAmount = 0
