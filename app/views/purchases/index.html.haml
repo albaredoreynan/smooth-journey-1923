@@ -70,26 +70,26 @@
                     - unit2 = ''
                   %td.monetary= number_to_currency(purchaserow.unit_cost, :precision => 2, :unit => peso_sign)+' '+unit2
                   %td
-                    - unitId1 = purchaserow.unit_id
-                    - u = Unit.find(unitId1)
-                    - unit1 = u.name
-                    - if unitId1==unitId2
-                      = number_with_precision(purchaserow.quantity, :precision => 0)
-                    - else
-                      - temp1 = Conversion.where("b_unit = ? and s_unit = ?",unitId1,unitId2)
-                      - temp2 = Conversion.where("b_unit = ? and s_unit = ?",unitId2,unitId1)
-                      - if temp1.count>0
-                        - conversion_num = temp1.first.conversionNumber
-                        - inventory_quantity = q*(1/(1/conversion_num))
-                        = inventory_quantity
-                      - else
-                        - if temp2.count>0
-                          - conversion_num = temp2.first.conversionNumber
-                          - inventory_quantity = q*(1/conversion_num)
-                          = inventory_quantity
+                    -#- unitId1 = purchaserow.unit_id
+                    -#- u = Unit.find(unitId1)
+                    -#- unit1 = u.name
+                    -#- if unitId1==unitId2
+                      -#= number_with_precision(purchaserow.quantity, :precision => 0)
+                    -#- else
+                      -#- temp1 = Conversion.where("b_unit = ? and s_unit = ?",unitId1,unitId2)
+                      -#- temp2 = Conversion.where("b_unit = ? and s_unit = ?",unitId2,unitId1)
+                      -#- if temp1.count>0
+                        -#- conversion_num = temp1.first.conversionNumber
+                        -#- inventory_quantity = q*(1/(1/conversion_num))
+                        -#= inventory_quantity
+                      -#- else
+                        -#- if temp2.count>0
+                          -#- conversion_num = temp2.first.conversionNumber
+                          -#- inventory_quantity = q*(1/conversion_num)
+                          -#= inventory_quantity
                   %td
-                    = unit1
-                    and #{unit2}
+                    -#= unit1
+                    -#and #{unit2}
                   - number_to_currency(purchaserow.unit_cost, :precision => 2, :unit => peso_sign)
                   %td.monetary= number_to_currency(purchaserow.amount, :precision => 2, :unit => peso_sign)
                   - totalamount = totalamount + purchaserow.amount
