@@ -8,8 +8,23 @@ describe Purchaserow do
     end
 
     it 'should be invalid without item id' do
-      pending
       @purchase_row.should have(1).error_on :item_id
+    end
+
+    it 'should be invalid without amount' do
+      @purchase_row.should have(1).error_on :amount
+    end
+
+    it 'should be invalid without quantity' do
+      @purchase_row.should have_at_least(1).error_on :quantity
+    end
+
+    it 'should be invalid without unit_cost' do
+      @purchase_row.should have_at_least(1).error_on :unit_cost
+    end
+
+    it 'should be invalid without vat_type' do
+      @purchase_row.should have(1).error_on :vat_type
     end
   end
 

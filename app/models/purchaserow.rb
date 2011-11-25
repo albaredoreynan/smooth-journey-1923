@@ -8,9 +8,7 @@ class Purchaserow < ActiveRecord::Base
   validates :quantity, :presence => true, :numericality => true
   validates :unit_cost, :presence => true, :numericality => true
   validates :vat_type, :presence => true
-  #validates :vat_amount, :presence => true
-  #validates :net_amount, :presence => true
-  #
+
   def vat_amount
     case vat_type
     when 'VAT-Inclusive'
@@ -29,5 +27,4 @@ class Purchaserow < ActiveRecord::Base
       amount
     end
   end
-
 end
