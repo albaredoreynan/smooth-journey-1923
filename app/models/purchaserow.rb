@@ -10,4 +10,24 @@ class Purchaserow < ActiveRecord::Base
   validates :vat_type, :presence => true
   #validates :vat_amount, :presence => true
   #validates :net_amount, :presence => true
+  #
+  def vat_amount
+    case vat_type
+    when 'VAT-Inclusive'
+      amount - (amount / 1.12).round(2)
+    when 'VAT-Exclusive'
+      amount * 0.12
+    when 'VAT-Exempted'
+      amount
+    end
+  end
+
+  def net_amount
+    if vat_type == 'VAT-Inclusive'
+      (amount - vat_amount).round(2)
+    else
+      amount
+    end
+  end
+
 end
