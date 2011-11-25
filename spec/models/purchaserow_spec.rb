@@ -29,7 +29,7 @@ describe Purchaserow do
     it 'should calculate vat_amount when vat type is exempted' do
       purchase_row = FactoryGirl.create(:purchaserow, :amount => 5,
                                                       :vat_type => 'VAT-Exempted')
-      purchase_row.vat_amount.should eq 5
+      purchase_row.vat_amount.should eq 0
     end
   end
 

@@ -18,7 +18,7 @@ class Purchaserow < ActiveRecord::Base
     when 'VAT-Exclusive'
       amount * 0.12
     when 'VAT-Exempted'
-      amount
+      0
     end
   end
 
