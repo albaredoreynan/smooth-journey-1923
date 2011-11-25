@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :restaurant do
-    store_id 1
+    sequence :store_id
     association :company
     name 'Buffalo Wings'
   end

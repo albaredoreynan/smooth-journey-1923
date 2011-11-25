@@ -2,6 +2,8 @@ Rrbs::Application.routes.draw do
 
   match "/purchases/search" => 'purchases#index'
 
+  match "/endcounts/search" => "endcounts#index"
+
   resources :currencies
 
   resources :conversions
@@ -61,8 +63,6 @@ Rrbs::Application.routes.draw do
   match "/purchaseitems/search" => "purchaseitems#index"
 
   match "/purchaseitems/index" => "purchaseitems#index", :as => :purchaseitems_index
-
-  match "/endcounts/search" => "endcounts#index"
 
   #match "/endcounts/index" => "endcounts#index", :as => :endcounts_index #don't include, messes up search then save
 

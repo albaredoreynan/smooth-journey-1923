@@ -2,7 +2,7 @@
   = render 'shared/menu/inventory'
   .content
     .left
-      = form_tag '/endcounts/search' do
+      = form_tag '/endcounts/search', :method => :get do
         %table.table_form
           %tr
             %td
