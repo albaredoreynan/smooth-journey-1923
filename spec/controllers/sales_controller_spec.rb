@@ -1,12 +1,9 @@
 require 'spec_helper'
 
 describe SalesController do
-  include Devise::TestHelpers
+  login_user
 
   before do
-    @user = User.create!(:email => 'test@appsource.com', :password => 'password')
-    sign_in @user
-
     @category = FactoryGirl.create(:category)
     @settlement_type = FactoryGirl.create(:settlement_type)
   end

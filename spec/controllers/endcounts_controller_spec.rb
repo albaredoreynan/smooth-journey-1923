@@ -1,12 +1,7 @@
 require 'spec_helper'
 
 describe EndcountsController do
-  include Devise::TestHelpers
-
-  before do
-    @user = User.create!(:email => 'test@appsource.com', :password => 'password')
-    sign_in @user
-  end
+  login_user
 
   context 'GET #index' do
     it 'should load all endcounts' do

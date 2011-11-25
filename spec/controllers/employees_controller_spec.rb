@@ -1,12 +1,7 @@
 require 'spec_helper'
 
 describe EmployeesController do
-  include Devise::TestHelpers
-
-  before do
-    @user = User.create!(:email => 'test@appsource.com', :password => 'password')
-    sign_in @user
-  end
+  login_user
 
   def mock_employee(stubs={})
     (@mock_employee ||= mock_model(Employee).as_null_object).tap do |employee|

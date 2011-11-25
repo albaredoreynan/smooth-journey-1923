@@ -1,12 +1,7 @@
 require 'spec_helper'
 
 describe PurchasesController do
-  include Devise::TestHelpers
-
-  before do
-    @user = User.create!(:email => 'test@appsource.com', :password => 'password')
-    sign_in @user
-  end
+  login_user
 
   def mock_purchase(stubs={})
     (@mock_purchase ||= mock_model(Purchase).as_null_object).tap do |purchase|
