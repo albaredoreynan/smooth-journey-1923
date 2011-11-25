@@ -1,18 +1,18 @@
-.block
-  .content
-    %h2.title Sign Up
+.block#block-login
+  %h2.title Sign Up
+  .content.login
     .inner
       = form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f|
         = devise_error_messages!
-        %div
+        .input
           = f.label :email
           = f.email_field :email
-        %div
+        .input
           = f.label :password
           = f.password_field :password
-        %div
+        .input
           = f.label :password_confirmation
           = f.password_field :password_confirmation
-        %div
-          = f.submit "Sign up"
+        .actions
+          = f.submit "Sign up", :class => 'button'
         = render :partial => "devise/shared/links"

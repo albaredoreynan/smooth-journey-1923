@@ -1,16 +1,22 @@
-%h2 Sign in
-= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f|
-  %div
-    = f.label :email
-    %br/
-    = f.email_field :email
-  %div
-    = f.label :password
-    %br/
-    = f.password_field :password
-  - if devise_mapping.rememberable?
-    %div
-      = f.check_box :remember_me
-      = f.label :remember_me
-  %div= f.submit "Sign in"
-= render :partial => "devise/shared/links"
+%h1 RRBS
+.block#block-login
+  %h2 Sign in
+  .content.login
+    .flash
+      - flash.each do |type, message|
+        %div{ :class => "message #{type}" }
+          %p= message
+    = form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f|
+      .input
+        = f.label :email
+        = f.email_field :email
+      .input
+        = f.label :password
+        = f.password_field :password
+      - if devise_mapping.rememberable?
+        .input
+          = f.label :remember_me
+          = f.check_box :remember_me
+      .actions
+        %div= f.submit "Sign in", :class => 'button'
+    = render :partial => "devise/shared/links"

@@ -8,24 +8,21 @@
       %li
         = link_to 'Sales by Server', sales_by_server_path
   .content
-    /%h2.title SALES BY CATEGORY
-    .left
-      = form_tag "/sales/search" do
-        %table.table_form
-          %tr
-            %td
-              = 'From:'
-              = date_select(:from, '', :start_year => 2000)
-              = label_tag :restaurant
-              = collection_select(:restaurant, :name, Restaurant.all, :id, :name, :prompt => true)
-            %td
-              = 'To:'
-              = date_select(:to, '', :start_year => 2000)
-              = label_tag :branch
-              = collection_select(:branch, :location, Branch.all, :id, :location, :prompt => true)
-            %td= submit_tag :Search
+    = form_tag '/sales/search' do
+      %p
+        = 'From:'
+        = date_select(:from, '', :start_year => 2000)
+      %p
+        = 'To:'
+        = date_select(:to, '', :start_year => 2000)
+      %p
+        = label_tag :restaurant
+        = collection_select(:restaurant, :name, Restaurant.all, :id, :name, :prompt => true)
+      %p
+        = label_tag :branch
+        = collection_select(:branch, :location, Branch.all, :id, :location, :prompt => true)
+      = submit_tag :Search, :class => 'button'
     %h2.title Listing Category Sales
-
     .inner
       - totalcateg = Hash.new
       %table
