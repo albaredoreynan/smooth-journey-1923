@@ -11,11 +11,19 @@ describe SalesController do
   context 'GET #index' do
     before do
       @sale = FactoryGirl.create(:sale)
-      get 'index'
     end
 
     it 'should load all sales' do
+      get 'index'
       assigns[:sales].should eq ({Date.today => [@sale]})
+    end
+
+    context 'Search' do
+      it 'should filter sale by date' do
+        @sale2 = FactoryGirl.create(:sale, :date => 5.days.ago )
+        get 'index', :start_date => 5.days.ago.strftime('%F'), :end_date => Date.today.strftime('%F')
+        assigns[:sales].should eq ({Date.today => [@sale], 5.days.ago.to_date => [@sale2]})
+      end
     end
   end
 

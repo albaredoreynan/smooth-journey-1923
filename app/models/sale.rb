@@ -41,8 +41,8 @@ class Sale < ActiveRecord::Base
     settlement_type_sales.map(&:amount).reject(&:nil?).sum
   end
 
-  def self.search_date_range(from,to)
-    where("date >= ? and date <= ?",from,to)
+  def self.search_by_date(from, to)
+    where("date >= ? and date <= ?", from, to)
   end
 
   def self.search_by_employee_or_date(from,to,employee_id)

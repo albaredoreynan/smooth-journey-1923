@@ -9,7 +9,7 @@
         = link_to 'Sales by Server', sales_by_server_path
   .content
     .search_box
-      = form_tag '/sales/search' do
+      = form_tag '/sales/search', :method => :get do
         .input
           = label_tag 'From'
           = text_field_tag :start_date, nil, :class => 'datepicker'

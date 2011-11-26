@@ -68,4 +68,21 @@ describe Sale do
     end
   end
 
+  context 'search' do
+    before do
+      @start_date = 6.days.ago
+      @end_date = Date.today
+      @sale1 = FactoryGirl.create(:sale, :date => 5.days.ago)
+      @sale2 = FactoryGirl.create(:sale, :date => @end_date)
+    end
+
+    it 'should search sales by date' do
+      @sales = Sale.search_by_date(@start_date.strftime('%F'), @end_date.strftime('%F'))
+      @sales.should eq [@sale1, @sale2]
+
+      @sales = Sale.search_by_date(@start_date.strftime('%F'), 4.days.ago.strftime('%F'))
+      @sales.should eq [@sale1]
+    end
+  end
+
 end
