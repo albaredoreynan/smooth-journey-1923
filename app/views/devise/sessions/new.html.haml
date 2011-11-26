@@ -14,9 +14,12 @@
         = f.label :password
         = f.password_field :password
       - if devise_mapping.rememberable?
-        .input
+        .input.checkbox
           = f.label :remember_me
           = f.check_box :remember_me
       .actions
-        %div= f.submit "Sign in", :class => 'button'
-    = render :partial => "devise/shared/links"
+        %button.button{ type: 'submit' }
+          = image_tag "web-app-theme/icons/key.png"
+          Login
+      %div{:style => 'text-align: right; padding-right: 60px'}
+        = render :partial => "devise/shared/links"

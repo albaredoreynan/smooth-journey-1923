@@ -151,6 +151,18 @@ form
     &.button, &[type=submit]
       width: auto
 
+  .input.checkbox
+    input
+      position: relative
+      left: -123px
+
+    label
+      display: block
+      padding-left: 123px
+      padding-top: 4px
+      &:after
+        content: ''
+
   textarea
     height: 115px
 
@@ -169,3 +181,45 @@ form
       top: 18px
       bottom: 18px
     padding: 0 20px 18px $form-left-column
+
+
+.flash
+  .message
+    @include border-radius
+    text-align: center
+    margin: 0 auto 15px
+    color: white
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.3)
+
+    p
+      margin: 8px
+
+    &.error, &.error-list, &.alert
+      border: 1px solid #993624
+      background: #cc4831 url("messages/error.png") no-repeat 10px center
+
+    &.warning
+      border: 1px solid #bb9004
+      background: #f9c006 url("messages/warning.png") no-repeat 10px center
+
+    &.notice
+      color: #28485e
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7)
+      border: 1px solid #8a9daa
+      background: #b8d1e2 url("messages/notice.png") no-repeat 10px center
+
+    .error-list
+      text-align: left
+
+      h2
+        font-size: 16px
+        text-align: center
+
+      ul
+        padding-left: 22px
+        line-height: 18px
+        list-style-type: square
+        margin-bottom: 15px
+
+#box .block .content
+  padding: 25px 20px
