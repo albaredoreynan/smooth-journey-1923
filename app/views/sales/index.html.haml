@@ -8,20 +8,22 @@
       %li
         = link_to 'Sales by Server', sales_by_server_path
   .content
-    = form_tag '/sales/search' do
-      %p
-        = 'From:'
-        = date_select(:from, '', :start_year => 2000)
-      %p
-        = 'To:'
-        = date_select(:to, '', :start_year => 2000)
-      %p
-        = label_tag :restaurant
-        = collection_select(:restaurant, :name, Restaurant.all, :id, :name, :prompt => true)
-      %p
-        = label_tag :branch
-        = collection_select(:branch, :location, Branch.all, :id, :location, :prompt => true)
-      = submit_tag :Search, :class => 'button'
+    .search_box
+      = form_tag '/sales/search' do
+        .input
+          = label_tag 'From'
+          = text_field_tag :start_date, nil, :class => 'datepicker'
+        .input
+          = label_tag 'To'
+          = text_field_tag :end_date, nil, :class => 'datepicker'
+        .input
+          = label_tag :restaurant
+          = collection_select(:restaurant, :name, Restaurant.all, :id, :name, :prompt => true)
+        .input
+          = label_tag :branch
+          = collection_select(:branch, :location, Branch.all, :id, :location, :prompt => true)
+        .actions
+          = submit_tag :Search, :class => 'button'
     %h2.title Listing Category Sales
     .inner
       - totalcateg = Hash.new
