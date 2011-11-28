@@ -1,4 +1,7 @@
 class SuppliersController < ApplicationController
+
+  set_tab :database
+
   # GET /suppliers
   # GET /suppliers.xml
   def index

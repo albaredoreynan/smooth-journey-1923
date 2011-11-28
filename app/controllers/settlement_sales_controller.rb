@@ -1,5 +1,7 @@
 class SettlementSalesController < ApplicationController
 
+  set_tab :sales
+
   def index
     @settlement_sales = SettlementSale.all.group_by { |ss| ss.ss_date }
     @settlement_types = SettlementType.all

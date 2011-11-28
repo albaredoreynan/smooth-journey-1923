@@ -1,4 +1,7 @@
 class RestaurantsController < ApplicationController
+
+  set_tab :database
+
   # GET /restaurants
   # GET /restaurants.xml
   def index

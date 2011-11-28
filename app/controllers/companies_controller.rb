@@ -1,4 +1,7 @@
 class CompaniesController < ApplicationController
+
+  set_tab :database
+
   # GET /companies
   # GET /companies.xml
   def index

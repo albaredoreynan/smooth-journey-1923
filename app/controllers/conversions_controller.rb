@@ -1,4 +1,7 @@
 class ConversionsController < ApplicationController
+
+  set_tab :database
+
   # GET /conversions
   # GET /conversions.xml
   def index

@@ -1,4 +1,7 @@
 class EmployeesController < ApplicationController
+
+  set_tab :employees
+
   # GET /employees
   # GET /employees.xml
   def index
