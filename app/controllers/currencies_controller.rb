@@ -1,4 +1,7 @@
 class CurrenciesController < ApplicationController
+
+  set_tab :database
+
   # GET /currencies
   # GET /currencies.json
   def index

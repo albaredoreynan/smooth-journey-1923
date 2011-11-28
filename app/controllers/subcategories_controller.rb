@@ -1,4 +1,7 @@
 class SubcategoriesController < ApplicationController
+
+  set_tab :database
+
   # GET /subcategories
   # GET /subcategories.xml
   def index

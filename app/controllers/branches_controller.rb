@@ -1,4 +1,7 @@
 class BranchesController < ApplicationController
+
+  set_tab :database
+
   # GET /branches
   # GET /branches.xml
   def index
