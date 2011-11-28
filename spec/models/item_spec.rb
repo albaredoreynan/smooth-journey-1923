@@ -23,8 +23,7 @@ describe Item do
     it 'should return nil when no subcategory' do
       item = Item.new
       item.subcategory_name.should be_nil
-      item.category_name.should be_nil
-    end
+      item.category_name.should be_nil end
   end
 
   context 'Search' do
@@ -48,25 +47,17 @@ describe Item do
     end
   end
 
-  context 'Endcount' do
-    before do
-      @endcount = FactoryGirl.create(:endcount)
-      @item = FactoryGirl.create(:item)
-      @item_count = FactoryGirl.create(:item_count, {
-        endcount: @endcount,
-        item: @item,
-        begin_count: 0,
-        end_count: 5
-      })
+  context 'Count' do
+    it 'should default count to 0' do
+      item = Item.create(Factory.attributes_for(:item))
+      item.item_count.should eq 0
     end
 
-    it 'should return the last count' do
-      @item.end_count.should eq 5
-    end
-
-    it 'should return 0 count if there is no endcount' do
-      Endcount.destroy_all
-      @item.end_count.should eq 0
+    it 'should return the last item count' do
+      item_count1 = FactoryGirl.create(:item_count, :count => 5, :created_at => 5.days.ago)
+      item_count2 = FactoryGirl.create(:item_count, :count => 10, :created_at => Time.now)
+      item = item_count2.item
+      item.item_count.should eq 10
     end
   end
 end

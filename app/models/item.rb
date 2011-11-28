@@ -21,12 +21,7 @@ class Item < ActiveRecord::Base
     subcategory.name unless subcategory.nil?
   end
 
-  def end_count
-    unless endcounts.empty?
-      end_count = endcounts.order('end_date DESC').first
-      end_count.item_counts.order('created_at DESC').first.end_count
-    else
-      0
-    end
+  def item_count
+    item_counts.order('created_at DESC').try(:first).try(:count) || 0
   end
 end

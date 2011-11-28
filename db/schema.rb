@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111125064020) do
+ActiveRecord::Schema.define(:version => 20111128082250) do
 
   create_table "branches", :force => true do |t|
     t.integer  "restaurant_id"
@@ -115,10 +115,8 @@ ActiveRecord::Schema.define(:version => 20111125064020) do
   end
 
   create_table "item_counts", :force => true do |t|
-    t.integer  "endcount_id"
     t.integer  "item_id"
-    t.float    "begin_count"
-    t.float    "end_count"
+    t.float    "count"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
