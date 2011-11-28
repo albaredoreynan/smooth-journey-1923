@@ -1,21 +1,6 @@
-- content_for(:head, javascript_include_tag(:purchase_edit))
+- content_for(:head, javascript_include_tag(:purchases))
 .block
   .content
     %h2 Edit Purchase
     .inner
-      = simple_form_for(@purchase) do |f|
-        %fieldset
-          = f.input :purchase_date
-          = f.input :invoice_id
-          = f.association :supplier
-          = f.association :branch, :collection => Branch.all.map { |b| [b.location, b.id] }
-          = simple_fields_for :purchaserows do |pf|
-            = pf.input :item_id
-            = pf.input :unit_id
-            = pf.input :unit_cost, :label => 'Unit Cost'
-            = pf.input :quantity, :label => 'Quantity'
-            = pf.input :amount, :label => 'Amount'
-            = pf.input :vat_type, :label => 'VAT Type'
-            = pf.input :vat_amount, :label => 'VAT Amount'
-            = pf.input :net_amount
-          = f.button :submit
+      = render 'form'

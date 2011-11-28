@@ -1,5 +1,7 @@
 class Purchase < ActiveRecord::Base
 
+  attr_accessible :vat_amount, :net_amount
+
   validates :supplier_id, :presence => true
   validates :branch_id, :presence => true
   validates :invoice_id, :presence => true, :numericality => true
