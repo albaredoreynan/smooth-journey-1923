@@ -1,8 +1,10 @@
 Rrbs::Application.routes.draw do
 
-  match "/purchases/search" => 'purchases#index'
+  match '/purchases/search' => 'purchases#index'
 
-  match "/endcounts/search" => "endcounts#index"
+  match '/endcounts/search' => 'endcounts#index'
+
+  match '/sales/search' => 'sales#index'
 
   resources :currencies
 

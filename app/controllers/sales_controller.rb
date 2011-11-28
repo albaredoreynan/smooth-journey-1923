@@ -1,15 +1,12 @@
 class SalesController < ApplicationController
 
   def index
-    @sales = Sale.all.group_by{ |sale| sale.date.to_date }
     @categories = Category.all
 
-    if params[:commit] == "Search"
+    if params[:start_date] && params[:end_date]
+      @sales = Sale.search_by_date(params[:start_date], params[:end_date]).group_by { |sale| sale.date.to_date }
+    else
       @sales = Sale.all.group_by{ |sale| sale.date.to_date }
-      @categories = Category.all
-      from = params[:from]['(1i)']+ '-' + params[:from]['(2i)'] + '-' + params[:from]['(3i)']
-      to = params[:to]['(1i)']+ '-' + params[:to]['(2i)'] + '-' + params[:to]['(3i)']
-      @sales = Sale.search_date_range(from,to)
     end
   end
 
