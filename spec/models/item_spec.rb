@@ -48,15 +48,18 @@ describe Item do
   end
 
   context 'Count' do
+    before do
+      @item_count1 = FactoryGirl.create(:item_count, :count => 5, :created_at => 5.days.ago)
+      @item_count2 = FactoryGirl.create(:item_count, :count => 10, :created_at => Time.now)
+    end
+
     it 'should default count to 0' do
       item = Item.create(Factory.attributes_for(:item))
       item.item_count.should eq 0
     end
 
-    it 'should return the last item count' do
-      item_count1 = FactoryGirl.create(:item_count, :count => 5, :created_at => 5.days.ago)
-      item_count2 = FactoryGirl.create(:item_count, :count => 10, :created_at => Time.now)
-      item = item_count2.item
+    it 'should return the latest item count' do
+      item = @item_count2.item
       item.item_count.should eq 10
     end
   end

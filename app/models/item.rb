@@ -10,7 +10,7 @@ class Item < ActiveRecord::Base
   has_many :endcounts, :through => :item_counts
 
   def self.search(keyword)
-    where("name ILIKE ?", '%'+keyword+'%')
+    where("name ILIKE ?", "%#{keyword}%")
   end
 
   def category_name
