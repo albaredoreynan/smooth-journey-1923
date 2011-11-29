@@ -1,4 +1,7 @@
 class EndcountsController < ApplicationController
+
+  set_tab :inventory
+
   # GET /endcounts
   # GET /endcounts.xml
   def index

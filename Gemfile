@@ -10,6 +10,7 @@ gem 'therubyracer'
 gem 'haml-rails'
 gem 'simple_form'
 gem 'jquery-rails'
+gem 'tabs_on_rails'
 gem 'heroku'
 
 group :assets do

@@ -1,14 +1,17 @@
 class InventoryitemsController < ApplicationController
+
+  set_tab :inventory
+
   # GET /inventoryitems
   # GET /inventoryitems.xml
   def index
-    
+
     if params[:search]
       @items = Item.search(params[:search])
     else
       @items = Item.all
     end
-    
+
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @items }

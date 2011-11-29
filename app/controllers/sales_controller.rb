@@ -1,5 +1,7 @@
 class SalesController < ApplicationController
 
+  set_tab :sales
+
   def index
     @categories = Category.all
 

@@ -1,4 +1,7 @@
 class PurchasesController < ApplicationController
+
+  set_tab :purchases
+
   # GET /purchases
   # GET /purchases.xml
   def index

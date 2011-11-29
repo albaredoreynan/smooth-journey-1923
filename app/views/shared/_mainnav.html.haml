@@ -1,8 +1,8 @@
 %nav#main-navigation
-  %ul.wat-cf
-    %li= link_to 'Sales', sales_path
-    %li= link_to 'Purchases', purchases_path
-    %li= link_to 'Inventory', endcounts_path
-    %li= link_to 'Employees', employees_path
-    %li= link_to 'Reports', reports_path
-    %li= link_to 'Database', companies_path
+  = tabs_tag :builder => MenuTabBuilder do |tab|
+    = tab.sales 'Sales', sales_path
+    = tab.purchases 'Purchases', purchases_path
+    = tab.inventory 'Inventory', endcounts_path
+    = tab.employees 'Employees', employees_path
+    = tab.reports 'Reports', reports_path
+    = tab.database 'Database', companies_path

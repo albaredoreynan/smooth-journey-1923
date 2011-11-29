@@ -1,4 +1,7 @@
 class UnitsController < ApplicationController
+
+  set_tab :database
+
   # GET /units
   # GET /units.xml
   def index

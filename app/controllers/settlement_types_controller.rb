@@ -1,4 +1,7 @@
 class SettlementTypesController < ApplicationController
+
+  set_tab :database
+
   # GET /settlement_types
   # GET /settlement_types.xml
   def index

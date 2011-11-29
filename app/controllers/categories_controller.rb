@@ -1,4 +1,7 @@
 class CategoriesController < ApplicationController
+
+  set_tab :database
+
   # GET /categories
   # GET /categories.xml
   def index
