@@ -19,10 +19,24 @@ describe SalesController do
     end
 
     context 'Search' do
+      before do
+        @start_date = 5.days.ago
+        @sale2 = FactoryGirl.create(:sale, :date => @start_date )
+      end
+
       it 'should filter sale by date' do
-        @sale2 = FactoryGirl.create(:sale, :date => 5.days.ago )
-        get 'index', :start_date => 5.days.ago.strftime('%F'), :end_date => Date.today.strftime('%F')
-        assigns[:sales].should eq ({Date.today => [@sale], 5.days.ago.to_date => [@sale2]})
+        get 'index', :start_date => @start_date.to_date, :end_date => Date.today.strftime('%F')
+        assigns[:sales].should eq ({Date.today => [@sale], @start_date.to_date => [@sale2]})
+      end
+
+      it 'should filter sale with start_date but without end_date' do
+        get 'index', :start_date => @start_date.to_date, :end_date => ''
+        assigns[:sales].should eq ({Date.today => [@sale], @start_date.to_date => [@sale2]})
+      end
+
+      it 'should filter sale with end_date but without start_date' do
+        get 'index', :start_date => '', :end_date => Date.today.strftime('%F')
+        assigns[:sales].should eq ({Date.today => [@sale], @start_date.to_date => [@sale2]})
       end
     end
   end

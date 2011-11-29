@@ -39,8 +39,11 @@ end
 
 group :linux do
   gem 'rb-inotify'
+  gem 'libnotify'
 end
 
 # Put your MacOSX specific gem here
 group :darwin do
+  gem 'rb-fsevent'
+  gem 'growl'
 end

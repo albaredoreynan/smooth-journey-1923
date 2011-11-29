@@ -42,7 +42,13 @@ class Sale < ActiveRecord::Base
   end
 
   def self.search_by_date(from, to)
-    where("date >= ? and date <= ?", from, to)
+    if from && to.blank?
+      where('date >= ?', from)
+    elsif from.blank? && to
+      where('date <= ?', to)
+    else
+      where('date >= ? AND date <= ?', from, to)
+    end
   end
 
   def self.search_by_employee_or_date(from,to,employee_id)
