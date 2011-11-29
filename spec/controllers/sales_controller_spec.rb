@@ -38,9 +38,51 @@ describe SalesController do
         get 'index', :start_date => '', :end_date => Date.today.strftime('%F')
         assigns[:sales].should eq ({Date.today => [@sale], @start_date.to_date => [@sale2]})
       end
+      
+      it 'should filter sale without start_date and end_date' do
+        get 'index', :start_date => '', :end_date => ''
+        assigns[:sales].should eq ({Date.today => [@sale], @start_date.to_date => [@sale2]})
+      end
     end
   end
+  
+  context 'GET #sales_by_settlement_type' do
+    before do
+      @sale = FactoryGirl.create(:sale)
+    end
 
+    it 'should load all sales by settlement type' do
+      get 'sales_by_settlement_type'
+      assigns[:sales].should eq ({Date.today => [@sale]})
+    end
+
+    context 'Search' do
+      before do
+        @start_date = 5.days.ago
+        @sale2 = FactoryGirl.create(:sale, :date => @start_date )
+      end
+
+      it 'should filter sale by date' do
+        get 'index', :start_date => @start_date.to_date, :end_date => Date.today.strftime('%F')
+        assigns[:sales].should eq ({Date.today => [@sale], @start_date.to_date => [@sale2]})
+      end
+
+      it 'should filter sale with start_date but without end_date' do
+        get 'index', :start_date => @start_date.to_date, :end_date => ''
+        assigns[:sales].should eq ({Date.today => [@sale], @start_date.to_date => [@sale2]})
+      end
+
+      it 'should filter sale with end_date but without start_date' do
+        get 'index', :start_date => '', :end_date => Date.today.strftime('%F')
+        assigns[:sales].should eq ({Date.today => [@sale], @start_date.to_date => [@sale2]})
+      end
+      
+      it 'should filter sale without start_date and end_date' do
+        get 'index', :start_date => '', :end_date => ''
+        assigns[:sales].should eq ({Date.today => [@sale], @start_date.to_date => [@sale2]})
+      end
+    end
+  end
   describe 'GET #new' do
     before do
       get 'new'

@@ -5,7 +5,7 @@ class SalesController < ApplicationController
   def index
     @categories = Category.all
 
-    if params[:start_date] && params[:end_date]
+    unless params[:start_date].blank? && params[:end_date].blank?
       @sales = Sale.search_by_date(params[:start_date], params[:end_date]).group_by { |sale| sale.date.to_date }
     else
       @sales = Sale.all.group_by{ |sale| sale.date.to_date }

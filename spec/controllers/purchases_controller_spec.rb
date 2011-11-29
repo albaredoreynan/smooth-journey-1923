@@ -15,6 +15,39 @@ describe PurchasesController do
       get :index
       assigns(:purchases).should eq([mock_purchase])
     end
+    
+    context "Search" do
+      before do
+        @start_date = 5.days.ago
+        @purchase1 = FactoryGirl.create(:purchase, :purchase_date => @start_date )
+        @purchase2 = FactoryGirl.create(:purchase, :purchase_date => Date.today)
+      end
+      
+      it 'should filter purchase by date' do
+        get 'index', :start_date => @start_date.to_date, :end_date => Date.today.strftime('%F')
+        assigns[:purchases].should eq [@purchase1, @purchase2]
+      end
+        
+      it 'should filter purchase with start_date but without end_date' do
+        get 'index', :start_date => @start_date.to_date, :end_date => ''
+        assigns[:purchases].should eq [@purchase1, @purchase2]
+      end
+ 
+      it 'should filter purchase with end_date but without start_date' do
+        get 'index', :start_date => '', :end_date => Date.today.strftime('%F')
+        assigns[:purchases].should eq [@purchase1, @purchase2]
+      end
+  
+      it 'should filter purchase without start_date and end_date' do
+        get 'index', :start_date => '', :end_date => ''
+        assigns[:purchases].should eq [@purchase1, @purchase2]
+      end
+      
+      # it 'should filter purchase without start_date and end_date' do
+        # get 'index', :commit => 'Search'
+        # assigns[:purchases].should eq [@purchase1, @purchase2]
+      # end
+    end
   end
 
   describe "GET show" do

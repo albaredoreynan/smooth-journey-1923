@@ -41,9 +41,9 @@
                   %td{:class => 'checkbox'}
                     - if purchase.save_as_draft == 1
                       = check_box_tag "purchase_ids[]", purchase.id
-                  - purchase.created_at.strftime("%b %d, %Y")
+                  - purchase.created_at.strftime("%F")
                   %td= purchase.invoice_id
-                  %td= purchase.purchase_date.strftime("%b %d, %Y")
+                  %td= purchase.purchase_date.strftime("%F")
                   %td
                     - supplierId = purchase.supplier_id
                     - s = Supplier.find(supplierId)
