@@ -18,7 +18,7 @@ class Purchase < ActiveRecord::Base
       start_date = Date.parse(start_date.to_a.sort.collect{|c| c[1]}.join('-'))
       end_date = Date.parse(end_date.to_a.sort.collect{|c| c[1]}.join('-'))
     end
-    where("purchase_date >= ? and purchase_date <= ?", start_date, end_date)
+    where("purchase_date >= ? and purchase_date <= ? and (purchase_date is not null)" , start_date, end_date)
   end
 
   def self.search_by_supplier(supplier_id)

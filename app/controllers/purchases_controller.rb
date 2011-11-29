@@ -3,7 +3,8 @@ class PurchasesController < ApplicationController
   # GET /purchases.xml
   def index
     if params[:commit] == "Search"
-      @purchases = Purchase.search_by_date params['start'], params['end']
+      
+      @purchases = Purchase.search_by_date params['start_date'], params['end_date']
     elsif params[:commit] == "Submit records"
       Purchase.update_all(["save_as_draft=?", 0], :id => params[:purchase_ids])
       redirect_to purchases_path

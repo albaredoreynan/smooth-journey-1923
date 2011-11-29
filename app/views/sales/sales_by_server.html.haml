@@ -8,26 +8,22 @@
       %li
         = link_to 'Sales by Server', sales_by_server_path
   .content
-    .left
-      /%h2 SALES BY SERVER
-      = form_tag :sales_by_server do
-        %table.table_form
-          %tr
-            %td
-              = 'From:'
-              = date_select(:from, '', :start_year => 2000)
-              = label_tag :restaurant
-              = collection_select(:restaurant, :name, Restaurant.all, :id, :name, :prompt => true)
-            %td
-              = 'To:'
-              = date_select(:to, '', :start_year => 2000)
-              = label_tag :branch
-              = collection_select(:branch, :location, Branch.all, :id, :location, :prompt => true)
-            %td
-              = 'Server:'
-              = collection_select(:employee, :employee_id, Employee.all, :id, :full_name, :prompt => true)
-            %td= submit_tag :Search
-
+    .search_box
+      = form_tag '/sales/search', :method => :get do
+        .input
+          = label_tag 'From'
+          = text_field_tag :start_date, nil, :class => 'datepicker'
+        .input
+          = label_tag 'To'
+          = text_field_tag :end_date, nil, :class => 'datepicker'
+        .input
+          = label_tag :restaurant
+          = collection_select(:restaurant, :name, Restaurant.all, :id, :name, :prompt => true)
+        .input
+          = label_tag :branch
+          = collection_select(:branch, :location, Branch.all, :id, :location, :prompt => true)
+        .actions
+          = submit_tag :Search, :class => 'button'
     %h2.title Listing Sales By Server
 
     .inner
