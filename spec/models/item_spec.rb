@@ -51,6 +51,7 @@ describe Item do
     before do
       @item_count1 = FactoryGirl.create(:item_count, :count => 5, :created_at => 5.days.ago)
       @item_count2 = FactoryGirl.create(:item_count, :count => 10, :created_at => Time.now)
+      @item = @item_count2.item
     end
 
     it 'should default count to 0' do
@@ -59,8 +60,23 @@ describe Item do
     end
 
     it 'should return the latest item count' do
-      item = @item_count2.item
-      item.item_count.should eq 10
+      @item.item_count.should eq 10
     end
+
+    it 'should update item count' do
+      @item.item_count = 8
+      @item.item_count.should eq 8
+    end
+
+    it 'should calculate change from previous entry' do
+      # initial value is 10
+      @item.item_count = 8
+      latest_count = ItemCount.last
+      latest_count.delta.should eq -2
+      @item.item_count = 20
+      latest_count = ItemCount.last
+      latest_count.delta.should eq 12
+    end
+
   end
 end

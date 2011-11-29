@@ -24,4 +24,11 @@ class Item < ActiveRecord::Base
   def item_count
     item_counts.order('created_at DESC').try(:first).try(:count) || 0
   end
+
+  def item_count=(count)
+    # get previous count and check how many is changed
+    previous_count = item_count
+    delta = count - previous_count
+    item_counts.create(:count => count, :delta => delta)
+  end
 end
