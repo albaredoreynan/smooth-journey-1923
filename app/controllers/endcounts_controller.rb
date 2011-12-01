@@ -5,29 +5,9 @@ class EndcountsController < ApplicationController
   # GET /endcounts
   # GET /endcounts.xml
   def index
-    if params[:commit] == "Search"
-      startdate = params[:start]['(1i)']+ '-' + params[:start]['(2i)'] + '-' + params[:start]['(3i)']
-      enddate = params[:end]['(1i)']+ '-' + params[:end]['(2i)'] + '-' + params[:end]['(3i)']
-
-      @endcounts = Endcount.where("begin_date >= ? AND begin_date <= ?",startdate,enddate).all
-    elsif params[:commit] == "Submit records "
-      Endcount.update_all(["save_as_draft=?", 0], :id => params[:endcount_ids]) #passed an empty hash
-      redirect_to(endcounts_path, :notice => "Record/s submitted.")
-    elsif params[:commit] == "Destroy records"
-      i = 0
-      arr_item = Array.new
-      @endcounts = Endcount.find(params[:endcount_ids])
-      @endcounts.each do |endcount|
-        endcount.destroy
-        i += 1
-      end
-
-      redirect_to(endcounts_path)
-      flash[:notice] = 'Record/s destroyed.'
-    else
-      @endcounts = Endcount.all
-    end
+    @items = Item.all
   end
+
   # GET /endcounts/1
   # GET /endcounts/1.xml
   def show

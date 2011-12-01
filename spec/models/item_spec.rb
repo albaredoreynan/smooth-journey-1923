@@ -28,17 +28,17 @@ describe Item do
 
   context 'Search' do
     before do
-      @item = Item.create!({:name => 'Item A'})
+      @item1 = FactoryGirl.create(:item, :name => 'Item A')
     end
 
     it 'should search an item' do
       @items = Item.search('Item A')
-      @items.first.name.should eq 'Item A'
+      @items.should eq [@item1]
     end
 
     it 'should search an item that begins with a keyword' do
       @items = Item.search('item')
-      @items.should eq [@item]
+      @items.should eq [@item1]
     end
 
     it 'should not return result if no item found' do
@@ -77,6 +77,34 @@ describe Item do
       latest_count = ItemCount.last
       latest_count.delta.should eq 12
     end
+  end
 
+  context 'Endcount' do
+    before do
+      @item1 = FactoryGirl.create(:item)
+      @item1_counts = []
+      @item1_counts[0] = FactoryGirl.create(:item_count,
+                                            :item => @item1,
+                                            :count => 10,
+                                            :created_at => 5.days.ago)
+      @item1_counts[1] = FactoryGirl.create(:item_count,
+                                            :item => @item1,
+                                            :count => 11,
+                                            :created_at => 4.days.ago)
+
+      @item2 = FactoryGirl.create(:item)
+      @item2_counts = []
+      @item2_counts[1] = FactoryGirl.create(:item_count, :item => @item2, :count => 20, :created_at => 20.days.ago)
+      @item2_counts[2] = FactoryGirl.create(:item_count, :item => @item2, :count => 40, :created_at => 19.days.ago)
+    end
+
+    it 'should get item counts by date range' do
+      pending
+      queried_items = Item.end_counts(5.days.ago.strftime('%F'), 4.days.ago.strftime('%F'))
+      @expected_item1 = @item1.clone
+      @expected_item1.begin_count = 10
+      @expected_item1.end_count = 11
+      queried_items.should eq [@expected_item1]
+    end
   end
 end

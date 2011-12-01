@@ -7,7 +7,6 @@ class Item < ActiveRecord::Base
   belongs_to :subcategory
   has_many :purchase_items
   has_many :item_counts
-  has_many :endcounts, :through => :item_counts
 
   def self.search(keyword)
     where("name ILIKE ?", "%#{keyword}%")
@@ -30,5 +29,13 @@ class Item < ActiveRecord::Base
     previous_count = item_count
     delta = count - previous_count
     item_counts.create(:count => count, :delta => delta)
+  end
+
+  def end_count=(count)
+    @end_count = count
+  end
+
+  def self.end_counts(begin_date, end_date)
+    Item.where(:created_at => [begin_date, end_date])
   end
 end
