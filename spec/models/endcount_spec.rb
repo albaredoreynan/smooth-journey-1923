@@ -14,7 +14,14 @@ describe Endcount do
       endcounts.should eq [@endcount1]
 
       endcounts = Endcount.search(start_date, Date.today)
-      endcounts.should eq [@endcount1, @endcount2]
+      endcounts.should eq [@endcount1, @endcount2]0
+    end
+    
+    it 'should search endcount by date as string' do
+      start_date = @endcount1.strftime('%F')
+      end_date = @endcount2.to_s
+      results = Endcount.search_by_date(start_date, end_date)
+      results.should eq [@endcount1, @endcount2]
     end
   end
 end

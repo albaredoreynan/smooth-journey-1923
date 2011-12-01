@@ -9,30 +9,59 @@ describe EndcountsController do
       get 'index'
       assigns[:endcounts].should eq [@endcount]
     end
-  end
-
-  context 'GET #search' do
-    it 'should filter all endcounts by date' do
-      begin_date = 30.days.ago
-      end_date = Date.today
-      endcount1 = FactoryGirl.create(:endcount, :begin_date => 30.days.ago,
-                                                 :end_date => 15.days.ago)
-      endcount2 = FactoryGirl.create(:endcount, :begin_date => 7.days.ago,
-                                                 :end_date => 2.days.ago)
-      get 'index', ({
-        "start"=>{
-          "(1i)"=> begin_date.year,
-          "(2i)"=> begin_date.month,
-          "(3i)"=> begin_date.day},
-        "end"=>{
-          "(1i)"=> end_date.year,
-          "(2i)"=> end_date.month,
-          "(3i)"=> end_date.day},
-        "commit"=>"Search",
-        "id"=>"search"})
-      assigns[:endcounts].should eq [endcount1, endcount2]
+    
+    context 'GET #search' do
+      before do
+        @start_date = 30.days.ago
+        @end_date = Date.today
+        @endcount1 = FactoryGirl.create(:endcount, :begin_date => @start_date)
+        @endcount2 = FactoryGirl.create(:endcount, :end_date => Date.today)
+      end
+      
+      it 'should filter endcounts by date' do
+        get 'index', :begin_date => @start_date.to_date, :end_date => Date.today.strftime('%F')
+        assigns[:endcounts].should eq [@endcount1, @endcount2]
+      end
+        
+      it 'should filter endcounts with start_date but without end_date' do
+        get 'index', :begin_date => @start_date.to_date, :end_date => ''
+        assigns[:endcounts].should eq [@endcount1, @endcount2]
+      end
+ 
+      it 'should filter endcounts with end_date but without start_date' do
+        get 'index', :begin_date => '', :end_date => Date.today.strftime('%F')
+        assigns[:endcounts].should eq [@endcount1, @endcount2]
+      end
+  
+      it 'should filter endcounts without start_date and end_date' do
+        get 'index', :begin_date => '', :end_date => ''
+        assigns[:endcounts].should eq [@endcount1, @endcount2]
+      end  
     end
   end
+
+  # context 'GET #search' do
+    # it 'should filter all endcounts by date' do
+      # begin_date = 30.days.ago
+      # end_date = Date.today
+      # endcount1 = FactoryGirl.create(:endcount, :begin_date => 30.days.ago,
+                                                 # :end_date => 15.days.ago)
+      # endcount2 = FactoryGirl.create(:endcount, :begin_date => 7.days.ago,
+                                                 # :end_date => 2.days.ago)
+      # get 'index', ({
+        # "start"=>{
+          # "(1i)"=> begin_date.year,
+          # "(2i)"=> begin_date.month,
+          # "(3i)"=> begin_date.day},
+        # "end"=>{
+          # "(1i)"=> end_date.year,
+          # "(2i)"=> end_date.month,
+          # "(3i)"=> end_date.day},
+        # "commit"=>"Search",
+        # "id"=>"search"})
+      # assigns[:endcounts].should eq [endcount1, endcount2]
+    # end
+  # end
 
   context 'GET #new' do
     it 'should load all items' do

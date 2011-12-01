@@ -6,10 +6,15 @@ class EndcountsController < ApplicationController
   # GET /endcounts.xml
   def index
     if params[:commit] == "Search"
-      startdate = params[:start]['(1i)']+ '-' + params[:start]['(2i)'] + '-' + params[:start]['(3i)']
-      enddate = params[:end]['(1i)']+ '-' + params[:end]['(2i)'] + '-' + params[:end]['(3i)']
-
-      @endcounts = Endcount.where("begin_date >= ? AND begin_date <= ?",startdate,enddate).all
+      unless params[:start_date].blank? && params[:end_date].blank?
+        @endcounts = Endcount.search_by_date(params[:start_date], params[:end_date])
+      else
+        @endcounts = Endcount.all.group_by{ |endcount| endcount.date.to_date }
+      end  
+      # startdate = params[:start]['(1i)']+ '-' + params[:start]['(2i)'] + '-' + params[:start]['(3i)']
+      # enddate = params[:end]['(1i)']+ '-' + params[:end]['(2i)'] + '-' + params[:end]['(3i)']
+# 
+      # @endcounts = Endcount.where("begin_date >= ? AND begin_date <= ?",startdate,enddate).all
     elsif params[:commit] == "Submit records "
       Endcount.update_all(["save_as_draft=?", 0], :id => params[:endcount_ids]) #passed an empty hash
       redirect_to(endcounts_path, :notice => "Record/s submitted.")
