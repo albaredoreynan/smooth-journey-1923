@@ -49,8 +49,8 @@ describe Item do
 
   context 'Count' do
     before do
-      @item_count1 = FactoryGirl.create(:item_count, :count => 5, :created_at => 5.days.ago)
-      @item_count2 = FactoryGirl.create(:item_count, :count => 10, :created_at => Time.now)
+      @item_count1 = FactoryGirl.create(:item_count, :stock_count => 5, :created_at => 5.days.ago)
+      @item_count2 = FactoryGirl.create(:item_count, :stock_count => 10, :created_at => Time.now)
       @item = @item_count2.item
     end
 
@@ -85,17 +85,17 @@ describe Item do
       @item1_counts = []
       @item1_counts[0] = FactoryGirl.create(:item_count,
                                             :item => @item1,
-                                            :count => 10,
+                                            :stock_count => 10,
                                             :created_at => 5.days.ago)
       @item1_counts[1] = FactoryGirl.create(:item_count,
                                             :item => @item1,
-                                            :count => 11,
+                                            :stock_count => 11,
                                             :created_at => 4.days.ago)
 
       @item2 = FactoryGirl.create(:item)
       @item2_counts = []
-      @item2_counts[1] = FactoryGirl.create(:item_count, :item => @item2, :count => 20, :created_at => 20.days.ago)
-      @item2_counts[2] = FactoryGirl.create(:item_count, :item => @item2, :count => 40, :created_at => 19.days.ago)
+      @item2_counts[1] = FactoryGirl.create(:item_count, :item => @item2, :stock_count => 20, :created_at => 20.days.ago)
+      @item2_counts[2] = FactoryGirl.create(:item_count, :item => @item2, :stock_count => 40, :created_at => 19.days.ago)
     end
 
     it 'should get item counts by date range' do
