@@ -3,11 +3,12 @@ class Purchaserow < ActiveRecord::Base
   belongs_to :item
   belongs_to :unit
 
-  validates :item_id, :presence => true
-  validates :amount, :presence => true
-  validates :quantity, :presence => true, :numericality => true
-  validates :unit_cost, :presence => true, :numericality => true
-  validates :vat_type, :presence => true
+  validates :item_id,     :presence => true
+  validates :amount,      :presence => true
+  validates :quantity,    :presence => true, :numericality => true
+  validates :unit_cost,   :presence => true, :numericality => true
+  validates :vat_type,    :presence => true,
+                          :inclusion => { :in => %w{VAT-Inclusive VAT-Exclusive VAT-Exempted} }
 
   def vat_amount
     case vat_type

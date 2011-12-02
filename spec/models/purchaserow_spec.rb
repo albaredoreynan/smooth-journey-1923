@@ -24,7 +24,21 @@ describe Purchaserow do
     end
 
     it 'should be invalid without vat_type' do
-      @purchase_row.should have(1).error_on :vat_type
+      @purchase_row.should have_at_least(1).error_on :vat_type
+    end
+
+    %w(VAT-Inclusive VAT-Exclusive VAT-Exempted).each do |vat_type|
+      it "should be valid when vat_type is #{vat_type}" do
+        @purchase_row.vat_type = vat_type
+        @purchase_row.should have(0).error_on :vat_type
+      end
+    end
+
+    %w(VAT-inclusive VAT-Ex Exempted).each do |vat_type|
+      it "should be invalid when vat_type is #{vat_type}" do
+        @purchase_row.vat_type = vat_type
+        @purchase_row.should have_at_least(1).error_on :vat_type
+      end
     end
   end
 
