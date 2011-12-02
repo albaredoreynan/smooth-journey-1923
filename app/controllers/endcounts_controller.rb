@@ -10,7 +10,34 @@ class EndcountsController < ApplicationController
     @items = Item.all.each do |item|
       item.beginning_count = item.count_at(beginning_date)
       item.ending_count = item.count_at(ending_date)
-    end
+
+    #if params[:commit] == "Search"
+      #unless params[:start_date].blank? && params[:end_date].blank?
+        #@endcounts = Endcount.search_by_date(params[:start_date], params[:end_date])
+      #else
+        #@endcounts = Endcount.all.group_by{ |endcount| endcount.date.to_date }
+      #end
+      ## startdate = params[:start]['(1i)']+ '-' + params[:start]['(2i)'] + '-' + params[:start]['(3i)']
+      ## enddate = params[:end]['(1i)']+ '-' + params[:end]['(2i)'] + '-' + params[:end]['(3i)']
+##
+      ## @endcounts = Endcount.where("begin_date >= ? AND begin_date <= ?",startdate,enddate).all
+    #elsif params[:commit] == "Submit records "
+      #Endcount.update_all(["save_as_draft=?", 0], :id => params[:endcount_ids]) #passed an empty hash
+      #redirect_to(endcounts_path, :notice => "Record/s submitted.")
+    #elsif params[:commit] == "Destroy records"
+      #i = 0
+      #arr_item = Array.new
+      #@endcounts = Endcount.find(params[:endcount_ids])
+      #@endcounts.each do |endcount|
+        #endcount.destroy
+        #i += 1
+      #end
+
+      #redirect_to(endcounts_path)
+      #flash[:notice] = 'Record/s destroyed.'
+    #else
+      #@endcounts = Endcount.all
+    #end
   end
 
   # GET /endcounts/1

@@ -8,14 +8,16 @@
         - @endcount.errors.full_messages.each do |msg|
           %li= msg
 
+  
   %table.table_form
     %tr
       %td
-        = f.label :begin_date
-        = f.date_select :begin_date, :default => { :day => 1 }
-      %td
-        = f.label :end_date
-        = f.date_select :end_date
+        .input
+          = label_tag 'Begin Date'
+          = text_field_tag :begin_date, nil, :class => 'datepicker'
+        .input
+          = label_tag 'End Date'
+          = text_field_tag :end_date, nil, :class => 'datepicker'
 
   %table.table_form
     %tr

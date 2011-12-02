@@ -38,6 +38,29 @@ describe EndcountsController do
     end
   end
 
+  # context 'GET #search' do
+    # it 'should filter all endcounts by date' do
+      # begin_date = 30.days.ago
+      # end_date = Date.today
+      # endcount1 = FactoryGirl.create(:endcount, :begin_date => 30.days.ago,
+                                                 # :end_date => 15.days.ago)
+      # endcount2 = FactoryGirl.create(:endcount, :begin_date => 7.days.ago,
+                                                 # :end_date => 2.days.ago)
+      # get 'index', ({
+        # "start"=>{
+          # "(1i)"=> begin_date.year,
+          # "(2i)"=> begin_date.month,
+          # "(3i)"=> begin_date.day},
+        # "end"=>{
+          # "(1i)"=> end_date.year,
+          # "(2i)"=> end_date.month,
+          # "(3i)"=> end_date.day},
+        # "commit"=>"Search",
+        # "id"=>"search"})
+      # assigns[:endcounts].should eq [endcount1, endcount2]
+    # end
+  # end
+
   context 'GET #new' do
     it 'should load all items' do
       pending
