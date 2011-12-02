@@ -42,4 +42,11 @@ class Item < ActiveRecord::Base
       { :date => begin_date,
         :next_day => end_date }).try(:first).try(:stock_count) || '-'
   end
+
+  def self.endcount(beginning_date, ending_date)
+    Item.all.each do |item|
+      item.beginning_count = item.counted_at(beginning_date)
+      item.ending_count = item.counted_at(ending_date)
+    end
+  end
 end

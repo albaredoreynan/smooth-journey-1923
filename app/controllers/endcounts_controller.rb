@@ -5,10 +5,7 @@ class EndcountsController < ApplicationController
   def index
     @beginning_date = params[:beginning_date].blank? ?  Time.now.beginning_of_month : Date.parse(params[:beginning_date])
     @ending_date = params[:ending_date].blank? ? Time.now : Date.parse(params[:ending_date])
-    @items = Item.all.each do |item|
-      item.beginning_count = item.counted_at(@beginning_date)
-      item.ending_count = item.counted_at(@ending_date)
-    end
+    @items = Item.endcount(@beginning_date, @ending_date)
   end
 
   def show

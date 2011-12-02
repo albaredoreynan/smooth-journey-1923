@@ -74,12 +74,12 @@ describe Item do
       @item1 = FactoryGirl.create(:item)
       FactoryGirl.create(:item_count,
                          :item => @item1,
+                         :stock_count => 11,
+                         :created_at => 10.days.ago )
+      FactoryGirl.create(:item_count,
+                         :item => @item1,
                          :stock_count => 10,
-                         :created_at => 5.days.ago)
-      #FactoryGirl.create(:item_count,
-                         #:item => @item1,
-                         #:stock_count => 11,
-                         #:created_at => 4.days.ago)
+                         :created_at => 5.days.ago )
     end
 
     it 'should get count from a given date' do
@@ -88,7 +88,14 @@ describe Item do
     end
 
     it "should display '-' (dash) when no count is found" do
-      @item1.counted_at(10.days.ago).should eq '-'
+      # epoch time
+      @item1.counted_at(Time.at(0)).should eq '-'
+    end
+
+    it 'should return items with endcount' do
+      @items = Item.endcount(10.days.ago, 5.days.ago)
+      @items.first.beginning_count.should eq 11
+      @items.first.ending_count.should eq 10
     end
   end
 end
