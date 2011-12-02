@@ -4,10 +4,37 @@ describe EndcountsController do
   login_user
 
   context 'GET #index' do
+    before do
+      @item = FactoryGirl.create(:item)
+      @item_counts = [
+        FactoryGirl.create(:beginning_of_month_count, :item => @item, :stock_count => 10),
+        FactoryGirl.create(:item_count, :item => @item, :stock_count => 20)
+      ]
+    end
+
     it 'should load all items' do
-      item = FactoryGirl.create(:item)
       get 'index'
-      assigns[:items].should eq [item]
+      assigns[:items].should eq [@item]
+    end
+
+    it 'should load default item'  do
+      # default items from first day of the month to present
+      # when start date and end date are not specified
+      get 'index'
+      item = assigns[:items].first
+      item.beginning_count.should eq 10
+      item.ending_count.should eq 20
+    end
+
+    it 'should load all items with beginning and ending count' do
+      ItemCount.destroy_all
+      FactoryGirl.create(:item_count, :item => @item, :stock_count => 5, :created_at => 30.days.ago)
+      FactoryGirl.create(:item_count, :item => @item, :stock_count => 7)
+
+      get 'index', :beginning_date => 30.days.ago.strftime('%F'), :ending_date => Date.today.strftime('%F')
+      item = assigns[:items].first
+      item.beginning_count.should eq 5
+      item.ending_count.should eq 7
     end
   end
 

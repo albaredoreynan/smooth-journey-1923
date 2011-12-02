@@ -5,10 +5,10 @@
       = form_tag '/endcounts/search', :method => :get do
         .input
           = label_tag 'From'
-          = text_field_tag :start_date, nil, :class => 'datepicker'
+          = text_field_tag :beginning_date, nil, :class => 'datepicker'
         .input
           = label_tag 'To'
-          = text_field_tag :end_date, nil, :class => 'datepicker'
+          = text_field_tag :ending_date, nil, :class => 'datepicker'
         .actions
           = submit_tag :Search
     %h2.title View Endcounts
@@ -20,6 +20,13 @@
           %th Beginning Count
           %th End Count
           %th.actions Actions
+        - @items.each do |item|
+          %tr
+            %td
+            %td= item.name
+            %td= item.beginning_count
+            %td= item.ending_count
+            %td= 'Edit | Delete'
         %tr
           %td{:colspan => 9}
             = submit_tag 'Submit records '

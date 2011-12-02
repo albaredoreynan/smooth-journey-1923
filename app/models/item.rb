@@ -1,5 +1,7 @@
 class Item < ActiveRecord::Base
 
+  attr_accessor :beginning_count, :ending_count
+
   validates :name, :presence => true
 
   belongs_to :unit
@@ -31,17 +33,14 @@ class Item < ActiveRecord::Base
     item_counts.create(:stock_count => count, :delta => delta)
   end
 
-  def beginning_count(begin_date)
-    if begin_date.is_a?(String)
-      begin_date = Date.parse(begin_date)
+  def count_at(date)
+    if date.is_a?(String)
+      date = Date.parse(date)
     end
-    item_counts.where('created_at >= :begin_date and created_at < :next_day',
-      { :begin_date => begin_date.midnight,
-        :next_day => (begin_date + 1.day)
-      .strftime('%F') }).try(:first).try(:stock_count) || '-'
-  end
-
-  def ending_count(end_date)
-    beginning_count(end_date)
+    begin_date = date.midnight
+    end_date = (date + 1.day).midnight
+    item_counts.where('created_at >= :date and created_at < :next_day',
+      { :date => begin_date,
+        :next_day => end_date }).try(:first).try(:stock_count) || '-'
   end
 end

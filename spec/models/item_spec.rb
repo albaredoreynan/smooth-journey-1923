@@ -82,30 +82,23 @@ describe Item do
   context 'Endcount' do
     before do
       @item1 = FactoryGirl.create(:item)
-      @item1_counts = []
-      @item1_counts[0] = FactoryGirl.create(:item_count,
-                                            :item => @item1,
-                                            :stock_count => 10,
-                                            :created_at => 5.days.ago)
-      @item1_counts[1] = FactoryGirl.create(:item_count,
-                                            :item => @item1,
-                                            :stock_count => 11,
-                                            :created_at => 4.days.ago)
+      FactoryGirl.create(:item_count,
+                         :item => @item1,
+                         :stock_count => 10,
+                         :created_at => 5.days.ago)
+      #FactoryGirl.create(:item_count,
+                         #:item => @item1,
+                         #:stock_count => 11,
+                         #:created_at => 4.days.ago)
     end
 
-    it 'should get begin count from a given beginning date' do
-      @item1.beginning_count(5.days.ago).should eq 10
-      @item1.beginning_count(5.days.ago.strftime('%F'));
-    end
-
-    it 'should get end count from a given end date' do
-      @item1.ending_count(4.days.ago).should eq 11
-      @item1.ending_count(4.days.ago.strftime('%F')).should eq 11
+    it 'should get count from a given date' do
+      @item1.count_at(5.days.ago).should eq 10
+      @item1.count_at(5.days.ago.strftime('%F')).should eq 10;
     end
 
     it "should display '-' (dash) when no count is found" do
-      @item1.beginning_count(10.days.ago).should eq '-'
-      @item1.ending_count(10.days.ago).should eq '-'
+      @item1.count_at(10.days.ago).should eq '-'
     end
   end
 end

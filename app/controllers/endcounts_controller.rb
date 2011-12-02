@@ -5,7 +5,12 @@ class EndcountsController < ApplicationController
   # GET /endcounts
   # GET /endcounts.xml
   def index
-    @items = Item.all
+    beginning_date = params[:beginning_date] || Time.now.beginning_of_month
+    ending_date = params[:ending_date] || Time.now
+    @items = Item.all.each do |item|
+      item.beginning_count = item.count_at(beginning_date)
+      item.ending_count = item.count_at(ending_date)
+    end
   end
 
   # GET /endcounts/1
