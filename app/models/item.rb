@@ -31,11 +31,17 @@ class Item < ActiveRecord::Base
     item_counts.create(:stock_count => count, :delta => delta)
   end
 
-  def end_count=(count)
-    @end_count = count
+  def beginning_count(begin_date)
+    if begin_date.is_a?(String)
+      begin_date = Date.parse(begin_date)
+    end
+    item_counts.where('created_at >= :begin_date and created_at < :next_day',
+      { :begin_date => begin_date.midnight,
+        :next_day => (begin_date + 1.day)
+      .strftime('%F') }).try(:first).try(:stock_count) || '-'
   end
 
-  def self.end_counts(begin_date, end_date)
-    Item.where(:created_at => [begin_date, end_date])
+  def ending_count(end_date)
+    beginning_count(end_date)
   end
 end

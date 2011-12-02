@@ -91,20 +91,21 @@ describe Item do
                                             :item => @item1,
                                             :stock_count => 11,
                                             :created_at => 4.days.ago)
-
-      @item2 = FactoryGirl.create(:item)
-      @item2_counts = []
-      @item2_counts[1] = FactoryGirl.create(:item_count, :item => @item2, :stock_count => 20, :created_at => 20.days.ago)
-      @item2_counts[2] = FactoryGirl.create(:item_count, :item => @item2, :stock_count => 40, :created_at => 19.days.ago)
     end
 
-    it 'should get item counts by date range' do
-      pending
-      queried_items = Item.end_counts(5.days.ago.strftime('%F'), 4.days.ago.strftime('%F'))
-      @expected_item1 = @item1.clone
-      @expected_item1.begin_count = 10
-      @expected_item1.end_count = 11
-      queried_items.should eq [@expected_item1]
+    it 'should get begin count from a given beginning date' do
+      @item1.beginning_count(5.days.ago).should eq 10
+      @item1.beginning_count(5.days.ago.strftime('%F'));
+    end
+
+    it 'should get end count from a given end date' do
+      @item1.ending_count(4.days.ago).should eq 11
+      @item1.ending_count(4.days.ago.strftime('%F')).should eq 11
+    end
+
+    it "should display '-' (dash) when no count is found" do
+      @item1.beginning_count(10.days.ago).should eq '-'
+      @item1.ending_count(10.days.ago).should eq '-'
     end
   end
 end
