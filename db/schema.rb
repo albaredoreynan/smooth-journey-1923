@@ -119,7 +119,6 @@ ActiveRecord::Schema.define(:version => 20111201064049) do
     t.float    "stock_count"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "delta"
   end
 
   create_table "items", :force => true do |t|

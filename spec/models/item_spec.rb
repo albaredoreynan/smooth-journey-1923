@@ -67,16 +67,6 @@ describe Item do
       @item.item_count = 8
       @item.item_count.should eq 8
     end
-
-    it 'should calculate change from previous entry' do
-      # initial value is 10
-      @item.item_count = 8
-      latest_count = ItemCount.last
-      latest_count.delta.should eq -2
-      @item.item_count = 20
-      latest_count = ItemCount.last
-      latest_count.delta.should eq 12
-    end
   end
 
   context 'Endcount' do

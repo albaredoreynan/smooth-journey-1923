@@ -29,8 +29,7 @@ class Item < ActiveRecord::Base
   def item_count=(count)
     # get previous count and check how many is changed
     previous_count = item_count
-    delta = count - previous_count
-    item_counts.create(:stock_count => count, :delta => delta)
+    item_counts.create(:stock_count => count)
   end
 
   def count_at(date)

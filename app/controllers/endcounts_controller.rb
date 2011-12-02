@@ -5,11 +5,11 @@ class EndcountsController < ApplicationController
   # GET /endcounts
   # GET /endcounts.xml
   def index
-    beginning_date = params[:beginning_date] || Time.now.beginning_of_month
-    ending_date = params[:ending_date] || Time.now
+    @beginning_date = params[:beginning_date].blank? ?  Time.now.beginning_of_month : Date.parse(params[:beginning_date]) 
+    @ending_date = params[:ending_date].blank? ? Time.now : Date.parse(params[:ending_date]) 
     @items = Item.all.each do |item|
-      item.beginning_count = item.count_at(beginning_date)
-      item.ending_count = item.count_at(ending_date)
+      item.beginning_count = item.count_at(@beginning_date)
+      item.ending_count = item.count_at(@ending_date)
     end
 
     #if params[:commit] == "Search"

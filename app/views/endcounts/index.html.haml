@@ -5,10 +5,10 @@
       = form_tag '/endcounts/search', :method => :get do
         .input
           = label_tag 'From'
-          = text_field_tag :beginning_date, nil, :class => 'datepicker'
+          = text_field_tag :beginning_date, params[:beginning_date], :class => 'datepicker'
         .input
           = label_tag 'To'
-          = text_field_tag :ending_date, nil, :class => 'datepicker'
+          = text_field_tag :ending_date, params[:ending_date], :class => 'datepicker'
         .actions
           = submit_tag :Search
     %h2.title View Endcounts
@@ -17,8 +17,8 @@
         %tr
           %th{:class => 'checkbox'}
           %th Item
-          %th Beginning Count
-          %th End Count
+          %th= @beginning_date.strftime('%B %d, %Y')
+          %th= @ending_date.strftime('%B %d, %Y')
           %th.actions Actions
         - @items.each do |item|
           %tr
