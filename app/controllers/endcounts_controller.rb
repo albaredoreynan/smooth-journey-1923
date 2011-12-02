@@ -10,6 +10,7 @@ class EndcountsController < ApplicationController
     @items = Item.all.each do |item|
       item.beginning_count = item.count_at(beginning_date)
       item.ending_count = item.count_at(ending_date)
+    end
 
     #if params[:commit] == "Search"
       #unless params[:start_date].blank? && params[:end_date].blank?
