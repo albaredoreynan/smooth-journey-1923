@@ -29,22 +29,23 @@ describe Purchaserow do
   end
 
   context '#vat_amount' do
+    before do
+      @purchase_row = []
+      %w(VAT-Inclusive VAT-Exclusive VAT-Exempted).each do |vat_type|
+        @purchase_row << FactoryGirl.create(:purchaserow, :amount => 5, :vat_type => vat_type)
+      end
+    end
+
     it 'should calculate vat_amount when vat type is inclusive' do
-      purchase_row = FactoryGirl.create(:purchaserow, :amount => 5,
-                                                      :vat_type => 'VAT-Inclusive')
-      purchase_row.vat_amount.should eq 0.54
+      @purchase_row[0].vat_amount.should eq 0.54
     end
 
     it 'should calculate vat_amount when vat type is exclusive' do
-      purchase_row = FactoryGirl.create(:purchaserow, :amount => 5,
-                                                      :vat_type => 'VAT-Exclusive')
-      purchase_row.vat_amount.should eq 0.6
+      @purchase_row[1].vat_amount.should eq 0.6
     end
 
     it 'should calculate vat_amount when vat type is exempted' do
-      purchase_row = FactoryGirl.create(:purchaserow, :amount => 5,
-                                                      :vat_type => 'VAT-Exempted')
-      purchase_row.vat_amount.should eq 0
+      @purchase_row[2].vat_amount.should eq 0
     end
   end
 
