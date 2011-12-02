@@ -1,8 +1,11 @@
 FactoryGirl.define do
   factory :item_count do
     association :item
-    association :endcount
-    begin_count 0
-    end_count 0
+    stock_count 0
+    created_at Time.now
+
+    factory :beginning_of_month_count do
+      created_at Time.now.beginning_of_month
+    end
   end
 end

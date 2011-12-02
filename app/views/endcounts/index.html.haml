@@ -5,46 +5,29 @@
       = form_tag '/endcounts/search', :method => :get do
         .input
           = label_tag 'From'
-          = text_field_tag :start_date, nil, :class => 'datepicker'
+          = text_field_tag :beginning_date, nil, :class => 'datepicker'
         .input
           = label_tag 'To'
-          = text_field_tag :end_date, nil, :class => 'datepicker'
+          = text_field_tag :ending_date, nil, :class => 'datepicker'
         .actions
           = submit_tag :Search
-    %h2.title View Purchases
+    %h2.title View Endcounts
     .inner
       %table
         %tr
           %th{:class => 'checkbox'}
-          %th Beginning date
-          %th Endcount date
           %th Item
           %th Beginning Count
           %th End Count
-          %th Edit
-          %th Destroy
-        = form_tag '/endcounts/savechecked' do
-          - @endcounts.each do |endcount|
-            - for item_count in endcount.item_counts
-              %tr
-                %td{:class => 'checkbox'}
-                  - if endcount.save_as_draft == 1
-                    = check_box_tag "endcount_ids[]", endcount.id
-                %td= endcount.begin_date.strftime("%B %d, %Y")
-                %td= endcount.end_date.strftime("%B %d, %Y")
-                %td
-                  = item_count.item.name unless item_count.item.nil?
-                %td= number_with_precision(item_count.begin_count, :precision => 0)
-                %td= number_with_precision(item_count.end_count, :precision => 0)
-                %td
-                  - if endcount.save_as_draft == 1
-                    = link_to 'Edit', edit_endcount_path(endcount)
-                %td
-                  - if endcount.save_as_draft == 1
-                    = link_to 'Destroy', endcount, :confirm => 'Are you sure?', :method => :delete
+          %th.actions Actions
+        - @items.each do |item|
           %tr
-            %td{:colspan => 9}
-              = submit_tag 'Submit records '
-              = submit_tag 'Destroy records'
-
-      = link_to 'New endcount', new_endcount_path, :class => :button
+            %td
+            %td= item.name
+            %td= item.beginning_count
+            %td= item.ending_count
+            %td= 'Edit | Delete'
+        %tr
+          %td{:colspan => 9}
+            = submit_tag 'Submit records '
+            = submit_tag 'Destroy records'
