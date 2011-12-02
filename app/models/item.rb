@@ -32,7 +32,7 @@ class Item < ActiveRecord::Base
     item_counts.create(:stock_count => count)
   end
 
-  def count_at(date)
+  def counted_at(date)
     if date.is_a?(String)
       date = Date.parse(date)
     end

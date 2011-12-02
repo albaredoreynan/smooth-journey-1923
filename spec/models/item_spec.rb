@@ -83,12 +83,12 @@ describe Item do
     end
 
     it 'should get count from a given date' do
-      @item1.count_at(5.days.ago).should eq 10
-      @item1.count_at(5.days.ago.strftime('%F')).should eq 10;
+      @item1.counted_at(5.days.ago).should eq 10
+      @item1.counted_at(5.days.ago.strftime('%F')).should eq 10;
     end
 
     it "should display '-' (dash) when no count is found" do
-      @item1.count_at(10.days.ago).should eq '-'
+      @item1.counted_at(10.days.ago).should eq '-'
     end
   end
 end
