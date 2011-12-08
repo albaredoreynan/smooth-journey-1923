@@ -67,7 +67,7 @@ class InventoryitemsController < ApplicationController
     @item = Item.find(params[:id])
 
     respond_to do |format|
-      if @item.update_attributes(params[:inventoryitem])
+      if @item.update_attributes(params[:item])
         format.html { redirect_to(inventoryitems_path, :notice => 'Item was successfully updated.') }
         format.xml  { head :ok }
       else

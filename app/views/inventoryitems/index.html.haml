@@ -14,13 +14,13 @@
         %tr
           %th Item name
           %th Unit
-          %th Beginning Count
+          %th Count
           %th.actions Actions
         - @items.each do |item|
           %tr
             %td= item.name
             %td= item.unit.name unless item.unit.nil?
-            %td= item.begin_count
+            %td= item.item_count
             %td
               = link_to 'Show', inventoryitem_path(item)
               = link_to 'Edit', edit_inventoryitem_path(item)

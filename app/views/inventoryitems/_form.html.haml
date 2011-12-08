@@ -3,6 +3,6 @@
   = f.input :name
   = f.association :branch, :collection => Branch.all.map { |branch| [branch.location, branch.id] }, :prompt => 'select'
   = f.association :unit, :prompt => '(select)'
-  = f.input :begin_count
+  = f.input :item_count
   .actions
     = f.button :submit
