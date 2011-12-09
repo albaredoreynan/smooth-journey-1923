@@ -1,4 +1,6 @@
 class Purchaserow < ActiveRecord::Base
+  attr_accessor :vat_amount, :net_amount
+
   belongs_to :purchase
   belongs_to :item
   belongs_to :unit

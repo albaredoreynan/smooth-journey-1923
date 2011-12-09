@@ -20,6 +20,6 @@ describe Purchase do
       end_date = @end_date.to_s
       results = Purchase.search_by_date(start_date, end_date)
       results.should eq [@purchase1, @purchase2]
-    end    
+    end
   end
 end
