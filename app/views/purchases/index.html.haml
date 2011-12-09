@@ -95,7 +95,7 @@
                   %td.monetary= purchaserow.vat_type
                   %td.monetary= number_to_currency(purchaserow.vat_amount, :precision => 2, :unit => peso_sign)
                   - totalvat = totalvat + purchaserow.vat_amount
-                  %td= number_to_currency(purchaserow.net_amount, :precision => 2, :unit => peso_sign)
+                  %td.monetary= number_to_currency(purchaserow.net_amount, :precision => 2, :unit => peso_sign)
                   - totalnet = totalnet + purchaserow.net_amount
                   - invoicetotal = 0
                   %td.monetary
