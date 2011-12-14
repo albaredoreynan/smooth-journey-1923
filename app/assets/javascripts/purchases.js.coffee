@@ -2,7 +2,31 @@ jQuery ->
   $('.update_vat_amount').change ->
     $('#vat_amount').val(vatAmount($('#purchase_amount').val(), $(this).val())[0])
     $('#net_amount').val(vatAmount($('#purchase_amount').val(), $(this).val())[1])
+  $('.add-item').click ->
+    purchase_item_row = $('.purchase-item-row').first().clone()
+    purchaseItemColumn(purchase_item_row.find('.item_id'))
+    purchaseItemColumn(purchase_item_row.find('.unit_id'))
+    purchaseItemColumn(purchase_item_row.find('.unit_cost'))
+    purchaseItemColumn(purchase_item_row.find('.quantity'))
+    purchaseItemColumn(purchase_item_row.find('.amount'))
+    purchaseItemColumn(purchase_item_row.find('.vat_type'))
+    purchase_item_row.appendTo('.purchase-items').show()
 
+purchaseItemColumn = (column,count=1) ->
+  sourceColumn = $('#purchase_purchaserows_attributes_0_'+column.attr('class'))
+  value = $('#purchase_purchaserows_attributes_0_'+column.attr('class')+':input').val()
+  if (sourceColumn.hasClass('select'))
+    column.text($('#purchase_purchaserows_attributes_0_'+column.attr('class')+' option:selected').text())
+  else
+    column.text(value)
+
+  column.append($('<input/>')
+    .attr({
+      'type': 'hidden',
+      'name': 'purchase[purchaserows_attributes]['+count+']['+column.attr('class')+']'
+    })
+    .val(value)
+  )
 
 vatAmount = (amount, vat) ->
   net_amount = amount
