@@ -1,9 +1,10 @@
 = simple_form_for @supplier do |f|
-  = f.association :branch, :collection => Branch.all.map { |branch| [branch.location, branch.id] }, :prompt => '(select)'
+  = f.association :company
   = f.input :name
   = f.input :email
   = f.input :address
   = f.input :description
   = f.input :contact_number
+  = f.input :contact_person
   .actions
     = f.button :submit

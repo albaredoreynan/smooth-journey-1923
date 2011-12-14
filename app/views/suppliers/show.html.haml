@@ -3,8 +3,8 @@
     %h2= "Supplier: #{@supplier.name}"
     .inner
       %p
-        %b Branch:
-        = @supplier.branch.location unless @supplier.branch.nil?
+        %b Company:
+        = @supplier.company.name unless @supplier.company.nil?
       %p
         %b Email:
         = @supplier.email
