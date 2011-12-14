@@ -1,6 +1,6 @@
 class Purchase < ActiveRecord::Base
 
-  attr_accessible :vat_amount, :net_amount
+  attr_accessor :vat_amount, :net_amount
 
   validates :supplier_id, :presence => true
   validates :branch_id, :presence => true
@@ -23,7 +23,7 @@ class Purchase < ActiveRecord::Base
     else
       where('purchase_date >= ? AND purchase_date <= ?', start_date, end_date)
     end
-    
+
     # if start_date.is_a?(Hash) && end_date.is_a?(Hash)
       # start_date = Date.parse(start_date.to_a.sort.collect{|c| c[1]}.join('-'))
       # end_date = Date.parse(end_date.to_a.sort.collect{|c| c[1]}.join('-'))

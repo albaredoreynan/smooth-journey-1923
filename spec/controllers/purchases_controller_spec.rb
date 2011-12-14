@@ -3,46 +3,40 @@ require 'spec_helper'
 describe PurchasesController do
   login_user
 
-  def mock_purchase(stubs={})
-    (@mock_purchase ||= mock_model(Purchase).as_null_object).tap do |purchase|
-      purchase.stub(stubs) unless stubs.empty?
-    end
-  end
-
   describe "GET index" do
     it "assigns all purchases as @purchases" do
-      Purchase.stub(:all) { [mock_purchase] }
+      purchase = FactoryGirl.create(:purchase)
       get :index
-      assigns(:purchases).should eq([mock_purchase])
+      assigns[:purchases].should eq [purchase]
     end
-    
+
     context "Search" do
       before do
         @start_date = 5.days.ago
         @purchase1 = FactoryGirl.create(:purchase, :purchase_date => @start_date )
         @purchase2 = FactoryGirl.create(:purchase, :purchase_date => Date.today)
       end
-      
+
       it 'should filter purchase by date' do
         get 'index', :start_date => @start_date.to_date, :end_date => Date.today.strftime('%F')
         assigns[:purchases].should eq [@purchase1, @purchase2]
       end
-        
+
       it 'should filter purchase with start_date but without end_date' do
         get 'index', :start_date => @start_date.to_date, :end_date => ''
         assigns[:purchases].should eq [@purchase1, @purchase2]
       end
- 
+
       it 'should filter purchase with end_date but without start_date' do
         get 'index', :start_date => '', :end_date => Date.today.strftime('%F')
         assigns[:purchases].should eq [@purchase1, @purchase2]
       end
-  
+
       it 'should filter purchase without start_date and end_date' do
         get 'index', :start_date => '', :end_date => ''
         assigns[:purchases].should eq [@purchase1, @purchase2]
       end
-      
+
       # it 'should filter purchase without start_date and end_date' do
         # get 'index', :commit => 'Search'
         # assigns[:purchases].should eq [@purchase1, @purchase2]
@@ -50,112 +44,38 @@ describe PurchasesController do
     end
   end
 
-  describe "GET show" do
-    it "assigns the requested purchase as @purchase" do
-      Purchase.stub(:find).with("37") { mock_purchase }
-      get :show, :id => "37"
-      assigns(:purchase).should be(mock_purchase)
+  describe 'POST #create' do
+    before do
+      branch = FactoryGirl.create(:branch)
+      supplier = FactoryGirl.create(:supplier)
+      @post_params = {:supplier_id => supplier.id, :branch_id => branch.id, :invoice_id => 1}
+    end
+
+    it 'should redirect to index' do
+      post :create, :purchase => @post_params
+      response.should redirect_to(purchases_path)
+    end
+
+    it 'should assign purchase' do
+      post :create, :purchase => @post_params
+      assigns[:purchase].should_not be_nil
+      assigns[:purchase].should be_kind_of(Purchase)
+    end
+
+    it 'should create a record' do
+      lambda {
+        post :create, :purchase => @post_params
+      }.should change(Purchase, :count).by(1)
+    end
+
+    it 'should be able to assign vat-amount and net-amount variables from purchaserows' do
+      post :create, :purchase => @post_params.merge(
+        {:purchaserows_attributes => {0 =>{:vat_amount => 10, :net_amount => 10}}})
+    end
+
+    it 'should be able to add multiple item on purchase' do
+      post :create, :purchase => @post_params.merge(
+        {:purchaserows_attributes => {0 => {:vat_amount => 10, :net_amount => 10}}})
     end
   end
-
-  describe "GET new" do
-    it "assigns a new purchase as @purchase" do
-      Purchase.stub(:new) { mock_purchase }
-      get :new
-      assigns(:purchase).should be(mock_purchase)
-    end
-  end
-
-  describe "GET edit" do
-    it "assigns the requested purchase as @purchase" do
-      Purchase.stub(:find).with("37") { mock_purchase }
-      get :edit, :id => "37"
-      assigns(:purchase).should be(mock_purchase)
-    end
-  end
-
-  describe "POST create" do
-
-    describe "with valid params" do
-      it "assigns a newly created purchase as @purchase" do
-        Purchase.stub(:new).with({'these' => 'params'}) { mock_purchase(:save => true) }
-        post :create, :purchase => {'these' => 'params'}
-        assigns(:purchase).should be(mock_purchase)
-      end
-
-      it "redirects to the created purchase" do
-        Purchase.stub(:new) { mock_purchase(:save => true) }
-        post :create, :purchase => {}
-        response.should redirect_to(purchase_url(mock_purchase))
-      end
-    end
-
-    describe "with invalid params" do
-      it "assigns a newly created but unsaved purchase as @purchase" do
-        Purchase.stub(:new).with({'these' => 'params'}) { mock_purchase(:save => false) }
-        post :create, :purchase => {'these' => 'params'}
-        assigns(:purchase).should be(mock_purchase)
-      end
-
-      it "re-renders the 'new' template" do
-        Purchase.stub(:new) { mock_purchase(:save => false) }
-        post :create, :purchase => {}
-        response.should render_template("new")
-      end
-    end
-
-  end
-
-  describe "PUT update" do
-
-    describe "with valid params" do
-      it "updates the requested purchase" do
-        Purchase.should_receive(:find).with("37") { mock_purchase }
-        mock_purchase.should_receive(:update_attributes).with({'these' => 'params'})
-        put :update, :id => "37", :purchase => {'these' => 'params'}
-      end
-
-      it "assigns the requested purchase as @purchase" do
-        Purchase.stub(:find) { mock_purchase(:update_attributes => true) }
-        put :update, :id => "1"
-        assigns(:purchase).should be(mock_purchase)
-      end
-
-      it "redirects to the purchase" do
-        Purchase.stub(:find) { mock_purchase(:update_attributes => true) }
-        put :update, :id => "1"
-        response.should redirect_to(purchase_url(mock_purchase))
-      end
-    end
-
-    describe "with invalid params" do
-      it "assigns the purchase as @purchase" do
-        Purchase.stub(:find) { mock_purchase(:update_attributes => false) }
-        put :update, :id => "1"
-        assigns(:purchase).should be(mock_purchase)
-      end
-
-      it "re-renders the 'edit' template" do
-        Purchase.stub(:find) { mock_purchase(:update_attributes => false) }
-        put :update, :id => "1"
-        response.should render_template("edit")
-      end
-    end
-
-  end
-
-  describe "DELETE destroy" do
-    it "destroys the requested purchase" do
-      Purchase.should_receive(:find).with("37") { mock_purchase }
-      mock_purchase.should_receive(:destroy)
-      delete :destroy, :id => "37"
-    end
-
-    it "redirects to the purchases list" do
-      Purchase.stub(:find) { mock_purchase }
-      delete :destroy, :id => "1"
-      response.should redirect_to(purchases_url)
-    end
-  end
-
 end

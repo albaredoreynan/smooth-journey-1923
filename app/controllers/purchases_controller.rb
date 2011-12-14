@@ -6,14 +6,14 @@ class PurchasesController < ApplicationController
   # GET /purchases.xml
   def index
     if params[:commit] == "Search"
-      
+
       unless params[:start_date].blank? && params[:end_date].blank?
         @purchases = Purchase.search_by_date(params[:start_date], params[:end_date])
       else
         @purchases = Purchase.all.group_by{ |purchase| purchase.date.to_date }
       end
       #@purchases = Purchase.search_by_date params['start_date'], params['end_date']
-      
+
     elsif params[:commit] == "Submit records"
       Purchase.update_all(["save_as_draft=?", 0], :id => params[:purchase_ids])
       redirect_to purchases_path
@@ -77,10 +77,9 @@ class PurchasesController < ApplicationController
     elsif params[:commit] == "Save as draft"
       @purchase.save_as_draft = 1
     end
-
     respond_to do |format|
       if @purchase.save
-        format.html { redirect_to(@purchase, :notice => 'Purchase was successfully created.') }
+        format.html { redirect_to(purchases_path, :notice => 'Purchase was successfully created.') }
         format.xml  { render :xml => @purchase, :status => :created, :location => @purchase }
       else
         format.html { render :action => "new" }

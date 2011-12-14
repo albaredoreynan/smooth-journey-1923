@@ -5,6 +5,9 @@
  *= require_self
  */
 
+$form-left-column: 200px
+$space-between-label-and-field: 10px
+
 @mixin border-radius($radius:4px)
   border-radius: $radius
   -moz-border-radius: $radius
@@ -65,10 +68,14 @@ table
       td
         padding: 0
 
-form
-  $form-left-column: 200px
-  $space-between-label-and-field: 10px
+    &.purchaserow_form
+      margin-left: $form-left-column
+      th.item
+        width: 300px
+      input.numeric
+        width: 50px
 
+form
   .multi_input
     label
       float: none
@@ -224,3 +231,4 @@ form
 
 #box .block .content
   padding: 25px 20px
+

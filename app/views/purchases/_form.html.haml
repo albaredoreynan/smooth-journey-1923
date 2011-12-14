@@ -1,5 +1,5 @@
 - content_for(:head, javascript_include_tag(:purchases))
-= form_for @purchase do |f|
+= simple_form_for @purchase do |f|
   - if @purchase.errors.any?
     #error_explanation
       %h2
@@ -8,67 +8,38 @@
       %ul
         - @purchase.errors.full_messages.each do |msg|
           %li= msg
+  %fieldset.purchase_form
+    = f.input :purchase_date, :label => "Date"
+    = f.input :invoice_id
+    = f.association :supplier
+    = f.association :branch, :collection => Branch.all.map{ |branch| [branch.location, branch.id] }
 
-  %table.table_form
+  %fieldset
+    %legend="Add Item"
+    = f.simple_fields_for :purchaserows do |pf|
+      = pf.association :item
+      = pf.association :unit
+      = pf.input :unit_cost
+      = pf.input :quantity
+      = pf.input :amount
+      = pf.input :vat_type, :collection => ['VAT-Inclusive', 'VAT-Exclusive', 'VAT-Exempted']
+      = pf.button :submit
+      %input{ :type => 'button', :name => 'add-item', :value => "Add Item", :class => 'add-item' }
+  %table.purchase-items
     %tr
-      %td{:colspan => 2}
-        = 'Date'
-      %td= f.date_select :purchase_date
-    %tr
-      %td#length{:colspan => 2}
-        = f.label :invoice_id
-      %td= f.text_field :invoice_id
-    %tr
+      %th= 'Item Description'
+      %th= 'Unit'
+      %th= 'Unit Cost'
+      %th= 'Quantity'
+      %th= 'Amount'
+      %th= 'VAT Type'
+    %tr.purchase-item-row{:style => "display:none;"}
+      %td.item_id &nbsp;
+      %td.unit_id &nbsp;
+      %td.unit_cost &nbsp;
+      %td.quantity &nbsp;
+      %td.amount &nbsp;
+      %td.vat_type &nbsp;
 
-      %td{:colspan => 2}
-        = f.label :supplier_id
-      %td= f.collection_select :supplier_id, Supplier.find(:all), :id, :name, {:prompt => "Select Supplier"}, {:style => "width:215px"}
-    %tr
-      %td{:colspan => 2}
-        = f.label :branch_id
-      %td= f.collection_select :branch_id, Branch.find(:all), :id, :location, {:prompt => "Select Branch"},  {:style => "width:215px"}
-
-  %hr/
-
-  = f.fields_for :purchaserows do |purchaserow_form|
-
-    %table.table_form
-      %tr
-        %td= purchaserow_form.label :item_id, "Item"
-        %td= purchaserow_form.collection_select :item_id, Item.find(:all), :id, :name, {:prompt => "Select Item"},  {:style => "width:215px"}
-      %tr
-        %td= purchaserow_form.label :unit
-        %td= purchaserow_form.collection_select :unit_id, Unit.find(:all), :id, :name, {:prompt => "Select Purchase unit"},  {:style => "width:215px"}
-      %tr
-        %td= purchaserow_form.label :unit_cost
-        %td= purchaserow_form.text_field :unit_cost
-      %tr
-        %td= purchaserow_form.label :quantity
-        %td= purchaserow_form.text_field :quantity
-      %tr
-        %td= purchaserow_form.label :amount
-        %td= purchaserow_form.text_field :amount, :id => 'purchase_amount'
-      %tr
-        %td
-          = purchaserow_form.label :vat_type, ""
-          / radio button
-        %td
-          = purchaserow_form.radio_button :vat_type, "VAT-Inclusive", :class => 'update_vat_amount'
-          VAT-Inclusive
-          %br/
-          = purchaserow_form.radio_button :vat_type, "VAT-Exclusive", :class => 'update_vat_amount'
-          VAT-Exclusive
-          %br/
-          = purchaserow_form.radio_button :vat_type, "VAT-Exempted", :class => 'update_vat_amount'
-          VAT-Exempted
-      %tr
-        %td= purchaserow_form.label :vat_amount, "Vat amount"
-        %td= purchaserow_form.text_field :vat_amount, :id => "vat_amount", :readonly => true, :style=>"background-color : #ccc"
-      %tr
-        %td= purchaserow_form.label :net_amount, "Net amount"
-        %td= purchaserow_form.text_field :net_amount, :id => "net_amount", :readonly => true, :style=>"background-color : #ccc"
-      /= purchaserow_form.link_to_remove "Remove"
-  %div
-    /%p= f.link_to_add "Add item", :purchaserows
   .actions
     = f.submit "Save as draft"

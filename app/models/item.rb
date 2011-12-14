@@ -10,6 +10,10 @@ class Item < ActiveRecord::Base
   has_many :purchase_items
   has_many :item_counts
 
+  after_save :new_item_count, :if => :new_record? do
+    item_counts.create(:stock_count => 0)
+  end
+
   def self.search(keyword)
     where("name ILIKE ?", "%#{keyword}%")
   end
@@ -28,8 +32,9 @@ class Item < ActiveRecord::Base
 
   def item_count=(count)
     # get previous count and check how many is changed
-    previous_count = item_count
-    item_counts.create(:stock_count => count)
+    unless new_record?
+      item_counts.create(:stock_count => count)
+    end
   end
 
   def counted_at(date)
