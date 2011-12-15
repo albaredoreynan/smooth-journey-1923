@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :supplier do
-    association :branch
+    association :company
     name 'My supply'
   end
 end

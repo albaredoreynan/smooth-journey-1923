@@ -1,5 +1,6 @@
 = simple_form_for @settlement_type do |f|
   %fieldset
+    = f.association :branch, :collection => Branch.all.map{ |branch| [branch.location, branch.id] }
     = f.input :name
     .actions
       = f.button :submit
