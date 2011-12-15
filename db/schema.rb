@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111201064049) do
+ActiveRecord::Schema.define(:version => 20111214045607) do
 
   create_table "branches", :force => true do |t|
     t.integer  "restaurant_id"
@@ -129,6 +129,7 @@ ActiveRecord::Schema.define(:version => 20111201064049) do
     t.datetime "updated_at"
     t.string   "item_type"
     t.integer  "subcategory_id"
+    t.boolean  "inventory"
   end
 
   create_table "jobs", :force => true do |t|
@@ -298,6 +299,8 @@ ActiveRecord::Schema.define(:version => 20111201064049) do
     t.string   "contact_number"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "contact_person"
+    t.integer  "company_id"
   end
 
   create_table "units", :force => true do |t|
