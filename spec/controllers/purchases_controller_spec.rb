@@ -69,7 +69,6 @@ describe PurchasesController do
     end
 
     it 'should be able to assign vat-amount and net-amount variables from purchase_items' do
-      pending
       post :create, :purchase => @post_params.merge(
         {:purchase_items_attributes => {0 =>{:vat_amount => 10, :net_amount => 10}}})
     end

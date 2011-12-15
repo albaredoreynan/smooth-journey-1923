@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111214045607) do
+ActiveRecord::Schema.define(:version => 20111215031826) do
 
   create_table "branches", :force => true do |t|
     t.integer  "restaurant_id"
@@ -119,6 +119,8 @@ ActiveRecord::Schema.define(:version => 20111214045607) do
     t.float    "stock_count"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "delta"
+    t.date     "entry_date"
   end
 
   create_table "items", :force => true do |t|
@@ -129,7 +131,7 @@ ActiveRecord::Schema.define(:version => 20111214045607) do
     t.datetime "updated_at"
     t.string   "item_type"
     t.integer  "subcategory_id"
-    t.boolean  "inventory"
+    t.boolean  "non_inventory"
   end
 
   create_table "jobs", :force => true do |t|
@@ -140,24 +142,6 @@ ActiveRecord::Schema.define(:version => 20111214045607) do
   end
 
   create_table "purchase_items", :force => true do |t|
-    t.date     "purchase_date"
-    t.integer  "invoice_id"
-    t.integer  "supplier_id"
-    t.integer  "branch_id"
-    t.integer  "inventory_id"
-    t.string   "unit",          :limit => 45
-    t.float    "unit_cost"
-    t.float    "quantity"
-    t.float    "amount"
-    t.string   "vat_type"
-    t.float    "vat_amount"
-    t.float    "net_amount"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "save_as_draft"
-  end
-
-  create_table "purchaserows", :force => true do |t|
     t.integer  "purchase_id"
     t.integer  "item_id"
     t.integer  "unit_id"
@@ -169,9 +153,9 @@ ActiveRecord::Schema.define(:version => 20111214045607) do
     t.datetime "updated_at"
   end
 
-  add_index "purchaserows", ["item_id"], :name => "index_purchaserows_on_item_id"
-  add_index "purchaserows", ["purchase_id"], :name => "index_purchaserows_on_purchase_id"
-  add_index "purchaserows", ["unit_id"], :name => "index_purchaserows_on_unit_id"
+  add_index "purchase_items", ["item_id"], :name => "index_purchaserows_on_item_id"
+  add_index "purchase_items", ["purchase_id"], :name => "index_purchaserows_on_purchase_id"
+  add_index "purchase_items", ["unit_id"], :name => "index_purchaserows_on_unit_id"
 
   create_table "purchases", :force => true do |t|
     t.date     "purchase_date"
@@ -280,6 +264,7 @@ ActiveRecord::Schema.define(:version => 20111214045607) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "branch_id"
   end
 
   create_table "subcategories", :force => true do |t|

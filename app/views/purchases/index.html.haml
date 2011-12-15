@@ -36,7 +36,7 @@
           - totalvat = 0
           = form_tag '/purchases/savemultiple' do
             - @purchases.each do |purchase|
-              - for purchase_item in purchase.purchaserows
+              - for purchase_item in purchase.purchase_items
                 %tr
                   %td{:class => 'checkbox'}
                     - if purchase.save_as_draft == 1
@@ -56,7 +56,7 @@
                     = purchase_item.item.category_name
                     = purchase_item.item.subcategory_name
                   %td= purchase_item.item.name
-                  %td= number_with_precision(purchase_item.quantity, :precision => 0)+' '+purchaserow.unit.name
+                  %td= number_with_precision(purchase_item.quantity, :precision => 0)+' '+purchase_item.unit.name
                   - itemId = purchase_item.item_id
                   - item = Item.find(itemId)
                   - q = purchase_item.quantity
@@ -99,7 +99,7 @@
                   - totalnet = totalnet + purchase_item.net_amount
                   - invoicetotal = 0
                   %td.monetary
-                    - @p = purchase_item.where(:purchase_id => purchase.id)
+                    - @p = PurchaseItem.where(:purchase_id => purchase.id)
                     - @p.each do |purchase_item|
                       - invoicetotal = invoicetotal + purchase_item.amount
                     = number_to_currency(invoicetotal, :precision => 2, :unit => peso_sign)
