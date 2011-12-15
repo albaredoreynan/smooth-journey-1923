@@ -20,35 +20,35 @@
         - branch = Branch.find(branchId)
         = branch.location
       %ol
-        - for purchaserow in @purchase.purchaserows
+        - for purchase_item in @purchase.purchaserows
           %hr/
           %b Inventory item:
-          - inventoryId = purchaserow.item_id
+          - inventoryId = purchase_item.item_id
           - item = Item.find(inventoryId)
           = item.name
           %br/
           %b Purchase unit:
-          - unitId = purchaserow.unit_id
+          - unitId = purchase_item.unit_id
           - unit = Unit.find(unitId)
           = unit.name
           %br/
           %b Purchase unit cost:
-          = number_with_precision(purchaserow.unit_cost, :precision => 2)
+          = number_with_precision(purchase_item.unit_cost, :precision => 2)
           %br/
           %b Purchase quantity:
-          = number_with_precision(purchaserow.quantity, :precision => 0)
+          = number_with_precision(purchase_item.quantity, :precision => 0)
           %br/
           %b Purchase amount:
-          = number_with_precision(purchaserow.amount, :precision => 2)
+          = number_with_precision(purchase_item.amount, :precision => 2)
           %br/
           %b Vat type:
-          = purchaserow.vat_type
+          = purchase_item.vat_type
           %br/
           %b Vat amount:
-          = number_with_precision(purchaserow.vat_amount, :precision => 2)
+          = number_with_precision(purchase_item.vat_amount, :precision => 2)
           %br/
           %b Net amount:
-          = number_with_precision(purchaserow.net_amount, :precision => 2)
+          = number_with_precision(purchase_item.net_amount, :precision => 2)
           %br/
       / <haml:loud> link_to 'Edit', edit_purchase_path(@purchase) </haml:loud> |
       = link_to 'Back', purchases_path, :class => :button

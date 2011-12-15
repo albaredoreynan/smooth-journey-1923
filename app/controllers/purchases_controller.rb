@@ -54,7 +54,7 @@ class PurchasesController < ApplicationController
   def new
     @purchase = Purchase.new
 
-    1.times { @purchase.purchaserows.build }
+    1.times { @purchase.purchase_items.build }
 
     respond_to do |format|
       format.html # new.html.erb
