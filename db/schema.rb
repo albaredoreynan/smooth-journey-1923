@@ -119,6 +119,7 @@ ActiveRecord::Schema.define(:version => 20111216033916) do
     t.float    "stock_count"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "delta"
     t.date     "entry_date"
   end
 
@@ -141,24 +142,6 @@ ActiveRecord::Schema.define(:version => 20111216033916) do
   end
 
   create_table "purchase_items", :force => true do |t|
-    t.date     "purchase_date"
-    t.integer  "invoice_id"
-    t.integer  "supplier_id"
-    t.integer  "branch_id"
-    t.integer  "inventory_id"
-    t.string   "unit",          :limit => 45
-    t.float    "unit_cost"
-    t.float    "quantity"
-    t.float    "amount"
-    t.string   "vat_type"
-    t.float    "vat_amount"
-    t.float    "net_amount"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "save_as_draft"
-  end
-
-  create_table "purchaserows", :force => true do |t|
     t.integer  "purchase_id"
     t.integer  "item_id"
     t.integer  "unit_id"
@@ -170,9 +153,9 @@ ActiveRecord::Schema.define(:version => 20111216033916) do
     t.datetime "updated_at"
   end
 
-  add_index "purchaserows", ["item_id"], :name => "index_purchaserows_on_item_id"
-  add_index "purchaserows", ["purchase_id"], :name => "index_purchaserows_on_purchase_id"
-  add_index "purchaserows", ["unit_id"], :name => "index_purchaserows_on_unit_id"
+  add_index "purchase_items", ["item_id"], :name => "index_purchaserows_on_item_id"
+  add_index "purchase_items", ["purchase_id"], :name => "index_purchaserows_on_purchase_id"
+  add_index "purchase_items", ["unit_id"], :name => "index_purchaserows_on_unit_id"
 
   create_table "purchases", :force => true do |t|
     t.date     "purchase_date"

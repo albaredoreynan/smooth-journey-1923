@@ -13,17 +13,17 @@ jQuery ->
     purchase_item_row.appendTo('.purchase-items').show()
 
 purchaseItemColumn = (column,count=1) ->
-  sourceColumn = $('#purchase_purchaserows_attributes_0_'+column.attr('class'))
-  value = $('#purchase_purchaserows_attributes_0_'+column.attr('class')+':input').val()
+  sourceColumn = $('#purchase_purchase_items_attributes_0_'+column.attr('class'))
+  value = $('#purchase_purchase_items_attributes_0_'+column.attr('class')+':input').val()
   if (sourceColumn.hasClass('select'))
-    column.text($('#purchase_purchaserows_attributes_0_'+column.attr('class')+' option:selected').text())
+    column.text($('#purchase_purchase_items_attributes_0_'+column.attr('class')+' option:selected').text())
   else
     column.text(value)
 
   column.append($('<input/>')
     .attr({
       'type': 'hidden',
-      'name': 'purchase[purchaserows_attributes]['+count+']['+column.attr('class')+']'
+      'name': 'purchase[purchase_items_attributes]['+count+']['+column.attr('class')+']'
     })
     .val(value)
   )

@@ -1,20 +1,33 @@
 class PurchaseItem < ActiveRecord::Base
+  attr_accessor :vat_amount, :net_amount
+
+  belongs_to :purchase
   belongs_to :item
+  belongs_to :unit
 
-  validates :branch_id, :presence => true
-  validates :invoice_id, :presence => true
-  validates :amount, :presence => true
-  validates :net_amount, :presence => true
+  validates :item_id,     :presence => true
+  validates :amount,      :presence => true
+  validates :quantity,    :presence => true, :numericality => true
+  validates :unit_cost,   :presence => true, :numericality => true
+  validates :vat_type,    :presence => true,
+                          :inclusion => { :in => %w{VAT-Inclusive VAT-Exclusive VAT-Exempted} }
 
-  #def self.search(from,to)
-      #if from
-          #find(:all, :conditions => ['purchase_date LIKE ? or purchase_date LIKE?', "%#{from}%", "%#{to}%"])
-      #else
-          #find(:all)
-      #end
-  #end
-  def self.search_by_date(start_date,end_date)
-    where("purchase_date >= ? and purchase_date <= ?",start_date,end_date).all
+  def vat_amount
+    case vat_type
+    when 'VAT-Inclusive'
+      amount - (amount / 1.12).round(2)
+    when 'VAT-Exclusive'
+      amount * 0.12
+    when 'VAT-Exempted'
+      0
+    end
   end
 
+  def net_amount
+    if vat_type == 'VAT-Inclusive'
+      (amount - vat_amount).round(2)
+    else
+      amount
+    end
+  end
 end

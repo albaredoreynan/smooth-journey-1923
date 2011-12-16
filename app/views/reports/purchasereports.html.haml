@@ -64,7 +64,7 @@
   - totalnet = 0
   - totalvat = 0
   - @purchases.each do |purchase|
-    - for purchaserow in purchase.purchaserows
+    - for purchase_item in purchase.purchaserows
       %tr
         %td= purchase.purchase_date.strftime("%B %d, %Y")
         %td= purchase.invoice_id
@@ -77,24 +77,24 @@
           - b = Branch.find(branchId)
           = b.branch_location
         %td
-          - itemId = purchaserow.item_id
+          - itemId = purchase_item.item_id
           - i = Inventoryitem.find(itemId)
           = h i.item_name
-        %td= h number_with_precision(purchaserow.purchase_quantity, :precision => 0)
+        %td= h number_with_precision(purchase_item.purchase_quantity, :precision => 0)
         %td
-          - unitId1 = purchaserow.purchase_unit
+          - unitId1 = purchase_item.purchase_unit
           - u = Unit.find(unitId1)
           - unit1 = u.unit_name
           = h unit1
-        %td= h number_with_precision(purchaserow.purchase_unitCost, :precision => 2)
-        - q = purchaserow.purchase_quantity
+        %td= h number_with_precision(purchase_item.purchase_unitCost, :precision => 2)
+        - q = purchase_item.purchase_quantity
         - i = Inventoryitem.find(itemId)
         - unitId2 = i.unit_id
         - u = Unit.find(unitId2)
         - unit2 = u.unit_name
         %td
           - if unitId1==unitId2
-            = h number_with_precision(purchaserow.purchase_quantity, :precision => 0)
+            = h number_with_precision(purchase_item.purchase_quantity, :precision => 0)
           - else
             - temp1 = Conversion.where("b_unit = ? and s_unit = ?",unitId1,unitId2)
             - temp2 = Conversion.where("b_unit = ? and s_unit = ?",unitId2,unitId1)
@@ -111,18 +111,18 @@
         %td
           = unit1
           and #{unit2}
-        %td= h number_with_precision(purchaserow.amount, :precision => 2)
-        %td= h purchaserow.vat_type
-        %td= h number_with_precision(purchaserow.vat_amount, :precision => 2)
-        %td= h number_with_precision(purchaserow.net_amount, :precision => 2)
-        - totalamount = totalamount + purchaserow.amount
-        - totalvat = totalvat + purchaserow.vat_amount
-        - totalnet = totalnet + purchaserow.net_amount
+        %td= h number_with_precision(purchase_item.amount, :precision => 2)
+        %td= h purchase_item.vat_type
+        %td= h number_with_precision(purchase_item.vat_amount, :precision => 2)
+        %td= h number_with_precision(purchase_item.net_amount, :precision => 2)
+        - totalamount = totalamount + purchase_item.amount
+        - totalvat = totalvat + purchase_item.vat_amount
+        - totalnet = totalnet + purchase_item.net_amount
         - invoicetotal = 0
         %td
-          - @p = Purchaserow.where(:purchase_id => purchase.id)
-          - @p.each do |purchaserow|
-            - invoicetotal = invoicetotal + purchaserow.amount
+          - @p = purchase_item.where(:purchase_id => purchase.id)
+          - @p.each do |purchase_item|
+            - invoicetotal = invoicetotal + purchase_item.amount
           = number_with_precision(invoicetotal, :precision => 2)
   %tr
     %td

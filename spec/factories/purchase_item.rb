@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :purchaserow do
+  factory :purchase_item do
     association :item
     amount 1
     quantity 1

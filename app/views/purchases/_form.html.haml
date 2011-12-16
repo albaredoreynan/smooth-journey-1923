@@ -16,7 +16,7 @@
 
   %fieldset
     %legend="Add Item"
-    = f.simple_fields_for :purchaserows do |pf|
+    = f.simple_fields_for :purchase_items do |pf|
       = pf.association :item
       = pf.association :unit
       = pf.input :unit_cost
