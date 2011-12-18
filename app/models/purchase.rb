@@ -2,9 +2,9 @@ class Purchase < ActiveRecord::Base
 
   attr_accessor :vat_amount, :net_amount
 
-  validates :supplier_id, :presence => true
-  validates :branch_id, :presence => true
-  validates :invoice_id, :presence => true, :numericality => true
+  #validates :supplier_id, :presence => true
+  #validates :branch_id, :presence => true
+  #validates :invoice_id, :presence => true, :numericality => true
 
   belongs_to :supplier
   belongs_to :branch
@@ -29,4 +29,5 @@ class Purchase < ActiveRecord::Base
   def self.search_by_category(category_id)
     where("category_id = ?", category_id)
   end
+
 end

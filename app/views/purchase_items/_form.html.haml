@@ -1,5 +1,5 @@
 - content_for(:head, javascript_include_tag(:purchase_items))
-= form_for(@purchase_item) do |f|
+= form_for([@purchase, @purchase_item]) do |f|
   - if @purchase_item.errors.any?
     #error_explanation
       %h2
@@ -9,73 +9,29 @@
         - @purchase_item.errors.full_messages.each do |msg|
           %li= msg
   %fieldset
-    .colleft
-      .input
-        = f.label "Date"
-        = f.date_select :purchase_date
-      .input
-        = f.label :invoice_id
-        = f.text_field :invoice_id, :id => "invoiceNumber"
-      .input
-        = f.label "Supplier"
-        = f.collection_select :supplier_id, Supplier.find(:all), :id, :name, {:prompt => "Select Supplier"}
-      .input
-        = f.label "Branch"
-        = f.collection_select :branch_id, Branch.find(:all), :id, :location, {:prompt => "Select Branch"}
-      .input
-        = f.label "Item"
-        = f.collection_select :inventory_id, Item.find(:all), :id, :name, {:prompt => "Select Item"}
-      .input
-        = f.label "Unit Cost"
-        = f.text_field :unit_cost, :class => 'updates_vat_amount'
-
-    .colright
-      .input
-        = f.label :quantity
-        = f.text_field :quantity, :class => 'updates_vat_amount'
-      .input
-        = f.label :amount
-        = f.text_field :amount, :class => 'updates_vat_amount'
-      %fieldset
-        %legend='VAT Type'
-        .radio_group
-          = f.radio_button(:vat_type, "VAT-Inclusive", :class => 'updates_vat_amount') + "VAT-Inclusive"
-          = f.radio_button(:vat_type, "VAT-Exclusive", :class => 'updates_vat_amount') + "VAT-Exclusive"
-          = f.radio_button(:vat_type, "VAT-Exempted", :class => 'updates_vat_amount') + "VAT-Exempted"
-      .input
-        = f.label :vat_amount
-        = f.text_field :vat_amount, :readonly => true, :id => "vat_amount"
-      .input
-        = f.label :net_amount
-        = f.text_field :net_amount, :readonly => true, :id => "net_amount"
-    .colleft
-      .actions
-        = f.submit "Add another item", :button_value => "addAnotherItem"
-        = f.submit "Save as draft"
-
-  %h2 CURRENT ITEMS IN INVOICE
-  %table
-    %tr
-      %td Item name
-      %td Unit Cost
-      %td Purchase quantity
-      %td Purchase amount
-      %td Vat type
-      %td Vat amount
-      %td Net amount
-    %tr
-      %td#inP
-      %td#ucP
-      %td#pqP
-      %td#paP
-      %td#vtP
-      %td#vaP
-      %td#naP
-    %tr
-      %td Total
-      %td
-      %td
-      %td
-      %td
-      %td
-      %td
+    .input
+      = f.label :item_id
+      = f.text_field :item_id, :class => 'updates_vat_amount'
+    .input
+      = f.label :unit_id
+      = f.text_field :unit_id, :class => 'updates_vat_amount'
+    .input
+      = f.label :quantity
+      = f.text_field :quantity, :class => 'updates_vat_amount'
+    .input
+      = f.label :amount
+      = f.text_field :amount, :class => 'updates_vat_amount'
+    %fieldset
+      %legend='VAT Type'
+      .radio_group
+        = f.radio_button(:vat_type, "VAT-Inclusive", :class => 'updates_vat_amount') + "VAT-Inclusive"
+        = f.radio_button(:vat_type, "VAT-Exclusive", :class => 'updates_vat_amount') + "VAT-Exclusive"
+        = f.radio_button(:vat_type, "VAT-Exempted", :class => 'updates_vat_amount') + "VAT-Exempted"
+    .input
+      = f.label :vat_amount
+      = f.text_field :vat_amount, :readonly => true, :id => "vat_amount"
+    .input
+      = f.label :net_amount
+      = f.text_field :net_amount, :readonly => true, :id => "net_amount"
+    .actions
+      = f.submit "Add item", :button_value => "addAnotherItem"

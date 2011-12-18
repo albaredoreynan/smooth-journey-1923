@@ -20,7 +20,7 @@
         - branch = Branch.find(branchId)
         = branch.location
       %ol
-        - for purchase_item in @purchase.purchaserows
+        - for purchase_item in @purchase.purchase_items
           %hr/
           %b Inventory item:
           - inventoryId = purchase_item.item_id

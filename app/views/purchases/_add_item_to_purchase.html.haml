@@ -1,0 +1,22 @@
+%fieldset.add-purchase-item
+  %legend="Add Item"
+  .item-name
+    = label_tag :item_id, 'Item Name'
+    = text_field_tag :item_id
+  .item-unit-name
+    = label_tag :unit_id, 'Unit Name'
+    = text_field_tag :unit_id
+  .item-unit-cost
+    = label_tag :unit_cost, 'Unit Cost'
+    = text_field_tag :unit_cost
+  .item-quantity
+    = label_tag :quantity, 'Quantity'
+    = text_field_tag :quantity
+  .item-amount
+    = label_tag :amount, 'Amount'
+    = text_field_tag :amount
+  .item-vat-type
+    = label_tag :vat_type, 'VAT Type'
+    = select_tag :vat_type, options_for_select(['VAT-Inclusive', 'VAT-Exclusive', 'VAT-Exempted'].map { |vat| [vat, vat] })
+  .actions
+    = submit_tag 'Add Item', :id => 'add-item'

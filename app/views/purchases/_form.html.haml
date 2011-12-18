@@ -1,4 +1,3 @@
-- content_for(:head, javascript_include_tag(:purchases))
 = simple_form_for @purchase do |f|
   - if @purchase.errors.any?
     #error_explanation
@@ -9,36 +8,31 @@
         - @purchase.errors.full_messages.each do |msg|
           %li= msg
   %fieldset.purchase_form
+    = f.input :id, :as => :hidden
     = f.input :purchase_date, :label => "Date"
     = f.input :invoice_id
     = f.association :supplier
     = f.association :branch, :collection => Branch.all.map{ |branch| [branch.location, branch.id] }
 
-  %fieldset
-    %legend="Add Item"
-    = f.simple_fields_for :purchase_items do |pf|
-      = pf.association :item
-      = pf.association :unit
-      = pf.input :unit_cost
-      = pf.input :quantity
-      = pf.input :amount
-      = pf.input :vat_type, :collection => ['VAT-Inclusive', 'VAT-Exclusive', 'VAT-Exempted']
-      = pf.button :submit
-      %input{ :type => 'button', :name => 'add-item', :value => "Add Item", :class => 'add-item' }
   %table.purchase-items
-    %tr
-      %th= 'Item Description'
-      %th= 'Unit'
-      %th= 'Unit Cost'
-      %th= 'Quantity'
-      %th= 'Amount'
-      %th= 'VAT Type'
-    %tr.purchase-item-row{:style => "display:none;"}
-      %td.item_id &nbsp;
-      %td.unit_id &nbsp;
-      %td.unit_cost &nbsp;
-      %td.quantity &nbsp;
-      %td.amount &nbsp;
-      %td.vat_type &nbsp;
-  .actions
-    = f.submit "Save as draft"
+    %tbody#purchase_items
+      %tr
+        %th= 'Item Description'
+        %th= 'Unit'
+        %th= 'Unit Cost'
+        %th= 'Quantity'
+        %th= 'Amount'
+        %th= 'VAT Type'
+      = f.fields_for :purchase_items do |pi_form|
+        = render :partial => 'purchases/purchase_item_row', :locals => { :f => pi_form }
+    %tbody#totals
+      %tr{:style => 'font-weight: bold;'}
+        %td= 'Total'
+        %td &nbsp;
+        %td &nbsp;
+        %td &nbsp;
+        %td &nbsp;
+        %td &nbsp;
+
+    .actions
+      = f.submit "Save as draft"

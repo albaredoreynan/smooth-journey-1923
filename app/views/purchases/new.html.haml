@@ -1,6 +1,9 @@
+- content_for(:head, javascript_include_tag(:purchases))
 .block
   .content
     %h2.title New purchase
     .inner
-      = render 'form'
-      = link_to 'Back', purchases_path, :class => :button
+      = render :partial => 'add_item_to_purchase', :locals => { :purchase => @purchase }
+      .purchase-form-wrapper
+        = render 'form'
+        = link_to 'Back', purchases_path, :class => :button

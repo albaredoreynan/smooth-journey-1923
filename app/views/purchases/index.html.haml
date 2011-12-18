@@ -43,15 +43,9 @@
                       = check_box_tag "purchase_ids[]", purchase.id
                   - purchase.created_at.strftime("%F")
                   %td= purchase.invoice_id
-                  %td= purchase.purchase_date.strftime("%F")
-                  %td
-                    - supplierId = purchase.supplier_id
-                    - s = Supplier.find(supplierId)
-                    = purchase_item.purchase.supplier.name
-                  %td
-                    - branchId = purchase.branch_id
-                    - b = Branch.find(branchId)
-                    = b.location
+                  %td= purchase.purchase_date.strftime("%F") if purchase.purchase_date
+                  %td= purchase.supplier.name if purchase.supplier
+                  %td= purchase.branch.location if purchase.branch
                   %td
                     = purchase_item.item.category_name
                     = purchase_item.item.subcategory_name

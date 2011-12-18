@@ -38,7 +38,7 @@ Rrbs::Application.routes.draw do
   resources :sales_reports
 
   resources :purchases do
-    resource :purchase_items
+    resources :purchase_items
   end
 
   resources :inventoryitems

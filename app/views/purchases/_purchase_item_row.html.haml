@@ -1,0 +1,7 @@
+%tr{:id => dom_id(f.object)}
+  %td.item-name= f.object.try(:item).try(:name)
+  %td.item-unit= f.object.unit.name
+  %td.item-unit-cost= f.object.unit_cost
+  %td.item-quantity= f.object.quantity
+  %td.item-amount= f.object.amount
+  %td.item-vat-type= f.object.vat_type
