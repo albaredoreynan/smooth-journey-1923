@@ -49,6 +49,11 @@ describe PurchasesController do
       assigns[:purchase].should be_kind_of(Purchase)
     end
 
+    it 'should assign a purchase id on session' do
+      get 'new'
+      session[:purchase].should_not be_nil
+    end
+
     it 'should restore a purchase' do
       session[:purchase] = @purchase.id
       get 'new'

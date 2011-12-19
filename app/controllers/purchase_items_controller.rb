@@ -4,6 +4,8 @@ class PurchaseItemsController < ApplicationController
 
   before_filter :load_purchase
 
+  respond_to :html, :js
+
   def new
     @purchase_item = @purchase.purchase_items.new
     respond_with @purchase_item do |format|
@@ -13,8 +15,8 @@ class PurchaseItemsController < ApplicationController
 
   def create
     @purchase_item = @purchase.purchase_items.new(params[:purchase_item])
-    @purchase.save
-    render :nothing => true
+    @purchase_item.save
+    render :partial => 'purchases/form', :locals => { :purchase => @purchase }
   end
 
   def update
@@ -36,7 +38,7 @@ class PurchaseItemsController < ApplicationController
     @purchase_item.destroy
 
     respond_to do |format|
-      format.html { redirect_to(purchase_items_url) }
+      format.html { head :ok }
       format.xml  { head :ok }
     end
   end
