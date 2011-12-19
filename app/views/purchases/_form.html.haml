@@ -18,11 +18,11 @@
     %tbody#purchase_items
       %tr
         %th= 'Item Description'
+        %th= 'Quantity'
         %th= 'Unit'
         %th= 'Unit Cost'
-        %th= 'Quantity'
-        %th= 'Amount'
         %th= 'VAT Type'
+        %th= 'Amount'
       = f.fields_for :purchase_items do |pi_form|
         = render :partial => 'purchases/purchase_item_row', :locals => { :f => pi_form }
     %tbody#totals

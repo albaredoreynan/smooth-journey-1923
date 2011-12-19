@@ -92,12 +92,7 @@ class PurchasesController < ApplicationController
   private
   def load_purchase_from_session
     if session[:purchase]
-      begin
-        @purchase = Purchase.find(session[:purchase])
-      rescue ActiveRecord::RecordNotFound
-        @purchase = Purchase.create :save_as_draft => true
-        session[:purchase] = @purchase.id
-      end
+      @purchase = Purchase.find_or_create_by_id(session[:purchase])
     else
       @purchase = Purchase.create :save_as_draft => true
       session[:purchase] = @purchase.id
