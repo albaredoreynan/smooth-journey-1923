@@ -78,4 +78,20 @@ describe PurchaseItem do
       purchase_row.net_amount.should eq 5
     end
   end
+
+  context '#item_name' do
+    it 'should return an item_name' do
+      @item = FactoryGirl.create(:item, :name => 'Circlet of Nobility')
+      @purchase_item = FactoryGirl.create(:purchase_item, :item => @item)
+      @purchase_item.item_name.should eq 'Circlet of Nobility'
+    end
+  end
+
+  context '#unit_name' do
+    it 'should return a unit_name' do
+      @unit = FactoryGirl.create(:unit, :name => 'kg')
+      @purchase_item = FactoryGirl.create(:purchase_item, :unit => @unit)
+      @purchase_item.unit_name.should eq 'kg'
+    end
+  end
 end

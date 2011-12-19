@@ -30,4 +30,12 @@ class PurchaseItem < ActiveRecord::Base
       amount
     end
   end
+
+  def item_name
+    self.item.name
+  end
+
+  def unit_name
+    self.unit.name
+  end
 end
