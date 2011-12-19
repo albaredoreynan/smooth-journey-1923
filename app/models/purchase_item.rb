@@ -24,11 +24,7 @@ class PurchaseItem < ActiveRecord::Base
   end
 
   def net_amount
-    if vat_type == 'VAT-Inclusive'
-      (amount - vat_amount).round(2)
-    else
-      amount
-    end
+    vat_type == 'VAT-Inclusive' ? (amount - vat_amount).round(2) : amount
   end
 
   def item_name
@@ -37,5 +33,9 @@ class PurchaseItem < ActiveRecord::Base
 
   def unit_name
     self.unit.name
+  end
+
+  def unit_cost
+    self[:amount] / self[:quantity]
   end
 end
