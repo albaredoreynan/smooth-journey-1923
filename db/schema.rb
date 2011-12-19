@@ -119,7 +119,6 @@ ActiveRecord::Schema.define(:version => 20111216033916) do
     t.float    "stock_count"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "delta"
     t.date     "entry_date"
   end
 
