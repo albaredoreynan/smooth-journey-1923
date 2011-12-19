@@ -27,7 +27,7 @@ class Item < ActiveRecord::Base
   end
 
   def item_count
-    item_counts.order('created_at DESC').try(:first).try(:stock_count) || 0
+    item_counts.order('entry_date DESC').try(:first).try(:stock_count) || 0
   end
 
   def item_count=(count)
@@ -43,7 +43,7 @@ class Item < ActiveRecord::Base
     end
     begin_date = date.midnight
     end_date = (date + 1.day).midnight
-    item_counts.where('created_at >= :date and created_at < :next_day',
+    item_counts.where('entry_date >= :date and entry_date < :next_day',
       { :date => begin_date,
         :next_day => end_date }).try(:first).try(:stock_count) || '-'
   end
