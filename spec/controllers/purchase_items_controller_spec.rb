@@ -19,6 +19,12 @@ describe PurchaseItemsController do
         post :create, :purchase_id => @purchase.to_param, :purchase_item => @post_params
         response.should render_template('purchases/_form')
       end
+
+      it 'should save a purchase item' do
+        lambda {
+          post :create, :purchase_id => @purchase.to_param, :purchase_item => @post_params
+        }.should change(Purchase, :count).by(1)
+      end
     end
 
     context 'DELETE #destroy' do

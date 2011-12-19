@@ -8,7 +8,7 @@ class PurchaseItem < ActiveRecord::Base
   validates :item_id,     :presence => true
   validates :amount,      :presence => true
   validates :quantity,    :presence => true, :numericality => true
-  validates :unit_cost,   :presence => true, :numericality => true
+  #validates :unit_cost,   :presence => true, :numericality => true
   validates :vat_type,    :presence => true,
                           :inclusion => { :in => %w{VAT-Inclusive VAT-Exclusive VAT-Exempted} }
 
@@ -24,10 +24,18 @@ class PurchaseItem < ActiveRecord::Base
   end
 
   def net_amount
-    if vat_type == 'VAT-Inclusive'
-      (amount - vat_amount).round(2)
-    else
-      amount
-    end
+    vat_type == 'VAT-Inclusive' ? (amount - vat_amount).round(2) : amount
+  end
+
+  def item_name
+    self.item.name
+  end
+
+  def unit_name
+    self.unit.name
+  end
+
+  def unit_cost
+    self[:amount] / self[:quantity]
   end
 end

@@ -1,8 +1,6 @@
 .block
   .content
-    /%h2.title New purchase
     .inner
-      %p#notice= notice
       %p
         %b Purchase date:
         = @purchase.purchase_date.strftime("%B %d, %Y")
@@ -11,44 +9,39 @@
         = @purchase.invoice_id
       %p
         %b Supplier:
-        - supplierId = @purchase.supplier_id
-        - supplier = Supplier.find(supplierId)
-        = supplier.name
+        = @purchase.supplier.name if @purchase.supplier
       %p
         %b Branch:
         - branchId = @purchase.branch_id
         - branch = Branch.find(branchId)
         = branch.location
-      %ol
-        - for purchase_item in @purchase.purchase_items
-          %hr/
-          %b Inventory item:
-          - inventoryId = purchase_item.item_id
-          - item = Item.find(inventoryId)
-          = item.name
-          %br/
-          %b Purchase unit:
-          - unitId = purchase_item.unit_id
-          - unit = Unit.find(unitId)
-          = unit.name
-          %br/
-          %b Purchase unit cost:
-          = number_with_precision(purchase_item.unit_cost, :precision => 2)
-          %br/
-          %b Purchase quantity:
-          = number_with_precision(purchase_item.quantity, :precision => 0)
-          %br/
-          %b Purchase amount:
-          = number_with_precision(purchase_item.amount, :precision => 2)
-          %br/
-          %b Vat type:
-          = purchase_item.vat_type
-          %br/
-          %b Vat amount:
-          = number_with_precision(purchase_item.vat_amount, :precision => 2)
-          %br/
-          %b Net amount:
-          = number_with_precision(purchase_item.net_amount, :precision => 2)
-          %br/
-      / <haml:loud> link_to 'Edit', edit_purchase_path(@purchase) </haml:loud> |
+      %table
+        %tbody.purchase_items
+          %tr
+            %th= 'Inventory item'
+            %th= 'Purchase quantity'
+            %th= 'Purchase amount'
+            %th= 'Purchase unit cost'
+            %th= 'VAT type'
+            %th= 'VAT amount'
+            %th= 'Net amount'
+          - @purchase.purchase_items.each do |purchase_item|
+            %tr
+              %td= purchase_item.item_name
+              %td= "#{purchase_item.quantity} #{purchase_item.unit_name}"
+              %td.monetary= number_to_currency(purchase_item.amount, :unit => peso_sign)
+              %td.monetary= purchase_item_unit_cost(purchase_item)
+              %td= purchase_item.vat_type
+              %td.monetary= number_to_currency(purchase_item.vat_amount, :unit => peso_sign)
+              %td.monetary= number_to_currency(purchase_item.net_amount, :unit => peso_sign)
+        %tbody.purchase_totals
+          %tr
+            %th &nbsp;
+            %th= 'Total'
+            %th.monetary= number_to_currency(@purchase.amount, :unit => peso_sign)
+            %th &nbsp;
+            %th &nbsp;
+            %th.monetary= number_to_currency(@purchase.vat_amount, :unit => peso_sign)
+            %th.monetary= number_to_currency(@purchase.net_amount, :unit => peso_sign)
+
       = link_to 'Back', purchases_path, :class => :button

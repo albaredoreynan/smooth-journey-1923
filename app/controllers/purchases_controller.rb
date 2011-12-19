@@ -5,32 +5,7 @@ class PurchasesController < ApplicationController
   before_filter :load_purchase_from_session, :only => [:new, :create, :update]
 
   def index
-    if params[:commit] == "Search"
-
-      unless params[:start_date].blank? && params[:end_date].blank?
-        @purchases = Purchase.search_by_date(params[:start_date], params[:end_date])
-      else
-        @purchases = Purchase.all.group_by{ |purchase| purchase.date.to_date }
-      end
-      #@purchases = Purchase.search_by_date params['start_date'], params['end_date']
-
-    elsif params[:commit] == "Submit records"
-      Purchase.update_all(["save_as_draft=?", 0], :id => params[:purchase_ids])
-      redirect_to purchases_path
-    elsif params[:commit] == "Delete records "
-      i = 0
-      arr_item = Array.new
-      @purchases = Purchase.find(params[:purchase_ids])
-      @purchases.each do |purchase|
-        purchase.destroy
-        i += 1
-      end
-
-      redirect_to(purchases_path)
-      flash[:notice] = 'Record/s destroyed.'
-    else
-      @purchases = Purchase.all
-    end # end if else
+    @purchases = Purchase.all
 
     respond_to do |format|
       format.html
@@ -61,7 +36,7 @@ class PurchasesController < ApplicationController
   def create
     respond_to do |format|
       if @purchase.save
-        format.html { redirect_to(@purchase, :notice => 'Purchase was successfull created.') }
+        format.html { redirect_to(@purchase, :notice => 'Purchase was successfully created.') }
       end
     end
   end
