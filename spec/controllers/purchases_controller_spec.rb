@@ -59,6 +59,12 @@ describe PurchasesController do
       get 'new'
       assigns[:purchase].should eq @purchase
     end
+
+    it 'should reset purchase if purchase id was not found' do
+      session[:purchase] = 'x'
+      get 'new'
+      response.should be_successful
+    end
   end
 
   describe 'POST #create' do
