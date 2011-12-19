@@ -8,7 +8,7 @@ class PurchaseItem < ActiveRecord::Base
   validates :item_id,     :presence => true
   validates :amount,      :presence => true
   validates :quantity,    :presence => true, :numericality => true
-  validates :unit_cost,   :presence => true, :numericality => true
+  #validates :unit_cost,   :presence => true, :numericality => true
   validates :vat_type,    :presence => true,
                           :inclusion => { :in => %w{VAT-Inclusive VAT-Exclusive VAT-Exempted} }
 

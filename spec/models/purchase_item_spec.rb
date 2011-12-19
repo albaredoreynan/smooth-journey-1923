@@ -1,10 +1,10 @@
 require 'spec_helper'
 
-describe Purchaserow do
+describe PurchaseItem do
 
   context 'Validation' do
     before do
-      @purchase_row = Purchaserow.new
+      @purchase_row = PurchaseItem.new
     end
 
     it 'should be invalid without item id' do
@@ -17,10 +17,6 @@ describe Purchaserow do
 
     it 'should be invalid without quantity' do
       @purchase_row.should have_at_least(1).error_on :quantity
-    end
-
-    it 'should be invalid without unit_cost' do
-      @purchase_row.should have_at_least(1).error_on :unit_cost
     end
 
     it 'should be invalid without vat_type' do
@@ -46,7 +42,7 @@ describe Purchaserow do
     before do
       @purchase_row = []
       %w(VAT-Inclusive VAT-Exclusive VAT-Exempted).each do |vat_type|
-        @purchase_row << FactoryGirl.create(:purchaserow, :amount => 5, :vat_type => vat_type)
+        @purchase_row << FactoryGirl.create(:purchase_item, :amount => 5, :vat_type => vat_type)
       end
     end
 
@@ -65,19 +61,19 @@ describe Purchaserow do
 
   context '#net_amount' do
     it 'should calculate net_amount when vat type is inclusive' do
-      purchase_row = FactoryGirl.create(:purchaserow, :amount => 5,
+      purchase_row = FactoryGirl.create(:purchase_item, :amount => 5,
                                                       :vat_type => 'VAT-Inclusive')
       purchase_row.net_amount.should eq 4.46
     end
 
     it 'should calculate net_amount when vat type is exclusive' do
-      purchase_row = FactoryGirl.create(:purchaserow, :amount => 5,
+      purchase_row = FactoryGirl.create(:purchase_item, :amount => 5,
                                                       :vat_type => 'VAT-Exclusive')
       purchase_row.net_amount.should eq 5
     end
 
     it 'should calculate net_amount when vat type is exempted' do
-      purchase_row = FactoryGirl.create(:purchaserow, :amount => 5,
+      purchase_row = FactoryGirl.create(:purchase_item, :amount => 5,
                                                       :vat_type => 'VAT-Exempted')
       purchase_row.net_amount.should eq 5
     end

@@ -61,7 +61,7 @@ class PurchasesController < ApplicationController
   def create
     respond_to do |format|
       if @purchase.save
-        format.html { redirect_to(@purchase, :notice => 'Purchase was successfull created.') }
+        format.html { redirect_to(@purchase, :notice => 'Purchase was successfully created.') }
       end
     end
   end

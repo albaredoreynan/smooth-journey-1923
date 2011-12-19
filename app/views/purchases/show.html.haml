@@ -11,9 +11,7 @@
         = @purchase.invoice_id
       %p
         %b Supplier:
-        - supplierId = @purchase.supplier_id
-        - supplier = Supplier.find(supplierId)
-        = supplier.name
+        = @purchase.supplier.name if @purchase.supplier
       %p
         %b Branch:
         - branchId = @purchase.branch_id

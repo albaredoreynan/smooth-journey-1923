@@ -2,6 +2,7 @@ jQuery ->
   $('.update_vat_amount').change ->
     $('#vat_amount').val(vatAmount($('#purchase_amount').val(), $(this).val())[0])
     $('#net_amount').val(vatAmount($('#purchase_amount').val(), $(this).val())[1])
+
   $('#add-item').click ->
     purchase_id = $('#purchase_id').val()
     $.ajax({
@@ -15,12 +16,13 @@ jQuery ->
           unit_cost: $('#unit_cost').val(),
           quantity: $('#quantity').val(),
           amount: $('#amount').val(),
-          vat_type: $('#vat_type').val(),
+          vat_type: $(':input[name=vat_type]:checked').val(),
         }
       }),
       complete: ->
         window.location.reload()
     })
+
 vatAmount = (amount, vat) ->
   net_amount = amount
   switch vat

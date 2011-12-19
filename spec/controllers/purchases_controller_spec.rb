@@ -91,18 +91,25 @@ describe PurchasesController do
       assigns[:purchase].should eq @purchase
     end
 
-  end
-
-  describe 'PUT #update' do
-    before do
-      @purchase = FactoryGirl.create(:purchase)
-      supplier = @purchase.supplier
-      branch = @purchase.branch
-      @post_params = { supplier_id: supplier.id, branch_id: branch.id }
+    it 'should load its purchase item' do
+      session[:purchase] = @purchase.id
+      @purchase_item = FactoryGirl.create(:purchase_item, :purchase => @purchase)
+      post :create, :purchase => @post_params
+      assigns[:purchase].purchase_items.should eq [@purchase_item]
     end
 
-    it 'should save a purchase' do
-      put :update, :id => @purchase.id
-    end
   end
+
+  #describe 'PUT #update' do
+    #before do
+      #@purchase = FactoryGirl.create(:purchase)
+      #supplier = @purchase.supplier
+      #branch = @purchase.branch
+      #@post_params = { supplier_id: supplier.id, branch_id: branch.id }
+    #end
+
+    #it 'should save a purchase' do
+      #put :update, :id => @purchase.id
+    #end
+  #end
 end
