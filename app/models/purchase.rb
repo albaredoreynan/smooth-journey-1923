@@ -30,4 +30,7 @@ class Purchase < ActiveRecord::Base
     where("category_id = ?", category_id)
   end
 
+  def amount; end
+  def vat_type; end
+
 end
