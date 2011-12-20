@@ -52,6 +52,7 @@ class InventoryitemsController < ApplicationController
 
     respond_to do |format|
       if @item.save
+        @item.item_count = params[:item][:item_count]
         format.html { redirect_to(inventoryitems_path, :notice => 'Item was successfully created.') }
         format.xml  { render :xml => @item, :status => :created, :location => @item }
       else

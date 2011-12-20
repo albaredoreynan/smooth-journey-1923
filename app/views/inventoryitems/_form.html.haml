@@ -3,6 +3,7 @@
   = f.input :name
   = f.association :branch, :collection => Branch.all.map { |branch| [branch.location, branch.id] }, :prompt => 'select'
   = f.association :unit, :prompt => '(select)'
+  = f.association :subcategory, :prompt => '(select)'
   = f.input :item_count
   = f.label "Non-Inventory?"
   = f.check_box :non_inventory

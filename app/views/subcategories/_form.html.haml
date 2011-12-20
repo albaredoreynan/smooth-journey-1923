@@ -1,8 +1,8 @@
 = simple_form_for @subcategory do |f|
   %fieldset
     = f.input :name
-    = f.input :description
     = f.association :category, :prompt => "(select)"
+    = f.input :description
     .actions
-      = f.button :submit 
-  
+      = f.button :submit
+

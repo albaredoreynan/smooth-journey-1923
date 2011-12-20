@@ -13,12 +13,14 @@
       %table
         %tr
           %th Item name
+          %th Subcategory
           %th Unit
           %th Count
           %th.actions Actions
         - @items.each do |item|
           %tr
             %td= item.name
+            %td= item.subcategory_name
             %td= item.unit.name unless item.unit.nil?
             %td= item.item_count
             %td

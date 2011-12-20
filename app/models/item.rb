@@ -11,7 +11,7 @@ class Item < ActiveRecord::Base
   has_many :item_counts
 
   after_save :new_item_count, :if => :new_record? do
-    item_counts.create(:stock_count => 0)
+    item_counts.create(:stock_count => 0.00)
   end
 
   def self.search(keyword)
@@ -30,9 +30,9 @@ class Item < ActiveRecord::Base
     item_counts.order('entry_date DESC').try(:first).try(:stock_count) || 0
   end
 
-  def item_count=(count, entry_date=Time.now)
+  def item_count=(count)
     unless new_record?
-      item_counts.create(:stock_count => count, :entry_date => entry_date)
+      item_counts.create(:stock_count => count, :entry_date => Time.now)
     end
   end
 

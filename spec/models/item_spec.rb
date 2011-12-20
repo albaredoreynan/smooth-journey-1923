@@ -49,13 +49,15 @@ describe Item do
 
   context 'Count' do
     before do
-      @item_count1 = FactoryGirl.create(:item_count, :stock_count => 5, :entry_date => 5.days.ago)
-      @item_count2 = FactoryGirl.create(:item_count, :stock_count => 10, :entry_date => Time.now)
-      @item = @item_count2.item
+      @item = FactoryGirl.create(:item)
+      @item_counts = [
+        FactoryGirl.create(:item_count, :item => @item, :stock_count => 5, :entry_date => 5.days.ago),
+        FactoryGirl.create(:item_count, :item => @item, :stock_count => 10, :entry_date => Time.now)
+      ]
     end
 
     it 'should default count to 0' do
-      item = Item.create(Factory.attributes_for(:item))
+      item = FactoryGirl.create(:item)
       item.item_count.should eq 0
     end
 
