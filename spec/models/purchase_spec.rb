@@ -2,6 +2,14 @@ require 'spec_helper'
 
 describe Purchase do
 
+  context '#supplier_name' do
+    it 'should return a supplier name' do
+      supplier = FactoryGirl.create(:supplier, :name => 'Sena the Accessorizer')
+      purchase = FactoryGirl.create(:purchase, :supplier => supplier)
+      purchase.supplier_name.should eq 'Sena the Accessorizer'
+    end
+  end
+
   context 'calculator methods' do
     before do
       @purchase = FactoryGirl.create(:purchase)

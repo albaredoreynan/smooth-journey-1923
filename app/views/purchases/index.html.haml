@@ -18,20 +18,18 @@
               %th= 'Invoice number'
               %th= 'Invoice date'
               %th= 'Supplier'
-              %th= 'Purchase amount'
-              %th= 'VAT Amount'
               %th= 'Net Amount'
-              %th= 'Invoice Total'
+              %th= 'VAT Amount'
+              %th= 'Purchase amount'
               %th.actions= 'Actions'
             - @purchases.each do |purchase|
               %tr
                 %td= purchase.invoice_id
                 %td= purchase.purchase_date
-                %td= purchase.supplier.name if purchase.supplier
-                %td= purchase.amount
-                %td= purchase.amount
-                %td= purchase.amount
-                %td= purchase.amount
+                %td= purchase.supplier_name
+                %td.monetary= number_to_currency(purchase.net_amount, :unit => peso_sign)
+                %td.monetary= number_to_currency(purchase.vat_amount, :unit => peso_sign)
+                %td.monetary= number_to_currency(purchase.amount, :unit => peso_sign)
                 %td
                   = link_to 'Show', purchase_path(purchase)
                   = link_to 'Edit', edit_purchase_path(purchase)

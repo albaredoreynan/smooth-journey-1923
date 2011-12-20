@@ -35,4 +35,8 @@ class Purchase < ActiveRecord::Base
   def vat_amount
     purchase_items.map(&:vat_amount).inject(:+)
   end
+
+  def supplier_name
+    supplier.name || ''
+  end
 end
