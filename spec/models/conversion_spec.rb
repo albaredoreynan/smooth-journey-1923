@@ -2,6 +2,26 @@ require 'spec_helper'
 
 describe Conversion do
 
+  before do
+    @bigger_unit = FactoryGirl.create(:unit, :name => 'in')
+    @smaller_unit = FactoryGirl.create(:unit, :name => 'cm')
+    @conversion = FactoryGirl.create(:conversion, :bigger_unit => @bigger_unit, :smaller_unit => @smaller_unit)
+  end
+
+  it 'should create a conversion' do
+    lambda {
+      conversion = FactoryGirl.create(:conversion, :bigger_unit => @bigger_unit, :smaller_unit => @smaller_unit)
+    }.should change(Conversion, :count).by(1)
+  end
+
+  it 'should return bigger unit name' do
+    @conversion.bigger_unit_name.should eq 'in'
+  end
+
+  it 'should return smaller unit name' do
+    @conversion.smaller_unit_name.should eq 'cm'
+  end
+
   context 'Validation' do
     before do
       @conversion = Conversion.new
@@ -16,15 +36,4 @@ describe Conversion do
     end
   end
 
-  it 'should create a conversion' do
-    @bigger_unit = FactoryGirl.create(:unit, :name => 'in')
-    @smaller_unit = FactoryGirl.create(:unit, :name => 'cm')
-    lambda {
-      @conversion = FactoryGirl.create(:conversion, :bigger_unit => @bigger_unit, :smaller_unit => @smaller_unit)
-    }.should change(Conversion, :count).by(1)
-  end
-
-  it 'should create conversion from factory' do
-    conversion = FactoryGirl.create(:conversion)
-  end
 end

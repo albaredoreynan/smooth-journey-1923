@@ -1,7 +1,7 @@
 = simple_form_for @conversion do |f|
   %fieldset
-    = f.input :b_unit
-    = f.input :s_unit
-    = f.input :conversion_number
+    = f.association :bigger_unit
+    = f.association :smaller_unit
+    = f.input :conversion_factor
     .actions
       = f.button :submit

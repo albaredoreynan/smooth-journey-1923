@@ -6,15 +6,15 @@
       .inner
         %table
           %tr
-            %th B unit
-            %th S unit
-            %th Conversion number
+            %th Bigger unit
+            %th Smaller unit
+            %th Conversion factor
             %th.actions Actions
           - @conversions.each do |conversion|
             %tr
-              %td= conversion.b_unit
-              %td= conversion.s_unit
-              %td= conversion.conversion_number
+              %td= conversion.bigger_unit_name
+              %td= conversion.smaller_unit_name
+              %td= conversion.conversion_factor
               %td
                 = link_to 'Show', conversion
                 = link_to 'Edit', edit_conversion_path(conversion)

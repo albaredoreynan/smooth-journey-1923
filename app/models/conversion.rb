@@ -5,4 +5,12 @@ class Conversion < ActiveRecord::Base
 
   belongs_to :bigger_unit, :class_name => 'Unit'
   belongs_to :smaller_unit, :class_name=> 'Unit'
+
+  def bigger_unit_name
+    bigger_unit.name || ''
+  end
+
+  def smaller_unit_name
+    smaller_unit.name || ''
+  end
 end
