@@ -4,16 +4,13 @@ class Purchase < ActiveRecord::Base
   belongs_to :branch
   has_many :purchase_items, :dependent => :destroy
 
+  scope :start_date, lambda {|date| where('purchase_date >= ?', date)}
+  scope :end_date, lambda {|date| where('purchase_date <= ?', date)}
+
   accepts_nested_attributes_for :purchase_items #, :reject_if => lambda { |a| a[:item_id].blank? }
 
-  def self.search_by_date(start_date, end_date)
-    if start_date && end_date.blank?
-      where('purchase_date >= ?', start_date)
-    elsif start_date.blank? && end_date
-      where('purchase_date <= ?', end_date)
-    else
-      where('purchase_date >= ? AND purchase_date <= ?', start_date, end_date)
-    end
+  def self.search_by_date(starting, ending)
+    start_date(starting).end_date(ending)
   end
 
   def self.search_by_supplier(supplier_id)
