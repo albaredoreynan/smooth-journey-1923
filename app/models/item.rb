@@ -30,10 +30,9 @@ class Item < ActiveRecord::Base
     item_counts.order('entry_date DESC').try(:first).try(:stock_count) || 0
   end
 
-  def item_count=(count)
-    # get previous count and check how many is changed
+  def item_count=(count, entry_date=Time.now)
     unless new_record?
-      item_counts.create(:stock_count => count)
+      item_counts.create(:stock_count => count, :entry_date => entry_date)
     end
   end
 
