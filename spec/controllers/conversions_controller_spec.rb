@@ -16,7 +16,12 @@ describe ConversionsController do
 
   context 'POST #create' do
     before do
-      @post_params = { conversion: { b_unit: 'kg', s_unit: 'g', conversion_number: 1000 } }
+      bigger_unit = FactoryGirl.create(:unit, :name => 'kg')
+      smaller_unit = FactoryGirl.create(:unit, :name => 'g')
+      @post_params = { conversion: {
+        bigger_unit_id: bigger_unit.to_param,
+        smaller_unit_id: smaller_unit.to_param,
+        conversion_factor: 1000 } }
     end
 
     it 'should redirect to #index' do

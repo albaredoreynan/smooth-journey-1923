@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :conversion do
-    b_unit 'inch'
-    s_unit 'centimeter'
-    conversion_number 2.54
+    association :bigger_unit, :factory => :unit, :name => 'in'
+    association :smaller_unit, :factory => :unit, :name => 'cm'
+    conversion_factor 2.54
   end
 end
