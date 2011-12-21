@@ -19,8 +19,15 @@ jQuery ->
           vat_type: $(':input[name=vat_type]:checked').val(),
         }
       }),
+      success: (data) -> 
+        $('.purchase-items').html($(data).find(".purchase-items"))
+        $('#dialog_item input:text' ).val('')
+        $('#unit_id').val('')
+        $('#item_id').val('')
+        $('#dialog_item input:radio' ).attr("checked", false)
+        $('#dialog_item').dialog( "close" )
       complete: ->
-        window.location.reload()
+        
     })
 
 vatAmount = (amount, vat) ->
