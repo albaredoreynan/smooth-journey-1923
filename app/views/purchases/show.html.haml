@@ -3,7 +3,7 @@
     .inner
       %p
         %b Purchase date:
-        = @purchase.purchase_date.strftime("%B %d, %Y")
+        = @purchase.purchase_date.strftime("%B %d, %Y") if @purchase.purchase_date
       %p
         %b Invoice:
         = @purchase.invoice_id
@@ -12,9 +12,7 @@
         = @purchase.supplier.name if @purchase.supplier
       %p
         %b Branch:
-        - branchId = @purchase.branch_id
-        - branch = Branch.find(branchId)
-        = branch.location
+        = @purchase.branch_location
       %table
         %tbody.purchase_items
           %tr

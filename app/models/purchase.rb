@@ -34,6 +34,10 @@ class Purchase < ActiveRecord::Base
   end
 
   def supplier_name
-    supplier.name || ''
+    supplier.name if supplier
+  end
+
+  def branch_location
+    branch.location if branch
   end
 end
