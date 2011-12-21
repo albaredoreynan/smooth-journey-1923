@@ -28,11 +28,11 @@ class PurchaseItem < ActiveRecord::Base
   end
 
   def item_name
-    self.item.name
+    self.item.name if self.item
   end
 
   def unit_name
-    self.unit.name
+    self.unit.name if self.unit
   end
 
   def unit_cost
