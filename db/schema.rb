@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111220073553) do
+ActiveRecord::Schema.define(:version => 20111221050457) do
 
   create_table "branches", :force => true do |t|
     t.integer  "restaurant_id"
@@ -162,9 +162,9 @@ ActiveRecord::Schema.define(:version => 20111220073553) do
     t.integer  "invoice_id"
     t.integer  "supplier_id"
     t.integer  "branch_id"
-    t.integer  "save_as_draft"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "save_as_draft"
   end
 
   create_table "reporttemplates", :force => true do |t|

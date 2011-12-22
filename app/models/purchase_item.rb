@@ -28,7 +28,7 @@ class PurchaseItem < ActiveRecord::Base
   end
 
   def item_name
-    self.item.name if self.item
+    item.name if item
   end
 
   def unit_name

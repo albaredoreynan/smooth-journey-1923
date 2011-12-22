@@ -4,5 +4,6 @@ FactoryGirl.define do
     association :branch
     association :supplier
     invoice_id 1
+    save_as_draft false
   end
 end
