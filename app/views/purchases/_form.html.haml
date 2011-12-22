@@ -19,7 +19,6 @@
       %tr
         %th= 'Item Description'
         %th= 'Quantity'
-        %th= 'Unit'
         %th= 'Unit Cost'
         %th= 'VAT Type'
         %th= 'Amount'
@@ -27,12 +26,11 @@
         = render :partial => 'purchases/purchase_item_row', :locals => { :f => pi_form }
     %tbody#totals
       %tr{:style => 'font-weight: bold;'}
-        %td= 'Total'
         %td &nbsp;
         %td &nbsp;
         %td &nbsp;
-        %td &nbsp;
-        %td &nbsp;
+        %td Total
+        %td.monetary= number_to_currency(@purchase.amount, :unit => peso_sign)
 
     .actions
-      = f.submit "Save as draft"
+      = f.submit "Create purchase"
