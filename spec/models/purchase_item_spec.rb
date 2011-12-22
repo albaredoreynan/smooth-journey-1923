@@ -59,6 +59,29 @@ describe PurchaseItem do
     end
   end
 
+  context '#purchase_amount' do
+    it 'should calculate purchase_amount when vat_type is exclusive' do
+      purchase_item = FactoryGirl.create(:purchase_item,
+                                        :amount => 1,
+                                        :vat_type => 'VAT-Exclusive')
+      purchase_item.purchase_amount.should eq 1.12
+    end
+
+    it' should calculate purchase_amount when vat_type is inclusive' do
+      purchase_item = FactoryGirl.create(:purchase_item,
+                                        :amount => 1,
+                                        :vat_type => 'VAT-Inclusive')
+      purchase_item.purchase_amount.should eq 1
+    end
+
+    it 'should calculate purchase_amount when vat_type is exempted' do
+      purchase_item = FactoryGirl.create(:purchase_item,
+                                        :amount => 1,
+                                        :vat_type => 'VAT-Exempted')
+      purchase_item.purchase_amount.should eq 1
+    end
+  end
+
   context '#net_amount' do
     it 'should calculate net_amount when vat type is inclusive' do
       purchase_row = FactoryGirl.create(:purchase_item,
