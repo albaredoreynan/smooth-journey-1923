@@ -4,12 +4,9 @@ describe ConversionsController do
   login_user
 
   context 'GET #index' do
-    before do
+    it 'should load all conversions' do
       @conversion = FactoryGirl.create(:conversion)
       get 'index'
-    end
-
-    it 'should load all conversions' do
       assigns[:conversions].should eq [@conversion]
     end
   end
