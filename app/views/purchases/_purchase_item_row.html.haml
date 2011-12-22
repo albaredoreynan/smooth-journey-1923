@@ -4,3 +4,5 @@
   %td.item-unit-cost= purchase_item_unit_cost(f.object)
   %td.item-vat-type= f.object.vat_type
   %td.monetary.item-amount= number_to_currency(f.object.amount, :unit => peso_sign)
+  %td.actions
+    = link_to_delete f.object, {:url => purchase_purchase_item_path(f.object.purchase, f.object)}
