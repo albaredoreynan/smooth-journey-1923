@@ -7,13 +7,11 @@
         %tr
           %th Name
           %th Description
-          %th Restaurant Category
           %th.actions Actions
         - @categories.each do |category|
           %tr
             %td= category.name
             %td= category.description
-            %td= category.restaurant_category_id
             %td
               = link_to 'Show', category
               = link_to 'Edit', edit_category_path(category)
