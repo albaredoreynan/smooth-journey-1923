@@ -44,7 +44,7 @@ class PurchasesController < ApplicationController
 
   def update
     respond_to do |format|
-      if @purchase.update_attributes(params[:purchase])
+      if @purchase.update_attributes(params[:purchase].merge(:save_as_draft => false))
         session.delete :purchase
         format.html { redirect_to(@purchase, :notice => 'Purchase was successfully updated.') }
         format.xml  { head :ok }

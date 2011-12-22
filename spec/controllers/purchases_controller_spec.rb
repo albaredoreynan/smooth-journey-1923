@@ -74,6 +74,9 @@ describe PurchasesController do
       supplier = @purchase.supplier
       branch = @purchase.branch
       @post_params = { supplier_id: supplier.id, branch_id: branch.id }
+    end
+
+    after do
       session.delete :purchase
     end
 
@@ -106,5 +109,30 @@ describe PurchasesController do
       @purchase.reload.save_as_draft.should eq false
     end
 
+    context 'PUT #update' do
+      before do
+        @purchase = FactoryGirl.create(:purchase)
+        branch = @purchase.branch
+        supplier = @purchase.branch
+        @put_params = { :supplier_id => supplier.id, :branch_id => branch.id }
+      end
+
+      after do
+        session.delete :purchase
+      end
+
+      it 'should set purchase as non-draft' do
+        @purchase.update_attribute(:save_as_draft, true)
+        session[:purchase] = @purchase.id
+        put 'update', :id => @purchase.id, :purchase => @put_params
+        @purchase.reload.save_as_draft.should eq false
+      end
+
+      it 'should clear the purchase session' do
+        session[:purchase] = @purchase.id
+        put 'update', :id => @purchase.id, :purchase => @put_params
+        session[:purchase].should be_nil
+      end
+    end
   end
 end
