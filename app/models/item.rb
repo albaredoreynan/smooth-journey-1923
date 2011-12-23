@@ -22,6 +22,10 @@ class Item < ActiveRecord::Base
     branch.location if branch
   end
 
+  def unit_name
+    unit.name || unit.symbol
+  end
+
   def category_name
     subcategory.category.name if subcategory
   end

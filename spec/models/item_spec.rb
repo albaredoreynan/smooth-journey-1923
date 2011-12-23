@@ -18,6 +18,22 @@ describe Item do
     end
   end
 
+  context '#unit_name' do
+    before do
+      @unit = FactoryGirl.create(:unit, :symbol => 'kg', :name => 'Kilogram')
+      @item = FactoryGirl.create(:item, :unit => @unit)
+    end
+
+    it 'should return a unit_name' do
+      @item.unit_name.should eq 'Kilogram'
+    end
+
+    it 'should return a symbol if there is no name' do
+      @unit.update_attribute(:name, nil)
+      @item.unit_name.should eq 'kg'
+    end
+  end
+
   context 'Subcategory' do
     before do
       @category = FactoryGirl.create(:category, :name => 'Dota Items')

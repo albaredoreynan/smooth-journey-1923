@@ -12,7 +12,7 @@
         = @item.unit_name
       %p
         %b Subcategory:
-        = @item.category_name @item.subcategory_name
+        = "#{@item.category_name} / #{@item.subcategory_name}"
       = link_to 'Edit', edit_inventoryitem_path(@item)
       |
       \#{link_to 'Back', inventoryitems_path}
