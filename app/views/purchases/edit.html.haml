@@ -1,5 +1,8 @@
 - content_for(:head, javascript_include_tag(:purchases))
 .block
+  .secondary-navigation
+    %ul.wat-cf
+      %li= link_to 'Add Item', '#', :id => "add_new_item"
   .content
     %h2 Edit Purchase
     .inner
