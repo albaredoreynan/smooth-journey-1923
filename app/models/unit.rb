@@ -1,5 +1,5 @@
 class Unit < ActiveRecord::Base
-  validates :name, :presence => true
+  validates :symbol, :presence => true
   
   def self.search(keyword)
     where("name LIKE ?", '%'+keyword+'%')

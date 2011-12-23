@@ -1,22 +1,45 @@
 #dialog_item
-  %fieldset.add-purchase-item
-    %legend="Add Item"
-    .item-name
-      = label_tag :item_id, 'Item Name'
-      = select_tag :item_id, options_for_select(Item.all.map { |item| [item.name, item.id] })
-    .item-quantity
-      = label_tag :quantity, 'Quantity'
-      = text_field_tag :quantity
-      = select_tag :unit_id, options_for_select(Unit.all.map { |unit| [unit.name, unit.id] })
-    .item-vat-type
-      = radio_button_tag :vat_type, 'VAT-Exclusive', nil, :id => 'vat_type_exclusive'
-      = label_tag :vat_type_exclusive, 'VAT-Exclusive'
-      = radio_button_tag :vat_type, 'VAT-Inclusive', nil, :id => 'vat_type_inclusive'
-      = label_tag :vat_type_inclusive, 'VAT-Inclusive'
-      = radio_button_tag :vat_type, 'VAT-Exempted', nil, :id => 'vat_type_exempted'
-      = label_tag :vat_type_exempted, 'VAT-Exempted'
-    .item-amount
-      = label_tag :amount, 'Amount'
-      = text_field_tag :amount
-    .actions
-      = submit_tag 'Add Item', :id => 'add-item'
+  %form
+    %fieldset.field_divider
+      %legend="Add Item"
+      .input
+        = label_tag :item_id, 'Item Name'
+        = select_tag :item_id, options_for_select(Item.all.map { |item| [item.name, item.id] }) 
+      .input
+        = label_tag :unit_id, 'Unit'
+        = select_tag :unit_id, options_for_select(Unit.all.map { |unit| [unit.name, unit.id] })
+      .input
+        = label_tag :quantity, 'Quantity'
+        = text_field_tag :quantity
+      .input
+        = radio_button_tag :vat_type, 'VAT-Exclusive', nil, :id => 'vat_type_exclusive'
+        = label_tag :vat_type_exclusive, 'VAT-Exclusive'
+      .input  
+        = radio_button_tag :vat_type, 'VAT-Inclusive', nil, :id => 'vat_type_inclusive'
+        = label_tag :vat_type_inclusive, 'VAT-Inclusive'
+      .input  
+        = radio_button_tag :vat_type, 'VAT-Exempted', nil, :id => 'vat_type_exempted'
+        = label_tag :vat_type_exempted, 'VAT-Exempted'
+      .input
+        = label_tag :amount, 'Amount'
+        = text_field_tag :amount
+      -# .item-name
+        -# = label_tag :item_id, 'Item Name'
+        -# = select_tag :item_id, options_for_select(Item.all.map { |item| [item.name, item.id] })
+      -# .item-quantity
+        -# = label_tag :quantity, 'Quantity'
+        -# = text_field_tag :quantity
+        -# = select_tag :unit_id, options_for_select(Unit.all.map { |unit| [unit.name, unit.id] })
+      -# .item-vat-type
+        -# = radio_button_tag :vat_type, 'VAT-Exclusive', nil, :id => 'vat_type_exclusive'
+        -# = label_tag :vat_type_exclusive, 'VAT-Exclusive'
+        -# = radio_button_tag :vat_type, 'VAT-Inclusive', nil, :id => 'vat_type_inclusive'
+        -# = label_tag :vat_type_inclusive, 'VAT-Inclusive'
+        -# = radio_button_tag :vat_type, 'VAT-Exempted', nil, :id => 'vat_type_exempted'
+        -# = label_tag :vat_type_exempted, 'VAT-Exempted'
+      -# .item-amount
+        -# = label_tag :amount, 'Amount'
+        -# = text_field_tag :amount
+        
+      .actions
+        = submit_tag 'Add Item', :id => 'add-item'
