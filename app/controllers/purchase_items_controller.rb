@@ -43,6 +43,7 @@ class PurchaseItemsController < ApplicationController
     respond_to do |format|
       format.html { head :ok }
       format.xml  { head :ok }
+      format.js
     end
   end
 

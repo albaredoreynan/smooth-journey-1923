@@ -4,9 +4,10 @@ describe PurchasesController do
   login_user
 
   describe "GET index" do
-    it "assigns all purchases as @purchases" do
-      purchase = FactoryGirl.create(:purchase)
-      get :index
+    it "should show all non-draft purchases" do
+      purchase = FactoryGirl.create(:purchase, :save_as_draft => false)
+      draft_purchase = FactoryGirl.create(:purchase, :save_as_draft => true)
+      get 'index'
       assigns[:purchases].should eq [purchase]
     end
 
@@ -31,7 +32,7 @@ describe PurchasesController do
         assigns[:purchases].should eq [@purchases.first, @purchases.last]
       end
 
-      it 'should filter purchase without start_date and end_date' do
+      it 'should show all purchase without start_date and end_date' do
         get 'index', :start_date => '', :end_date => ''
         assigns[:purchases].should eq [@purchases.first, @purchases.last]
       end
@@ -73,6 +74,9 @@ describe PurchasesController do
       supplier = @purchase.supplier
       branch = @purchase.branch
       @post_params = { supplier_id: supplier.id, branch_id: branch.id }
+    end
+
+    after do
       session.delete :purchase
     end
 
@@ -98,18 +102,37 @@ describe PurchasesController do
       assigns[:purchase].purchase_items.should eq [@purchase_item]
     end
 
+    it 'should set purchase as non-draft' do
+      @purchase.update_attribute(:save_as_draft, true)
+      session[:purchase] = @purchase.id
+      post :create, :purchase => @post_params
+      @purchase.reload.save_as_draft.should eq false
+    end
+
+    context 'PUT #update' do
+      before do
+        @purchase = FactoryGirl.create(:purchase)
+        branch = @purchase.branch
+        supplier = @purchase.branch
+        @put_params = { :supplier_id => supplier.id, :branch_id => branch.id }
+      end
+
+      after do
+        session.delete :purchase
+      end
+
+      it 'should set purchase as non-draft' do
+        @purchase.update_attribute(:save_as_draft, true)
+        session[:purchase] = @purchase.id
+        put 'update', :id => @purchase.id, :purchase => @put_params
+        @purchase.reload.save_as_draft.should eq false
+      end
+
+      it 'should clear the purchase session' do
+        session[:purchase] = @purchase.id
+        put 'update', :id => @purchase.id, :purchase => @put_params
+        session[:purchase].should be_nil
+      end
+    end
   end
-
-  #describe 'PUT #update' do
-    #before do
-      #@purchase = FactoryGirl.create(:purchase)
-      #supplier = @purchase.supplier
-      #branch = @purchase.branch
-      #@post_params = { supplier_id: supplier.id, branch_id: branch.id }
-    #end
-
-    #it 'should save a purchase' do
-      #put :update, :id => @purchase.id
-    #end
-  #end
 end

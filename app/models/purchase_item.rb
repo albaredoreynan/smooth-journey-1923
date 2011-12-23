@@ -12,6 +12,10 @@ class PurchaseItem < ActiveRecord::Base
   validates :vat_type,    :presence => true,
                           :inclusion => { :in => %w{VAT-Inclusive VAT-Exclusive VAT-Exempted} }
 
+  def purchase_amount
+    vat_type == 'VAT-Exclusive' ? amount + vat_amount : amount
+  end
+
   def vat_amount
     case vat_type
     when 'VAT-Inclusive'
@@ -28,11 +32,11 @@ class PurchaseItem < ActiveRecord::Base
   end
 
   def item_name
-    self.item.name if self.item
+    item.name if item
   end
 
   def unit_name
-    self.unit.name if self.unit
+    unit.name if unit
   end
 
   def unit_cost

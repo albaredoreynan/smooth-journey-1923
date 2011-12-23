@@ -161,9 +161,9 @@ ActiveRecord::Schema.define(:version => 20111222054723) do
     t.integer  "invoice_id"
     t.integer  "supplier_id"
     t.integer  "branch_id"
-    t.integer  "save_as_draft"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "save_as_draft"
   end
 
   create_table "reporttemplates", :force => true do |t|

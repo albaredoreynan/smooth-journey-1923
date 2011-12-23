@@ -18,8 +18,20 @@ describe Conversion do
     @conversion.bigger_unit_name.should eq 'in'
   end
 
+  it 'should be nil when there is no bigger unit' do
+    no_bigger_unit_conversion = FactoryGirl.build(:conversion, :bigger_unit_id => nil)
+    no_bigger_unit_conversion.save(:validate => false)
+    no_bigger_unit_conversion.bigger_unit_name.should be_nil
+  end
+
   it 'should return smaller unit name' do
     @conversion.smaller_unit_name.should eq 'cm'
+  end
+
+  it 'should be nil when there is no smaller unit' do
+    no_smaller_unit_conversion = FactoryGirl.build(:conversion, :smaller_unit_id => nil)
+    no_smaller_unit_conversion.save(:validate => false)
+    no_smaller_unit_conversion.smaller_unit_name.should be_nil
   end
 
   context 'Validation' do

@@ -5,7 +5,7 @@ class PurchasesController < ApplicationController
   before_filter :load_purchase_from_session, :only => [:new, :create, :update]
 
   def index
-    @purchases = Purchase.all
+    @purchases = Purchase.non_draft
 
     respond_to do |format|
       format.html
@@ -36,6 +36,7 @@ class PurchasesController < ApplicationController
   def create
     respond_to do |format|
       if @purchase.save
+        @purchase.update_attribute(:save_as_draft, false)
         format.html { redirect_to(@purchase, :notice => 'Purchase was successfully created.') }
       end
     end
@@ -43,7 +44,7 @@ class PurchasesController < ApplicationController
 
   def update
     respond_to do |format|
-      if @purchase.update_attributes(params[:purchase])
+      if @purchase.update_attributes(params[:purchase].merge(:save_as_draft => false))
         session.delete :purchase
         format.html { redirect_to(@purchase, :notice => 'Purchase was successfully updated.') }
         format.xml  { head :ok }

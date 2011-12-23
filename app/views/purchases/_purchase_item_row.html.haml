@@ -1,7 +1,8 @@
 %tr{:id => dom_id(f.object)}
-  %td.item-name= f.object.try(:item).try(:name)
-  %td.item-quantity= f.object.quantity
-  %td.item-unit= f.object.unit.name
-  %td.item-unit-cost= f.object.unit_cost
+  %td.item-name= f.object.item_name
+  %td.item-quantity= "#{f.object.quantity} #{f.object.unit_name}"
+  %td.item-unit-cost= purchase_item_unit_cost(f.object)
   %td.item-vat-type= f.object.vat_type
-  %td.item-amount= f.object.amount
+  %td.monetary.item-amount= number_to_currency(f.object.amount, :unit => peso_sign)
+  %td.actions
+    = link_to_delete f.object, {:url => purchase_purchase_item_path(f.object.purchase, f.object)}
