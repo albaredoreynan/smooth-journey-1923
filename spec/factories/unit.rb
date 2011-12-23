@@ -1,5 +1,5 @@
 FactoryGirl.define do
   factory :unit do
-    name 'kg'
+    symbol 'kg'
   end
 end

@@ -14,7 +14,7 @@ describe UnitsController do
     end
 
     it 'should search a unit' do
-      @unit2 = FactoryGirl.create(:unit, :name => 'lbs')
+      @unit2 = FactoryGirl.create(:unit, :symbol => 'lbs')
       get 'index', :search => 'lbs'
       assigns[:units].should eq [@unit2]
     end
@@ -22,7 +22,7 @@ describe UnitsController do
 
   context 'POST #create' do
     before do
-      @post_params = { unit: { name: 'N', description: 'Newton' } }
+      @post_params = { unit: { symbol: 'N', name: 'Newton' } }
     end
 
     it 'should redirect to #index' do
