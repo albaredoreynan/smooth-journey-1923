@@ -20,7 +20,7 @@ $space-between-label-and-field: 10px
     .content
       .inner
         padding-bottom: 37px
-        
+
 table
   $checkbox: 10px
   width: 100%
@@ -75,7 +75,7 @@ table
       input.numeric
         width: 50px
 
-form
+form, .form
   .multi_input
     label
       float: none
@@ -97,13 +97,7 @@ form
     margin-bottom: 18px
     padding-top: 18px
     border: none
-    
-    &.field_divider
-      border: solid 1px #909090
-      padding: 10px        /* padding in fieldset support spotty in IE */
-      margin: 0
-    &.add-purchase-item
-      padding: 30px
+
     label
       display: inline
       float: left
@@ -141,10 +135,7 @@ form
       border: solid 1px red
       display: inline
 
-      &:after
-        content: ''
-
-      label:after
+      &:after, label:after
         content: ''
 
     &:after
@@ -191,6 +182,35 @@ form
       bottom: 18px
     padding: 0 20px 18px $form-left-column
 
+#dialog_item .form
+  label
+    width: 110px
+
+  input
+    float: left
+    &[type=text]
+      width: 222px
+
+  fieldset
+    padding: 0
+    margin: 0
+
+  .radio_group
+    margin-left: 121px
+    float: left
+    &:after
+      clear: both
+
+    label
+      clear: none
+      width: auto
+      padding-left: 5px
+
+      &:after
+        content: ''
+
+  .actions
+    padding-left: 121px
 
 .flash
   .message
