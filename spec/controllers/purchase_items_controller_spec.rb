@@ -7,7 +7,7 @@ describe PurchaseItemsController do
     context 'POST #create' do
       before do
         @purchase = FactoryGirl.create(:purchase)
-        @post_params = { :item_id => 1, :amount => 10, :quantity => 1 }
+        @post_params = { item_id: 1, amount: 10, quantity: 1, vat_type: 'VAT-Inclusive' }
       end
 
       it 'should assign a purchase' do
@@ -23,7 +23,7 @@ describe PurchaseItemsController do
       it 'should save a purchase item' do
         lambda {
           post :create, :purchase_id => @purchase.to_param, :purchase_item => @post_params
-        }.should change(Purchase, :count).by(1)
+        }.should change(PurchaseItem, :count).by(1)
       end
     end
 
