@@ -7,17 +7,29 @@ describe Item do
     @item.should have(1).error_on(:name)
   end
 
+  context '#branch_location' do
+    before do
+      @branch = FactoryGirl.create(:branch, :location => 'Leragas The Vile shop')
+      @item = FactoryGirl.create(:item, :branch => @branch)
+    end
+
+    it 'should return a branch_location' do
+      @item.branch_location.should eq 'Leragas The Vile shop'
+    end
+  end
+
   context 'Subcategory' do
     before do
-      @subcat = FactoryGirl.create(:subcategory, :name => 'sub cat')
-      @item = FactoryGirl.create(:item, :subcategory_id => @subcat.id)
+      @category = FactoryGirl.create(:category, :name => 'Dota Items')
+      @subcategory = FactoryGirl.create(:subcategory, :name => 'Gateway Relics', :category => @category)
+      @item = FactoryGirl.create(:item, :name => 'Wraith Band', :subcategory => @subcategory )
     end
     it 'should return a category name' do
-      @item.category_name.should eq 'Category A'
+      @item.category_name.should eq 'Dota Items'
     end
 
     it 'should return a subcategory name' do
-      @item.subcategory_name.should eq 'sub cat'
+      @item.subcategory_name.should eq 'Gateway Relics'
     end
 
     it 'should return nil when no subcategory' do
@@ -28,21 +40,21 @@ describe Item do
 
   context 'Search' do
     before do
-      @item1 = FactoryGirl.create(:item, :name => 'Item A')
+      @item1 = FactoryGirl.create(:item, :name => 'Null Talisman')
     end
 
     it 'should search an item' do
-      @items = Item.search('Item A')
+      @items = Item.search('Null Talisman')
       @items.should eq [@item1]
     end
 
     it 'should search an item that begins with a keyword' do
-      @items = Item.search('item')
+      @items = Item.search('null')
       @items.should eq [@item1]
     end
 
     it 'should not return result if no item found' do
-      @items = Item.search('abcdef')
+      @items = Item.search('does not exists')
       @items.should be_empty
     end
   end

@@ -18,12 +18,16 @@ class Item < ActiveRecord::Base
     where("name ILIKE ?", "%#{keyword}%")
   end
 
+  def branch_location
+    branch.location if branch
+  end
+
   def category_name
-    subcategory.category.name unless subcategory.nil?
+    subcategory.category.name if subcategory
   end
 
   def subcategory_name
-    subcategory.name unless subcategory.nil?
+    subcategory.name if subcategory
   end
 
   def item_count

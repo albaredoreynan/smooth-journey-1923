@@ -6,10 +6,13 @@
         = @item.name
       %p
         %b Branch:
-        = @item.branch.location unless @item.branch.nil?
+        = @item.branch_location
       %p
         %b Unit:
-        = @item.unit.name unless @item.unit.nil?
+        = @item.unit_name
+      %p
+        %b Subcategory:
+        = @item.category_name @item.subcategory_name
       = link_to 'Edit', edit_inventoryitem_path(@item)
       |
       \#{link_to 'Back', inventoryitems_path}
