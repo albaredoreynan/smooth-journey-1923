@@ -20,6 +20,23 @@ describe Purchase do
       @purchase.reload
     end
 
+    context 'no purchase_item' do
+      before do
+        @no_item_purchase = FactoryGirl.create(:purchase)
+      end
+      it 'should display 0 when there is no net amount' do
+        @no_item_purchase.net_amount.should eq 0.00
+      end
+
+      it 'should display 0 when there is no vat_amount' do
+        @no_item_purchase.vat_amount.should eq 0.00
+      end
+
+      it 'should display 0 when there is no amount' do
+        @no_item_purchase.amount.should eq 0.00
+      end
+    end
+
     it 'should total net amount' do
       @purchase.amount.should eq 10.00
     end

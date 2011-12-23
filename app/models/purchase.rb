@@ -25,15 +25,15 @@ class Purchase < ActiveRecord::Base
   end
 
   def amount
-    purchase_items.map(&:amount).inject(:+)
+    purchase_items.map(&:amount).inject(:+) || 0.00
   end
 
   def net_amount
-    purchase_items.map(&:net_amount).inject(:+)
+    purchase_items.map(&:net_amount).inject(:+) || 0.00
   end
 
   def vat_amount
-    purchase_items.map(&:vat_amount).inject(:+)
+    purchase_items.map(&:vat_amount).inject(:+) || 0.00
   end
 
   def supplier_name
