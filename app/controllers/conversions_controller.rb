@@ -63,7 +63,7 @@ class ConversionsController < ApplicationController
 
     respond_to do |format|
       if @conversion.update_attributes(params[:conversion])
-        format.html { redirect_to(@conversion, :notice => 'Conversion was successfully updated.') }
+        format.html { redirect_to(conversions_path, :notice => 'Conversion was successfully updated.') }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }

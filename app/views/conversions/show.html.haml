@@ -2,14 +2,14 @@
   .content
     .inner
       %p
-        %b B unit:
-        = @conversion.b_unit
+        %b Bigger unit:
+        = @conversion.bigger_unit_name
       %p
-        %b S unit:
-        = @conversion.s_unit
+        %b Smaller unit:
+        = @conversion.smaller_unit_name
       %p
-        %b Conversion number:
-        = @conversion.conversion_number
+        %b Conversion factor:
+        = @conversion.conversion_factor
       = link_to 'Edit', edit_conversion_path(@conversion)
       |
       \#{link_to 'Back', conversions_path}
