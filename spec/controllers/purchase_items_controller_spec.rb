@@ -37,6 +37,11 @@ describe PurchaseItemsController do
         delete :destroy, :purchase_id => @purchase.id, :id => @purchase_item.id
         response.should be_successful
       end
+
+      it 'should render a destroy.js' do
+        xhr :delete, :destroy, :purchase_id => @purchase.id, :id => @purchase_item.id
+        response.should render_template('purchase_items/destroy')
+      end
     end
   end
 end
