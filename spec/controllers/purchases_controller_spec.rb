@@ -14,7 +14,25 @@ describe PurchasesController do
     context "Search" do
       before do
         @start_date = 5.days.ago
-        @purchases = [ FactoryGirl.create(:purchase, :purchase_date => @start_date ), FactoryGirl.create(:purchase, :purchase_date => Date.today) ]
+        @purchases = [
+          FactoryGirl.create(:purchase, :purchase_date => @start_date ),
+          FactoryGirl.create(:purchase, :purchase_date => Date.today)
+        ]
+      end
+
+      it 'no match' do
+        no_purchase_start_date = 1.year.ago
+        get 'index',
+          :start_date => no_purchase_start_date,
+          :end_date => no_purchase_start_date + 1.day
+        assigns[:purchases].should be_empty
+      end
+
+      it 'partial match' do
+        get 'index',
+          :start_date => @start_date.to_date,
+          :end_date => (@start_date + 1.day).to_date
+        assigns[:purchases].should eq [@purchases.first]
       end
 
       it 'should filter purchase by date' do

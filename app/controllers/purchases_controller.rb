@@ -5,7 +5,11 @@ class PurchasesController < ApplicationController
   before_filter :load_purchase_from_session, :only => [:new, :create, :update]
 
   def index
-    @purchases = Purchase.non_draft
+    if params[:start_date] || params[:end_date]
+      @purchases = Purchase.non_draft.search_by_date(params[:start_date], params[:end_date])
+    else
+      @purchases = Purchase.non_draft
+    end
 
     respond_to do |format|
       format.html
