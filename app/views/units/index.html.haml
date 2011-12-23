@@ -8,16 +8,18 @@
           %tr
             %td Unit
             %td= text_field_tag :search, params[:search]
-            %td= submit_tag "Search", :name => nil
+            %td= submit_tag "Search", :symbol => nil
       %table
         %tr
+          %th Symbol
           %th Name
-          %th Description
+          %th Unit Type
           %th.actions Actions
         - @units.each do |unit|
           %tr
+            %td= unit.symbol
             %td= unit.name
-            %td= unit.description
+            %td= unit.unit_type
             %td
               = link_to 'Show', unit
               = link_to 'Edit', edit_unit_path(unit)
