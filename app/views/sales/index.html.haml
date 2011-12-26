@@ -1,3 +1,21 @@
+- content_for :sidebar do
+  %h3 Filters
+  = form_tag '/sales/search', :method => :get do
+    .input
+      = label_tag 'From'
+      = text_field_tag :start_date, nil, :class => 'datepicker'
+    .input
+      = label_tag 'To'
+      = text_field_tag :end_date, nil, :class => 'datepicker'
+    .input
+      = label_tag :restaurant
+      = collection_select(:restaurant, :name, Restaurant.all, :id, :name, :prompt => true)
+    .input
+      = label_tag :branch
+      = collection_select(:branch, :location, Branch.all, :id, :location, :prompt => true)
+    .actions
+      = submit_tag :Search, :class => 'button'
+
 .block
   .secondary-navigation
     %ul.wat-cf
@@ -8,22 +26,6 @@
       %li
         = link_to 'Sales by Server', sales_by_server_path
   .content
-    .search_box
-      = form_tag '/sales/search', :method => :get do
-        .input
-          = label_tag 'From'
-          = text_field_tag :start_date, nil, :class => 'datepicker'
-        .input
-          = label_tag 'To'
-          = text_field_tag :end_date, nil, :class => 'datepicker'
-        .input
-          = label_tag :restaurant
-          = collection_select(:restaurant, :name, Restaurant.all, :id, :name, :prompt => true)
-        .input
-          = label_tag :branch
-          = collection_select(:branch, :location, Branch.all, :id, :location, :prompt => true)
-        .actions
-          = submit_tag :Search, :class => 'button'
     %h2.title Listing Category Sales
     .inner
       - totalcateg = Hash.new

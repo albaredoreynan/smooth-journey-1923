@@ -14,8 +14,6 @@ $space-between-label-and-field: 10px
   -webkit-border-radius: $radius
 
 #main
-  width: 100%
-
   .block
     .content
       .inner
@@ -38,8 +36,8 @@ table
     .first
       width: 30px
 
-    .last
-      width: 200px
+    &.last, &.actions
+      width: 103px
 
   .checkbox
     margin-left: 10px
@@ -67,13 +65,6 @@ table
 
       td
         padding: 0
-
-    &.purchaserow_form
-      margin-left: $form-left-column
-      th.item
-        width: 300px
-      input.numeric
-        width: 50px
 
 form, .form
   .multi_input
@@ -149,7 +140,7 @@ form, .form
     width: 270px
 
     &.button, &[type=submit]
-      width: auto
+      width: auto !important
 
   .input.checkbox
     input
@@ -182,6 +173,9 @@ form, .form
       bottom: 18px
     padding: 0 20px 18px $form-left-column
 
+  table td input
+    margin: 0
+
 #dialog_item .form
   label
     width: 110px
@@ -211,6 +205,44 @@ form, .form
 
   .actions
     padding-left: 121px
+
+#sidebar form, #sidebar .form
+  padding-top: 10px
+
+  label
+    text-align: left
+    width: auto
+    display: block
+    float: none
+    padding-top: 5px
+    padding-left: 3px
+    margin: 0
+    &:after
+      clear: both
+
+  input
+    width: 90%
+    margin: 2px 0
+
+  .radio_group
+    &:after
+      clear: both
+
+    label
+      clear: none
+      width: auto
+      padding-left: 17px
+      &:after
+        content: ''
+
+    input
+      border: solid 1px green
+      float: left
+
+  .actions
+    padding: 0 27px 0 0
+    margin: 2px 0
+    text-align: right
 
 .flash
   .message

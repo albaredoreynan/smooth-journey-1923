@@ -1,34 +1,35 @@
+- content_for :sidebar do
+  .block.search_box
+    %h3 Search by Date
+    = form_tag '/endcounts/search', :method => :get do
+      .input
+        = label_tag 'From'
+        = text_field_tag :beginning_date, params[:beginning_date], :class => 'datepicker'
+      .input
+        = label_tag 'To'
+        = text_field_tag :ending_date, params[:ending_date], :class => 'datepicker'
+      .actions
+        = submit_tag :Search
 .block
   = render 'shared/menu/inventory'
   .content
-    .search_box
-      = form_tag '/endcounts/search', :method => :get do
-        .input
-          = label_tag 'From'
-          = text_field_tag :beginning_date, params[:beginning_date], :class => 'datepicker'
-        .input
-          = label_tag 'To'
-          = text_field_tag :ending_date, params[:ending_date], :class => 'datepicker'
-        .actions
-          = submit_tag :Search
     %h2.title View Endcounts
     .inner
       = form_tag update_item_counts_endcounts_path, :method => :put do |f|
         %table
           %tr
-            %th Item
+            %th{:style => 'width:40%'} Item
             %th Subcategory
             %th Unit
             %th Count
-            %th.actions Actions
+            %th.last Update count
           - @items.each do |item|
             %tr
               %td= item.name
               %td= item.subcategory_name
               %td= item.unit_name
               %td= item.item_count
-              %td= text_field(:item, :item_count, {:name => "items[#{item.id}][item_count]", :style => "width:70px"})
+              %td.last= text_field(:item, :item_count, {:name => "items[#{item.id}][item_count]", :style => "width:70px"})
           %tr
-            %td{:colspan => 9}
-              = submit_tag 'Submit records '
-              = submit_tag 'Destroy records'
+            %td{:colspan => 5, :style => 'text-align: right; padding-right: 22px'}
+              = submit_tag 'Update counts'

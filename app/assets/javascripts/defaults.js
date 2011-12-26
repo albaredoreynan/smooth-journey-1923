@@ -11,11 +11,4 @@ $(function(){
   $("#add_new_item").click(function() {
     $("#dialog_item").dialog( "open" );
   });
-
-  $( "#dialog_item" ).dialog({
-    autoOpen: false,
-    height: 'auto',
-    width: 500,
-    modal: true,
-  });
 });
