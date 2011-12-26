@@ -80,13 +80,13 @@ describe Item do
       @item = FactoryGirl.create(:item)
       @item_counts = [
         FactoryGirl.create(:item_count, :item => @item, :stock_count => 5, :entry_date => 5.days.ago),
-        FactoryGirl.create(:item_count, :item => @item, :stock_count => 10, :entry_date => Time.now)
+        FactoryGirl.create(:item_count, :item => @item, :stock_count => 10, :entry_date => Date.today)
       ]
     end
 
     it 'should default count to 0' do
-      item = FactoryGirl.create(:item)
-      item.item_count.should eq 0
+      no_count_item = FactoryGirl.create(:item)
+      no_count_item.item_count.should eq 0
     end
 
     it 'should return the latest item count' do
@@ -97,35 +97,12 @@ describe Item do
       @item.item_count = 8
       @item.item_count.should eq 8
     end
-  end
 
-  context 'Endcount' do
-    before do
-      @item1 = FactoryGirl.create(:item)
-      FactoryGirl.create(:item_count,
-                         :item => @item1,
-                         :stock_count => 11,
-                         :entry_date => 10.days.ago )
-      FactoryGirl.create(:item_count,
-                         :item => @item1,
-                         :stock_count => 10,
-                         :entry_date => 5.days.ago )
-    end
-
-    it 'should get count from a given date' do
-      @item1.counted_at(5.days.ago).should eq 10
-      @item1.counted_at(5.days.ago.strftime('%F')).should eq 10;
-    end
-
-    it "should display '-' (dash) when no count is found" do
-      # epoch time
-      @item1.counted_at(Time.at(0)).should eq '-'
-    end
-
-    it 'should return items with endcount' do
-      @items = Item.endcount(10.days.ago, 5.days.ago)
-      @items.first.beginning_count.should eq 11
-      @items.first.ending_count.should eq 10
+    it 'should only one count per day' do
+      @item.item_counts.where(:entry_date => Date.today).count.should eq 1
+      lambda {
+        @item.item_count = 500
+      }.should_not change{@item.item_counts.count}
     end
   end
 end

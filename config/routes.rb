@@ -52,6 +52,7 @@ Rrbs::Application.routes.draw do
   resources :endcounts do
     collection do
       get 'search'
+      put 'update_item_counts'
     end
   end
 

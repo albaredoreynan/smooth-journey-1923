@@ -13,21 +13,22 @@
           = submit_tag :Search
     %h2.title View Endcounts
     .inner
-      %table
-        %tr
-          %th{:class => 'checkbox'}
-          %th Item
-          %th= @beginning_date.strftime('%B %d, %Y')
-          %th= @ending_date.strftime('%B %d, %Y')
-          %th.actions Actions
-        - @items.each do |item|
+      = form_tag update_item_counts_endcounts_path, :method => :put do |f|
+        %table
           %tr
-            %td
-            %td= item.name
-            %td= item.beginning_count
-            %td= item.ending_count
-            %td= 'Edit | Delete'
-        %tr
-          %td{:colspan => 9}
-            = submit_tag 'Submit records '
-            = submit_tag 'Destroy records'
+            %th Item
+            %th Subcategory
+            %th Unit
+            %th Count
+            %th.actions Actions
+          - @items.each do |item|
+            %tr
+              %td= item.name
+              %td= item.subcategory_name
+              %td= item.unit_name
+              %td= item.item_count
+              %td= text_field(:item, :item_count, {:name => "items[#{item.id}][item_count]", :style => "width:70px"})
+          %tr
+            %td{:colspan => 9}
+              = submit_tag 'Submit records '
+              = submit_tag 'Destroy records'

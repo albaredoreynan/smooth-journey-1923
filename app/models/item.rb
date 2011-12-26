@@ -35,12 +35,13 @@ class Item < ActiveRecord::Base
   end
 
   def item_count
-    item_counts.order('entry_date DESC').try(:first).try(:stock_count) || 0
+    item_counts.order('entry_date DESC, updated_at DESC').try(:first).try(:stock_count) || 0
   end
 
   def item_count=(count)
     unless new_record?
-      item_counts.create(:stock_count => count, :entry_date => Time.now)
+      today_count = item_counts.find_or_initialize_by_entry_date(Date.today)
+      today_count.update_attribute(:stock_count, count)
     end
   end
 
@@ -48,11 +49,7 @@ class Item < ActiveRecord::Base
     if date.is_a?(String)
       date = Date.parse(date)
     end
-    begin_date = date.midnight
-    end_date = (date + 1.day).midnight
-    item_counts.where('entry_date >= :date and entry_date < :next_day',
-      { :date => begin_date,
-        :next_day => end_date }).try(:first).try(:stock_count) || '-'
+    item_counts.where('entry_date = ?', date).try(:first)
   end
 
   def self.endcount(beginning_date, ending_date)
