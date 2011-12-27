@@ -14,13 +14,11 @@ $space-between-label-and-field: 10px
   -webkit-border-radius: $radius
 
 #main
-  width: 100%
-
   .block
     .content
       .inner
         padding-bottom: 37px
-        
+
 table
   $checkbox: 10px
   width: 100%
@@ -38,8 +36,8 @@ table
     .first
       width: 30px
 
-    .last
-      width: 200px
+    &.last, &.actions
+      width: 103px
 
   .checkbox
     margin-left: 10px
@@ -68,14 +66,7 @@ table
       td
         padding: 0
 
-    &.purchaserow_form
-      margin-left: $form-left-column
-      th.item
-        width: 300px
-      input.numeric
-        width: 50px
-
-form
+form, .form
   .multi_input
     label
       float: none
@@ -97,13 +88,7 @@ form
     margin-bottom: 18px
     padding-top: 18px
     border: none
-    
-    &.field_divider
-      border: solid 1px #909090
-      padding: 10px        /* padding in fieldset support spotty in IE */
-      margin: 0
-    &.add-purchase-item
-      padding: 30px
+
     label
       display: inline
       float: left
@@ -142,10 +127,7 @@ form
       border: solid 1px red
       display: inline
 
-      &:after
-        content: ''
-
-      label:after
+      &:after, label:after
         content: ''
 
     &:after
@@ -159,7 +141,7 @@ form
     width: 270px
 
     &.button, &[type=submit]
-      width: auto
+      width: auto !important
 
   .input.checkbox
     input
@@ -192,6 +174,76 @@ form
       bottom: 18px
     padding: 0 20px 18px $form-left-column
 
+  table td input
+    margin: 0
+
+#dialog_item .form
+  label
+    width: 110px
+
+  input
+    float: left
+    &[type=text]
+      width: 222px
+
+  fieldset
+    padding: 0
+    margin: 0
+
+  .radio_group
+    margin-left: 121px
+    float: left
+    &:after
+      clear: both
+
+    label
+      clear: none
+      width: auto
+      padding-left: 5px
+
+      &:after
+        content: ''
+
+  .actions
+    padding-left: 121px
+
+#sidebar form, #sidebar .form
+  padding-top: 10px
+
+  label
+    text-align: left
+    width: auto
+    display: block
+    float: none
+    padding-top: 5px
+    padding-left: 3px
+    margin: 0
+    &:after
+      clear: both
+
+  input
+    width: 90%
+    margin: 2px 0
+
+  .radio_group
+    &:after
+      clear: both
+
+    label
+      clear: none
+      width: auto
+      padding-left: 17px
+      &:after
+        content: ''
+
+    input
+      border: solid 1px green
+      float: left
+
+  .actions
+    padding: 0 27px 0 0
+    margin: 2px 0
+    text-align: right
 
 .flash
   .message

@@ -1,18 +1,19 @@
+- content_for :sidebar do
+  %h3 Search
+  = form_tag inventoryitems_path, :method => 'get' do
+    .input
+      = text_field_tag :search, params[:search]
+    .actions
+      = submit_tag "Search", :name => nil
+
 .block
   = render 'shared/menu/inventory'
   .content
     %h2.title Inventory Item
     .inner
-      %table.table_form
-        = form_tag inventoryitems_path, :method => 'get' do
-          %tr
-            %td
-              = 'Inventory Item'
-              = text_field_tag :search, params[:search]
-              = submit_tag "Search", :name => nil
       %table
         %tr
-          %th Item name
+          %th{:style => 'width: 40%'} Item name
           %th Subcategory
           %th Unit
           %th Count

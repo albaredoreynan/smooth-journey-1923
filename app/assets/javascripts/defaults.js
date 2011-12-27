@@ -7,23 +7,8 @@ $(function() {
 
 $(function(){
   $( "#dialog:ui-dialog" ).dialog( "destroy" );
-//   
-  // $("#add_new_item")
-  // .click(function() {
-	// $("#dialog_item").dialog( "open" );
-  // });
-//   
+
   $("#add_new_item").live("click", function(){
   	$("#dialog_item").dialog( "open" );
   });
-  
-  $( "#dialog_item" ).dialog({
-	autoOpen: false,
-	height: 400,
-	width: 500,
-	modal: true,
-	close: function() {
-		/* allFields.val( "" ).removeClass( "ui-state-error" );*/
-	}
-  });	
 });

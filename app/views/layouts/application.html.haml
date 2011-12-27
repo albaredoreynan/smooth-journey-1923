@@ -23,3 +23,5 @@
                 = content_tag(:div, content_tag(:p, notice), :class => 'message notice') if notice
                 = content_tag(:div, content_tag(:p, alert), :class => 'message error') if alert
             = yield
+          #sidebar
+            = yield :sidebar
