@@ -85,8 +85,22 @@ describe EndcountsController do
 
     it 'should not create a new record when param is blank' do
       @put_params[:items][@item.id][:item_count] = ''
+      lambda {
+        put 'update_item_counts', @put_params
+      }.should_not change{@item.reload.item_counts.count}
+
+      FactoryGirl.create(:item_count, :item => @item, :entry_date => 5.days.ago)
+      @put_params.merge!(:entry_date => 5.days.ago.strftime('%F'))
+      lambda {
+        put 'update_item_counts', @put_params
+      }.should_not change{@item.reload.item_counts.count}
+    end
+
+    it 'should update item_count specified by date' do
+      @put_params.merge!(:entry_date => 5.days.ago.strftime('%F'))
       put 'update_item_counts', @put_params
-      @item.reload.item_count.should eq 1
+      item_count = @item.reload.counted_at(5.days.ago)
+      item_count.try(:stock_count).should eq 500
     end
   end
 end

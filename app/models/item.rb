@@ -39,8 +39,12 @@ class Item < ActiveRecord::Base
   end
 
   def item_count=(count)
+    self.update_count(count)
+  end
+
+  def update_count(count, date=Date.today)
     unless new_record?
-      today_count = item_counts.find_or_initialize_by_entry_date(Date.today)
+      today_count = item_counts.find_or_initialize_by_entry_date(date)
       today_count.update_attribute(:stock_count, count)
     end
   end
@@ -57,10 +61,12 @@ class Item < ActiveRecord::Base
 
   def self.endcount(beginning_date, ending_date)
     Item.all.each do |item|
+      average_unit_cost = item.average_unit_cost
       item.beginning_count = item.counted_at(beginning_date)
-      item.beginning_total = item.beginning_count.stock_count * item.average_unit_cost if item.beginning_count
+      item.beginning_total = item.beginning_count.stock_count * average_unit_cost if item.beginning_count
       item.ending_count = item.counted_at(ending_date)
-      item.ending_total = item.ending_count.stock_count * item.average_unit_cost if item.ending_count
+      # HACK: when you remove .to_f method on item.ending_count.stock_count, it will crash. ????
+      item.ending_total = item.ending_count.stock_count.to_f * average_unit_cost if item.ending_count
     end
   end
 

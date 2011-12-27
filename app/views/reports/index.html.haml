@@ -25,7 +25,7 @@
             %td= endcount.unit_name
             %td= number_to_currency(endcount.average_unit_cost, :unit => peso_sign)
             %td= endcount.beginning_count.stock_count if endcount.beginning_count
-            %td= endcount.beginning_count.stock_count if endcount.beginning_count
+            %td= number_to_currency(endcount.beginning_total, :unit => peso_sign) if endcount.beginning_count
             %td= ''
             %td= endcount.ending_count.stock_count if endcount.ending_count
             %td= number_to_currency(endcount.ending_total, :unit => peso_sign) if endcount.ending_count

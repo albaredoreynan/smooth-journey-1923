@@ -118,7 +118,7 @@ class EndcountsController < ApplicationController
   def update_item_counts
     params[:items].each do |key, val|
       item = Item.find(key)
-      item.item_count = val[:item_count] unless val[:item_count].blank?
+      item.update_count(val[:item_count], params[:entry_date] || Date.today) unless val[:item_count].blank?
     end
     redirect_to endcounts_path
   end

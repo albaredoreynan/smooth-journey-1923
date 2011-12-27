@@ -7,11 +7,10 @@
 .block
   = render 'shared/menu/inventory'
   .content
-    - endcount_title = "View Endcounts"
-    - endcount_title += " as of #{params[:date]}" if params[:date]
-    %h2.title= title
+    %h2.title= endcount_title(params[:date])
     .inner
       = form_tag update_item_counts_endcounts_path, :method => :put do |f|
+        = hidden_field_tag(:entry_date, params[:date]) if params[:date]
         %table
           %tr
             %th{:style => 'width:40%'} Item

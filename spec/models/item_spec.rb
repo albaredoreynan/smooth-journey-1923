@@ -126,6 +126,16 @@ describe Item do
         @item.item_count = 500
       }.should_not change{@item.item_counts.count}
     end
+
+    it 'should update count' do
+      @item.update_count(456)
+      @item.item_count.should eq 456
+    end
+
+    it 'should update count given a specified date' do
+      @item.update_count(234, 5.days.ago)
+      @item.counted_at(5.days.ago).try(:stock_count).should eq 234
+    end
   end
 
   context 'Endcount' do
@@ -150,9 +160,10 @@ describe Item do
       ]
       end_count = Item.endcount(5.days.ago, Date.today)
       end_count.should eq [@item]
-      end_count.first.average_unit_cost.should eq 15
-      end_count.first.beginning_count.stock_count.should eq 5.0
-      end_count.first.ending_count.stock_count.should eq 10.0
+      end_item = end_count.first
+      end_item.average_unit_cost.should eq 15
+      end_item.beginning_count.stock_count.should eq 5.0
+      end_item.ending_count.stock_count.should eq 10.0
     end
   end
 end
