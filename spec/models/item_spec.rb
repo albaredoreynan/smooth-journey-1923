@@ -36,14 +36,22 @@ describe Item do
 
   context 'Association' do
     context 'Purchase' do
+      before do
+        @item = FactoryGirl.create(:item)
+      end
+
+      it 'should return 0 average_unit_cost if there is no purchase_item' do
+        @item.average_unit_cost.should eq 0
+      end
+
       it 'should return a unit cost average' do
-        item = FactoryGirl.create(:item)
+        @item = FactoryGirl.create(:item)
         purchase = FactoryGirl.create(:purchase, :purchase_date => Date.today)
         purchase_items = [
-          FactoryGirl.create(:purchase_item, :item => item, :amount => 10, :purchase => purchase),
-          FactoryGirl.create(:purchase_item, :item => item, :amount => 5, :purchase => purchase)
+          FactoryGirl.create(:purchase_item, :item => @item, :amount => 10, :purchase => purchase),
+          FactoryGirl.create(:purchase_item, :item => @item, :amount => 5, :purchase => purchase)
         ]
-        item.purchase_items.unit_cost_average.should eq 7.5
+        @item.average_unit_cost.should eq 7.5
       end
     end
   end
