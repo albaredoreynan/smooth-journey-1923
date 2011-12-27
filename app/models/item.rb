@@ -7,11 +7,7 @@ class Item < ActiveRecord::Base
   belongs_to :unit
   belongs_to :branch
   belongs_to :subcategory
-  has_many :purchase_items do
-     def unit_cost_average
-       average('amount')
-     end
-  end
+  has_many :purchase_items
   has_many :item_counts
 
   after_save :new_item_count, :if => :new_record? do
@@ -55,9 +51,7 @@ class Item < ActiveRecord::Base
 
   def average_unit_cost
     count = purchase_items.count.to_f
-    if count == 0
-      return 0
-    end
+    return 0 if count == 0
     purchase_items.map(&:unit_cost).inject(:+).to_f / count
   end
 
