@@ -1,13 +1,17 @@
 class Item < ActiveRecord::Base
 
-  attr_accessor :beginning_count, :ending_count
+  attr_accessor :beginning_count, :beginning_total, :ending_count, :ending_total
 
   validates :name, :presence => true
 
   belongs_to :unit
   belongs_to :branch
   belongs_to :subcategory
-  has_many :purchase_items
+  has_many :purchase_items do
+     def unit_cost_average
+       average('amount')
+     end
+  end
   has_many :item_counts
 
   after_save :new_item_count, :if => :new_record? do
@@ -46,16 +50,23 @@ class Item < ActiveRecord::Base
   end
 
   def counted_at(date)
-    if date.is_a?(String)
-      date = Date.parse(date)
+    item_counts.where('entry_date = ?', date.to_date).try(:first)
+  end
+
+  def average_unit_cost
+    count = purchase_items.count.to_f
+    if count == 0
+      return 0
     end
-    item_counts.where('entry_date = ?', date).try(:first)
+    purchase_items.map(&:unit_cost).inject(:+).to_f / count
   end
 
   def self.endcount(beginning_date, ending_date)
     Item.all.each do |item|
       item.beginning_count = item.counted_at(beginning_date)
+      item.beginning_total = item.beginning_count.stock_count * item.average_unit_cost if item.beginning_count
       item.ending_count = item.counted_at(ending_date)
+      item.ending_total = item.ending_count.stock_count * item.average_unit_cost if item.ending_count
     end
   end
 end

@@ -1,93 +1,32 @@
 .block
   .content
-    %h2 Sales by Category Reports
+    %h2 Item Analysis
     .inner
-      - form_tag '/reports/search' do
-        %table{:border => "0", :width => "500"}
+      %table
+        %tr
+          %th
+          %th
+          %th
+          %th{:colspan => 2, :style => 'text-align:center'} Beginning
+          %th
+          %th{:colspan => 2, :style => 'text-align:center'} Ending
+        %tr
+          %th Item
+          %th Unit
+          %th Unit Cost
+          %th Count
+          %th Total
+          %th Purchases
+          %th Count
+          %th Total
+        - @endcounts.each do |endcount|
           %tr
-            %td Date:
-            %td= date_select(:date,'', :start_year => 1950)
-            %td= label_tag :restaurant
-            %td= text_field_tag :restaurant
-          %tr
-            %td &nbsp;
-            %td &nbsp;
-            %td Branch:
-            %td= text_field_tag :branch
-          %tr
-            %td &nbsp;
-            %td &nbsp;
-            %td &nbsp;
-            %td= submit_tag :Search
-        %br/
-      .right
-        %strong Change View:
-        %br/
-        = link_to 'Sales by Category Reports', categorysales_path
-        %br/
-        = link_to 'Purchase Reports', purchasereports_path
-      %div{:style => "clear:both;"}
-      %hr/
-      %div
-        %br/
-        %h1
-          %a{:href => "#"} Daily Sales
-        %br/
-        %table{:border => "0", :width => "500"}
-          - @sales.each do |date, sale|
-            %tr
-              %td
-                %b Date:
-              %td= date.strftime("%B %d, %Y")
-              %td &nbsp;
-              %td &nbsp;
-            %tr
-              %td &nbsp;
-              %td &nbsp;
-              %td &nbsp;
-              %td &nbsp;
-            - total = 0
-            - @categories.each do |category|
-              - total = total + CategorySale.category_sales_sum(date,category.id)
-            - @categories.each do |category|
-              %tr
-                %td= category.name
-                %td= CategorySale.category_sales_sum(date,category.id)
-                %td
-                  = CategorySale.category_sales_sum(date,category.id)/total*100
-                  \&nbsp;%
-            %tr
-              %td &nbsp;
-              %td
-                %hr/
-              %td
-                %hr/
-            %tr
-              %td TOTAL
-              %td= total
-              %td 100%
-            %tr
-              %td &nbsp;
-              %td &nbsp;
-              %td &nbsp;
-              %td &nbsp;
-            - total = 0
-            - @settlement_types.each do |settlement_type|
-              - total = total + SettlementTypeSale.settlement_sales_sum(date,settlement_type.id)
-            - @settlement_types.each do |settlement_type|
-              %tr
-                %td= settlement_type.name
-                %td= SettlementTypeSale.settlement_sales_sum(date,settlement_type.id)
-                %td
-                  = SettlementTypeSale.settlement_sales_sum(date,settlement_type.id)/total*100
-                  \&nbsp;%
-            %tr
-              %td &nbsp;
-              %td
-                %hr/
-              %td
-                %hr/
-            %tr
-              %td TOTAL
-              %td= total
-              %td 100%
+            %td= endcount.name
+            %td= endcount.unit_name
+            %td= number_to_currency(endcount.average_unit_cost, :unit => peso_sign)
+            %td= endcount.beginning_count.stock_count if endcount.beginning_count
+            %td= endcount.beginning_count.stock_count if endcount.beginning_count
+            %td= ''
+            %td= endcount.ending_count.stock_count if endcount.ending_count
+            %td= number_to_currency(endcount.ending_total, :unit => peso_sign) if endcount.ending_count
+      = link_to 'New Branch', new_branch_path, :class => 'button'

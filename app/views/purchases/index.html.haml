@@ -27,7 +27,7 @@
               %th.actions.last= 'Actions'
             - @purchases.each do |purchase|
               %tr
-                %td= purchase.invoice_id
+                %td= purchase.invoice_number
                 %td= purchase.purchase_date
                 %td= purchase.supplier_name
                 %td.monetary= number_to_currency(purchase.net_amount, :unit => peso_sign)
