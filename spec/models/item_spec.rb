@@ -34,6 +34,20 @@ describe Item do
     end
   end
 
+  context 'Association' do
+    context 'Purchase' do
+      it 'should return a unit cost average' do
+        item = FactoryGirl.create(:item)
+        purchase = FactoryGirl.create(:purchase, :purchase_date => Date.today)
+        purchase_items = [
+          FactoryGirl.create(:purchase_item, :item => item, :amount => 10, :purchase => purchase),
+          FactoryGirl.create(:purchase_item, :item => item, :amount => 5, :purchase => purchase)
+        ]
+        item.purchase_items.unit_cost_average.should eq 7.5
+      end
+    end
+  end
+
   context 'Subcategory' do
     before do
       @category = FactoryGirl.create(:category, :name => 'Dota Items')
@@ -103,6 +117,26 @@ describe Item do
       lambda {
         @item.item_count = 500
       }.should_not change{@item.item_counts.count}
+    end
+  end
+
+  context 'Endcount' do
+    it 'should return end counts of an item' do
+      item = FactoryGirl.create(:item)
+      item_counts = [
+        FactoryGirl.create(:item_count, :item => item, :stock_count => 5, :entry_date => 5.days.ago),
+        FactoryGirl.create(:item_count, :item => item, :stock_count => 10, :entry_date => Date.today)
+      ]
+      purchase = FactoryGirl.create(:purchase)
+      purchase_items = [
+        FactoryGirl.create(:purchase_item, :purchase => purchase, :item => item, :amount => 20),
+        FactoryGirl.create(:purchase_item, :purchase => purchase, :item => item, :amount => 10)
+      ]
+      end_count = Item.endcount(5.days.ago, Date.today)
+      end_count.should eq [item]
+      end_count.first.average_unit_cost.should eq 15
+      end_count.first.beginning_count.stock_count.should eq 5.0
+      end_count.first.ending_count.stock_count.should eq 10.0
     end
   end
 end
