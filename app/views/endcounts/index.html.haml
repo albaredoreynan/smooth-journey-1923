@@ -1,21 +1,16 @@
+- content_for :head, javascript_include_tag(:endcount)
 - content_for :sidebar do
   .block.search_box
-    %h3 Search by Date
-    = form_tag '/endcounts/search', :method => :get do
-      .input
-        = label_tag 'From'
-        = text_field_tag :beginning_date, params[:beginning_date], :class => 'datepicker'
-      .input
-        = label_tag 'To'
-        = text_field_tag :ending_date, params[:ending_date], :class => 'datepicker'
-      .actions
-        = submit_tag :Search
+    %h3 Show by Date
+    = javascript_tag("$(function() { $('#show_by_date').datepicker();});")
+    #show_by_date
 .block
   = render 'shared/menu/inventory'
   .content
-    %h2.title View Endcounts
+    %h2.title= endcount_title(params[:date])
     .inner
       = form_tag update_item_counts_endcounts_path, :method => :put do |f|
+        = hidden_field_tag(:entry_date, params[:date]) if params[:date]
         %table
           %tr
             %th{:style => 'width:40%'} Item
@@ -28,7 +23,7 @@
               %td= item.name
               %td= item.subcategory_name
               %td= item.unit_name
-              %td= item.item_count
+              %td= item.ending_count
               %td.last= text_field(:item, :item_count, {:name => "items[#{item.id}][item_count]", :style => "width:70px"})
           %tr
             %td{:colspan => 5, :style => 'text-align: right; padding-right: 22px'}

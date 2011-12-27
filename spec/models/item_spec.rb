@@ -34,6 +34,28 @@ describe Item do
     end
   end
 
+  context 'Association' do
+    context 'Purchase' do
+      before do
+        @item = FactoryGirl.create(:item)
+      end
+
+      it 'should return 0 average_unit_cost if there is no purchase_item' do
+        @item.average_unit_cost.should eq 0
+      end
+
+      it 'should return a unit cost average' do
+        @item = FactoryGirl.create(:item)
+        purchase = FactoryGirl.create(:purchase, :purchase_date => Date.today)
+        purchase_items = [
+          FactoryGirl.create(:purchase_item, :item => @item, :amount => 10, :purchase => purchase),
+          FactoryGirl.create(:purchase_item, :item => @item, :amount => 5, :purchase => purchase)
+        ]
+        @item.average_unit_cost.should eq 7.5
+      end
+    end
+  end
+
   context 'Subcategory' do
     before do
       @category = FactoryGirl.create(:category, :name => 'Dota Items')
@@ -103,6 +125,45 @@ describe Item do
       lambda {
         @item.item_count = 500
       }.should_not change{@item.item_counts.count}
+    end
+
+    it 'should update count' do
+      @item.update_count(456)
+      @item.item_count.should eq 456
+    end
+
+    it 'should update count given a specified date' do
+      @item.update_count(234, 5.days.ago)
+      @item.counted_at(5.days.ago).try(:stock_count).should eq 234
+    end
+  end
+
+  context 'Endcount' do
+    before do
+      @item = FactoryGirl.create(:item)
+      @item_counts = [
+        FactoryGirl.create(:item_count, :item => @item, :stock_count => 5, :entry_date => 5.days.ago),
+        FactoryGirl.create(:item_count, :item => @item, :stock_count => 10, :entry_date => Date.today)
+      ]
+    end
+
+    it 'should return item counts at specified date' do
+      end_count = Item.ending_counts_at(5.days.ago)
+      end_count.first.ending_count.should eq 5
+    end
+
+    it 'should return end counts of an item' do
+      purchase = FactoryGirl.create(:purchase)
+      purchase_items = [
+        FactoryGirl.create(:purchase_item, :purchase => purchase, :item => @item, :amount => 20),
+        FactoryGirl.create(:purchase_item, :purchase => purchase, :item => @item, :amount => 10)
+      ]
+      end_count = Item.endcount(5.days.ago, Date.today)
+      end_count.should eq [@item]
+      end_item = end_count.first
+      end_item.average_unit_cost.should eq 15
+      end_item.beginning_count.stock_count.should eq 5.0
+      end_item.ending_count.stock_count.should eq 10.0
     end
   end
 end

@@ -20,23 +20,19 @@ describe EndcountsController do
     it 'should load default item'  do
       # default items from first day of the month to present
       # when start date and end date are not specified
-      pending 'wip'
       get 'index'
       item = assigns[:items].first
-      item.beginning_count.should eq 10
       item.ending_count.should eq 20
     end
 
-    it 'should load all items with beginning and ending count' do
-      pending 'wip'
+    it 'should load all items with counts at specified date' do
       ItemCount.destroy_all
-      FactoryGirl.create(:item_count, :item => @item, :stock_count => 5, :created_at => 30.days.ago)
+      FactoryGirl.create(:item_count, :item => @item, :stock_count => 5, :entry_date => 30.days.ago)
       FactoryGirl.create(:item_count, :item => @item, :stock_count => 7)
 
-      get 'index', :beginning_date => 30.days.ago.strftime('%F'), :ending_date => Date.today.strftime('%F')
+      get 'index', :date => 30.days.ago.strftime('%F')
       item = assigns[:items].first
-      item.beginning_count.should eq 5
-      item.ending_count.should eq 7
+      item.ending_count.should eq 5
     end
   end
 
@@ -89,8 +85,22 @@ describe EndcountsController do
 
     it 'should not create a new record when param is blank' do
       @put_params[:items][@item.id][:item_count] = ''
+      lambda {
+        put 'update_item_counts', @put_params
+      }.should_not change{@item.reload.item_counts.count}
+
+      FactoryGirl.create(:item_count, :item => @item, :entry_date => 5.days.ago)
+      @put_params.merge!(:entry_date => 5.days.ago.strftime('%F'))
+      lambda {
+        put 'update_item_counts', @put_params
+      }.should_not change{@item.reload.item_counts.count}
+    end
+
+    it 'should update item_count specified by date' do
+      @put_params.merge!(:entry_date => 5.days.ago.strftime('%F'))
       put 'update_item_counts', @put_params
-      @item.reload.item_count.should eq 1
+      item_count = @item.reload.counted_at(5.days.ago)
+      item_count.try(:stock_count).should eq 500
     end
   end
 end

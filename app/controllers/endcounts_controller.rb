@@ -3,9 +3,7 @@ class EndcountsController < ApplicationController
   set_tab :inventory
 
   def index
-    #@beginning_date = params[:beginning_date].blank? ?  Time.now.beginning_of_month : Date.parse(params[:beginning_date])
-    #@ending_date = params[:ending_date].blank? ? Time.now : Date.parse(params[:ending_date])
-    @items = Item.all
+    @items = Item.ending_counts_at(params[:date] || Date.today)
   end
 
   def show
@@ -120,7 +118,7 @@ class EndcountsController < ApplicationController
   def update_item_counts
     params[:items].each do |key, val|
       item = Item.find(key)
-      item.item_count = val[:item_count] unless val[:item_count].blank?
+      item.update_count(val[:item_count], params[:entry_date] || Date.today) unless val[:item_count].blank?
     end
     redirect_to endcounts_path
   end

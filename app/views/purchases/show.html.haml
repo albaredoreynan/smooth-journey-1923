@@ -6,7 +6,7 @@
         = @purchase.purchase_date.strftime("%B %d, %Y") if @purchase.purchase_date
       %p
         %b Invoice:
-        = @purchase.invoice_id
+        = @purchase.invoice_number
       %p
         %b Supplier:
         = @purchase.supplier.name if @purchase.supplier
