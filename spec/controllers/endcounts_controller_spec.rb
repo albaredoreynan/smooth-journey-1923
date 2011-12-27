@@ -20,23 +20,19 @@ describe EndcountsController do
     it 'should load default item'  do
       # default items from first day of the month to present
       # when start date and end date are not specified
-      pending 'wip'
       get 'index'
       item = assigns[:items].first
-      item.beginning_count.should eq 10
       item.ending_count.should eq 20
     end
 
-    it 'should load all items with beginning and ending count' do
-      pending 'wip'
+    it 'should load all items with counts at specified date' do
       ItemCount.destroy_all
-      FactoryGirl.create(:item_count, :item => @item, :stock_count => 5, :created_at => 30.days.ago)
+      FactoryGirl.create(:item_count, :item => @item, :stock_count => 5, :entry_date => 30.days.ago)
       FactoryGirl.create(:item_count, :item => @item, :stock_count => 7)
 
-      get 'index', :beginning_date => 30.days.ago.strftime('%F'), :ending_date => Date.today.strftime('%F')
+      get 'index', :date => 30.days.ago.strftime('%F')
       item = assigns[:items].first
-      item.beginning_count.should eq 5
-      item.ending_count.should eq 7
+      item.ending_count.should eq 5
     end
   end
 

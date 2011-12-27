@@ -129,19 +129,27 @@ describe Item do
   end
 
   context 'Endcount' do
-    it 'should return end counts of an item' do
-      item = FactoryGirl.create(:item)
-      item_counts = [
-        FactoryGirl.create(:item_count, :item => item, :stock_count => 5, :entry_date => 5.days.ago),
-        FactoryGirl.create(:item_count, :item => item, :stock_count => 10, :entry_date => Date.today)
+    before do
+      @item = FactoryGirl.create(:item)
+      @item_counts = [
+        FactoryGirl.create(:item_count, :item => @item, :stock_count => 5, :entry_date => 5.days.ago),
+        FactoryGirl.create(:item_count, :item => @item, :stock_count => 10, :entry_date => Date.today)
       ]
+    end
+
+    it 'should return item counts at specified date' do
+      end_count = Item.ending_counts_at(5.days.ago)
+      end_count.first.ending_count.should eq 5
+    end
+
+    it 'should return end counts of an item' do
       purchase = FactoryGirl.create(:purchase)
       purchase_items = [
-        FactoryGirl.create(:purchase_item, :purchase => purchase, :item => item, :amount => 20),
-        FactoryGirl.create(:purchase_item, :purchase => purchase, :item => item, :amount => 10)
+        FactoryGirl.create(:purchase_item, :purchase => purchase, :item => @item, :amount => 20),
+        FactoryGirl.create(:purchase_item, :purchase => purchase, :item => @item, :amount => 10)
       ]
       end_count = Item.endcount(5.days.ago, Date.today)
-      end_count.should eq [item]
+      end_count.should eq [@item]
       end_count.first.average_unit_cost.should eq 15
       end_count.first.beginning_count.stock_count.should eq 5.0
       end_count.first.ending_count.stock_count.should eq 10.0

@@ -63,4 +63,10 @@ class Item < ActiveRecord::Base
       item.ending_total = item.ending_count.stock_count * item.average_unit_cost if item.ending_count
     end
   end
+
+  def self.ending_counts_at(date=Date.today)
+    Item.all.each do |item|
+      item.ending_count = item.counted_at(date).try(:stock_count) || '-'
+    end
+  end
 end
