@@ -1,11 +1,13 @@
 .form
   .input.item-name
-    = label_tag :item_id, 'Item Name'
-    = select_tag :item_id, options_for_select(Item.all.map { |item| [item.name, item.id] })
+    .ui-widget
+      = label_tag :item_id, 'Item Name'
+      = select_tag :item_id, options_for_select(Item.all.map { |item| [item.name, item.id] })
   .input.item-quantity
-    = label_tag :quantity, 'Quantity'
-    = text_field_tag :quantity, nil, :style => 'width:30%'
-    = select_tag :unit_id, options_for_select(Unit.all.map { |unit| [unit.name, unit.id] })
+    .ui-widget
+      = label_tag :quantity, 'Quantity'
+      = text_field_tag :quantity, nil, :style => 'width:30%'
+      = select_tag :unit_id, options_for_select(Unit.all.map { |unit| [unit.name, unit.id] })
   %fieldset.input.item-vat-type.radio_group
     = radio_button_tag :vat_type, 'VAT-Exclusive', nil, :id => 'vat_type_exclusive'
     = label_tag :vat_type_exclusive, 'VAT-Exclusive'

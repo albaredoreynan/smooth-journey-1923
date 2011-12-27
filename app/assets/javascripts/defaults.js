@@ -4,11 +4,3 @@
 $(function() {
   $('.datepicker').datepicker({dateFormat: 'yy-mm-dd'})
 });
-
-$(function(){
-  $( "#dialog:ui-dialog" ).dialog( "destroy" );
-
-  $("#add_new_item").click(function() {
-    $("#dialog_item").dialog( "open" );
-  });
-});
