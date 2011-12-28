@@ -2,7 +2,7 @@
 - content_for :sidebar do
   .block.search_box
     %h3 Show by Date
-    = javascript_tag("$(function() { $('#show_by_date').datepicker();});")
+    = javascript_tag("$(function() { $('#show_by_date').datepicker('setDate', new Date($('#entry_date').val() )); });")
     #show_by_date
 .block
   = render 'shared/menu/inventory'
