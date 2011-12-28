@@ -26,6 +26,10 @@ class Item < ActiveRecord::Base
     unit.name || unit.symbol
   end
 
+  def unit_symbol
+    unit.symbol
+  end
+
   def category_name
     subcategory.category.name if subcategory
   end
