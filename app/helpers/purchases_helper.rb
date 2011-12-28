@@ -6,7 +6,13 @@ module PurchasesHelper
 
   def link_to_delete(resource, options={}, html_options={})
     options.reverse_merge! :dataType => 'script'
-    options.reverse_merge! :success => "function(r){ $('##{dom_id resource}').fadeOut('hide')}"
+    options.reverse_merge! :success => %Q{
+      function(r){
+        var row = $('##{dom_id resource}');
+        row.fadeOut('hide');
+        row.next().remove();
+      }
+    }
     link_to_function_delete(options, html_options)
   end
 

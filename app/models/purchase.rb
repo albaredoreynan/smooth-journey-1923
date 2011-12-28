@@ -8,7 +8,7 @@ class Purchase < ActiveRecord::Base
   scope :end_date, lambda {|date| where('purchase_date <= ?', date) unless date.blank?}
   scope :non_draft, where(:save_as_draft => false)
 
-  accepts_nested_attributes_for :purchase_items #, :reject_if => lambda { |a| a[:item_id].blank? }
+  accepts_nested_attributes_for :purchase_items, :reject_if => proc {|attr| attr[:item_name].blank?}
 
   def self.search_by_date(starting, ending)
     finder = start_date(starting)

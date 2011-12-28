@@ -5,6 +5,8 @@ jQuery ->
 
   $('#add-item').click ->
     purchase_id = $('#purchase_id').val()
+    inputs = $(this).parents('#add_item_form').find(':input').attr('disabled', 'disabled')
+    _this = this
     $.ajax({
       type: "POST",
       url: "/purchases/"+purchase_id+"/purchase_items/",
@@ -18,14 +20,15 @@ jQuery ->
           amount: $('#amount').val(),
           vat_type: $(':input[name=vat_type]:checked').val(),
         }
-      }),
+      })
       success: (data) ->
         $('.purchase-items').html($(data).find(".purchase-items"))
         $('#dialog_item input:text' ).val('')
         $('#unit_id').val('')
         $('#item_id').val('')
-        $('#dialog_item input:radio' ).attr("checked", false)
-        $('#dialog_item').dialog( "close" )
+      complete: ->
+        inputs.not(_this).not('input[name=vat_type]').val('')
+        inputs.removeAttr('disabled')
     })
 
 (($) ->
