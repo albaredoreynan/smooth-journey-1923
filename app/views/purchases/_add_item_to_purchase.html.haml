@@ -2,7 +2,7 @@
   .input.item-name
     .ui-widget
       = label_tag :item_id, 'Item Name'
-      = select_tag :item_id, options_for_select(Item.all.map { |item| [item.name, item.id] }), :style => "width:75%"
+      = select_tag :item_id, options_for_select(Item.all.map { |item| [item.name, item.id] })
   .input.item-quantity
     = label_tag :quantity, 'Quantity'
     = text_field_tag :quantity, nil, :style => 'width:30%'

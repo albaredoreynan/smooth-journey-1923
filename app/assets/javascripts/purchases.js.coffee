@@ -67,7 +67,7 @@ jQuery ->
               select.val ""
               input.data("autocomplete").term = ""
               false
-      ).addClass("ui-widget ui-widget-content ui-corner-left")
+      ).addClass("ui-widget ui-widget-content ui-corner-left").css('width', '60%')
       input.data("autocomplete")._renderItem = (ul, item) ->
         $("<li></li>").data("item.autocomplete", item).append("<a>" + item.label + "</a>").appendTo ul
 
@@ -93,4 +93,4 @@ jQuery ->
 ) jQuery
 $ ->
   $("#item_id").combobox()
-  
+

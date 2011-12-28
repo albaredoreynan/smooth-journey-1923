@@ -230,13 +230,16 @@ form, .form
       clear: both
 
   input
-    width: 60%
+    width: 90%
     margin: 2px 0
-    
-  input:hover, textarea:hover 
+
+  input:hover, textarea:hover
     border: 1px solid #A2A294
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.3)
-    
+
+  .ui-button-icon-only .ui-button-text, .ui-button-icon-only .ui-button-text
+    margin: -1px 0 2px 0
+
   .radio_group
     &:after
       clear: both
@@ -256,7 +259,7 @@ form, .form
     padding: 0 27px 0 0
     margin: 2px 0
     text-align: right
-  
+
 .flash
   .message
     @include border-radius
