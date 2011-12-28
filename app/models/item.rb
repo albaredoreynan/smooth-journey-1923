@@ -65,7 +65,8 @@ class Item < ActiveRecord::Base
       item.beginning_count = item.counted_at(beginning_date)
       item.beginning_total = item.beginning_count.stock_count * average_unit_cost if item.beginning_count
       item.ending_count = item.counted_at(ending_date)
-      # HACK: when you remove .to_f method on item.ending_count.stock_count, it will crash. ????
+      # HACK: On some case, when you remove .to_f method on
+      # item.ending_count.stock_count, it will crash. ????
       item.ending_total = item.ending_count.stock_count.to_f * average_unit_cost if item.ending_count
     end
   end

@@ -106,10 +106,21 @@ describe PurchaseItem do
   end
 
   context '#unit_cost' do
+    before do
+      @inventory_unit = FactoryGirl.create(:unit, :symbol => 'in')
+      @purchase_unit = FactoryGirl.create(:unit, :symbol => 'cm')
+      FactoryGirl.create(:conversion,
+                         :bigger_unit => @inventory_unit,
+                         :smaller_unit => @purchase_unit,
+                         :conversion_factor => 2.54)
+      @purchase_item = FactoryGirl.create(:purchase_item, :amount => 5, :quantity => 2, :unit => @purchase_unit)
+    end
+
     it 'should calculate unit_cost' do
-      @purchase_item = FactoryGirl.create(:purchase_item, :amount => 5, :quantity => 2)
       @purchase_item.unit_cost.should eq 2.5
     end
+
+    it 'should calculate unit_cost in inventory unit'
   end
 
   context '#item_name' do
