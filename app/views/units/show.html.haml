@@ -2,7 +2,7 @@
   .content
     %h2= "Unit: #{@unit.symbol}"
     .inner
-      %p= @unit.description
+      %p= @unit.name
       = link_to 'Edit', edit_unit_path(@unit)
       |
       \#{link_to 'Back', units_path}

@@ -67,7 +67,7 @@ class UnitsController < ApplicationController
 
     respond_to do |format|
       if @unit.update_attributes(params[:unit])
-        format.html { redirect_to(@unit, :notice => 'Unit was successfully updated.') }
+        format.html { redirect_to(units_path, :notice => 'Unit was successfully updated.') }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
