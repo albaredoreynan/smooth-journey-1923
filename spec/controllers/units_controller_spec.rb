@@ -36,4 +36,16 @@ describe UnitsController do
       }.should change(Unit, :count).by(1)
     end
   end
+
+  context 'PUT #update' do
+    before do
+      @unit = FactoryGirl.create(:unit, :symbol => 'k')
+      @put_params = { :symbol => 'kg', :name => 'Kilogram' }
+    end
+
+    it 'should redirect to #index' do
+      put 'update', :id => @unit.id, :unit => @put_params
+      response.should redirect_to(units_path)
+    end
+  end
 end

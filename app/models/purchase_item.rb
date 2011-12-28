@@ -39,6 +39,10 @@ class PurchaseItem < ActiveRecord::Base
     unit.name if unit
   end
 
+  def unit_symbol
+    unit.symbol
+  end
+
   def unit_cost
     self[:amount] / self[:quantity]
   end
