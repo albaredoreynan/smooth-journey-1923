@@ -23,7 +23,7 @@
             %td!= "#{number_to_currency(endcount.average_unit_cost, :unit => peso_sign)}/#{endcount.unit_symbol}"
             %td.number= endcount.beginning_count.stock_count if endcount.beginning_count
             %td.monetary= number_to_currency(endcount.beginning_total, :unit => peso_sign) if endcount.beginning_count
-            %td= ''
+            %td.monetary= number_to_currency(endcount.purchase, :unit => peso_sign)
             %td.number= endcount.ending_count.stock_count if endcount.ending_count
             %td.monetary= number_to_currency(endcount.ending_total, :unit => peso_sign) if endcount.ending_count
       = link_to 'New Branch', new_branch_path, :class => 'button'

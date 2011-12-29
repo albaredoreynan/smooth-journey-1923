@@ -24,6 +24,10 @@ class Purchase < ActiveRecord::Base
     where("category_id = ?", category_id)
   end
 
+  #def total_amount_period()
+
+  #end
+
   def amount
     purchase_items.map(&:amount).inject(:+) || 0.00
   end

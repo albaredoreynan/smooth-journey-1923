@@ -56,6 +56,30 @@ describe Item do
     end
   end
 
+  context 'Report' do
+    before do
+      @items = [
+        FactoryGirl.create(:item),
+        FactoryGirl.create(:item)
+      ]
+      @purchases = [
+        FactoryGirl.create(:purchase, :purchase_date => 5.days.ago, :purchase_items => [
+          FactoryGirl.create(:purchase_item, :amount => 5, :vat_type => 'VAT-Exempted', :item => @items[0]),
+          FactoryGirl.create(:purchase_item, :amount => 6, :vat_type => 'VAT-Exempted', :item => @items[1])
+        ]),
+        FactoryGirl.create(:purchase, :purchase_date => Date.today, :purchase_items => [
+          FactoryGirl.create(:purchase_item, :amount => 7, :vat_type => 'VAT-Exempted', :item => @items[0]),
+          FactoryGirl.create(:purchase_item, :amount => 8, :vat_type => 'VAT-Exempted', :item => @items[1])
+        ])
+      ]
+      @items.map(&:reload)
+    end
+
+    it 'should return total amount from a given date period' do
+      @items[0].purchase_amount_period(5.days.ago, Date.today).should eq 12
+    end
+  end
+
   context 'Subcategory' do
     before do
       @category = FactoryGirl.create(:category, :name => 'Dota Items')
