@@ -7,13 +7,16 @@
     = label_tag :quantity, 'Quantity'
     = text_field_tag :quantity, nil, :style => 'width:30%'
     = select_tag :unit_id, options_for_select(Unit.all.map { |unit| [unit.name, unit.id] })
-  %fieldset.input.item-vat-type.radio_group
-    = radio_button_tag :vat_type, 'VAT-Exclusive', nil, :id => 'vat_type_exclusive'
-    = label_tag :vat_type_exclusive, 'VAT-Exclusive'
-    = radio_button_tag :vat_type, 'VAT-Inclusive', nil, :id => 'vat_type_inclusive'
-    = label_tag :vat_type_inclusive, 'VAT-Inclusive'
-    = radio_button_tag :vat_type, 'VAT-Exempted', nil, :id => 'vat_type_exempted'
-    = label_tag :vat_type_exempted, 'VAT-Exempted'
+  -# %fieldset.input.item-vat-type.radio_group
+    -# = radio_button_tag :vat_type, 'VAT-Exclusive', nil, :id => 'vat_type_exclusive'
+    -# = label_tag :vat_type_exclusive, 'VAT-Exclusive'
+    -# = radio_button_tag :vat_type, 'VAT-Inclusive', nil, :id => 'vat_type_inclusive'
+    -# = label_tag :vat_type_inclusive, 'VAT-Inclusive'
+    -# = radio_button_tag :vat_type, 'VAT-Exempted', nil, :id => 'vat_type_exempted'
+    -# = label_tag :vat_type_exempted, 'VAT-Exempted'
+  .input.item-particulars
+    = label_tag :particulars, 'Particulars'
+    = text_field_tag :particulars  
   .input.item-amount
     = label_tag :amount, 'Amount'
     = text_field_tag :amount

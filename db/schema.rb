@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111226095913) do
+ActiveRecord::Schema.define(:version => 20120102093815) do
 
   create_table "branches", :force => true do |t|
     t.integer  "restaurant_id"
@@ -150,6 +150,7 @@ ActiveRecord::Schema.define(:version => 20111226095913) do
     t.text     "vat_type"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "particulars"
   end
 
   add_index "purchase_items", ["item_id"], :name => "index_purchaserows_on_item_id"
@@ -164,6 +165,8 @@ ActiveRecord::Schema.define(:version => 20111226095913) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "save_as_draft"
+    t.integer  "currency_id"
+    t.text     "vat_type"
   end
 
   create_table "reporttemplates", :force => true do |t|

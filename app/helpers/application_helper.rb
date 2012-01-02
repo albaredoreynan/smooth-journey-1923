@@ -16,6 +16,6 @@ module ApplicationHelper
   end
 
   def peso_sign
-    "&#8369;"
+    ""
   end
 end
