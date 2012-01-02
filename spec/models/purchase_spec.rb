@@ -41,7 +41,7 @@ describe Purchase do
       @purchase.amount.should eq 10.00
     end
 
-    it 'should return total net amount' do
+    it 'should return total net amo)nt' do
       @purchase.net_amount.should eq 10.00
     end
 

@@ -1,6 +1,6 @@
 class Item < ActiveRecord::Base
 
-  attr_accessor :beginning_count, :beginning_total, :ending_count, :ending_total
+  attr_accessor :beginning_count, :beginning_total, :ending_count, :ending_total, :purchase
 
   validates :name, :presence => true
 
@@ -63,12 +63,19 @@ class Item < ActiveRecord::Base
     purchase_items.map(&:unit_cost).inject(:+).to_f / count
   end
 
+  def purchase_amount_period(date_from, date_to)
+    purchase_items.joins(:purchase)
+      .where('purchases.purchase_date >= ?', date_from.to_date)
+      .where('purchases.purchase_date <= ?', date_to.to_date).map(&:net_amount).inject(:+)
+  end
+
   def self.endcount(beginning_date, ending_date)
     Item.all.each do |item|
       average_unit_cost = item.average_unit_cost
       item.beginning_count = item.counted_at(beginning_date)
       item.beginning_total = item.beginning_count.stock_count * average_unit_cost if item.beginning_count
       item.ending_count = item.counted_at(ending_date)
+      item.purchase = item.purchase_amount_period(beginning_date, ending_date)
       # HACK: On some case, when you remove .to_f method on
       # item.ending_count.stock_count, it will crash. ????
       item.ending_total = item.ending_count.stock_count.to_f * average_unit_cost if item.ending_count

@@ -25,14 +25,13 @@
         %th.actions= 'Actions'
       = f.fields_for :purchase_items do |pi_form|
         = render :partial => 'purchases/purchase_item_row', :locals => { :f => pi_form }
-    %tbody#totals
-      %tr{:style => 'font-weight: bold;'}
+    %tbody
+      %tr.totals
         %td &nbsp;
         %td &nbsp;
         %td &nbsp;
         %td Total
         %td#purchase_total_amount.monetary= number_to_currency(@purchase.amount, :unit => peso_sign)
         %td &nbsp;
-
-    .actions
-      = f.submit
+  .actions
+    = f.submit

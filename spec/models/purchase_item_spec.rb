@@ -138,4 +138,5 @@ describe PurchaseItem do
       @purchase_item.unit_name.should eq 'kg'
     end
   end
+
 end

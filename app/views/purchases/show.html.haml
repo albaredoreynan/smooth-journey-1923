@@ -38,8 +38,8 @@
               %td= purchase_item.vat_type
               %td.monetary= number_to_currency(purchase_item.vat_amount, :unit => peso_sign)
               %td.monetary= number_to_currency(purchase_item.net_amount, :unit => peso_sign)
-        %tbody.purchase_totals
-          %tr
+        %tbody
+          %tr.totals
             %th &nbsp;
             %th= 'Total'
             %th.monetary= number_to_currency(@purchase.amount, :unit => peso_sign)
