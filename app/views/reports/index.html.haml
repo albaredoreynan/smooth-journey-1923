@@ -6,12 +6,14 @@
         %tr
           %th
           %th
+          %th
           %th{:colspan => 2, :style => 'text-align:center; width: 25%;'} Beginning
           %th
           %th{:colspan => 2, :style => 'text-align:center; width: 25%'} Ending
         %tr
           %th Item
           %th Unit Cost
+          %th Unit
           %th Count
           %th Total
           %th Purchases
@@ -20,7 +22,8 @@
         - @endcount.items.each do |endcount|
           %tr
             %td= endcount.name
-            %td!= "#{number_to_currency(endcount.average_unit_cost, :unit => peso_sign)}/#{endcount.unit_symbol}"
+            %td.number= "#{number_to_currency(endcount.average_unit_cost, :unit => peso_sign)}"
+            %td!= endcount.unit_name
             %td.number= endcount.beginning_count
             %td.monetary= number_to_currency(endcount.beginning_total, :unit => peso_sign) if endcount.beginning_count
             %td.monetary= number_to_currency(endcount.purchase, :unit => peso_sign)

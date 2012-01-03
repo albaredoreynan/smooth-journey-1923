@@ -5,7 +5,7 @@ class PurchasesController < ApplicationController
   before_filter :load_purchase_from_session, :only => [:new, :create]
 
   def index
-    
+
     if params[:start_date] || params[:end_date] || params[:invoice_number] || params[:supplier]
       @purchases = Purchase.non_draft.search(params)
     else

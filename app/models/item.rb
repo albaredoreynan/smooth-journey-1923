@@ -14,6 +14,8 @@ class Item < ActiveRecord::Base
     item_counts.create(:stock_count => 0.00)
   end
 
+  delegate :symbol, :to => :unit, :prefix => true
+
   def self.search(keyword)
     where("name ILIKE ?", "%#{keyword}%")
   end
@@ -24,10 +26,6 @@ class Item < ActiveRecord::Base
 
   def unit_name
     unit.name || unit.symbol
-  end
-
-  def unit_symbol
-    unit.symbol
   end
 
   def category_name
@@ -60,7 +58,12 @@ class Item < ActiveRecord::Base
   def average_unit_cost
     count = purchase_items.count.to_f
     return 0 if count == 0
-    purchase_items.map(&:unit_cost).inject(:+).to_f / count
+    arr = []
+    purchase_items.each do |pi|
+      pi.convert_unit = true
+      arr << pi.unit_cost
+    end
+    arr.inject(:+) / count
   end
 
   def purchase_amount_period(date_from, date_to)

@@ -1,5 +1,6 @@
 class PurchaseItem < ActiveRecord::Base
   attr_accessor :vat_amount, :net_amount
+  attr_accessor :convert_unit
 
   belongs_to :purchase
   belongs_to :item
@@ -42,7 +43,18 @@ class PurchaseItem < ActiveRecord::Base
     unit.symbol
   end
 
+  def quantity
+    @convert_unit ? convert(self[:quantity]) : self[:quantity]
+  end
+
   def unit_cost
-    self[:amount] / self[:quantity]
+    (self[:amount] / quantity)
+  end
+
+  private
+  def convert(quantity)
+    converter = Conversion.where(:bigger_unit_id => self[:unit_id], :smaller_unit_id => item.unit_id).first
+    return quantity if converter.nil?
+    quantity * converter.conversion_factor
   end
 end

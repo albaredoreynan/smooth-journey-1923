@@ -37,21 +37,37 @@ describe Item do
   context 'Association' do
     context 'Purchase' do
       before do
-        @item = FactoryGirl.create(:item)
+        @inch_unit = FactoryGirl.create(:unit, :symbol => 'in')
+        @cm_unit = FactoryGirl.create(:unit, :symbol => 'cm')
+        @conversion = FactoryGirl.create(:conversion,
+                                         :bigger_unit => @inch_unit,
+                                         :smaller_unit => @cm_unit,
+                                         :conversion_factor => 2.54)
+        @item = FactoryGirl.create(:item, :unit => @cm_unit)
+        @purchase = FactoryGirl.create(:purchase, :purchase_date => Date.today)
+        @purchase_items = [
+          FactoryGirl.create(:purchase_item,
+                             :item => @item,
+                             :amount => 10,
+                             :quantity => 1,
+                             :purchase => @purchase,
+                             :unit => @inch_unit),
+          FactoryGirl.create(:purchase_item,
+                             :item => @item,
+                             :amount => 5,
+                             :quantity => 1,
+                             :purchase => @purchase,
+                             :unit => @inch_unit)
+        ]
       end
 
       it 'should return 0 average_unit_cost if there is no purchase_item' do
-        @item.average_unit_cost.should eq 0
+        item_with_no_purchase = FactoryGirl.create(:item)
+        item_with_no_purchase.average_unit_cost.should eq 0
       end
 
-      it 'should return a unit cost average' do
-        @item = FactoryGirl.create(:item)
-        purchase = FactoryGirl.create(:purchase, :purchase_date => Date.today)
-        purchase_items = [
-          FactoryGirl.create(:purchase_item, :item => @item, :amount => 10, :purchase => purchase),
-          FactoryGirl.create(:purchase_item, :item => @item, :amount => 5, :purchase => purchase)
-        ]
-        @item.average_unit_cost.should eq 7.5
+      it 'should return a unit cost average with conversion' do
+        @item.average_unit_cost.should be_between(2.95, 2.953)
       end
     end
   end

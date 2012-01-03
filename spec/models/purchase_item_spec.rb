@@ -107,20 +107,29 @@ describe PurchaseItem do
 
   context '#unit_cost' do
     before do
-      @inventory_unit = FactoryGirl.create(:unit, :symbol => 'in')
-      @purchase_unit = FactoryGirl.create(:unit, :symbol => 'cm')
+      @inch_unit = FactoryGirl.create(:unit, :symbol => 'in')
+      @cm_unit = FactoryGirl.create(:unit, :symbol => 'cm')
       FactoryGirl.create(:conversion,
-                         :bigger_unit => @inventory_unit,
-                         :smaller_unit => @purchase_unit,
+                         :bigger_unit => @inch_unit,
+                         :smaller_unit => @cm_unit,
                          :conversion_factor => 2.54)
-      @purchase_item = FactoryGirl.create(:purchase_item, :amount => 5, :quantity => 2, :unit => @purchase_unit)
+      @item = FactoryGirl.create(:item, :unit => @cm_unit)
+      @purchase_item = FactoryGirl.create(:purchase_item,
+                                          :amount => 5,
+                                          :quantity => 2,
+                                          :item => @item,
+                                          :unit => @inch_unit)
     end
 
-    it 'should calculate unit_cost' do
+    it 'should calculate unit_cost without conversion' do
+      @purchase_item.convert_unit = false
       @purchase_item.unit_cost.should eq 2.5
     end
 
-    it 'should calculate unit_cost in inventory unit'
+    it 'should calculate unit_cost in inventory unit' do
+      @purchase_item.convert_unit = true
+      @purchase_item.unit_cost.should be_between(0.98, 0.985)
+    end
   end
 
   context '#item_name' do
