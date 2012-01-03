@@ -3,7 +3,7 @@ class ReportsController < ApplicationController
   set_tab :reports
 
   def index
-    @endcounts = Item.endcount(Date.today.beginning_of_month, Date.today)
+    @endcount = Endcount.new(Item.all, Date.today, Date.today.beginning_of_month)
   end
 
   def show
