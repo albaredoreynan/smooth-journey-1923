@@ -2,11 +2,12 @@ class PurchasesController < ApplicationController
 
   set_tab :purchases
 
-  before_filter :load_purchase_from_session, :only => [:new, :create, :update]
+  before_filter :load_purchase_from_session, :only => [:new, :create]
 
   def index
-    if params[:start_date] || params[:end_date]
-      @purchases = Purchase.non_draft.search_by_date(params[:start_date], params[:end_date])
+    
+    if params[:start_date] || params[:end_date] || params[:invoice_number] || params[:supplier]
+      @purchases = Purchase.non_draft.search(params)
     else
       @purchases = Purchase.non_draft
     end
@@ -47,6 +48,7 @@ class PurchasesController < ApplicationController
   end
 
   def update
+    @purchase = Purchase.find(params[:id])
     respond_to do |format|
       if @purchase.update_attributes(params[:purchase].merge(:save_as_draft => false))
         session.delete :purchase

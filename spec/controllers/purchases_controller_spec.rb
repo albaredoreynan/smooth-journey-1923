@@ -37,22 +37,22 @@ describe PurchasesController do
 
       it 'should filter purchase by date' do
         get 'index', :start_date => @start_date.to_date, :end_date => Date.today.strftime('%F')
-        assigns[:purchases].should eq [@purchases.first, @purchases.last]
+        assigns[:purchases].should eq [@purchases.last, @purchases.first]
       end
 
       it 'should filter purchase with start_date but without end_date' do
         get 'index', :start_date => @start_date.to_date, :end_date => ''
-        assigns[:purchases].should eq [@purchases.first, @purchases.last]
+        assigns[:purchases].should eq [@purchases.last, @purchases.first]
       end
 
       it 'should filter purchase with end_date but without start_date' do
         get 'index', :start_date => '', :end_date => Date.today.strftime('%F')
-        assigns[:purchases].should eq [@purchases.first, @purchases.last]
+        assigns[:purchases].should eq [@purchases.last, @purchases.first]
       end
 
       it 'should show all purchase without start_date and end_date' do
         get 'index', :start_date => '', :end_date => ''
-        assigns[:purchases].should eq [@purchases.first, @purchases.last]
+        assigns[:purchases].should eq [@purchases.last, @purchases.first]
       end
     end
   end

@@ -1,11 +1,17 @@
 - content_for :sidebar do
-  %h3 Search
+  %h2 Search
   = form_tag '/purchases/search', :method => :get do
     .input
-      = label_tag 'From'
+      = label_tag 'Invoice Number'
+      = text_field_tag :invoice_number, params[:invoice_number]
+    .input
+      = label_tag 'Supplier'
+      = text_field_tag :supplier, params[:supplier]
+    .input
+      = label_tag 'Purchase Date From'
       = text_field_tag :start_date, params[:start_date], :class => 'datepicker'
     .input
-      = label_tag 'To'
+      = label_tag 'Purchase Date To'
       = text_field_tag :end_date, params[:end_date], :class => 'datepicker'
     .actions
       = submit_tag :Search
@@ -28,7 +34,7 @@
             - @purchases.each do |purchase|
               %tr
                 %td= purchase.invoice_number
-                %td= purchase.purchase_date.strftime("%-d-%b-%Y")
+                %td= purchase.purchase_date.strftime("%-d-%b-%Y") if purchase.purchase_date
                 %td= purchase.supplier_name
                 %td.monetary= number_to_currency(purchase.amount, :unit => peso_sign)
                 %td.monetary= number_to_currency(purchase.net_amount, :unit => peso_sign)

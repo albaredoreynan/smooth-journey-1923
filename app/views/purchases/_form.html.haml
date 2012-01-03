@@ -13,14 +13,15 @@
     = f.input :invoice_number
     = f.association :supplier
     = f.association :branch, :collection => Branch.all.map{ |branch| [branch.location, branch.id] }
+    = f.input :vat_type, :collection => ["VAT-Inclusive", "VAT-Exclusive", "VAT-Exempted"]
     = f.association :currency, :collection => Currency.all.map{ |currency| [currency.currency, currency.id] }
-    
+     
   %table.purchase-items
     %tbody#purchase_items
       %tr
         %th= 'Item Name'
         %th= 'Quantity'
-        %th= 'Unit Cost'
+        %th= 'Unit Price'
         %th= 'VAT Type'
         %th= 'Amount'
         %th.actions= 'Actions'
