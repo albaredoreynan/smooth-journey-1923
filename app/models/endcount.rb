@@ -1,15 +1,27 @@
-class Endcount < ActiveRecord::Base
-  has_many :item_counts, :dependent => :destroy
+class Endcount
+  include ActiveSupport
 
-  accepts_nested_attributes_for :item_counts
+  attr_accessor :beginning_date, :ending_date
+  attr_accessor :items
 
-  def self.search_by_date(start_date, end_date)
-    if start_date && end_date.blank?
-      where('begin_date >= ?', start_date)
-    elsif start_date.blank? && end_date
-      where('end_date <= ?', end_date)
-    else
-      where('begin_date >= ? AND end_date <= ?', start_date, end_date)
+  def initialize(items, ending_date, beginning_date=nil)
+    @ending_date = ending_date.to_date
+    @beginning_date = beginning_date || @ending_date.beginning_of_month
+    @items = process_items(items)
+  end
+
+  private
+  def process_items(items)
+    endcount_items = []
+    items.each do |item|
+      average_unit_cost = item.average_unit_cost
+      item.beginning_count = item.counted_at(@beginning_date).try(:stock_count)
+      item.beginning_total = item.beginning_count * average_unit_cost if item.beginning_count
+      item.ending_count = item.counted_at(@ending_date).try(:stock_count)
+      item.purchase = item.purchase_amount_period(@beginning_date, @ending_date)
+      item.ending_total = item.ending_count * average_unit_cost if item.ending_count
+      endcount_items << item
     end
+    return endcount_items
   end
 end
