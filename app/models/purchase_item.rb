@@ -9,11 +9,13 @@ class PurchaseItem < ActiveRecord::Base
   validates :item_id,     :presence => true
   validates :amount,      :presence => true
   validates :quantity,    :presence => true, :numericality => true
-  validates :vat_type,    :presence => true,
-                          :inclusion => { :in => %w{VAT-Inclusive VAT-Exclusive VAT-Exempted} }
 
   def purchase_amount
     vat_type == 'VAT-Exclusive' ? amount + vat_amount : amount
+  end
+
+  def vat_type
+    purchase.vat_type
   end
 
   def vat_amount

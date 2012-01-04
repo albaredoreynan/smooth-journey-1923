@@ -3,11 +3,11 @@ class Purchase < ActiveRecord::Base
   belongs_to :supplier
   belongs_to :branch
   belongs_to :currency
-  
+
   has_many :purchase_items, :dependent => :destroy
-  
+
   default_scope order("purchase_date desc")
-  
+
   scope :start_date, lambda {|date| where('purchase_date >= ?', date) unless date.blank?}
   scope :end_date, lambda {|date| where('purchase_date <= ?', date) unless date.blank?}
   scope :search_by_invoice_number, lambda {|keyword| where(['invoice_number ILIKE ?', "#{keyword}"]) unless keyword.blank?}
@@ -21,14 +21,14 @@ class Purchase < ActiveRecord::Base
     finder = finder.end_date(ending)
     return finder
   end
-  
+
   def self.search(queries)
     finder = search_by_invoice_number(queries[:invoice_number])
     finder = finder.search_by_date(queries[:start_date], queries[:end_date])
     finder = finder.search_by_supplier(queries[:supplier])
     return finder
   end
-  
+
   def amount
     purchase_items.map(&:amount).inject(:+) || 0.00
   end
@@ -38,7 +38,16 @@ class Purchase < ActiveRecord::Base
   end
 
   def vat_amount
-    purchase_items.map(&:vat_amount).inject(:+) || 0.00
+    case self[:vat_type]
+    when 'VAT-Inclusive'
+      amount - (amount / 1.12).round(2)
+    when 'VAT-Exclusive'
+      amount * 0.12
+    when 'VAT-Exempted'
+      0
+    else
+      0
+    end
   end
 
   def supplier_name

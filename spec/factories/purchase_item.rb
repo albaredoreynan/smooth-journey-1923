@@ -5,6 +5,5 @@ FactoryGirl.define do
     amount 1
     quantity 1
     unit_cost 1
-    vat_type 'VAT-Inclusive'
   end
 end

@@ -10,6 +10,29 @@ describe Purchase do
     end
   end
 
+  context '#vat_amount' do
+    before do
+      @purchase_row = []
+      %w(VAT-Inclusive VAT-Exclusive VAT-Exempted).each do |vat_type|
+        @purchase_row << FactoryGirl.create(:purchase_item,
+                                            :amount => 5,
+                                            :purchase => FactoryGirl.create(:purchase, :vat_type => vat_type))
+      end
+    end
+
+    it 'should calculate vat_amount when vat type is inclusive' do
+      @purchase_row[0].purchase.vat_amount.should eq 0.54
+    end
+
+    it 'should calculate vat_amount when vat type is exclusive' do
+      @purchase_row[1].purchase.vat_amount.should eq 0.6
+    end
+
+    it 'should calculate vat_amount when vat type is exempted' do
+      @purchase_row[2].purchase.vat_amount.should eq 0
+    end
+  end
+
   context 'calculator methods' do
     before do
       @purchase = FactoryGirl.create(:purchase)
@@ -41,7 +64,7 @@ describe Purchase do
       @purchase.amount.should eq 10.00
     end
 
-    it 'should return total net amo)nt' do
+    it 'should return total net amount' do
       @purchase.net_amount.should eq 10.00
     end
 
@@ -58,12 +81,12 @@ describe Purchase do
       @start_date = 6.days.ago
       @end_date = Date.today
     end
-    
+
     it 'should search invoice number' do
       Purchase.search(:invoice_number => '12345').should eq [@purchase1]
       Purchase.search(:invoice_number => '6789').should be_empty
     end
-    
+
     it 'should search supplier name' do
       Purchase.search(:supplier => 'Boy 1').should eq [@purchase1]
       Purchase.search(:supplier => 'boy 1').should eq [@purchase1]
