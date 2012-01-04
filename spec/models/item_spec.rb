@@ -176,6 +176,12 @@ describe Item do
       @item.update_count(234, 5.days.ago)
       @item.counted_at(5.days.ago).try(:stock_count).should eq 234
     end
+
+    it 'should return last count from previous month' do
+      previous_month = Date.today - 1.month
+      FactoryGirl.create(:item_count, :item => @item, :stock_count => 500, :entry_date => previous_month)
+      @item.last_count_from_previous_month(Date.today).should eq 500
+    end
   end
 
   context 'Endcount' do
