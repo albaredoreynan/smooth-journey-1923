@@ -20,6 +20,29 @@ describe PurchaseItem do
     end
   end
 
+  context '#net_amount' do
+    it 'should calculate net_amount when vat type is inclusive' do
+      purchase_row = FactoryGirl.create(:purchase_item,
+                                        :amount => 5,
+                                        :purchase => FactoryGirl.create(:purchase, :vat_type => 'VAT-Inclusive'))
+      purchase_row.net_amount.should eq 4.46
+    end
+
+    it 'should calculate net_amount when vat type is exclusive' do
+      purchase_row = FactoryGirl.create(:purchase_item,
+                                        :amount => 5,
+                                        :purchase => FactoryGirl.create(:purchase, :vat_type => 'VAT-Exclusive'))
+      purchase_row.net_amount.should eq 5
+    end
+
+    it 'should calculate net_amount when vat type is exempted' do
+      purchase_row = FactoryGirl.create(:purchase_item,
+                                        :amount => 5,
+                                        :purchase => FactoryGirl.create(:purchase, :vat_type => 'VAT-Exempted'))
+      purchase_row.net_amount.should eq 5
+    end
+  end
+
   context '#purchase_amount' do
     it 'should calculate purchase_amount when vat_type is exclusive' do
       purchase_item = FactoryGirl.create(:purchase_item,
@@ -43,26 +66,24 @@ describe PurchaseItem do
     end
   end
 
-  context '#net_amount' do
-    it 'should calculate net_amount when vat type is inclusive' do
-      purchase_row = FactoryGirl.create(:purchase_item,
-                                        :amount => 5,
-                                        :purchase => FactoryGirl.create(:purchase, :vat_type => 'VAT-Inclusive'))
-      purchase_row.net_amount.should eq 4.46
+  context '#quantity' do
+    before do
+      @unit = FactoryGirl.create(:unit)
+      @purchase_item = FactoryGirl.create(:purchase_item, :quantity => 10, :unit => @unit)
     end
 
-    it 'should calculate net_amount when vat type is exclusive' do
-      purchase_row = FactoryGirl.create(:purchase_item,
-                                        :amount => 5,
-                                        :purchase => FactoryGirl.create(:purchase, :vat_type => 'VAT-Exclusive'))
-      purchase_row.net_amount.should eq 5
+    it 'should create a Quantity object on purchase_item' do
+      @purchase_item.qty.should be_instance_of Quantity
+      @purchase_item.qty.value.should eq 10
     end
 
-    it 'should calculate net_amount when vat type is exempted' do
-      purchase_row = FactoryGirl.create(:purchase_item,
-                                        :amount => 5,
-                                        :purchase => FactoryGirl.create(:purchase, :vat_type => 'VAT-Exempted'))
-      purchase_row.net_amount.should eq 5
+    it 'should create a Unit object on Quantity' do
+      @purchase_item.qty.unit.should be_instance_of Unit
+    end
+
+    it 'should create a Quantity given a valid attributes' do
+      @purchase_item.qty.value.should eq 10
+      @purchase_item.qty.unit.symbol.should eq @unit.symbol
     end
   end
 
