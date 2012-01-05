@@ -1,23 +1,23 @@
 .block
   = render 'shared/menu/database'
   .content
-    .left
+    .title_action_bar
       %h2.title Conversion
-      .inner
-        %table
-          %tr
-            %th Bigger unit
-            %th Smaller unit
-            %th Conversion factor
-            %th.actions Actions
-          - @conversions.each do |conversion|
-            %tr
-              %td= conversion.bigger_unit_name
-              %td= conversion.smaller_unit_name
-              %td= conversion.conversion_factor
-              %td
-                = link_to 'Show', conversion
-                = link_to 'Edit', edit_conversion_path(conversion)
-                = link_to 'Destroy', conversion, :confirm => 'Are you sure?', :method => :delete
-        %br/
+      .new_actions
         = link_to 'New Conversion', new_conversion_path, :class => :button
+    .inner
+      %table
+        %tr
+          %th Bigger unit
+          %th Smaller unit
+          %th Conversion factor
+          %th.actions Actions
+        - @conversions.each do |conversion|
+          %tr
+            %td= conversion.bigger_unit_name
+            %td= conversion.smaller_unit_name
+            %td= conversion.conversion_factor
+            %td
+              = link_to 'Show', conversion
+              = link_to 'Edit', edit_conversion_path(conversion)
+              = link_to 'Destroy', conversion, :confirm => 'Are you sure?', :method => :delete

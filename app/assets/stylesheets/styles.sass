@@ -1,6 +1,6 @@
 ﻿/*
  *= require web-app-theme/base.css
- *= require web-app-theme/themes/activo/style.css
+ *= require web-app-theme/themes/rrbs/style.css
  *= require overcast/jquery-ui-1.8.16.custom.css
  *= require_self
  */
@@ -16,8 +16,19 @@ $space-between-label-and-field: 10px
 #main
   .block
     .content
+      .title_action_bar
+        h2
+          width: 50%
+          float: left
+        .new_actions
+          margin: 15px
+          float: right
       .inner
         padding-bottom: 37px
+        table
+          border-bottom: solid 2px #3F3F3F
+          border-top: solid 2px #3F3F3F
+          clear: both
 
 table
   $checkbox: 10px
@@ -25,16 +36,22 @@ table
   border-collapse: collapse
   margin-bottom: 15px
 
-  tr.totals
-    font-weight: bold
-    font-size: 150%
+  tr
+    &:nth-child(odd)
+      background: #F5F5F5
+    &:hover
+      background: #BFDFF4
+    &.totals
+      font-weight: bold
+      font-size: 150%
 
   th
     padding: 10px
     font-weight: bold
     text-align: left
     text-transform: uppercase
-    
+    background: #E0E0E0
+
     &.checkbox
       width: $checkbox
 
@@ -58,9 +75,6 @@ table
 
     &.monetary, &.number
       text-align: right
-
-  tr:nth-child(odd)
-    background: #e0e0e0
 
   &.table_form
     width: auto
@@ -185,7 +199,7 @@ form, .form
       margin: 0
     .actions
       padding: 0
-      
+
   .ui-button
     margin-left: -1px
   .ui-button-icon-only .ui-button-text1
@@ -211,10 +225,6 @@ form, .form
   input
     width: 90%
     margin: 2px 0
-
-  input:hover, textarea:hover
-    border: 1px solid #A2A294
-    box-shadow: 0 0 3px rgba(0, 0, 0, 0.3)
 
   .ui-button-icon-only .ui-button-text, .ui-button-icon-only .ui-button-text
     margin: 1px 0 1px 0

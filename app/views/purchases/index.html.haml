@@ -18,30 +18,31 @@
 
 .block
   .content
-    .search_box
+    .title_action_bar
       %h2.title View Purchases
-      .inner
-        %table
-          %tbody.purchase-data
-            %tr
-              %th= 'Invoice number'
-              %th= 'Invoice date'
-              %th= 'Supplier'
-              %th= 'Purchase amount'
-              %th= 'Net Amount'
-              %th= 'VAT Amount'
-              %th.actions.last= 'Actions'
-            - @purchases.each do |purchase|
-              %tr
-                %td= purchase.invoice_number
-                %td= purchase.purchase_date.strftime("%-d-%b-%Y") if purchase.purchase_date
-                %td= purchase.supplier_name
-                %td.monetary= number_to_currency(purchase.amount, :unit => peso_sign)
-                %td.monetary= number_to_currency(purchase.net_amount, :unit => peso_sign)
-                %td.monetary= number_to_currency(purchase.vat_amount, :unit => peso_sign)
-                %td.actions.last
-                  = link_to 'Show', purchase_path(purchase)
-                  = link_to 'Edit', edit_purchase_path(purchase)
-                  = link_to 'Delete', purchase_path(purchase), :method => :delete, :confirm => 'Are you sure you want to delete this purchase?'
+      .new_actions
         = link_to 'New purchase', new_purchase_path, :class => :button
+    .inner
+      %table
+        %tbody.purchase-data
+          %tr
+            %th= 'Invoice number'
+            %th= 'Invoice date'
+            %th= 'Supplier'
+            %th= 'Purchase amount'
+            %th= 'Net Amount'
+            %th= 'VAT Amount'
+            %th.actions.last= 'Actions'
+          - @purchases.each do |purchase|
+            %tr
+              %td= purchase.invoice_number
+              %td= purchase.purchase_date.strftime("%-d-%b-%Y") if purchase.purchase_date
+              %td= purchase.supplier_name
+              %td.monetary= number_to_currency(purchase.amount, :unit => peso_sign)
+              %td.monetary= number_to_currency(purchase.net_amount, :unit => peso_sign)
+              %td.monetary= number_to_currency(purchase.vat_amount, :unit => peso_sign)
+              %td.actions.last
+                = link_to 'Show', purchase_path(purchase)
+                = link_to 'Edit', edit_purchase_path(purchase)
+                = link_to 'Delete', purchase_path(purchase), :method => :delete, :confirm => 'Are you sure you want to delete this purchase?'
 

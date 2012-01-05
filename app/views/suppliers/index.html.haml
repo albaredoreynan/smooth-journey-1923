@@ -1,7 +1,10 @@
 .block
   = render 'shared/menu/database'
   .content
-    %h2 Suppliers
+    .title_action_bar
+      %h2.title Suppliers
+      .new_actions
+        = link_to 'New Supplier', new_supplier_path, :class => 'button'
     .inner
       %table
         %tr
@@ -24,4 +27,3 @@
               = link_to 'Show', supplier
               = link_to 'Edit', edit_supplier_path(supplier)
               = link_to 'Destroy', supplier, :confirm => 'Are you sure?', :method => :delete
-      = link_to 'New Supplier', new_supplier_path, :class => 'button'

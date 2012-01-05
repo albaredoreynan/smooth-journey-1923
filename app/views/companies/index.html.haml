@@ -1,20 +1,21 @@
 .block
   = render 'shared/menu/database'
   .content
-    .left
+    .title_action_bar
       %h2.title Companies
-      .inner
-        %table
-          %tr
-            %th Name
-            %th Address
-            %th Contact Number
-            %th.actions Action
-          - @companies.each do |company|
-            %tr
-              %td= company.name
-              %td= company.address
-              %td= company.contact_number
-              %td= link_to 'Edit', edit_company_path(company)
-
+      .new_actions
         = link_to 'New Company', new_company_path, :class => 'button'
+    .inner
+      %table
+        %tr
+          %th Name
+          %th Address
+          %th Contact Number
+          %th.actions Action
+        - @companies.each do |company|
+          %tr
+            %td= company.name
+            %td= company.address
+            %td= company.contact_number
+            %td= link_to 'Edit', edit_company_path(company)
+

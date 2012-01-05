@@ -1,14 +1,20 @@
+- content_for :sidebar do
+  %h2 Search
+  = form_tag units_path, :method => 'get' do
+    .input
+      = label_tag 'Unit'
+      = text_field_tag :search, params[:search]
+    .actions
+      = submit_tag :Search
 .block
   = render 'shared/menu/database'
   .content
-    %h2 Units
+    .title_action_bar
+      %h2 Units
+      .new_actions
+        = link_to 'New Unit', new_unit_path, :class => 'button'
     .inner
       %table.table_form
-        = form_tag units_path, :method => 'get' do
-          %tr
-            %td Unit
-            %td= text_field_tag :search, params[:search]
-            %td= submit_tag "Search", :symbol => nil
       %table
         %tr
           %th Symbol
@@ -24,4 +30,3 @@
               = link_to 'Show', unit
               = link_to 'Edit', edit_unit_path(unit)
               = link_to 'Destroy', unit, :confirm => 'Are you sure?', :method => :delete
-      = link_to 'New Unit', new_unit_path, :class => 'button'

@@ -1,7 +1,10 @@
 .block
   = render 'shared/menu/database'
   .content
-    %h2 Categories
+    .title_action_bar
+      %h2.title Categories
+      .new_actions
+        = link_to 'New Category', new_category_path, :class => 'button'
     .inner
       %table
         %tr
@@ -16,4 +19,3 @@
               = link_to 'Show', category
               = link_to 'Edit', edit_category_path(category)
               = link_to 'Destroy', category, :confirm => 'Are you sure?', :method => :delete
-      = link_to 'New Category', new_category_path, :class => 'button'

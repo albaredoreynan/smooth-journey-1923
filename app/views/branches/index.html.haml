@@ -1,7 +1,10 @@
 .block
   = render 'shared/menu/database'
   .content
-    %h2 Branches
+    .title_action_bar
+      %h2.title Branches
+      .new_actions
+        = link_to 'New Branch', new_branch_path, :class => 'button'
     .inner
       %table
         %tr
@@ -9,15 +12,14 @@
           %th Location
           %th Address
           %th Contact Number
-          %th Actions
+          %th.last Actions
         - @branches.each do |branch|
           %tr
             %td= branch.restaurant.name unless branch.restaurant.nil?
             %td= branch.location
             %td= branch.address
             %td= branch.contact_number
-            %td
+            %td.last
               = link_to 'Show', branch
               = link_to 'Edit', edit_branch_path(branch)
               = link_to 'Destroy', branch, :confirm => 'Are you sure?', :method => :delete
-      = link_to 'New Branch', new_branch_path, :class => 'button'

@@ -1,6 +1,9 @@
 .block
   .content
-    %h2 Employees
+    .title_action_bar
+      %h2 Employees
+      .new_actions
+        = link_to 'New Employee', new_employee_path, :class => 'button'
     .inner
       %table
         %tr
@@ -27,4 +30,3 @@
               = link_to 'Show', employee
               = link_to 'Edit', edit_employee_path(employee)
               = link_to 'Destroy', employee, :confirm => 'Are you sure?', :method => :delete
-      = link_to 'New Employee', new_employee_path, :class => 'button'
