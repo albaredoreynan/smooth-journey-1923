@@ -9,7 +9,7 @@
     = javascript_include_tag :defaults
     = yield :head
     = csrf_meta_tag
-    %body
+    %body{:class => params[:controller]}
       #container
         #header
           %h1
