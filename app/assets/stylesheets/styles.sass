@@ -208,46 +208,49 @@ form, .form
     margin: 0
     padding: 0.48em 0 0.47em 0.45em
 
-#sidebar form, #sidebar .form
-  padding-top: 10px
-
-  label
-    text-align: left
-    width: auto
-    display: block
-    float: none
-    padding-top: 5px
-    padding-left: 3px
-    margin: 0
-    &:after
-      clear: both
-
-  input
-    width: 90%
-    margin: 2px 0
-
-  .ui-button-icon-only .ui-button-text, .ui-button-icon-only .ui-button-text
-    margin: 1px 0 1px 0
-
-  .radio_group
-    &:after
-      clear: both
+#sidebar
+  h3
+    font-size: 20px
+  form, .form
+    padding-top: 10px
 
     label
-      clear: none
+      text-align: left
       width: auto
-      padding-left: 17px
+      display: block
+      float: none
+      padding-top: 5px
+      padding-left: 3px
+      margin: 0
       &:after
-        content: ''
+        clear: both
 
     input
-      border: solid 1px green
-      float: left
+      width: 90%
+      margin: 2px 0
 
-  .actions
-    padding: 0 27px 0 0
-    margin: 2px 0
-    text-align: right
+    .ui-button-icon-only .ui-button-text, .ui-button-icon-only .ui-button-text
+      margin: 1px 0 1px 0
+
+    .radio_group
+      &:after
+        clear: both
+
+      label
+        clear: none
+        width: auto
+        padding-left: 17px
+        &:after
+          content: ''
+
+      input
+        border: solid 1px green
+        float: left
+
+    .actions
+      padding: 0 27px 0 0
+      margin: 2px 0
+      text-align: right
 
 .flash
   .message
@@ -290,3 +293,6 @@ form, .form
 #box .block .content
   padding: 25px 20px
 
+.secondary-navigation ul li a
+  display: block
+  padding: 10px 10px
