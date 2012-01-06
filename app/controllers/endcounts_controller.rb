@@ -3,7 +3,7 @@ class EndcountsController < ApplicationController
   set_tab :inventory
 
   def index
-    @items = Item.ending_counts_at(params[:date] || Date.today)
+    @items = Endcount.ending_counts_at(EndcountItem.all, params[:date] || Date.today)
   end
 
   def show

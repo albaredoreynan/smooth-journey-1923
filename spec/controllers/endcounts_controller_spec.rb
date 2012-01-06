@@ -6,7 +6,7 @@ describe EndcountsController do
   context 'when successful' do
     context 'GET #index' do
       before do
-        @item = FactoryGirl.create(:item)
+        @item = EndcountItem.create(FactoryGirl.attributes_for(:item))
         @item_counts = [
           FactoryGirl.create(:beginning_of_month_count, :item => @item, :stock_count => 10),
           FactoryGirl.create(:item_count, :item => @item, :stock_count => 20)

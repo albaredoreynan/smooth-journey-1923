@@ -19,13 +19,13 @@
           %th Purchases
           %th Count
           %th Total
-        - @endcount.items.each do |endcount|
+        - @endcount.items.each do |endcount_item|
           %tr
-            %td= endcount.name
-            %td.number= "#{number_to_currency(endcount.average_unit_cost, :unit => peso_sign)}"
-            %td!= endcount.unit_name
-            %td.number= endcount.beginning_count
-            %td.monetary= number_to_currency(endcount.beginning_total, :unit => peso_sign) if endcount.beginning_count
-            %td.monetary= number_to_currency(endcount.purchase, :unit => peso_sign)
-            %td.number= endcount.ending_count
-            %td.monetary= number_to_currency(endcount.ending_total, :unit => peso_sign) if endcount.ending_count
+            %td= endcount_item.name
+            %td.number= "#{number_to_currency(endcount_item.average_unit_cost, :unit => peso_sign)}"
+            %td!= endcount_item.unit_name
+            %td.number= endcount_item.beginning_count
+            %td.monetary= number_to_currency(endcount_item.beginning_total, :unit => peso_sign) if endcount_item.beginning_count
+            %td.monetary= number_to_currency(endcount_item.purchase, :unit => peso_sign)
+            %td.number= endcount_item.ending_count
+            %td.monetary= number_to_currency(endcount_item.ending_total, :unit => peso_sign) if endcount_item.ending_count
