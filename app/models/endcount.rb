@@ -10,6 +10,12 @@ class Endcount
     @items = process_items(items)
   end
 
+  def self.ending_counts_at(items, date=Date.today)
+    items.each do |item|
+      item.ending_count = item.counted_at(date).try(:stock_count) || '-'
+    end
+  end
+
   private
   def process_items(items)
     endcount_items = []
