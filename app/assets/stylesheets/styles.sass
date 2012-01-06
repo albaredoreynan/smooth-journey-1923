@@ -1,6 +1,6 @@
 ﻿/*
  *= require web-app-theme/base.css
- *= require web-app-theme/themes/activo/style.css
+ *= require web-app-theme/themes/rrbs/style.css
  *= require overcast/jquery-ui-1.8.16.custom.css
  *= require_self
  */
@@ -16,8 +16,19 @@ $space-between-label-and-field: 10px
 #main
   .block
     .content
+      .title_action_bar
+        h2
+          width: 50%
+          float: left
+        .new_actions
+          margin: 15px
+          float: right
       .inner
         padding-bottom: 37px
+        table
+          border-bottom: solid 2px #ABABAB
+          border-top: solid 2px #ABABAB
+          clear: both
 
 table
   $checkbox: 10px
@@ -25,16 +36,22 @@ table
   border-collapse: collapse
   margin-bottom: 15px
 
-  tr.totals
-    font-weight: bold
-    font-size: 150%
+  tr
+    &:nth-child(odd)
+      background: #F5F5F5
+    &:hover
+      background: #BFDFF4
+    &.totals
+      font-weight: bold
+      font-size: 150%
 
   th
     padding: 10px
     font-weight: bold
     text-align: left
     text-transform: uppercase
-    
+    background: #E0E0E0
+
     &.checkbox
       width: $checkbox
 
@@ -58,9 +75,6 @@ table
 
     &.monetary, &.number
       text-align: right
-
-  tr:nth-child(odd)
-    background: #e0e0e0
 
   &.table_form
     width: auto
@@ -185,7 +199,7 @@ form, .form
       margin: 0
     .actions
       padding: 0
-      
+
   .ui-button
     margin-left: -1px
   .ui-button-icon-only .ui-button-text1
@@ -194,54 +208,53 @@ form, .form
     margin: 0
     padding: 0.48em 0 0.47em 0.45em
 
-#sidebar form, #sidebar .form
-  padding-top: 10px
-
-  label
-    text-align: left
-    width: auto
-    display: block
-    float: none
-    padding-top: 5px
-    padding-left: 3px
-    margin: 0
-    &:after
-      clear: both
-
-  input
-    width: 90%
-    margin: 2px 0
-  
-  input:hover, textarea:hover
-    border: 1px solid #A2A294
-    box-shadow: 0 0 3px rgba(0, 0, 0, 0.3)
-  
-  .input_group
-    width: 35%
-    margin: 2px 0
-    
-  .ui-button-icon-only .ui-button-text, .ui-button-icon-only .ui-button-text
-    margin: 1px 0 1px 0
-
-  .radio_group
-    &:after
-      clear: both
+#sidebar
+  h3
+    font-size: 20px
+  form, .form
+    padding-top: 10px
 
     label
-      clear: none
+      text-align: left
       width: auto
-      padding-left: 17px
+      display: block
+      float: none
+      padding-top: 5px
+      padding-left: 3px
+      margin: 0
       &:after
-        content: ''
+        clear: both
 
     input
-      border: solid 1px green
-      float: left
+      width: 90%
+      margin: 2px 0
 
-  .actions
-    padding: 0 27px 0 0
-    margin: 2px 0
-    text-align: right
+    .input_group
+      width: 35%
+      margin: 2px 0
+    
+    .ui-button-icon-only .ui-button-text, .ui-button-icon-only .ui-button-text
+      margin: 1px 0 1px 0
+
+    .radio_group
+      &:after
+        clear: both
+
+      label
+        clear: none
+        width: auto
+        padding-left: 17px
+        &:after
+          content: ''
+
+      input
+        border: solid 1px green
+        float: left
+
+    .actions
+      padding: 0 27px 0 0
+      margin: 2px 0
+      text-align: right
 
 .flash
   .message
@@ -284,3 +297,6 @@ form, .form
 #box .block .content
   padding: 25px 20px
 
+.secondary-navigation ul li a
+  display: block
+  padding: 10px 10px

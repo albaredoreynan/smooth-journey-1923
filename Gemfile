@@ -25,7 +25,6 @@ group :assets do
 end
 
 group :development do
-  gem 'rspec-rails'
   gem 'factory_girl_rails'
   gem 'hpricot'
   gem 'ruby_parser'
@@ -34,9 +33,9 @@ end
 
 group :test do
   gem 'rspec-rails'
+  gem 'factory_girl_rails'
   gem 'capybara'
   gem 'database_cleaner'
-  gem 'factory_girl_rails'
   gem 'shoulda-matchers'
   gem 'spork', '> 0.9.0.rc'
   gem 'guard-rspec'

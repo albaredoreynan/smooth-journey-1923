@@ -34,52 +34,6 @@ describe Item do
     end
   end
 
-  context 'Association' do
-    context 'Purchase' do
-      before do
-        @item = FactoryGirl.create(:item)
-      end
-
-      it 'should return 0 average_unit_cost if there is no purchase_item' do
-        @item.average_unit_cost.should eq 0
-      end
-
-      it 'should return a unit cost average' do
-        @item = FactoryGirl.create(:item)
-        purchase = FactoryGirl.create(:purchase, :purchase_date => Date.today)
-        purchase_items = [
-          FactoryGirl.create(:purchase_item, :item => @item, :amount => 10, :purchase => purchase),
-          FactoryGirl.create(:purchase_item, :item => @item, :amount => 5, :purchase => purchase)
-        ]
-        @item.average_unit_cost.should eq 7.5
-      end
-    end
-  end
-
-  context 'Report' do
-    before do
-      @items = [
-        FactoryGirl.create(:item),
-        FactoryGirl.create(:item)
-      ]
-      @purchases = [
-        FactoryGirl.create(:purchase, :purchase_date => 5.days.ago, :purchase_items => [
-          FactoryGirl.create(:purchase_item, :amount => 5, :vat_type => 'VAT-Exempted', :item => @items[0]),
-          FactoryGirl.create(:purchase_item, :amount => 6, :vat_type => 'VAT-Exempted', :item => @items[1])
-        ]),
-        FactoryGirl.create(:purchase, :purchase_date => Date.today, :purchase_items => [
-          FactoryGirl.create(:purchase_item, :amount => 7, :vat_type => 'VAT-Exempted', :item => @items[0]),
-          FactoryGirl.create(:purchase_item, :amount => 8, :vat_type => 'VAT-Exempted', :item => @items[1])
-        ])
-      ]
-      @items.map(&:reload)
-    end
-
-    it 'should return total amount from a given date period' do
-      @items[0].purchase_amount_period(5.days.ago, Date.today).should eq 12
-    end
-  end
-
   context 'Subcategory' do
     before do
       @category = FactoryGirl.create(:category, :name => 'Dota Items')
@@ -159,21 +113,6 @@ describe Item do
     it 'should update count given a specified date' do
       @item.update_count(234, 5.days.ago)
       @item.counted_at(5.days.ago).try(:stock_count).should eq 234
-    end
-  end
-
-  context 'Endcount' do
-    before do
-      @item = FactoryGirl.create(:item)
-      @item_counts = [
-        FactoryGirl.create(:item_count, :item => @item, :stock_count => 5, :entry_date => 5.days.ago),
-        FactoryGirl.create(:item_count, :item => @item, :stock_count => 10, :entry_date => Date.today)
-      ]
-    end
-
-    it 'should return item counts at specified date' do
-      end_count = Item.ending_counts_at(5.days.ago)
-      end_count.first.ending_count.should eq 5
     end
   end
 end

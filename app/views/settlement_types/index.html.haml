@@ -1,7 +1,10 @@
 .block
   = render 'shared/menu/database'
   .content
-    %h2 Settlement Types
+    .title_action_bar
+      %h2.title Settlement Types
+      .new_actions
+        = link_to 'New Settlement type', new_settlement_type_path, :class => 'button'
     .inner
       %table
         %tr
@@ -14,4 +17,3 @@
               = link_to 'Show', settlement_type
               = link_to 'Edit', edit_settlement_type_path(settlement_type)
               = link_to 'Destroy', settlement_type, :confirm => 'Are you sure?', :method => :delete
-      = link_to 'New Settlement type', new_settlement_type_path, :class => 'button'

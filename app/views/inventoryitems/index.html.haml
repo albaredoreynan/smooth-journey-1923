@@ -9,7 +9,10 @@
 .block
   = render 'shared/menu/inventory'
   .content
-    %h2.title Inventory Item
+    .title_action_bar
+      %h2.title Inventory Item
+      .new_actions
+        = link_to 'New Inventory Item', new_inventoryitem_path, :class => :button
     .inner
       %table
         %tr
@@ -28,4 +31,3 @@
               = link_to 'Show', inventoryitem_path(item)
               = link_to 'Edit', edit_inventoryitem_path(item)
               = link_to 'Destroy', inventoryitem_path(item), :confirm => 'Are you sure?', :method => :delete
-      = link_to 'New Inventory Item', new_inventoryitem_path, :class => :button

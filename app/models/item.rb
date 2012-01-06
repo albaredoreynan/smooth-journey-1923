@@ -1,7 +1,5 @@
 class Item < ActiveRecord::Base
 
-  attr_accessor :beginning_count, :beginning_total, :ending_count, :ending_total, :purchase
-
   validates :name, :presence => true
 
   belongs_to :unit
@@ -14,6 +12,8 @@ class Item < ActiveRecord::Base
     item_counts.create(:stock_count => 0.00)
   end
 
+  delegate :symbol, :to => :unit, :prefix => true
+
   def self.search(keyword)
     where("name ILIKE ?", "%#{keyword}%")
   end
@@ -24,10 +24,6 @@ class Item < ActiveRecord::Base
 
   def unit_name
     unit.name || unit.symbol
-  end
-
-  def unit_symbol
-    unit.symbol
   end
 
   def category_name
@@ -57,21 +53,4 @@ class Item < ActiveRecord::Base
     item_counts.where('entry_date = ?', date.to_date).try(:first)
   end
 
-  def average_unit_cost
-    count = purchase_items.count.to_f
-    return 0 if count == 0
-    purchase_items.map(&:unit_cost).inject(:+).to_f / count
-  end
-
-  def purchase_amount_period(date_from, date_to)
-    purchase_items.joins(:purchase)
-      .where('purchases.purchase_date >= ?', date_from.to_date)
-      .where('purchases.purchase_date <= ?', date_to.to_date).map(&:net_amount).inject(:+)
-  end
-
-  def self.ending_counts_at(date=Date.today)
-    Item.all.each do |item|
-      item.ending_count = item.counted_at(date).try(:stock_count) || '-'
-    end
-  end
 end

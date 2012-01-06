@@ -1,5 +1,10 @@
 class PurchaseItem < ActiveRecord::Base
   attr_accessor :vat_amount, :net_amount
+  attr_accessor :convert_unit
+
+  composed_of :qty, :mapping => [%w(quantity quantity), %w(unit_id symbol)],
+                    :class_name => 'Quantity',
+                    :constructor => Proc.new {|quantity, unit_id| Quantity.new(quantity, Unit.find(unit_id).symbol) }
 
   belongs_to :purchase
   belongs_to :item
@@ -8,11 +13,13 @@ class PurchaseItem < ActiveRecord::Base
   validates :item_id,     :presence => true
   validates :amount,      :presence => true
   validates :quantity,    :presence => true, :numericality => true
-  validates :vat_type,    :presence => true,
-                          :inclusion => { :in => %w{VAT-Inclusive VAT-Exclusive VAT-Exempted} }
 
   def purchase_amount
     vat_type == 'VAT-Exclusive' ? amount + vat_amount : amount
+  end
+
+  def vat_type
+    purchase.vat_type
   end
 
   def vat_amount
@@ -42,7 +49,11 @@ class PurchaseItem < ActiveRecord::Base
     unit.symbol
   end
 
+  def quantity
+    @convert_unit ? qty.to(item.unit.symbol).value : self[:quantity]
+  end
+
   def unit_cost
-    self[:amount] / self[:quantity]
+    (self[:amount] / quantity)
   end
 end

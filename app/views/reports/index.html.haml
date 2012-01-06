@@ -8,24 +8,29 @@
         %tr
           %th
           %th
+          %th
           %th{:colspan => 2, :style => 'text-align:center; width: 25%;'} Beginning
           %th
           %th{:colspan => 2, :style => 'text-align:center; width: 25%'} Ending
+          %th
         %tr
           %th Item
           %th Unit Cost
+          %th Unit
           %th Count
           %th Total
           %th Purchases
           %th Count
           %th Total
-        - @endcount.items.each do |endcount|
+          %th{ :title => 'Cost of Goods' } COGS
+        - @endcount.items.each do |endcount_item|
           %tr
-            %td= endcount.name
-            %td!= "#{number_to_currency(endcount.average_unit_cost, :unit => peso_sign)}/#{endcount.unit_symbol}"
-            %td.number= endcount.beginning_count
-            %td.monetary= number_to_currency(endcount.beginning_total, :unit => peso_sign) if endcount.beginning_count
-            %td.monetary= number_to_currency(endcount.purchase, :unit => peso_sign)
-            %td.number= endcount.ending_count
-            %td.monetary= number_to_currency(endcount.ending_total, :unit => peso_sign) if endcount.ending_count
-      = link_to 'New Branch', new_branch_path, :class => 'button'
+            %td= endcount_item.name
+            %td.number= "#{number_to_currency(endcount_item.average_unit_cost, :unit => peso_sign)}"
+            %td!= endcount_item.unit_name
+            %td.number= endcount_item.beginning_count
+            %td.monetary= number_to_currency(endcount_item.beginning_total, :unit => peso_sign) if endcount_item.beginning_count
+            %td.monetary= number_to_currency(endcount_item.purchase_amount_period, :unit => peso_sign)
+            %td.number= endcount_item.ending_count
+            %td.monetary= number_to_currency(endcount_item.ending_total, :unit => peso_sign) if endcount_item.ending_count
+            %td.monetary= number_to_currency(endcount_item.cogs, :unit => peso_sign)

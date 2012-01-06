@@ -1,7 +1,10 @@
 .block
   = render 'shared/menu/database'
   .content
-    %h2 Restaurants
+    .title_action_bar
+      %h2.title Restaurants
+      .new_actions
+        = link_to 'New Restaurant', new_restaurant_path, :class => :button
     .inner
       %table
         %tr
@@ -22,4 +25,3 @@
               = link_to 'Show', restaurant
               = link_to 'Edit', edit_restaurant_path(restaurant)
               = link_to 'Destroy', restaurant, :confirm => 'Are you sure?', :method => :delete
-      = link_to 'New Restaurant', new_restaurant_path, :class => :button
