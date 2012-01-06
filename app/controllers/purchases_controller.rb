@@ -12,12 +12,15 @@ class PurchasesController < ApplicationController
       @purchases = Purchase.non_draft
     end
 
+    @purchases = Purchase.page(params[:page]).per 2
     respond_to do |format|
       format.html
       format.csv { render :layout => false }
     end
+    
   end
-
+  
+  
   def show
     @purchase = Purchase.find(params[:id])
 

@@ -8,11 +8,14 @@
       = label_tag 'Supplier'
       = text_field_tag :supplier, params[:supplier]
     .input
-      = label_tag 'Purchase Date From'
-      = text_field_tag :start_date, params[:start_date], :class => 'datepicker'
-    .input
-      = label_tag 'Purchase Date To'
-      = text_field_tag :end_date, params[:end_date], :class => 'datepicker'
+      = label_tag 'Purchase Date'
+      .input_group
+        .div_tag
+          ="From"
+          = text_field_tag :start_date, params[:start_date], :class => 'datepicker'
+        .div_tag2  
+          ="To"
+          = text_field_tag :end_date, params[:end_date], :class => 'datepicker'
     .actions
       = submit_tag :Search
 
@@ -43,5 +46,8 @@
                   = link_to 'Show', purchase_path(purchase)
                   = link_to 'Edit', edit_purchase_path(purchase)
                   = link_to 'Delete', purchase_path(purchase), :method => :delete, :confirm => 'Are you sure you want to delete this purchase?'
+
+        
         = link_to 'New purchase', new_purchase_path, :class => :button
+        = paginate @purchases
 
