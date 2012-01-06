@@ -15,25 +15,26 @@
     = f.association :branch, :collection => Branch.all.map{ |branch| [branch.location, branch.id] }
     = f.input :vat_type, :collection => ["VAT-Inclusive", "VAT-Exclusive", "VAT-Exempted"]
     = f.association :currency, :collection => Currency.all.map{ |currency| [currency.currency, currency.id] }
-     
-  %table.purchase-items
-    %tbody#purchase_items
-      %tr
-        %th= 'Item Name'
-        %th= 'Quantity'
-        %th= 'Unit Price'
-        %th= 'VAT Type'
-        %th= 'Amount'
-        %th.actions= 'Actions'
-      = f.fields_for :purchase_items do |pi_form|
-        = render :partial => 'purchases/purchase_item_row', :locals => { :f => pi_form }
-    %tbody
-      %tr.totals
-        %td &nbsp;
-        %td &nbsp;
-        %td &nbsp;
-        %td Total
-        %td#purchase_total_amount.monetary= number_to_currency(@purchase.amount, :unit => peso_sign)
-        %td &nbsp;
-  .actions
-    = f.submit
+
+  .purchase_items_wrapper
+    %table.purchase-items
+      %tbody#purchase_items
+        %tr
+          %th= 'Item Name'
+          %th= 'Quantity'
+          %th= 'Unit Price'
+          %th= 'VAT Type'
+          %th= 'Amount'
+          %th.actions= 'Actions'
+        = f.fields_for :purchase_items do |pi_form|
+          = render :partial => 'purchases/purchase_item_row', :locals => { :f => pi_form }
+      %tbody
+        %tr.totals
+          %td &nbsp;
+          %td &nbsp;
+          %td &nbsp;
+          %td Total
+          %td#purchase_total_amount.monetary= number_to_currency(@purchase.amount, :unit => peso_sign)
+          %td &nbsp;
+    .actions
+      = f.submit
