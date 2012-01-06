@@ -12,7 +12,8 @@ class Endcount
 
   def self.ending_counts_at(items, date=Date.today)
     items.each do |item|
-      item.ending_count = item.counted_at(date).try(:stock_count) || '-'
+      item.ending_date = date
+      item.ending_count || '-'
     end
   end
 
@@ -20,12 +21,8 @@ class Endcount
   def process_items(items)
     endcount_items = []
     items.each do |item|
-      average_unit_cost = item.average_unit_cost
-      item.beginning_count = item.last_count_from_previous_month(@ending_date)
-      item.beginning_total = item.beginning_count * average_unit_cost if item.beginning_count
-      item.ending_count = item.counted_at(@ending_date).try(:stock_count)
-      item.purchase = item.purchase_amount_period(@beginning_date, @ending_date)
-      item.ending_total = item.ending_count * average_unit_cost if item.ending_count
+      item.beginning_date = @beginning_date
+      item.ending_date = @ending_date
       endcount_items << item
     end
     return endcount_items

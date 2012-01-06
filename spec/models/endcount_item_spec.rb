@@ -12,7 +12,8 @@ describe EndcountItem do
   end
 
   it 'should return last count from previous month' do
-    @item.last_count_from_previous_month(Date.today).should eq 7.5
+    @item.ending_date = Date.today
+    @item.last_count_from_previous_month.should eq 7.5
   end
 
   context '#purchase_amount_period' do
@@ -38,7 +39,9 @@ describe EndcountItem do
     end
 
     it 'should return total amount from a given date period' do
-      @items[0].purchase_amount_period(5.days.ago, Date.today).should eq 12
+      @items[0].beginning_date = 5.days.ago
+      @items[0].ending_date = Date.today
+      @items[0].purchase_amount_period.should eq 12
     end
   end
 
@@ -75,6 +78,16 @@ describe EndcountItem do
 
     it 'should return a unit cost average with conversion' do
       @item.average_unit_cost.should be_between(2.95, 2.953)
+    end
+  end
+
+  context '#cogs' do
+    it 'should return a cogs' do
+      @item.stub(
+        :purchase_amount_period => 100,
+        :beginning_total => 200,
+        :ending_total => 50)
+      @item.cogs.should eq 250
     end
   end
 end
