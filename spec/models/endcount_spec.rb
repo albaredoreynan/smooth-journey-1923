@@ -7,6 +7,7 @@ describe Endcount do
     @item = EndcountItem.create(FactoryGirl.attributes_for(:item))
     @item_counts = [
       FactoryGirl.create(:item_count, :item => @item, :stock_count =>  5, :entry_date => @first_date),
+      FactoryGirl.create(:item_count, :item => @item, :stock_count =>  7.5, :entry_date => @first_date.end_of_month),
       FactoryGirl.create(:item_count, :item => @item, :stock_count => 10, :entry_date => @latter_date)
     ]
     @endcount = Endcount.new([@item], @latter_date, @first_date)
@@ -22,8 +23,7 @@ describe Endcount do
   end
 
   it 'should return beginning_count' do
-    pending
-    @endcount.items.first.beginning_count.should eq 5
+    @endcount.items.first.beginning_count.should eq 7.5
   end
 
   it 'should return ending_count' do

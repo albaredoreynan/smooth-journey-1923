@@ -13,7 +13,7 @@ class EndcountItem < Item
   def last_count_from_previous_month(date)
     previous_month = date.to_date - 1.month
     sql = %Q{date_part('year', entry_date) = ? and date_part('month', entry_date) = ?}
-    count = item_counts.where(sql, previous_month.year, previous_month.month).order('entry_date ASC').first
+    count = item_counts.where(sql, previous_month.year, previous_month.month).order('entry_date DESC').first
     count.try(:stock_count)
   end
 

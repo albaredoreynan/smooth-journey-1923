@@ -2,17 +2,17 @@ require 'spec_helper'
 
 describe EndcountItem do
   before do
+    @previous_month = Date.today - 1.month
     @item = EndcountItem.create(FactoryGirl.attributes_for(:item))
     @item_counts = [
-      FactoryGirl.create(:item_count, :item => @item, :stock_count => 5, :entry_date => 5.days.ago),
+      FactoryGirl.create(:item_count, :item => @item, :stock_count => 5, :entry_date => @previous_month),
+      FactoryGirl.create(:item_count, :item => @item, :stock_count => 7.5, :entry_date => @previous_month.end_of_month),
       FactoryGirl.create(:item_count, :item => @item, :stock_count => 10, :entry_date => Date.today)
     ]
   end
 
   it 'should return last count from previous month' do
-    previous_month = Date.today - 1.month
-    FactoryGirl.create(:item_count, :item => @item, :stock_count => 500, :entry_date => previous_month)
-    @item.last_count_from_previous_month(Date.today).should eq 500
+    @item.last_count_from_previous_month(Date.today).should eq 7.5
   end
 
   context '#purchase_amount_period' do
@@ -22,9 +22,12 @@ describe EndcountItem do
         EndcountItem.create(FactoryGirl.attributes_for(:item))
       ]
       @purchases = [
-        FactoryGirl.create(:purchase, :purchase_date => 5.days.ago, :purchase_items => [
-          FactoryGirl.create(:purchase_item, :amount => 5, :vat_type => 'VAT-Exempted', :item => @items[0]),
-          FactoryGirl.create(:purchase_item, :amount => 6, :vat_type => 'VAT-Exempted', :item => @items[1])
+        FactoryGirl.create(:purchase,
+                           :purchase_date => 5.days.ago,
+                           :vat_type => 'VAT-Exempted',
+                           :purchase_items => [
+                              FactoryGirl.create(:purchase_item, :amount => 5, :item => @items[0]),
+                              FactoryGirl.create(:purchase_item, :amount => 6, :item => @items[1])
         ]),
         FactoryGirl.create(:purchase, :purchase_date => Date.today, :purchase_items => [
           FactoryGirl.create(:purchase_item, :amount => 7, :vat_type => 'VAT-Exempted', :item => @items[0]),
