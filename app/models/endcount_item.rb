@@ -1,8 +1,5 @@
 class EndcountItem < Item
   attr_accessor :beginning_date, :ending_date
-  attr_accessor :beginning_count, :ending_count
-  attr_accessor :beginning_total, :ending_total
-  attr_accessor :cogs
 
   def beginning_count
     last_count_from_previous_month
