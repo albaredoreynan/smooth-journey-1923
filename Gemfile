@@ -13,6 +13,7 @@ gem 'simple_form'
 gem 'jquery-rails'
 gem 'tabs_on_rails'
 gem 'heroku'
+gem 'hpricot'
 if HOST_OS =~ /linux/i
   gem 'therubyracer'
 end
@@ -25,7 +26,6 @@ end
 
 group :development do
   gem 'factory_girl_rails'
-  gem 'hpricot'
   gem 'ruby_parser'
   gem 'web-app-theme'
 end
