@@ -14,6 +14,7 @@ gem 'jquery-rails'
 gem 'tabs_on_rails'
 gem 'heroku'
 gem 'hpricot'
+
 if HOST_OS =~ /linux/i
   gem 'therubyracer'
 end
