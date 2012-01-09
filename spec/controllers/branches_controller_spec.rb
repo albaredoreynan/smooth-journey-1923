@@ -1,33 +1,56 @@
 require 'spec_helper'
 
 describe BranchesController do
-  login_user
+  context 'as user (without role)' do
+    login_user
 
-  context 'GET #index' do
-    before do
-      @branch = FactoryGirl.create(:branch)
-      get 'index'
+    context 'GET #index' do
+      before do
+        @branch = FactoryGirl.create(:branch)
+        get 'index'
+      end
+
+      it 'should load all branches' do
+        assigns[:branches].should eq [@branch]
+      end
     end
 
-    it 'should load all branches' do
-      assigns[:branches].should eq [@branch]
+    context 'POST #create' do
+      before do
+        @post_params = { branch: { location: 'Makati', restaurant_id: 1 } }
+      end
+
+      it 'should redirect to #index' do
+        post 'create', @post_params
+        response.should redirect_to branches_path
+      end
+
+      it 'should save a branch' do
+        lambda {
+          post 'create', @post_params
+        }.should change(Branch, :count).by 1
+      end
     end
   end
 
-  context 'POST #create' do
-    before do
-      @post_params = { branch: { location: 'Makati', restaurant_id: 1 } }
+  context 'as branch manager' do
+    login_branch
+
+    context 'current_user' do
+      it 'should logged in as branch manager' do
+        @current_user.email.should eq 'branch@example.com'
+      end
     end
 
-    it 'should redirect to #index' do
-      post 'create', @post_params
-      response.should redirect_to branches_path
-    end
+    context 'GET #index' do
+      before do
+        FactoryGirl.create(:branch, :location => 'Other Branch')
+        get 'index'
+      end
 
-    it 'should save a branch' do
-      lambda {
-        post 'create', @post_params
-      }.should change(Branch, :count).by 1
+      it 'should load branch that belongs to the user' do
+        assigns[:branches].should eq @current_user.branches
+      end
     end
   end
 end

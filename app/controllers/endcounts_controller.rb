@@ -3,7 +3,7 @@ class EndcountsController < ApplicationController
   set_tab :inventory
 
   def index
-    @items = Endcount.ending_counts_at(EndcountItem.all, params[:date] || Date.today)
+    @items = Endcount.ending_counts_at(endcount.all, params[:date] || Date.today)
   end
 
   def show
@@ -15,8 +15,6 @@ class EndcountsController < ApplicationController
     end
   end
 
-  # GET /endcounts/new
-  # GET /endcounts/new.xml
   def new
     @endcount = Endcount.new
 
@@ -35,7 +33,6 @@ class EndcountsController < ApplicationController
     end
   end
 
-  # GET /endcounts/1/edit
   def edit
     @endcount = Endcount.find(params[:id])
 
@@ -54,8 +51,6 @@ class EndcountsController < ApplicationController
     end
   end
 
-  # POST /endcounts
-  # POST /endcounts.xml
   def create
     @endcount = Endcount.new(params[:endcount])
 
@@ -76,8 +71,6 @@ class EndcountsController < ApplicationController
     end
   end
 
-  # PUT /endcounts/1
-  # PUT /endcounts/1.xml
   def update
     @endcount = Endcount.find(params[:id])
 
@@ -98,8 +91,6 @@ class EndcountsController < ApplicationController
     end
   end
 
-  # DELETE /endcounts/1
-  # DELETE /endcounts/1.xml
   def destroy
     @endcount = Endcount.find(params[:id])
     @endcount.destroy
@@ -110,11 +101,6 @@ class EndcountsController < ApplicationController
     end
   end
 
-  def savechecked
-    Endcount.update_all(["save_as_draft=?", 0], :id => params[:endcount_ids])
-    redirect_to endcounts_path
-  end
-
   def update_item_counts
     params[:items] = params[:items].nil? ? [] : params[:items]
     params[:items].each do |key, val|
@@ -123,5 +109,10 @@ class EndcountsController < ApplicationController
       item.update_count(val[:item_count], params[:entry_date] || Date.today) unless val[:item_count].blank?
     end
     redirect_to endcounts_path
+  end
+
+  private
+  def endcount
+    current_user.branch? ? EndcountItem.where(:branch_id => current_user.branches.first) : EndcountItem
   end
 end

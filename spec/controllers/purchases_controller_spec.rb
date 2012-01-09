@@ -1,155 +1,180 @@
 require 'spec_helper'
 
 describe PurchasesController do
-  login_user
+  context 'as user' do
+    login_user
 
-  describe "GET index" do
-    it "should show all non-draft purchases" do
-      purchase = FactoryGirl.create(:purchase, :save_as_draft => false)
-      draft_purchase = FactoryGirl.create(:purchase, :save_as_draft => true)
-      get 'index'
-      assigns[:purchases].should eq [purchase]
-    end
-
-    context "Search" do
-      before do
-        @start_date = 5.days.ago
-        @purchases = [
-          FactoryGirl.create(:purchase, :purchase_date => @start_date ),
-          FactoryGirl.create(:purchase, :purchase_date => Date.today)
-        ]
+    describe "GET index" do
+      it "should show all non-draft purchases" do
+        purchase = FactoryGirl.create(:purchase, :save_as_draft => false)
+        draft_purchase = FactoryGirl.create(:purchase, :save_as_draft => true)
+        get 'index'
+        assigns[:purchases].should eq [purchase]
       end
 
-      it 'no match' do
-        no_purchase_start_date = 1.year.ago
-        get 'index',
-          :start_date => no_purchase_start_date,
-          :end_date => no_purchase_start_date + 1.day
-        assigns[:purchases].should be_empty
+      context "Search" do
+        before do
+          @start_date = 5.days.ago
+          @purchases = [
+            FactoryGirl.create(:purchase, :purchase_date => @start_date ),
+            FactoryGirl.create(:purchase, :purchase_date => Date.today)
+          ]
+        end
+
+        it 'no match' do
+          no_purchase_start_date = 1.year.ago
+          get 'index',
+            :start_date => no_purchase_start_date,
+            :end_date => no_purchase_start_date + 1.day
+          assigns[:purchases].should be_empty
+        end
+
+        it 'partial match' do
+          get 'index',
+            :start_date => @start_date.to_date,
+            :end_date => (@start_date + 1.day).to_date
+          assigns[:purchases].should eq [@purchases.first]
+        end
+
+        it 'should filter purchase by date' do
+          get 'index', :start_date => @start_date.to_date, :end_date => Date.today.strftime('%F')
+          assigns[:purchases].should eq [@purchases.last, @purchases.first]
+        end
+
+        it 'should filter purchase with start_date but without end_date' do
+          get 'index', :start_date => @start_date.to_date, :end_date => ''
+          assigns[:purchases].should eq [@purchases.last, @purchases.first]
+        end
+
+        it 'should filter purchase with end_date but without start_date' do
+          get 'index', :start_date => '', :end_date => Date.today.strftime('%F')
+          assigns[:purchases].should eq [@purchases.last, @purchases.first]
+        end
+
+        it 'should show all purchase without start_date and end_date' do
+          get 'index', :start_date => '', :end_date => ''
+          assigns[:purchases].should eq [@purchases.last, @purchases.first]
+        end
       end
-
-      it 'partial match' do
-        get 'index',
-          :start_date => @start_date.to_date,
-          :end_date => (@start_date + 1.day).to_date
-        assigns[:purchases].should eq [@purchases.first]
-      end
-
-      it 'should filter purchase by date' do
-        get 'index', :start_date => @start_date.to_date, :end_date => Date.today.strftime('%F')
-        assigns[:purchases].should eq [@purchases.last, @purchases.first]
-      end
-
-      it 'should filter purchase with start_date but without end_date' do
-        get 'index', :start_date => @start_date.to_date, :end_date => ''
-        assigns[:purchases].should eq [@purchases.last, @purchases.first]
-      end
-
-      it 'should filter purchase with end_date but without start_date' do
-        get 'index', :start_date => '', :end_date => Date.today.strftime('%F')
-        assigns[:purchases].should eq [@purchases.last, @purchases.first]
-      end
-
-      it 'should show all purchase without start_date and end_date' do
-        get 'index', :start_date => '', :end_date => ''
-        assigns[:purchases].should eq [@purchases.last, @purchases.first]
-      end
-    end
-  end
-
-  describe 'GET #new' do
-    before do
-      @purchase = FactoryGirl.create(:purchase)
-      session.delete :purchase
     end
 
-    it 'should create a new Purchase' do
-      get 'new'
-      assigns[:purchase].should be_kind_of(Purchase)
-    end
-
-    it 'should assign a purchase id on session' do
-      get 'new'
-      session[:purchase].should_not be_nil
-    end
-
-    it 'should restore a purchase' do
-      session[:purchase] = @purchase.id
-      get 'new'
-      assigns[:purchase].should eq @purchase
-    end
-
-    it 'should reset purchase if purchase id was not found' do
-      session[:purchase] = 'x'
-      get 'new'
-      response.should be_successful
-    end
-  end
-
-  describe 'POST #create' do
-    before do
-      @purchase = FactoryGirl.create(:purchase)
-      supplier = @purchase.supplier
-      branch = @purchase.branch
-      @post_params = { supplier_id: supplier.id, branch_id: branch.id }
-    end
-
-    after do
-      session.delete :purchase
-    end
-
-    it 'should create a new Purchase' do
-      session[:purchase].should be_nil
-      lambda {
-        post :create, :purchase => @post_params
-      }.should change(Purchase, :count).by(1)
-    end
-
-    it 'should restore a Purchase' do
-      session[:purchase] = @purchase.id
-      lambda {
-        post :create, :purchase => @post_params
-      }.should_not change(Purchase, :count)
-      assigns[:purchase].should eq @purchase
-    end
-
-    it 'should load its purchase item' do
-      session[:purchase] = @purchase.id
-      @purchase_item = FactoryGirl.create(:purchase_item, :purchase => @purchase)
-      post :create, :purchase => @post_params
-      assigns[:purchase].purchase_items.should eq [@purchase_item]
-    end
-
-    it 'should set purchase as non-draft' do
-      @purchase.update_attribute(:save_as_draft, true)
-      session[:purchase] = @purchase.id
-      post :create, :purchase => @post_params
-      @purchase.reload.save_as_draft.should eq false
-    end
-
-    context 'PUT #update' do
+    describe 'GET #new' do
       before do
         @purchase = FactoryGirl.create(:purchase)
+        session.delete :purchase
+      end
+
+      it 'should create a new Purchase' do
+        get 'new'
+        assigns[:purchase].should be_kind_of(Purchase)
+      end
+
+      it 'should assign a purchase id on session' do
+        get 'new'
+        session[:purchase].should_not be_nil
+      end
+
+      it 'should restore a purchase' do
+        session[:purchase] = @purchase.id
+        get 'new'
+        assigns[:purchase].should eq @purchase
+      end
+
+      it 'should reset purchase if purchase id was not found' do
+        session[:purchase] = 'x'
+        get 'new'
+        response.should be_successful
+      end
+    end
+
+    describe 'POST #create' do
+      before do
+        @purchase = FactoryGirl.create(:purchase)
+        supplier = @purchase.supplier
         branch = @purchase.branch
-        supplier = @purchase.branch
-        @put_params = { :supplier_id => supplier.id, :branch_id => branch.id }
+        @post_params = { supplier_id: supplier.id, branch_id: branch.id }
       end
 
       after do
         session.delete :purchase
       end
 
+      it 'should create a new Purchase' do
+        session[:purchase].should be_nil
+        lambda {
+          post :create, :purchase => @post_params
+        }.should change(Purchase, :count).by(1)
+      end
+
+      it 'should restore a Purchase' do
+        session[:purchase] = @purchase.id
+        lambda {
+          post :create, :purchase => @post_params
+        }.should_not change(Purchase, :count)
+        assigns[:purchase].should eq @purchase
+      end
+
+      it 'should load its purchase item' do
+        session[:purchase] = @purchase.id
+        @purchase_item = FactoryGirl.create(:purchase_item, :purchase => @purchase)
+        post :create, :purchase => @post_params
+        assigns[:purchase].purchase_items.should eq [@purchase_item]
+      end
+
       it 'should set purchase as non-draft' do
         @purchase.update_attribute(:save_as_draft, true)
         session[:purchase] = @purchase.id
-        put 'update', :id => @purchase.id, :purchase => @put_params
+        post :create, :purchase => @post_params
         @purchase.reload.save_as_draft.should eq false
       end
 
-      it 'should clear the purchase session' do
-        session[:purchase] = @purchase.id
-        put 'update', :id => @purchase.id, :purchase => @put_params
-        session[:purchase].should be_nil
+      context 'PUT #update' do
+        before do
+          @purchase = FactoryGirl.create(:purchase)
+          branch = @purchase.branch
+          supplier = @purchase.branch
+          @put_params = { :supplier_id => supplier.id, :branch_id => branch.id }
+        end
+
+        after do
+          session.delete :purchase
+        end
+
+        it 'should set purchase as non-draft' do
+          @purchase.update_attribute(:save_as_draft, true)
+          session[:purchase] = @purchase.id
+          put 'update', :id => @purchase.id, :purchase => @put_params
+          @purchase.reload.save_as_draft.should eq false
+        end
+
+        it 'should clear the purchase session' do
+          session[:purchase] = @purchase.id
+          put 'update', :id => @purchase.id, :purchase => @put_params
+          session[:purchase].should be_nil
+        end
+      end
+    end
+  end
+
+  context 'as branch manager' do
+    login_branch
+
+    context 'GET #index' do
+      it 'should load all purchase from the branch' do
+        @purchase = FactoryGirl.create(:purchase, :branch => @current_user.branches.first)
+        FactoryGirl.create(:purchase)
+        get 'index'
+        assigns[:purchases].should eq [@purchase]
+      end
+    end
+
+    context 'POST #create' do
+      it 'should set its branch' do
+        purchase = FactoryGirl.create(:purchase)
+        session[:purchase] = purchase.id
+        post_params = FactoryGirl.attributes_for(:purchase, :invoice_number => '9000', :branch_id => nil)
+        post 'create', :purchase => post_params
+        purchase.branch.should eq @current_user.branches.first
       end
     end
   end

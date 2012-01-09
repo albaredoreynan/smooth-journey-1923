@@ -2,10 +2,8 @@ class BranchesController < ApplicationController
 
   set_tab :database
 
-  # GET /branches
-  # GET /branches.xml
   def index
-    @branches = Branch.all
+    @branches = branch.all
 
     respond_to do |format|
       format.html # index.html.erb
@@ -13,8 +11,6 @@ class BranchesController < ApplicationController
     end
   end
 
-  # GET /branches/1
-  # GET /branches/1.xml
   def show
     @branch = Branch.find(params[:id])
 
@@ -24,8 +20,6 @@ class BranchesController < ApplicationController
     end
   end
 
-  # GET /branches/new
-  # GET /branches/new.xml
   def new
     @branch = Branch.new
 
@@ -35,13 +29,10 @@ class BranchesController < ApplicationController
     end
   end
 
-  # GET /branches/1/edit
   def edit
     @branch = Branch.find(params[:id])
   end
 
-  # POST /branches
-  # POST /branches.xml
   def create
     @branch = Branch.new(params[:branch])
 
@@ -56,8 +47,6 @@ class BranchesController < ApplicationController
     end
   end
 
-  # PUT /branches/1
-  # PUT /branches/1.xml
   def update
     @branch = Branch.find(params[:id])
 
@@ -72,8 +61,6 @@ class BranchesController < ApplicationController
     end
   end
 
-  # DELETE /branches/1
-  # DELETE /branches/1.xml
   def destroy
     @branch = Branch.find(params[:id])
     @branch.destroy
@@ -82,5 +69,10 @@ class BranchesController < ApplicationController
       format.html { redirect_to(branches_url) }
       format.xml  { head :ok }
     end
+  end
+
+  private
+  def branch
+    current_user.branch? ? current_user.branches : Branch
   end
 end

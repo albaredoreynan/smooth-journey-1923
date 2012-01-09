@@ -2,14 +2,11 @@ class InventoryitemsController < ApplicationController
 
   set_tab :inventory
 
-  # GET /inventoryitems
-  # GET /inventoryitems.xml
   def index
-
     if params[:search]
-      @items = Item.search(params[:search])
+      @items = item.search(params[:search])
     else
-      @items = Item.all
+      @items = item.all
     end
 
     respond_to do |format|
@@ -18,8 +15,6 @@ class InventoryitemsController < ApplicationController
     end
   end
 
-  # GET /inventoryitems/1
-  # GET /inventoryitems/1.xml
   def show
     @item = Item.find(params[:id])
 
@@ -29,8 +24,6 @@ class InventoryitemsController < ApplicationController
     end
   end
 
-  # GET /inventoryitems/new
-  # GET /inventoryitems/new.xml
   def new
     @item = Item.new
 
@@ -40,13 +33,10 @@ class InventoryitemsController < ApplicationController
     end
   end
 
-  # GET /inventoryitems/1/edit
   def edit
     @item = Item.find(params[:id])
   end
 
-  # POST /inventoryitems
-  # POST /inventoryitems.xml
   def create
     @item = Item.new(params[:item])
 
@@ -62,8 +52,6 @@ class InventoryitemsController < ApplicationController
     end
   end
 
-  # PUT /inventoryitems/1
-  # PUT /inventoryitems/1.xml
   def update
     @item = Item.find(params[:id])
 
@@ -78,8 +66,6 @@ class InventoryitemsController < ApplicationController
     end
   end
 
-  # DELETE /inventoryitems/1
-  # DELETE /inventoryitems/1.xml
   def destroy
     @item = Item.find(params[:id])
     @item.destroy
@@ -88,5 +74,10 @@ class InventoryitemsController < ApplicationController
       format.html { redirect_to(inventoryitems_url) }
       format.xml  { head :ok }
     end
+  end
+
+  private
+  def item
+    current_user.branch? ? Item.where(:branch_id => current_user.branches.first.id) : Item
   end
 end

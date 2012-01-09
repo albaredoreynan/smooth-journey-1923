@@ -6,9 +6,9 @@ class PurchasesController < ApplicationController
 
   def index
     if params[:start_date] || params[:end_date] || params[:invoice_number] || params[:supplier]
-      @purchases = Purchase.non_draft.search(params).page(params[:page])
+      @purchases = purchase.non_draft.search(params).page(params[:page])
     else
-      @purchases = Purchase.non_draft.page(params[:page])
+      @purchases = purchase.non_draft.page(params[:page])
     end
 
     respond_to do |format|
@@ -39,6 +39,9 @@ class PurchasesController < ApplicationController
 
   def create
     respond_to do |format|
+      if current_user.branch?
+        @purchase.branch = current_user.branches.first
+      end
       if @purchase.save
         @purchase.update_attribute(:save_as_draft, false)
         format.html { redirect_to(@purchase, :notice => 'Purchase was successfully created.') }
@@ -71,6 +74,10 @@ class PurchasesController < ApplicationController
   end
 
   private
+  def purchase
+    current_user.branch? ? Purchase.where(:branch_id => current_user.branches.first) : Purchase
+  end
+
   def load_purchase_from_session
     if session[:purchase]
       @purchase = Purchase.find_or_create_by_id(session[:purchase])
