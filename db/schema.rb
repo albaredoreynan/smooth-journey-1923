@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120105070513) do
+ActiveRecord::Schema.define(:version => 20120109032252) do
 
   create_table "branches", :force => true do |t|
     t.integer  "restaurant_id"
@@ -194,10 +194,15 @@ ActiveRecord::Schema.define(:version => 20120105070513) do
   end
 
   create_table "roles", :force => true do |t|
-    t.string   "role_name"
+    t.string   "name"
+    t.integer  "user_id"
+    t.integer  "branch_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "roles", ["branch_id"], :name => "index_roles_on_branch_id"
+  add_index "roles", ["user_id"], :name => "index_roles_on_user_id"
 
   create_table "sales", :force => true do |t|
     t.integer  "employee_id"
@@ -315,7 +320,6 @@ ActiveRecord::Schema.define(:version => 20120105070513) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "role"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

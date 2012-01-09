@@ -4,11 +4,18 @@ FactoryGirl.define do
     password 'password'
 
     factory :admin_user do
-      role 'admin'
+      email 'admin@example.com'
+      after_create do |user|
+        FactoryGirl.create(:role, :name => 'admin', :user => user)
+      end
     end
 
     factory :branch_user do
-      role 'branch'
+      email 'branch@example.com'
+      after_create do |user|
+        branch = FactoryGirl.create(:branch)
+        FactoryGirl.create(:role, :name => 'branch', :branch => branch, :user => user)
+      end
     end
   end
 end
