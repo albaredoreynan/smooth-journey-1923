@@ -91,6 +91,10 @@ GEM
       thor (~> 0.14)
     json (1.6.1)
     json_pure (1.6.1)
+    kaminari (0.13.0)
+      actionpack (>= 3.0.0)
+      activesupport (>= 3.0.0)
+      railties (>= 3.0.0)
     launchy (2.0.5)
       addressable (~> 2.2.6)
     libnotify (0.5.9)
@@ -211,6 +215,7 @@ DEPENDENCIES
   heroku
   hpricot
   jquery-rails
+  kaminari
   libnotify
   pg
   rails
