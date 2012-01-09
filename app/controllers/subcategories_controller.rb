@@ -5,7 +5,7 @@ class SubcategoriesController < ApplicationController
   # GET /subcategories
   # GET /subcategories.xml
   def index
-    @subcategories = Subcategory.all
+    @subcategories = Subcategory.page(params[:page])
 
     respond_to do |format|
       format.html # index.html.erb

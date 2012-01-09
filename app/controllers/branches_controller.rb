@@ -3,7 +3,7 @@ class BranchesController < ApplicationController
   set_tab :database
 
   def index
-    @branches = branch.all
+    @branches = branch.page(params[:page])
 
     respond_to do |format|
       format.html # index.html.erb

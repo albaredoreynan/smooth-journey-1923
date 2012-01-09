@@ -5,7 +5,7 @@ class CompaniesController < ApplicationController
   # GET /companies
   # GET /companies.xml
   def index
-    @companies = Company.all
+    @companies = Company.page(params[:page])
 
     respond_to do |format|
       format.html # index.html.erb

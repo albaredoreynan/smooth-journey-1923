@@ -5,7 +5,7 @@ class CurrenciesController < ApplicationController
   # GET /currencies
   # GET /currencies.json
   def index
-    @currencies = Currency.all
+    @currencies = Currency.page(params[:page])
 
     respond_to do |format|
       format.html # index.html.erb

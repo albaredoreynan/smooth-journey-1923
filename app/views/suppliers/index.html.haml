@@ -27,3 +27,4 @@
               = link_to 'Show', supplier
               = link_to 'Edit', edit_supplier_path(supplier)
               = link_to 'Destroy', supplier, :confirm => 'Are you sure?', :method => :delete
+    = paginate @suppliers

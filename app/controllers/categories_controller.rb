@@ -5,7 +5,7 @@ class CategoriesController < ApplicationController
   # GET /categories
   # GET /categories.xml
   def index
-    @categories = Category.all
+    @categories = Category.page(params[:page])
 
     respond_to do |format|
       format.html # index.html.erb
