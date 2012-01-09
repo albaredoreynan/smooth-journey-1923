@@ -22,7 +22,7 @@ jQuery ->
         }
       })
       success: (data) ->
-        $('.purchase-items').html($(data).find(".purchase-items"))
+        $('.purchase_items_wrapper').html($(data).find(".purchase-items"))
         $('#dialog_item input:text' ).val('')
         $('#unit_id').val('')
         $('#item_id').val('')

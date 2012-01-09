@@ -5,22 +5,18 @@ class PurchasesController < ApplicationController
   before_filter :load_purchase_from_session, :only => [:new, :create]
 
   def index
-
     if params[:start_date] || params[:end_date] || params[:invoice_number] || params[:supplier]
-      @purchases = Purchase.non_draft.search(params)
+      @purchases = Purchase.non_draft.search(params).page(params[:page])
     else
-      @purchases = Purchase.non_draft
+      @purchases = Purchase.non_draft.page(params[:page])
     end
 
-    @purchases = Purchase.page(params[:page]).per 2
     respond_to do |format|
       format.html
       format.csv { render :layout => false }
     end
-    
   end
-  
-  
+
   def show
     @purchase = Purchase.find(params[:id])
 

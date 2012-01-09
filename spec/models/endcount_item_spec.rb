@@ -82,12 +82,20 @@ describe EndcountItem do
   end
 
   context '#cogs' do
-    it 'should return a cogs' do
+    before do
       @item.stub(
         :purchase_amount_period => 100,
         :beginning_total => 200,
         :ending_total => 50)
+    end
+
+    it 'should return a cogs' do
       @item.cogs.should eq 250
+    end
+
+    it 'should return nil if any of required parameters are not present' do
+      @item.stub(:purchase_amount_period => nil)
+      @item.cogs.should be_nil
     end
   end
 end
