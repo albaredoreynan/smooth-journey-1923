@@ -9,4 +9,10 @@ class User < ActiveRecord::Base
 
   has_many :roles
   has_many :branches, :through => :roles
+
+  Role::VALID_ROLES.each do |role_name|
+    define_method "#{role_name}?" do
+      roles.exists?(:name => role_name)
+    end
+  end
 end
