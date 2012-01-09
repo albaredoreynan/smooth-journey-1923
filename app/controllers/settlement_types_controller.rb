@@ -5,7 +5,7 @@ class SettlementTypesController < ApplicationController
   # GET /settlement_types
   # GET /settlement_types.xml
   def index
-    @settlement_types = SettlementType.all
+    @settlement_types = SettlementType.page(params[:page])
 
     respond_to do |format|
       format.html # index.html.erb

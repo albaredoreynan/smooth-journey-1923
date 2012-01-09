@@ -21,3 +21,4 @@
               = link_to 'Show', subcategory
               = link_to 'Edit', edit_subcategory_path(subcategory)
               = link_to 'Destroy', subcategory, :confirm => 'Are you sure?', :method => :delete
+    = paginate @subcategories

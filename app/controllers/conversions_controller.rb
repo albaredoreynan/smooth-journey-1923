@@ -5,7 +5,7 @@ class ConversionsController < ApplicationController
   # GET /conversions
   # GET /conversions.xml
   def index
-    @conversions = Conversion.all
+    @conversions = Conversion.page(params[:page])
 
     respond_to do |format|
       format.html # index.html.erb

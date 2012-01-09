@@ -5,7 +5,7 @@ class RestaurantsController < ApplicationController
   # GET /restaurants
   # GET /restaurants.xml
   def index
-    @restaurants = Restaurant.all(:joins => :company)
+    @restaurants = Restaurant.page(params[:page]).joins(:company)
 
     respond_to do |format|
       format.html # index.html.erb

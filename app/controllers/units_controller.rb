@@ -6,9 +6,9 @@ class UnitsController < ApplicationController
   # GET /units.xml
   def index
     if params[:search]
-      @units = Unit.search(params[:search])
+      @units = Unit.search(params[:search]).page(params[:page])
     else
-      @units = Unit.all
+      @units = Unit.page(params[:page])
     end
 
     respond_to do |format|

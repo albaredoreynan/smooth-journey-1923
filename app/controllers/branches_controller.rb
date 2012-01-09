@@ -5,7 +5,7 @@ class BranchesController < ApplicationController
   # GET /branches
   # GET /branches.xml
   def index
-    @branches = Branch.all
+    @branches = Branch.page(params[:page])
 
     respond_to do |format|
       format.html # index.html.erb
