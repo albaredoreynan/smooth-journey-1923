@@ -30,4 +30,5 @@
             %td
               = link_to 'Show', inventoryitem_path(item)
               = link_to 'Edit', edit_inventoryitem_path(item)
-              = link_to 'Destroy', inventoryitem_path(item), :confirm => 'Are you sure?', :method => :delete
+              - if can? :destroy, Branch
+                = link_to 'Destroy', inventoryitem_path(item), :confirm => 'Are you sure?', :method => :delete

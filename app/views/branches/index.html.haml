@@ -3,8 +3,9 @@
   .content
     .title_action_bar
       %h2.title Branches
-      .new_actions
-        = link_to 'New Branch', new_branch_path, :class => 'button'
+      - if can? :new, Branch
+        .new_actions
+          = link_to 'New Branch', new_branch_path, :class => 'button'
     .inner
       %table
         %tr
@@ -22,5 +23,6 @@
             %td.last
               = link_to 'Show', branch
               = link_to 'Edit', edit_branch_path(branch)
-              = link_to 'Destroy', branch, :confirm => 'Are you sure?', :method => :delete
+              - if can? :destroy, Branch
+                = link_to 'Destroy', branch, :confirm => 'Are you sure?', :method => :delete
     = paginate @branches
