@@ -1,12 +1,13 @@
 class InventoryitemsController < ApplicationController
+  load_and_authorize_resource :item
 
   set_tab :inventory
 
   def index
     if params[:search]
-      @items = item.search(params[:search])
+      @items = Item.accessible_by(current_ability).search(params[:search])
     else
-      @items = item.all
+      @items = Item.accessible_by(current_ability).all
     end
 
     respond_to do |format|
@@ -26,7 +27,9 @@ class InventoryitemsController < ApplicationController
 
   def new
     @item = Item.new
-
+    current_ability.attributes_for(:new, Item).each do |key, value|
+      @item.send("#{key}=", value)
+    end
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @item }
@@ -35,11 +38,14 @@ class InventoryitemsController < ApplicationController
 
   def edit
     @item = Item.find(params[:id])
+    authorize! :edit, @item
   end
 
   def create
     @item = Item.new(params[:item])
-
+    current_ability.attributes_for(:create, Item).each do |key, value|
+      @item.send("#{key}=", value)
+    end
     respond_to do |format|
       if @item.save
         @item.item_count = params[:item][:item_count]
@@ -54,9 +60,8 @@ class InventoryitemsController < ApplicationController
 
   def update
     @item = Item.find(params[:id])
-
     respond_to do |format|
-      if @item.update_attributes(params[:item])
+      if @item.update_attributes(current_ability.attributes_for(:update, Item).merge(params[:item]))
         format.html { redirect_to(inventoryitems_path, :notice => 'Item was successfully updated.') }
         format.xml  { head :ok }
       else
@@ -74,10 +79,5 @@ class InventoryitemsController < ApplicationController
       format.html { redirect_to(inventoryitems_url) }
       format.xml  { head :ok }
     end
-  end
-
-  private
-  def item
-    current_user.branch? ? Item.where(:branch_id => current_user.branches.first.id) : Item
   end
 end

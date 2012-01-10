@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe InventoryitemsController do
-  context 'as user' do
-    login_user
+  context 'as admin' do
+    login_admin
 
     context 'POST #create' do
       before do
@@ -29,7 +29,7 @@ describe InventoryitemsController do
   context 'as branch manager' do
     login_branch
 
-    context 'POST #index' do
+    context 'GET #index' do
       before do
         @item = FactoryGirl.create(:item, :name => "Poor Man's Shield", :branch => @current_user.branches.first)
         FactoryGirl.create(:item, :name => "Soul Ring")
@@ -39,6 +39,44 @@ describe InventoryitemsController do
       it 'should load all items within a branch' do
         assigns[:items].should eq [@item]
       end
+    end
+
+    context 'GET #new' do
+      it 'should set a branch' do
+        get 'new'
+        assigns[:item].branch_id.should eq @current_branch.id
+      end
+    end
+
+    context 'GET #edit' do
+      it 'should denied access when editing other item' do
+        lambda {
+          get 'edit', :id => FactoryGirl.create(:item).to_param
+        }.should raise_error CanCan::AccessDenied
+      end
+    end
+
+    context 'POST #create' do
+      it 'should set a branch' do
+        post 'create', :item => FactoryGirl.attributes_for(:item, :name => 'XXX')
+        item = Item.find_by_name('XXX')
+        item.branch.should eq @current_branch
+      end
+    end
+
+    context 'PUT #update' do
+      it 'should not update branch_id' do
+        @branch = FactoryGirl.create(:branch)
+        put_params = {:branch_id => @branch.to_param}
+        @item = FactoryGirl.create(:item, :branch => @current_branch)
+        lambda {
+          put 'update', :id => @item.to_param, :item => put_params
+        }.should_not change{@item.reload.branch_id}
+      end
+    end
+
+    context 'DELETE #destroy' do
+      it 'sholud not delete an item'
     end
   end
 end

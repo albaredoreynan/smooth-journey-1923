@@ -20,6 +20,7 @@ module ControllerMacros
       @request.env['devise.mapping'] = Devise.mappings[:user]
       @current_user= FactoryGirl.create(:branch_user)
       sign_in @current_user
+      @current_branch = @current_user.branches.first
     end
   end
 end

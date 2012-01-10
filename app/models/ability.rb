@@ -16,6 +16,9 @@ class Ability
       # Purchase
       can :new, Purchase
       can [:read, :update, :edit, :create], Purchase, :branch_id => user.branches.first.id
+
+      # Inventory Item
+      can :manage, Item, :branch_id => user.branches.first.id
     end
   end
 end
