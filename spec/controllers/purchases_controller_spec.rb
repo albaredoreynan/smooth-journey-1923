@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe PurchasesController do
-  context 'as user' do
-    login_user
+  context 'as admin' do
+    login_admin
 
     describe "GET index" do
       it "should show all non-draft purchases" do
@@ -158,23 +158,34 @@ describe PurchasesController do
 
   context 'as branch manager' do
     login_branch
+    before do
+      @current_branch = @current_user.branches.first
+    end
 
     context 'GET #index' do
       it 'should load all purchase from the branch' do
-        @purchase = FactoryGirl.create(:purchase, :branch => @current_user.branches.first)
+        @purchase = FactoryGirl.create(:purchase, :branch => @current_branch)
         FactoryGirl.create(:purchase)
         get 'index'
         assigns[:purchases].should eq [@purchase]
       end
     end
 
+    context 'GET #new' do
+      it 'should set its own branch' do
+        get 'new'
+        assigns[:purchase].branch_id.should eq @current_branch.id
+      end
+    end
+
     context 'POST #create' do
       it 'should set its branch' do
-        purchase = FactoryGirl.create(:purchase)
+        pending 'wip'
+        purchase = FactoryGirl.create(:purchase, :branch => @current_branch)
         session[:purchase] = purchase.id
         post_params = FactoryGirl.attributes_for(:purchase, :invoice_number => '9000', :branch_id => nil)
         post 'create', :purchase => post_params
-        purchase.branch.should eq @current_user.branches.first
+        purchase.branch.should eq @current_branch
       end
     end
   end

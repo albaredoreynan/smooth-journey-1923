@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe BranchesController do
-  context 'as user (without role)' do
-    login_user
+  context 'as admin' do
+    login_admin
 
     context 'GET #index' do
       before do
@@ -11,7 +11,7 @@ describe BranchesController do
       end
 
       it 'should load all branches' do
-        assigns[:branches].should eq [@branch]
+        assigns[:branches].should eq Branch.all
       end
     end
 
@@ -50,6 +50,14 @@ describe BranchesController do
 
       it 'should load branch that belongs to the user' do
         assigns[:branches].should eq @current_user.branches.all
+      end
+    end
+
+    context 'DELETE #destroy' do
+      it 'should not be able to delete a branch' do
+        lambda {
+          delete 'destroy', :id => @current_user.branches.first.to_param
+        }.should raise_error CanCan::AccessDenied
       end
     end
   end

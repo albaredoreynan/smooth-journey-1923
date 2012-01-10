@@ -1,9 +1,10 @@
 class BranchesController < ApplicationController
+  load_and_authorize_resource
 
   set_tab :database
 
   def index
-    @branches = branch.page(params[:page])
+    @branches = Branch.accessible_by(current_ability).page(params[:page])
 
     respond_to do |format|
       format.html # index.html.erb
@@ -66,13 +67,8 @@ class BranchesController < ApplicationController
     @branch.destroy
 
     respond_to do |format|
-      format.html { redirect_to(branches_url) }
+      format.html { redirect_to(branches_url, :notice => 'Branch has been deleted.') }
       format.xml  { head :ok }
     end
-  end
-
-  private
-  def branch
-    current_user.branch? ? current_user.branches : Branch
   end
 end
