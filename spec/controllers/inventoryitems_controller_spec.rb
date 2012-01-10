@@ -74,9 +74,5 @@ describe InventoryitemsController do
         }.should_not change{@item.reload.branch_id}
       end
     end
-
-    context 'DELETE #destroy' do
-      it 'sholud not delete an item'
-    end
   end
 end

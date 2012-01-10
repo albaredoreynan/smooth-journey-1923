@@ -171,6 +171,15 @@ describe PurchasesController do
       end
     end
 
+    context 'GET #show' do
+      it 'should only show its own purchase' do
+        purchase = FactoryGirl.create(:purchase)
+        lambda {
+          get 'show', :id => purchase.to_param
+        }.should raise_error CanCan::AccessDenied
+      end
+    end
+
     context 'GET #new' do
       it 'should set its own branch' do
         get 'new'
@@ -180,12 +189,21 @@ describe PurchasesController do
 
     context 'POST #create' do
       it 'should set its branch' do
-        pending 'wip'
         purchase = FactoryGirl.create(:purchase, :branch => @current_branch)
         session[:purchase] = purchase.id
-        post_params = FactoryGirl.attributes_for(:purchase, :invoice_number => '9000', :branch_id => nil)
+        post_params = FactoryGirl.attributes_for(:purchase, :branch_id => nil)
         post 'create', :purchase => post_params
         purchase.branch.should eq @current_branch
+      end
+    end
+
+    context 'PUT #update' do
+      it 'should not change its branch' do
+        purchase = FactoryGirl.create(:purchase, :branch => @current_branch)
+        branch = FactoryGirl.create(:branch)
+        put_params = FactoryGirl.attributes_for(:purchase, :branch_id => branch.to_param)
+        put 'update', :id => purchase.to_param, :purchase => put_params
+        purchase.reload.branch.should eq @current_branch
       end
     end
   end

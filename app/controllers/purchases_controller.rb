@@ -1,5 +1,4 @@
 class PurchasesController < ApplicationController
-  load_and_authorize_resource
 
   set_tab :purchases
 
@@ -20,6 +19,7 @@ class PurchasesController < ApplicationController
 
   def show
     @purchase = Purchase.find(params[:id])
+    authorize! :show, @purchase
 
     respond_to do |format|
       format.html # show.html.erb
@@ -43,6 +43,9 @@ class PurchasesController < ApplicationController
 
   def create
     respond_to do |format|
+      current_ability.attributes_for(:create, Purchase).each do |key, value|
+        @purchase.send("#{key}=", value)
+      end
       if @purchase.save
         @purchase.update_attribute(:save_as_draft, false)
         format.html { redirect_to(@purchase, :notice => 'Purchase was successfully created.') }
@@ -53,7 +56,10 @@ class PurchasesController < ApplicationController
   def update
     @purchase = Purchase.find(params[:id])
     respond_to do |format|
-      if @purchase.update_attributes(params[:purchase].merge(:save_as_draft => false))
+      attr = current_ability.attributes_for(:update, Purchase)
+      attr = attr.merge(params[:purchase])
+      attr = attr.merge({save_as_draft: false})
+      if @purchase.update_attributes(attr)
         session.delete :purchase
         format.html { redirect_to(@purchase, :notice => 'Purchase was successfully updated.') }
         format.xml  { head :ok }
