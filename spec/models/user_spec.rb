@@ -14,4 +14,12 @@ describe User do
     branch_user = FactoryGirl.create(:branch_user)
     branch_user.should be_branch
   end
+
+  it 'should create a role' do
+    pending
+    user = FactoryGirl.build(:user)
+    user.role = 'admin'
+    user.save
+    user.reload.should be_admin
+  end
 end

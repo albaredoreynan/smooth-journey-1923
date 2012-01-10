@@ -13,6 +13,9 @@
         .input
           = f.label :password_confirmation
           = f.password_field :password_confirmation
+        -#.input
+          -#= f.label :role
+          -#= f.select(:role, options_for_select(Role::VALID_ROLES.map{|role| [role, role]}))
         .actions
           = f.submit "Sign up", :class => 'button'
         = render :partial => "devise/shared/links"

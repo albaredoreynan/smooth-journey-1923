@@ -55,9 +55,8 @@ describe BranchesController do
 
     context 'DELETE #destroy' do
       it 'should not be able to delete a branch' do
-        lambda {
-          delete 'destroy', :id => @current_user.branches.first.to_param
-        }.should raise_error CanCan::AccessDenied
+        delete 'destroy', :id => @current_user.branches.first.to_param
+        response.should redirect_to root_url
       end
     end
   end
