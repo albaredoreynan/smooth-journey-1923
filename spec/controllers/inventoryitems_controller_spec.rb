@@ -50,9 +50,8 @@ describe InventoryitemsController do
 
     context 'GET #edit' do
       it 'should denied access when editing other item' do
-        lambda {
-          get 'edit', :id => FactoryGirl.create(:item).to_param
-        }.should raise_error CanCan::AccessDenied
+        get 'edit', :id => FactoryGirl.create(:item).to_param
+        response.should redirect_to root_url
       end
     end
 

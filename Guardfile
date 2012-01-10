@@ -9,6 +9,7 @@ guard 'spork', :cucumber_env => { 'RAILS_ENV' => 'test' }, :rspec_env => { 'RAIL
   watch(%r{spec/support/.+\.rb$})
   watch(%r{spec/factories/.+\.rb$})
   watch('config/routes.rb')
+  watch('app/models/user.rb')
 end
 
 guard 'rspec', :version => 2, :cli => '--drb --color' do

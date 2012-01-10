@@ -174,9 +174,8 @@ describe PurchasesController do
     context 'GET #show' do
       it 'should only show its own purchase' do
         purchase = FactoryGirl.create(:purchase)
-        lambda {
-          get 'show', :id => purchase.to_param
-        }.should raise_error CanCan::AccessDenied
+        get 'show', :id => purchase.to_param
+        response.should redirect_to root_url
       end
     end
 

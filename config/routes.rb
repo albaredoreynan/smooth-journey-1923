@@ -1,5 +1,5 @@
 Rrbs::Application.routes.draw do
-  devise_for :users
+  devise_for :users, :controller => {:registrations => 'users/registrations'}
 
   match '/purchases/search' => 'purchases#index'
 
