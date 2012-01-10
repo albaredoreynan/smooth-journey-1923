@@ -49,7 +49,7 @@ describe BranchesController do
       end
 
       it 'should load branch that belongs to the user' do
-        assigns[:branches].should eq @current_user.branches
+        assigns[:branches].should eq @current_user.branches.all
       end
     end
   end
