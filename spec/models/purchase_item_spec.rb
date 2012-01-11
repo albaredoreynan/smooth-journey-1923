@@ -122,6 +122,14 @@ describe PurchaseItem do
     end
   end
 
+  describe '#subcategory_name' do
+    it 'should return a subcategory name' do
+      @item = FactoryGirl.create(:item, :subcategory => FactoryGirl.create(:subcategory, name: 'SubA'))
+      purchase_item  = FactoryGirl.create(:purchase_item, item: @item)
+      purchase_item.subcategory_name.should eq 'SubA'
+    end
+  end
+
   describe '#unit_name' do
     it 'should return a unit_name' do
       @unit = FactoryGirl.create(:unit, :name => 'kg')
