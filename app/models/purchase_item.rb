@@ -14,6 +14,13 @@ class PurchaseItem < ActiveRecord::Base
   validates :amount,      :presence => true
   validates :quantity,    :presence => true, :numericality => true
 
+  scope :start_date, lambda {|date| joins(:purchase).where('purchase_date >= ?', date) unless date.nil?}
+  scope :end_date, lambda {|date| joins(:purchase).where('purchase_date <= ?', date) unless date.nil?}
+
+  def self.search_by_date(beginning, ending)
+    start_date(beginning).end_date(ending)
+  end
+
   def purchase_amount
     vat_type == 'VAT-Exclusive' ? amount + vat_amount : amount
   end

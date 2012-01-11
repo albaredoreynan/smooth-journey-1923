@@ -14,4 +14,8 @@ class Quantity
     factor = conversion.conversion_factor
     Quantity.new(@value * factor, unit_to.symbol)
   end
+
+  def to_s
+    @value
+  end
 end

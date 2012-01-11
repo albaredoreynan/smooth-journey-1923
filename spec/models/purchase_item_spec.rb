@@ -20,7 +20,7 @@ describe PurchaseItem do
     end
   end
 
-  context '#net_amount' do
+  describe '#net_amount' do
     it 'should calculate net_amount when vat type is inclusive' do
       purchase_row = FactoryGirl.create(:purchase_item,
                                         :amount => 5,
@@ -43,7 +43,7 @@ describe PurchaseItem do
     end
   end
 
-  context '#purchase_amount' do
+  describe '#purchase_amount' do
     it 'should calculate purchase_amount when vat_type is exclusive' do
       purchase_item = FactoryGirl.create(:purchase_item,
                                         :amount => 1,
@@ -66,7 +66,7 @@ describe PurchaseItem do
     end
   end
 
-  context '#quantity' do
+  describe '#quantity' do
     before do
       @unit = FactoryGirl.create(:unit)
       @purchase_item = FactoryGirl.create(:purchase_item, :quantity => 10, :unit => @unit)
@@ -87,7 +87,7 @@ describe PurchaseItem do
     end
   end
 
-  context '#unit_cost' do
+  describe '#unit_cost' do
     before do
       @inch_unit = FactoryGirl.create(:unit, :symbol => 'in')
       @cm_unit = FactoryGirl.create(:unit, :symbol => 'cm')
@@ -114,7 +114,7 @@ describe PurchaseItem do
     end
   end
 
-  context '#item_name' do
+  describe '#item_name' do
     it 'should return an item_name' do
       @item = FactoryGirl.create(:item, :name => 'Circlet of Nobility')
       @purchase_item = FactoryGirl.create(:purchase_item, :item => @item)
@@ -122,7 +122,7 @@ describe PurchaseItem do
     end
   end
 
-  context '#unit_name' do
+  describe '#unit_name' do
     it 'should return a unit_name' do
       @unit = FactoryGirl.create(:unit, :name => 'kg')
       @purchase_item = FactoryGirl.create(:purchase_item, :unit => @unit)
@@ -130,4 +130,19 @@ describe PurchaseItem do
     end
   end
 
+  context 'Search' do
+    it 'should search by purchase_date' do
+      start_date = 5.days.ago.to_date
+      end_date = Date.today
+      item = FactoryGirl.create(:item)
+      purchase_items = [
+        FactoryGirl.create(:purchase_item, item: item,
+                            purchase: FactoryGirl.create(:purchase, purchase_date: start_date)),
+        FactoryGirl.create(:purchase_item, item: item,
+                            purchase: FactoryGirl.create(:purchase, purchase_date: end_date))
+      ]
+      purchase_item_result = PurchaseItem.search_by_date(start_date, end_date)
+      purchase_item_result.should eq purchase_items
+    end
+  end
 end
