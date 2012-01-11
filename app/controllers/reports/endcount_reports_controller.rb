@@ -1,4 +1,4 @@
-class ReportsController < ApplicationController
+class Reports::EndcountReportsController < ApplicationController
 
   set_tab :reports
 
