@@ -28,7 +28,11 @@ class Purchase < ActiveRecord::Base
     finder = finder.search_by_supplier(queries[:supplier])
     return finder
   end
-
+  
+  def time_yesterday
+    Time.now - 86400
+  end 
+  
   def amount
     purchase_items.map(&:amount).inject(:+) || 0.00
   end

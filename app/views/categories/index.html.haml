@@ -10,11 +10,13 @@
         %tr
           %th Name
           %th Description
+          %th Restaurants
           %th.actions Actions
         - @categories.each do |category|
           %tr
             %td= category.name
             %td= category.description
+            %td= category.restaurant.name unless category.restaurant.nil?
             %td
               = link_to 'Show', category
               = link_to 'Edit', edit_category_path(category)

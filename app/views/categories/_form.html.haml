@@ -1,5 +1,6 @@
 = simple_form_for @category do |f|
   = f.input :name
+  = f.association :restaurant
   = f.input :description
   .actions
     = f.button :submit

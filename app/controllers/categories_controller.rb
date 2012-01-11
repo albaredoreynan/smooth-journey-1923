@@ -1,11 +1,12 @@
 class CategoriesController < ApplicationController
+  load_and_authorize_resource
 
   set_tab :database
 
   # GET /categories
   # GET /categories.xml
   def index
-    @categories = Category.page(params[:page])
+    @categories = Category.accessible_by(current_ability).page(params[:page])
 
     respond_to do |format|
       format.html # index.html.erb
