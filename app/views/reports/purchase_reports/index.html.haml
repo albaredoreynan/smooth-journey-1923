@@ -17,11 +17,11 @@
           %th Net amount
           %th Purchase amount
         - @purchase_items.each do |subcategory, purchase_items|
-          %tr
+          %tr{id: dom_id(subcategory), class: 'subcategory_row'}
             %th{colspan: 10}= subcategory.name
             %th.monetary= number_to_currency(purchase_items.map(&:amount).inject(:+), :unit => peso_sign)
             - purchase_items.each do |purchase_item|
-              %tr
+              %tr{id: dom_id(purchase_item.item), class: 'item_row'}
                 %td &nbsp;
                 %td= purchase_item.item.name
                 %td= purchase_item.purchase.invoice_number
