@@ -2,12 +2,12 @@
   .input.item-name
     .ui-widget
       = label_tag :item_id, 'Item Name'
-      = select_tag :item_id, options_for_select(Item.all.map { |item| [item.name, item.id] })
+      = select_tag :item_id, options_for_select(Item.accessible_by(current_ability).map { |item| [item.name, item.id] })
   .input.item-quantity
     = label_tag :quantity, 'Quantity'
     = text_field_tag :quantity, nil, :style => 'width:30%'
   .input.item-unit
-    = label_tag :unit, 'Unit'  
+    = label_tag :unit, 'Unit'
     = select_tag :unit_id, options_for_select(Unit.all.map { |unit| [unit.name, unit.id] })
   -# %fieldset.input.item-vat-type.radio_group
     -# = radio_button_tag :vat_type, 'VAT-Exclusive', nil, :id => 'vat_type_exclusive'
@@ -18,7 +18,7 @@
     -# = label_tag :vat_type_exempted, 'VAT-Exempted'
   .input.item-particulars
     = label_tag :particulars, 'Particulars'
-    = text_field_tag :particulars  
+    = text_field_tag :particulars
   .input.item-amount
     = label_tag :amount, 'Amount'
     = text_field_tag :amount

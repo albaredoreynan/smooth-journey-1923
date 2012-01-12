@@ -12,7 +12,7 @@ describe PurchaseItem do
     end
 
     it 'should be invalid without amount' do
-      @purchase_row.should have(1).error_on :amount
+      @purchase_row.should have_at_least(1).error_on :amount
     end
 
     it 'should be invalid without quantity' do
@@ -139,18 +139,43 @@ describe PurchaseItem do
   end
 
   context 'Search' do
-    it 'should search by purchase_date' do
-      start_date = 5.days.ago.to_date
-      end_date = Date.today
-      item = FactoryGirl.create(:item)
-      purchase_items = [
-        FactoryGirl.create(:purchase_item, item: item,
-                            purchase: FactoryGirl.create(:purchase, purchase_date: start_date)),
-        FactoryGirl.create(:purchase_item, item: item,
-                            purchase: FactoryGirl.create(:purchase, purchase_date: end_date))
+    before do
+      @start_date = 5.days.ago.to_date
+      @end_date = Date.today
+      @item = FactoryGirl.create(:item)
+      supplier = FactoryGirl.create(:supplier, name: 'Supplier X')
+      @purchase_items = [
+        FactoryGirl.create(:purchase_item, item: @item,
+                            purchase: FactoryGirl.create(:purchase,
+                                                         invoice_number: '9090',
+                                                         purchase_date: @start_date,
+                                                         supplier: supplier)),
+        FactoryGirl.create(:purchase_item, item: @item,
+                            purchase: FactoryGirl.create(:purchase, purchase_date: @end_date))
       ]
-      purchase_item_result = PurchaseItem.search_by_date(start_date, end_date)
-      purchase_item_result.should eq purchase_items
+    end
+
+    it 'should search by purchase_date' do
+      # purchase that should not be included on search result
+      FactoryGirl.create(:purchase_item, item: @item,
+                          purchase: FactoryGirl.create(:purchase, purchase_date: 1.year.ago.to_date))
+      search_results = PurchaseItem.search(start_date: @start_date, end_date: @end_date)
+      search_results.should eq @purchase_items
+    end
+
+    it 'should search by supplier name' do
+      search_results = PurchaseItem.search(supplier: 'Supplier X')
+      search_results.should eq [@purchase_items[0]]
+    end
+
+    it 'should search by invoice number' do
+      search_results = PurchaseItem.search(invoice_number: '9090')
+      search_results.should eq [@purchase_items[0]]
+    end
+
+    it 'should search with combined queries' do
+      search_results = PurchaseItem.search(start_date: @start_date, end_date: @end_date, supplier: 'Supplier X')
+      search_results.should eq [@purchase_items[0]]
     end
   end
 end

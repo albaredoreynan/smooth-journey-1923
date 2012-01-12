@@ -9,7 +9,7 @@
           %li= msg
   %fieldset.purchase_form
     = f.input :id, :as => :hidden
-    = f.input :purchase_date, :label => "Date", :as => :string, :input_html => { :class => 'datepicker'}
+    = f.input :purchase_date, {label: "Date", as: :string, input_html: {class: 'datepicker', value: Date.today}}
     = f.input :invoice_number
     = f.association :supplier
     - if current_user.admin?
