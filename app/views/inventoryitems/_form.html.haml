@@ -6,7 +6,8 @@
   = f.association :unit, :prompt => '(select)'
   = f.association :subcategory, :prompt => '(select)'
   = f.input :item_count
-  = f.label "Non-Inventory?"
-  = f.check_box :non_inventory
+  = content_tag(:div, class: 'input checkbox') do
+    = f.label :non_inventory, "Non-Inventory?"
+    = f.check_box :non_inventory
   .actions
     = f.button :submit
