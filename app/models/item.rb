@@ -8,6 +8,8 @@ class Item < ActiveRecord::Base
   has_many :purchase_items
   has_many :item_counts
 
+  default_scope order('name ASC')
+
   after_save :new_item_count, :if => :new_record? do
     item_counts.create(:stock_count => 0.00)
   end
