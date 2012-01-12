@@ -1,3 +1,7 @@
+- content_for :sidebar do
+  = content_tag(:h3, 'Search')
+  = render partial: 'shared/purchase_search_form'
+
 .block
   = render 'shared/menu/reports'
   .content
