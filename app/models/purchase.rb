@@ -13,6 +13,7 @@ class Purchase < ActiveRecord::Base
   scope :search_by_invoice_number, lambda {|keyword| where(['invoice_number ILIKE ?', "#{keyword}"]) unless keyword.blank?}
   scope :search_by_supplier, lambda {|keyword| joins(:supplier).where(['suppliers.name ILIKE ?', "#{keyword}%"]) unless keyword.blank?}
   scope :non_draft, where(:save_as_draft => false)
+  scope :locked, where('created_at < ?', Time.now - 1.day)
 
   accepts_nested_attributes_for :purchase_items #, :reject_if => lambda { |a| a[:item_id].blank? }
 
@@ -27,10 +28,6 @@ class Purchase < ActiveRecord::Base
     finder = finder.search_by_date(queries[:start_date], queries[:end_date])
     finder = finder.search_by_supplier(queries[:supplier])
     return finder
-  end
-
-  def time_yesterday
-    Time.now - 86400
   end
 
   def amount

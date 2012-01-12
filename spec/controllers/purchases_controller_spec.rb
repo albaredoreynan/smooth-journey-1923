@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'cancan/matchers'
 
 describe PurchasesController do
   context 'as admin' do
@@ -197,12 +198,50 @@ describe PurchasesController do
     end
 
     context 'PUT #update' do
+      it 'should allow update purchase when draft' do
+        purchase = FactoryGirl.create(:purchase, :branch => nil, :save_as_draft => true)
+        ability = Ability.new(@current_user)
+        ability.should be_able_to(:update, purchase)
+      end
+      
+      it 'should not allow update purchase when no branch' do
+        purchase = FactoryGirl.create(:purchase, :branch => nil, :save_as_draft => false)
+        ability = Ability.new(@current_user)
+        ability.should_not be_able_to(:update, purchase)
+      end
+      
+      it 'should be able to update a purchase' do
+        purchase = FactoryGirl.create(:purchase, :branch => nil, :save_as_draft => true)
+        put_params = FactoryGirl.attributes_for(:purchase, :invoice_number => '333')
+        lambda {
+          put 'update', :id => purchase.to_param, :purchase => put_params
+        }.should change{purchase.reload.invoice_number}.to('333')
+      end
+      
       it 'should not change its branch' do
         purchase = FactoryGirl.create(:purchase, :branch => @current_branch)
         branch = FactoryGirl.create(:branch)
         put_params = FactoryGirl.attributes_for(:purchase, :branch_id => branch.to_param)
-        put 'update', :id => purchase.to_param, :purchase => put_params
-        purchase.reload.branch.should eq @current_branch
+        lambda {
+          put 'update', :id => purchase.to_param, :purchase => put_params
+        }.should_not change{purchase.reload.branch_id}
+      end
+      
+      it 'should not be able to edit other purchase' do
+        other_branch = FactoryGirl.create(:branch)
+        purchase = FactoryGirl.create(:purchase, :branch => other_branch)
+        put_params = FactoryGirl.attributes_for(:purchase, :invoice_number => '555')
+        lambda {
+          put 'update', :id => purchase.to_param, :purchase => put_params
+        }.should_not change{purchase.reload.invoice_number}.to('555')
+      end
+      
+      it 'should not be able to update purchase after 24 hours' do
+        purchase = FactoryGirl.create(:purchase, :branch => @current_branch, :created_at => Time.now - 2.day)
+        put_params = FactoryGirl.attributes_for(:purchase, :invoice_number => '2323')
+        lambda {
+          put 'update', :id => purchase.to_param, :purchase => put_params
+        }.should_not change{purchase.reload.invoice_number}
       end
     end
   end
