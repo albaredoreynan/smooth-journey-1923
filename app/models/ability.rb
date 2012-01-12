@@ -19,7 +19,7 @@ class Ability
 
       # Inventory Item
       can :manage, Item, :branch_id => user.branches.first.id
-      
+
       # Category
       can :manage, Category, :restaurant_id => user.branches.first.restaurant
     end

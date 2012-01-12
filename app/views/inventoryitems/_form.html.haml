@@ -1,7 +1,8 @@
 - url = @item.new_record? ? inventoryitems_path : inventoryitem_path(@item)
 = simple_form_for @item, :url => url do |f|
   = f.input :name
-  = f.association :branch, :collection => Branch.all.map { |branch| [branch.location, branch.id] }, :prompt => '(select)'
+  - if current_user.admin?
+    = f.association :branch, :collection => Branch.all.map { |branch| [branch.location, branch.id] }, :prompt => '(select)'
   = f.association :unit, :prompt => '(select)'
   = f.association :subcategory, :prompt => '(select)'
   = f.input :item_count
