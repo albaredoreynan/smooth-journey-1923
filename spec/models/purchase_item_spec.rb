@@ -142,7 +142,7 @@ describe PurchaseItem do
     before do
       @start_date = 5.days.ago.to_date
       @end_date = Date.today
-      @item = FactoryGirl.create(:item)
+      @item = FactoryGirl.create(:item, name: 'Magic Wand')
       supplier = FactoryGirl.create(:supplier, name: 'Supplier X')
       @purchase_items = [
         FactoryGirl.create(:purchase_item, item: @item,
@@ -171,6 +171,12 @@ describe PurchaseItem do
     it 'should search by invoice number' do
       search_results = PurchaseItem.search(invoice_number: '9090')
       search_results.should eq [@purchase_items[0]]
+    end
+
+    it 'should search an item name' do
+      FactoryGirl.create(:purchase_item, item: FactoryGirl.create(:item, name: 'other item'))
+      search_results = PurchaseItem.search(item: 'Magic') # item name that starts with ..
+      search_results.should eq [@purchase_items[1], @purchase_items[0]]
     end
 
     it 'should search with combined queries' do

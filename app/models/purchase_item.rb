@@ -18,10 +18,12 @@ class PurchaseItem < ActiveRecord::Base
   scope :end_date, lambda {|date| joins(:purchase).where('purchases.purchase_date <= ?', date) unless date.blank?}
   scope :search_by_supplier, lambda {|keyword| joins(:purchase => :supplier).where('suppliers.name ILIKE ?', "#{keyword}%") unless keyword.blank?}
   scope :search_by_invoice_number, lambda {|keyword| joins(:purchase).where('purchases.invoice_number ILIKE ?', "#{keyword}") unless keyword.blank?}
+  scope :search_by_item_name, lambda {|keyword| joins(:item).where('items.name ILIKE ?', "%#{keyword}%") unless keyword.blank?}
 
   def self.search(queries)
     finder =        search_by_supplier(queries[:supplier])
     finder = finder.search_by_invoice_number(queries[:invoice_number])
+    finder = finder.search_by_item_name(queries[:item])
     finder = finder.start_date(queries[:start_date]).end_date(queries[:end_date])
     return finder
   end
