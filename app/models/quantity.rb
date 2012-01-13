@@ -3,7 +3,12 @@ class Quantity
 
   def initialize(value, unit)
     @value = value.to_f
-    @unit = Unit.find_or_create_by_symbol(unit.to_s)
+    case unit
+    when String
+      @unit = Unit.find_or_create_by_symbol(unit.to_s)
+    when Unit
+      @unit = unit
+    end
   end
 
   def to(symbol)
