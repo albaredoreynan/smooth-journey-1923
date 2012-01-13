@@ -27,7 +27,7 @@
         - @endcount.items.each do |endcount_item|
           %tr
             %td= endcount_item.name
-            %td.number= "#{number_to_currency(endcount_item.average_unit_cost, :unit => peso_sign)}"
+            %td.number= "#{number_to_currency(endcount_item.unit_cost, :unit => peso_sign)}"
             %td!= endcount_item.unit_name
             %td.number= endcount_item.beginning_count
             %td.monetary= number_to_currency(endcount_item.beginning_total, :unit => peso_sign) if endcount_item.beginning_count

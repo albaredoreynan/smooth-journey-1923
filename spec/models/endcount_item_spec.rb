@@ -45,7 +45,7 @@ describe EndcountItem do
     end
   end
 
-  context '#average_unit_cost' do
+  context '.unit_cost' do
     before do
       @inch_unit = FactoryGirl.create(:unit, :symbol => 'in')
       @cm_unit = FactoryGirl.create(:unit, :symbol => 'cm')
@@ -55,33 +55,59 @@ describe EndcountItem do
                                         :conversion_factor => 2.54)
       @item = EndcountItem.create(FactoryGirl.attributes_for(:item, :unit => @cm_unit))
       @purchase = FactoryGirl.create(:purchase, :purchase_date => Date.today)
-      @purchase_items = [
-        FactoryGirl.create(:purchase_item,
-                            :item => @item,
-                            :amount => 10,
-                            :quantity => 1,
-                            :purchase => @purchase,
-                            :unit => @inch_unit),
-        FactoryGirl.create(:purchase_item,
-                            :item => @item,
-                            :amount => 5,
-                            :quantity => 1,
-                            :purchase => @purchase,
-                            :unit => @inch_unit)
-      ]
     end
 
-    it 'should return 0 average_unit_cost if there is no purchase_item' do
+    it 'should return 0 if there is no purchase_item' do
       item_with_no_purchase = EndcountItem.create(FactoryGirl.attributes_for(:item))
-      item_with_no_purchase.average_unit_cost.should eq 0
+      item_with_no_purchase.unit_cost.should eq 0
     end
 
-    it 'should return a unit cost average with conversion' do
-      @item.average_unit_cost.should be_between(2.95, 2.953)
+    it 'should return converted' do
+      FactoryGirl.create(:purchase_item,
+                          :item => @item,
+                          :amount => 10,
+                          :quantity => 1,
+                          :purchase => @purchase,
+                          :unit => @inch_unit)
+      FactoryGirl.create(:purchase_item,
+                          :item => @item,
+                          :amount => 5,
+                          :quantity => 1,
+                          :purchase => @purchase,
+                          :unit => @inch_unit)
+      @item.unit_cost.should be_between(2.95, 2.953)
+    end
+
+    it 'should average until last month' do
+      FactoryGirl.create(:purchase_item,
+                          item: @item,
+                          amount: 30,
+                          unit: @item.unit,
+                          purchase: FactoryGirl.create(:purchase, purchase_date: 2.months.ago))
+      FactoryGirl.create(:purchase_item,
+                          item: @item,
+                          amount: 10,
+                          unit: @item.unit,
+                          purchase: FactoryGirl.create(:purchase, purchase_date: 5.days.ago.to_date))
+      FactoryGirl.create(:purchase_item,
+                          item: @item,
+                          amount: 20,
+                          unit: @item.unit,
+                          purchase: FactoryGirl.create(:purchase, purchase_date: Date.today))
+      @item.unit_cost.should eq 15
+    end
+
+    it 'should get the last cost if there are no purchases within last month' do
+      FactoryGirl.create(:purchase_item,
+                          item: @item,
+                          amount: 45,
+                          unit: @item.unit,
+                          purchase: FactoryGirl.create(:purchase, purchase_date: 2.months.ago))
+      @item.unit_cost.should eq 45
     end
   end
 
-  context '#cogs' do
+  context '.cogs' do
     before do
       @item.stub(
         :purchase_amount_period => 100,

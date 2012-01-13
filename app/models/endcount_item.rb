@@ -6,7 +6,7 @@ class EndcountItem < Item
   end
 
   def beginning_total
-    beginning_count * average_unit_cost if beginning_count
+    beginning_count * unit_cost if beginning_count
   end
 
   def ending_count
@@ -14,7 +14,7 @@ class EndcountItem < Item
   end
 
   def ending_total
-    ending_count * average_unit_cost if ending_count
+    ending_count * unit_cost if ending_count
   end
 
   def cogs
@@ -36,15 +36,29 @@ class EndcountItem < Item
     count.try(:stock_count)
   end
 
+  def unit_cost
+    purchased_items_last_month.length > 0 ?  average_unit_cost : last_unit_cost
+  end
+
+  private
+  def purchased_items_last_month
+    @purchases = purchase_items.
+      joins(:purchase).
+      where('purchases.purchase_date > ?', 1.month.ago.to_date)
+  end
+
   def average_unit_cost
-    count = purchase_items.count.to_f
-    return 0 if count == 0
     arr = []
-    purchase_items.each do |pi|
+    return 0 if @purchases.empty?
+    @purchases.each do |pi|
       pi.convert_unit = true
       arr << pi.unit_cost
     end
-    arr.inject(:+) / count
+    arr.inject(:+) / @purchases.length
   end
 
+  def last_unit_cost
+    last_purchased = purchase_items.joins(:purchase).order('purchases.purchase_date DESC').try(:first)
+    last_purchased.try(:unit_cost) || 0
+  end
 end
