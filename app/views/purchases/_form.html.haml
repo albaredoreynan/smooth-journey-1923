@@ -9,11 +9,11 @@
           %li= msg
   %fieldset.purchase_form
     = f.input :id, :as => :hidden
-    = f.input :purchase_date, {label: "Date", as: :string, input_html: {class: 'datepicker', value: Date.today}}
-    = f.input :invoice_number
-    = f.association :supplier
     - if current_user.admin?
       = f.association :branch, :collection => Branch.all.map{ |branch| [branch.location, branch.id] }
+    = f.input :purchase_date, {label: "Date", as: :string, input_html: {class: 'datepicker', value: Date.today}}
+    = f.association :supplier
+    = f.input :invoice_number
     = f.input :vat_type, :collection => ["VAT-Inclusive", "VAT-Exclusive", "VAT-Exempted"]
     = f.association :currency, :collection => Currency.all.map{ |currency| [currency.currency, currency.id] }
 
