@@ -15,11 +15,8 @@ class PurchaseItemsController < ApplicationController
 
   def create
     @purchase_item = @purchase.purchase_items.new(params[:purchase_item])
-    if @purchase_item.save
-      render :partial => 'purchases/form', :locals => { :purchase => @purchase }
-    else
-      render :text => 'Error saving purchase item'
-    end
+    @purchase_item.save
+    render :partial => 'purchases/form', :locals => { :purchase => @purchase }
   end
 
   def update
