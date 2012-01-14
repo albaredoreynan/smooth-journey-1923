@@ -86,11 +86,11 @@ class PurchasesController < ApplicationController
     if session[:purchase]
       @purchase = Purchase.find_or_create_by_id(session[:purchase])
     else
+      purchase_attrs = { save_as_draft: true }
       if current_user.branch?
-        @purchase = Purchase.create(:save_as_draft => true, :branch => current_user.branches.first)
-      else
-        @purchase = Purchase.create :save_as_draft => true
+        purchase_attrs.merge!({ branch: current_user.branches.first })
       end
+      @purchase = Purchase.create purchase_attrs
       session[:purchase] = @purchase.id
     end
   end
