@@ -8,6 +8,8 @@ Rrbs::Application.routes.draw do
   match '/serversales/search' => "settlement_sales#serversales_search", :as => :serversales_search
   match '/settlement_sales/search' => "settlement_sales#search", :as => :settlement_sales_search
 
+  match '/settings' => 'settings#index'
+
   resources :currencies
 
   resources :conversions
@@ -55,28 +57,6 @@ Rrbs::Application.routes.draw do
       put 'update_item_counts'
     end
   end
-
-  match '/purchases/savemultiple' => "purchases#index", :collection => { :savemultiple => :put }
-
-  match '/sales/savemultiple' => "sales#sales_by_server", :collection => { :savemultiple => :put }
-
-  match '/sales_reports/daily_sales' => "sales_reports#daily_sales", :as => :sales_reports_daily_sales
-
-  match "/sales/search" => "sales#index", :as => :sales_index
-
-  match '/serversales' => "settlement_sales#serversales", :as => :serversales
-
-  match '/salesbysettlementtype' => "sales#sales_by_settlement_type", :as => :sales_by_settlement_type
-
-  match '/categorysales' => "reports#categorysales", :as => :categorysales
-
-  match '/purchasereports' => "reports#purchasereports", :as => :purchasereports
-
-  match '/purchasereports/search' => "reports#purchasereports", :as => :purchasereports
-
-  match '/salesbyserver' => "sales#sales_by_server", :as => :sales_by_server
-
-  match '/employees' => "employees#index" ,:as => :employees_path
 
   root :to => 'home#index'
 end
