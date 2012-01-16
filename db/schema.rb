@@ -13,6 +13,7 @@
 
 ActiveRecord::Schema.define(:version => 20120116074933) do
 
+
   create_table "branches", :force => true do |t|
     t.integer  "restaurant_id"
     t.string   "location"
@@ -323,7 +324,10 @@ ActiveRecord::Schema.define(:version => 20120116074933) do
     t.datetime "updated_at"
     t.string   "name"
     t.string   "unit_type"
+    t.integer  "restaurant_id"
   end
+
+  add_index "units", ["restaurant_id"], :name => "index_units_on_restaurant_id"
 
   create_table "users", :force => true do |t|
     t.string   "email",                               :default => "", :null => false

@@ -29,8 +29,9 @@
               %td.monetary= number_to_currency(purchase.vat_amount, :unit => peso_sign)
               %td.actions.last
                 = link_to 'Show', purchase_path(purchase)
-                = link_to 'Edit', edit_purchase_path(purchase)
-                - if can? :destroy, Branch
+                - if can? :edit, purchase
+                  = link_to 'Edit', edit_purchase_path(purchase)
+                - if can? :destroy, purchase
                   = link_to 'Delete', purchase_path(purchase), :method => :delete, :confirm => 'Are you sure you want to delete this purchase?'
     = paginate @purchases
 

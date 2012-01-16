@@ -9,14 +9,15 @@ class Ability
         user.branches.first == branch
       end
       cannot [:create, :destroy], Branch
-
+       
       # Purchase
       can :new, Purchase
-      can [:read, :edit, :create], Purchase, :branch_id => user.branches.first.id
+      can [:read, :create], Purchase, :branch_id => user.branches.first.id
       can :update, Purchase do |purchase|
         purchase.save_as_draft || purchase.branch == user.branches.first
       end
-      cannot :update, Purchase do |purchase|
+      
+      cannot [:edit, :update], Purchase do |purchase|
         purchase.created_at < Time.now - 1.day
       end
 

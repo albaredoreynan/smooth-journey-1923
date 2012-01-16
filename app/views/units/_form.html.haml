@@ -2,5 +2,6 @@
   = f.input :symbol
   = f.input :name
   = f.input :unit_type, :collection => ["mass","volume","length"] 
+  = f.association :restaurant
   .actions
     = f.button :submit 
