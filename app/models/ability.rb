@@ -19,14 +19,12 @@ class Ability
       cannot :update, Purchase do |purchase|
         purchase.created_at < Time.now - 1.day
       end
-      
-      # within_day = Time.now - 1.day
-#       
-      # if Purchase.created_at? within_day
-        # can :update, Purchase, :branch_id => user.branches.first.id
-      # end
+
       # Inventory Item
       can :manage, Item, :branch_id => user.branches.first.id
+      can :update_count, Item do |item|
+        item.entry_date < Date.today - 1.day
+      end
 
       # Category
       can :manage, Category, :restaurant_id => user.branches.first.restaurant
@@ -34,6 +32,6 @@ class Ability
     if user.admin?
       can :manage, :all
     end
-    
+
   end
 end

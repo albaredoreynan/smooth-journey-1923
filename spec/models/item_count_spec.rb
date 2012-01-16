@@ -28,4 +28,16 @@ describe ItemCount do
     item_count.save
     item_count.reload.unit.should eq @unit
   end
+
+  context '.locked?' do
+    it 'should lock update on a specified date' do
+      item_count = FactoryGirl.create(:item_count, created_at: 5.days.ago)
+      item_count.should be_locked
+    end
+
+    it 'should return false when unlocked' do
+      item_count = FactoryGirl.create(:item_count, created_at: Date.today)
+      item_count.should_not be_locked
+    end
+  end
 end

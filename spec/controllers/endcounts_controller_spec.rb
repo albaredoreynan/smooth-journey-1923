@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe EndcountsController do
-  context 'as user' do
-    login_user
+  context 'as admin' do
+    login_admin
 
     context 'when successful' do
       context 'GET #index' do
@@ -40,15 +40,14 @@ describe EndcountsController do
 
       context 'PUT #update_item_count' do
         before do
-          @item = FactoryGirl.create(:item)
-          @item_count = FactoryGirl.create(:item_count, :stock_count => 1, :item => @item)
+          @item = FactoryGirl.create(:item, item_counts: [FactoryGirl.create(:item_count)])
           @put_params = { :items => { @item.id => { :item_count => 500 } } }
         end
 
         it 'should mass update item_count' do
           lambda {
             put 'update_item_counts', @put_params
-          }.should change {@item.reload.item_count}.from(1.0).to(500.00)
+          }.should change {@item.reload.item_count}.to(500.00)
         end
 
         it 'should not create a new record when param is blank' do
@@ -95,6 +94,40 @@ describe EndcountsController do
       it 'should load all items' do
         get 'index'
         assigns[:items].should eq [@item]
+      end
+    end
+
+    context 'PUT #update_item_counts' do
+      before do
+        @entry_date = 5.days.ago
+        @item = FactoryGirl.create(:item)
+        @item_count = FactoryGirl.create(:item_count,
+                                         item: @item,
+                                         entry_date: @entry_date.to_date,
+                                         created_at: @entry_date)
+        @put_params = { :items => { @item.id => { :item_count => 500 } } }
+      end
+
+      it' should be able to update count today' do
+        lambda {
+          put 'update_item_counts', @put_params
+        }.should change{@item.reload.item_count}.to(500)
+      end
+
+      it 'should be able to create item count on a specified date' do
+        entry_date = 3.days.ago.to_date
+        lambda {
+          @put_params.merge!(entry_date: entry_date)
+          put 'update_item_counts', @put_params
+        }.should change{@item.reload.counted_at(entry_date)}
+      end
+
+      it 'should NOT be able to update item counts on a specified date' do
+        @item.counted_at(@entry_date).should eq @item_count
+        lambda {
+          @put_params.merge!(entry_date: @entry_date.to_date)
+          put 'update_item_counts', @put_params
+        }.should_not change{@item.reload.counted_at(@entry_date)}
       end
     end
   end

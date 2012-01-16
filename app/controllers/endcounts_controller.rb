@@ -102,12 +102,19 @@ class EndcountsController < ApplicationController
   end
 
   def update_item_counts
-    params[:items] = params[:items].nil? ? [] : params[:items]
+    entry_date = params[:entry_date].nil? ? Date.today : Date.parse(params[:entry_date])
+
+    params[:items] ||= {}
     params[:items].each do |key, val|
-      next if val.nil?
+      next if val[:item_count].blank?
       item = Item.find(key)
-      item.update_count(val[:item_count], params[:entry_date] || Date.today) unless val[:item_count].blank?
+      unless current_user.admin?
+        item_count = item.counted_at(entry_date)
+        next if item_count.locked?
+      end
+      item.update_count(val[:item_count], entry_date) unless val[:item_count].blank?
     end
+
     redirect_to endcounts_path
   end
 

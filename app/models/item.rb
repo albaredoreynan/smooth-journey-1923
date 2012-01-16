@@ -52,7 +52,6 @@ class Item < ActiveRecord::Base
   end
 
   def counted_at(date)
-    item_counts.where('entry_date = ?', date.to_date).try(:first)
+    item_counts.where('entry_date = ?', date.to_date).try(:first) || ItemCount.new
   end
-
 end
