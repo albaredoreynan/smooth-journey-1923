@@ -1,6 +1,6 @@
 class Role < ActiveRecord::Base
 
-  VALID_ROLES = %w{admin branch}
+  VALID_ROLES = %w{admin client branch}
 
   validates :name, :inclusion => { :in => VALID_ROLES }
 

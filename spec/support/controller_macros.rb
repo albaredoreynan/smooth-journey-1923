@@ -15,6 +15,15 @@ module ControllerMacros
     end
   end
 
+  def login_client
+    before(:each) do
+      @request.env['devise.mapping'] = Devise.mappings[:user]
+      @current_user = FactoryGirl.create(:client_user)
+      sign_in @current_user
+      @current_company = @current_user.company
+    end
+  end
+
   def login_branch
     before(:each) do
       @request.env['devise.mapping'] = Devise.mappings[:user]

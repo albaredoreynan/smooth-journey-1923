@@ -1,24 +1,18 @@
 .block
   .content
-    %h2 List of Users
+    .title_action_bar
+      %h2.title List of Users
+      .new_actions
+        = link_to 'New User', new_user_path, :class => :button
     .inner
       %table
         %tr
           %th Email
-          %th Password
-          %th Role
-          %th Employee
-          %th
-          %th
-          %th
+          %th.actions.last= 'Actions'
         - @users.each do |user|
           %tr
             %td= user.email
-            %td= user.password
-            %td= user.role_id
-            %td= user.employee_id
-            %td= link_to 'Show', user
-            %td= link_to 'Edit', edit_user_path(user)
-            %td= link_to 'Destroy', user, :confirm => 'Are you sure?', :method => :delete
-      %br/
-      = link_to 'New User', new_user_path
+            %td.actions.last
+              = link_to 'Show', user
+              = link_to 'Edit', edit_user_path(user)
+              = link_to 'Destroy', user, :confirm => 'Are you sure?', :method => :delete
