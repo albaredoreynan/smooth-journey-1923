@@ -1,0 +1,11 @@
+= form_tag @search_path, :method => :get do
+  .input_group
+    = label_tag 'View End Counts From'
+    .input
+      = label_tag 'Month'
+      = select_month(Date.today, :field_name => 'by_month')
+    .input
+      = label_tag 'Year'
+      = select_year(Date.today, :field_name => 'birth')
+  .actions
+    = submit_tag :Search
