@@ -7,6 +7,14 @@ class ApplicationController < ActionController::Base
     redirect_to root_url, :alert => exception.message
   end
 
+  def current_branch
+    current_user.branches.first
+  end
+
+  def current_company
+    current_user.companies.first
+  end
+
   private
   def after_sign_out_path_for(resource_or_scope)
     scope = Devise::Mapping.find_scope!(resource_or_scope)

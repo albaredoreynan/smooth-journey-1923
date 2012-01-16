@@ -9,6 +9,7 @@ Rrbs::Application.routes.draw do
   match '/settlement_sales/search' => "settlement_sales#search", :as => :settlement_sales_search
 
   match '/settings' => 'settings#index'
+  put '/settings/update'
 
   resources :currencies
 

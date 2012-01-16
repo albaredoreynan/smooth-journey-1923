@@ -6,3 +6,5 @@
     = tab.employees 'Employees', employees_path
     = tab.reports 'Reports', endcount_reports_path
     = tab.database 'Database', companies_path
+    - if can? :manage, Setting
+      = tab.settings 'Settings', 'settings'

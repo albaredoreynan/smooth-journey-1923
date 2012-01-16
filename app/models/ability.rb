@@ -29,6 +29,11 @@ class Ability
       # Category
       can :manage, Category, :restaurant_id => user.branches.first.restaurant
     end
+
+    if user.client?
+      can :manage, Setting, :company_id => user.companies.first.id
+    end
+
     if user.admin?
       can :manage, :all
     end

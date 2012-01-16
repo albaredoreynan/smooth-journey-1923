@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120113070255) do
+ActiveRecord::Schema.define(:version => 20120116074933) do
 
   create_table "branches", :force => true do |t|
     t.integer  "restaurant_id"
@@ -208,9 +208,11 @@ ActiveRecord::Schema.define(:version => 20120113070255) do
     t.integer  "branch_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "company_id"
   end
 
   add_index "roles", ["branch_id"], :name => "index_roles_on_branch_id"
+  add_index "roles", ["company_id"], :name => "index_roles_on_company_id"
   add_index "roles", ["user_id"], :name => "index_roles_on_user_id"
 
   create_table "sales", :force => true do |t|
@@ -240,6 +242,14 @@ ActiveRecord::Schema.define(:version => 20120113070255) do
     t.datetime "updated_at"
     t.float    "dinein_pta",        :null => false
   end
+
+  create_table "settings", :force => true do |t|
+    t.integer "company_id"
+    t.boolean "enable_lock_module"
+    t.integer "lock_module_in"
+  end
+
+  add_index "settings", ["company_id"], :name => "index_settings_on_company_id"
 
   create_table "settlement_sales", :force => true do |t|
     t.integer  "employee_id",      :null => false

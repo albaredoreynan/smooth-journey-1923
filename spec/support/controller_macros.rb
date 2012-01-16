@@ -20,7 +20,7 @@ module ControllerMacros
       @request.env['devise.mapping'] = Devise.mappings[:user]
       @current_user = FactoryGirl.create(:client_user)
       sign_in @current_user
-      @current_company = @current_user.company
+      @current_company = @current_user.companies.first
     end
   end
 
