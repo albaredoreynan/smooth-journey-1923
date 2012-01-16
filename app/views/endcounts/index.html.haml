@@ -19,7 +19,7 @@
             %th Count
             %th.last Update count
           - @items.each do |item|
-            %tr
+            %tr{id: dom_id(item)}
               %td= item.name
               %td= item.subcategory_name
               %td= item.unit_name

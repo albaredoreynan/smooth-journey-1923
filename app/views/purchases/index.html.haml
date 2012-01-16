@@ -1,6 +1,6 @@
 - content_for :sidebar do
   %h3 Search
-  = render :partial => 'shared/purchase_search_form', locals: { search_path: 'purchases/search' }
+  = render :partial => 'shared/purchase_search_form', locals: { item_name_field: false, search_path: 'purchases/search' }
 
 .block
   .content
