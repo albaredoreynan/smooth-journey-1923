@@ -17,7 +17,7 @@ class SettingsController < ApplicationController
 
   private
   def load_setting
-    unless current_company.setting.nil?
+    unless current_company.try(:setting).nil?
       @setting = current_company.setting
     else
       @setting = Setting.create(company: current_company)

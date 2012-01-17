@@ -13,7 +13,6 @@
 
 ActiveRecord::Schema.define(:version => 20120116074933) do
 
-
   create_table "branches", :force => true do |t|
     t.integer  "restaurant_id"
     t.string   "location"

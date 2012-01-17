@@ -120,6 +120,6 @@ class EndcountsController < ApplicationController
 
   private
   def endcount
-    current_user.branch? ? EndcountItem.where(:branch_id => current_user.branches.first) : EndcountItem
+    current_user.branch? ? EndcountItem.where(:branch_id => current_branch.id) : EndcountItem
   end
 end
