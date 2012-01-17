@@ -42,9 +42,10 @@ class EndcountItem < Item
 
   private
   def purchased_items_last_month
-    @purchases = purchase_items.
-      joins(:purchase).
-      where('purchases.purchase_date > ?', 1.month.ago.to_date)
+    period = @ending_date.nil? ? Date.today - 1.month : @ending_date - 1.month
+    finder = purchase_items.joins(:purchase)
+    finder = finder.start_date(period).end_date(period + 1.month)
+    @purchases = finder
   end
 
   def average_unit_cost

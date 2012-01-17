@@ -54,6 +54,7 @@ describe EndcountItem do
                                         :smaller_unit => @cm_unit,
                                         :conversion_factor => 2.54)
       @item = EndcountItem.create(FactoryGirl.attributes_for(:item, :unit => @cm_unit))
+      @item.ending_date = Date.today
       @purchase = FactoryGirl.create(:purchase, :purchase_date => Date.today)
     end
 
@@ -104,6 +105,21 @@ describe EndcountItem do
                           unit: @item.unit,
                           purchase: FactoryGirl.create(:purchase, purchase_date: 2.months.ago))
       @item.unit_cost.should eq 45
+    end
+
+    it 'should be relative to ending_date' do
+      FactoryGirl.create(:purchase_item,
+                          item: @item,
+                          amount: 100,
+                          unit: @item.unit,
+                          purchase: FactoryGirl.create(:purchase, :purchase_date => Date.today))
+      FactoryGirl.create(:purchase_item,
+                          item: @item,
+                          amount: 200,
+                          unit: @item.unit,
+                          purchase: FactoryGirl.create(:purchase, :purchase_date => 5.months.ago.to_date))
+      @item.ending_date = 5.months.ago
+      @item.unit_cost.should eq 200
     end
   end
 
