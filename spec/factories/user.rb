@@ -14,6 +14,7 @@ FactoryGirl.define do
       email 'client@example.com'
       after_create do |user|
         company = FactoryGirl.create(:company)
+        FactoryGirl.create(:setting, company: company)
         FactoryGirl.create(:role, name: 'client', company: company, user: user)
       end
     end

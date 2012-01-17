@@ -110,6 +110,7 @@ class EndcountsController < ApplicationController
       item = Item.find(key)
       unless current_user.admin?
         item_count = item.counted_at(entry_date)
+        item_count.setting = current_user.setting
         next if item_count.locked?
       end
       item.update_count(val[:item_count], entry_date) unless val[:item_count].blank?

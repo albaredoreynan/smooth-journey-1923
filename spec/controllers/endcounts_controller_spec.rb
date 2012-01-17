@@ -85,6 +85,13 @@ describe EndcountsController do
   context 'as branch manager' do
     login_branch
 
+    before do
+      @setting = FactoryGirl.create(:setting,
+                                    company: @current_branch.company,
+                                    enable_lock_module: true,
+                                    lock_module_in: 1440)
+    end
+
     context 'GET #index' do
       before do
         @other_item = EndcountItem.create(FactoryGirl.attributes_for(:item))
@@ -122,8 +129,9 @@ describe EndcountsController do
         }.should change{@item.reload.counted_at(entry_date)}
       end
 
-      it 'should NOT be able to update item counts on a specified date' do
-        @item.counted_at(@entry_date).should eq @item_count
+      it 'should NOT be able to update item counts when locked' do
+        item_count = @item.counted_at(@entry_date)
+        item_count.should eq @item_count
         lambda {
           @put_params.merge!(entry_date: @entry_date.to_date)
           put 'update_item_counts', @put_params

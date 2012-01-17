@@ -30,14 +30,32 @@ describe ItemCount do
   end
 
   context '.locked?' do
-    it 'should lock update on a specified date' do
-      item_count = FactoryGirl.create(:item_count, created_at: 5.days.ago)
-      item_count.should be_locked
-    end
+    context 'setting not present' do
+      before do
+        @item_count = FactoryGirl.create(:item_count)
+      end
 
-    it 'should return false when unlocked' do
-      item_count = FactoryGirl.create(:item_count, created_at: Date.today)
-      item_count.should_not be_locked
+      it 'should be locked when setting not present' do
+        @item_count.should be_locked
+      end
+    end
+    context 'setting.lock_module_in = 30' do
+      before do
+        @item_count = FactoryGirl.create(:item_count)
+        @item_count.setting = FactoryGirl.create(:setting,
+                                                enable_lock_module: true,
+                                                lock_module_in: 30)
+      end
+
+      it 'should lock update on a specified date' do
+        @item_count.update_attribute(:created_at, 31.hours.ago)
+        @item_count.should be_locked
+      end
+
+      it 'should return false when unlocked' do
+        @item_count.update_attribute(:created_at, 29.hours.ago)
+        @item_count.should_not be_locked
+      end
     end
   end
 end

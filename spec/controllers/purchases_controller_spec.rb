@@ -160,7 +160,10 @@ describe PurchasesController do
   context 'as branch manager' do
     login_branch
     before do
-      @current_branch = @current_user.branches.first
+      @setting = FactoryGirl.create(:setting,
+                                    company: @current_branch.company,
+                                    enable_lock_module: true,
+                                    lock_module_in: 1440)
     end
 
     context 'GET #index' do
@@ -203,13 +206,13 @@ describe PurchasesController do
         ability = Ability.new(@current_user)
         ability.should be_able_to(:update, purchase)
       end
-      
+
       it 'should not allow update purchase when no branch' do
         purchase = FactoryGirl.create(:purchase, :branch => nil, :save_as_draft => false)
         ability = Ability.new(@current_user)
         ability.should_not be_able_to(:update, purchase)
       end
-      
+
       it 'should be able to update a purchase' do
         purchase = FactoryGirl.create(:purchase, :branch => nil, :save_as_draft => true)
         put_params = FactoryGirl.attributes_for(:purchase, :invoice_number => '333')
@@ -217,7 +220,7 @@ describe PurchasesController do
           put 'update', :id => purchase.to_param, :purchase => put_params
         }.should change{purchase.reload.invoice_number}.to('333')
       end
-      
+
       it 'should not change its branch' do
         purchase = FactoryGirl.create(:purchase, :branch => @current_branch)
         branch = FactoryGirl.create(:branch)
@@ -226,7 +229,7 @@ describe PurchasesController do
           put 'update', :id => purchase.to_param, :purchase => put_params
         }.should_not change{purchase.reload.branch_id}
       end
-      
+
       it 'should not be able to edit other purchase' do
         other_branch = FactoryGirl.create(:branch)
         purchase = FactoryGirl.create(:purchase, :branch => other_branch)
@@ -235,9 +238,18 @@ describe PurchasesController do
           put 'update', :id => purchase.to_param, :purchase => put_params
         }.should_not change{purchase.reload.invoice_number}.to('555')
       end
-      
-      it 'should not be able to update purchase after 24 hours' do
-        purchase = FactoryGirl.create(:purchase, :branch => @current_branch, :created_at => Time.now - 2.day)
+
+      it 'should be able to update purchase before lock' do
+        @setting.update_attribute(:lock_module_in, 180)
+        purchase = FactoryGirl.create(:purchase, :branch => @current_branch, :created_at => 2.hour.ago)
+        put_params = FactoryGirl.attributes_for(:purchase, :invoice_number => '2323')
+        lambda {
+          put 'update', :id => purchase.to_param, :purchase => put_params
+        }.should change{purchase.reload.invoice_number}
+      end
+
+      it 'should not be able to update purchase after locked' do
+        purchase = FactoryGirl.create(:purchase, :branch => @current_branch, :created_at => 5.days.ago)
         put_params = FactoryGirl.attributes_for(:purchase, :invoice_number => '2323')
         lambda {
           put 'update', :id => purchase.to_param, :purchase => put_params

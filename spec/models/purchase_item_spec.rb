@@ -176,7 +176,7 @@ describe PurchaseItem do
     it 'should search an item name' do
       FactoryGirl.create(:purchase_item, item: FactoryGirl.create(:item, name: 'other item'))
       search_results = PurchaseItem.search(item: 'Magic') # item name that starts with ..
-      search_results.should eq [@purchase_items[1], @purchase_items[0]]
+      search_results.should eq [@purchase_items[0], @purchase_items[1]]
     end
 
     it 'should search with combined queries' do

@@ -25,9 +25,10 @@ describe SettingsController do
 
     context 'PUT #update' do
       it 'should be able to update setting' do
+        pending 'wip'
         lambda {
           put 'update', setting: { enable_lock_module: true, lock_module_in: 25 }
-        }.should change(Setting, :count).by(1)
+        }.should change{@current_user.reload.setting}
       end
     end
   end

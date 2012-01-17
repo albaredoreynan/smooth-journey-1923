@@ -14,6 +14,8 @@ class PurchaseItem < ActiveRecord::Base
   validates :amount,      :presence => true, :numericality => true
   validates :quantity,    :presence => true, :numericality => true
 
+  default_scope order('id ASC')
+
   scope :start_date, lambda {|date| joins(:purchase).where('purchases.purchase_date >= ?', date) unless date.blank?}
   scope :end_date, lambda {|date| joins(:purchase).where('purchases.purchase_date <= ?', date) unless date.blank?}
   scope :search_by_supplier, lambda {|keyword| joins(:purchase => :supplier).where('suppliers.name ILIKE ?', "#{keyword}%") unless keyword.blank?}

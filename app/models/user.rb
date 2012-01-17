@@ -17,4 +17,12 @@ class User < ActiveRecord::Base
       roles.where(:name => role_name).exists?
     end
   end
+
+  def setting
+    if branch?
+      branches.first.setting
+    elsif client?
+      companies.first.setting
+    end
+  end
 end
