@@ -1,9 +1,9 @@
 %nav#main-navigation
   = tabs_tag :builder => MenuTabBuilder do |tab|
-    = tab.sales 'Sales', sales_path
+    -#= tab.sales 'Sales', sales_path
     = tab.purchases 'Purchases', purchases_path
     = tab.inventory 'Inventory', endcounts_path
-    = tab.employees 'Employees', employees_path
+    -#= tab.employees 'Employees', employees_path
     = tab.reports 'Reports', endcount_reports_path
     = tab.database 'Database', companies_path
     - if can? :manage, Setting
