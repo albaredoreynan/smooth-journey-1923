@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  attr_accessor :current_branch, :current_company
+  attr_accessor :current_branch, :current_company, :current_setting
 
   protect_from_forgery
 
@@ -21,6 +21,12 @@ class ApplicationController < ActionController::Base
   def set_current_company
     if user_signed_in?
       @current_company = current_user.companies.first
+    end
+  end
+
+  def set_current_setting
+    if user_signed_in?
+      @current_setting = current_company.setting
     end
   end
 
