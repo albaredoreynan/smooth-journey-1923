@@ -4,4 +4,12 @@ class Branch < ActiveRecord::Base
   validates :restaurant_id, :presence => true
 
   belongs_to :restaurant
+
+  def company
+    restaurant.company
+  end
+
+  def setting
+    company.setting
+  end
 end

@@ -15,11 +15,18 @@ describe User do
     branch_user.should be_branch
   end
 
-  it 'should create a role' do
-    pending
-    user = FactoryGirl.build(:user)
-    user.role = 'admin'
-    user.save
-    user.reload.should be_admin
+  describe '.setting' do
+    it 'should return branch setting' do
+      branch_user = FactoryGirl.create(:branch_user)
+      branch_user.setting.should eq branch_user.branches.first.setting
+    end
+
+    it 'should return client setting' do
+      client_user = FactoryGirl.create(:client_user)
+      setting = Setting.find_by_company_id(client_user.companies.first.id)
+      setting.should_not be_nil
+      client_user.should be_client
+      client_user.setting.should eq setting
+    end
   end
 end

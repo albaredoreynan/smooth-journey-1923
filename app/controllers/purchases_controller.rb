@@ -59,7 +59,7 @@ class PurchasesController < ApplicationController
     respond_to do |format|
       attr =            params[:purchase]
       attr = attr.merge({save_as_draft: false})
-      attr = attr.merge({:branch_id => current_user.branches.first.id}) if current_user.branch?
+      attr = attr.merge({:branch => current_branch}) if current_user.branch?
       if @purchase.update_attributes(attr)
         session.delete :purchase
         format.html { redirect_to(@purchase, :notice => 'Purchase was successfully updated.') }
@@ -86,11 +86,11 @@ class PurchasesController < ApplicationController
     if session[:purchase]
       @purchase = Purchase.find_or_create_by_id(session[:purchase])
     else
+      purchase_attrs = { save_as_draft: true }
       if current_user.branch?
-        @purchase = Purchase.create(:save_as_draft => true, :branch => current_user.branches.first)
-      else
-        @purchase = Purchase.create :save_as_draft => true
+        purchase_attrs.merge!({ branch: current_branch })
       end
+      @purchase = Purchase.create purchase_attrs
       session[:purchase] = @purchase.id
     end
   end

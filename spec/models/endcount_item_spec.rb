@@ -5,18 +5,34 @@ describe EndcountItem do
     @previous_month = Date.today - 1.month
     @item = EndcountItem.create(FactoryGirl.attributes_for(:item))
     @item_counts = [
+      FactoryGirl.create(:item_count, :item => @item, :stock_count => 2, :entry_date => @previous_month.beginning_of_month - 1.day),
       FactoryGirl.create(:item_count, :item => @item, :stock_count => 5, :entry_date => @previous_month),
       FactoryGirl.create(:item_count, :item => @item, :stock_count => 7.5, :entry_date => @previous_month.end_of_month),
-      FactoryGirl.create(:item_count, :item => @item, :stock_count => 10, :entry_date => Date.today)
+      FactoryGirl.create(:item_count, :item => @item, :stock_count =>  10, :entry_date => Date.today)
     ]
   end
 
-  it 'should return last count from previous month' do
+  it 'should return beginning_count as last count from previous month' do
     @item.ending_date = Date.today
-    @item.last_count_from_previous_month.should eq 7.5
+    @item.beginning_count.should eq 7.5
   end
 
-  context '#purchase_amount_period' do
+  it 'should return beginning_count relative to ending_date' do
+    @item.ending_date = @previous_month
+    @item.beginning_count.should eq 2
+  end
+
+  it 'should return ending_count' do
+    @item.ending_date = Date.today
+    @item.ending_count.should eq 10
+  end
+
+  it 'should return ending_count relative to ending_date' do
+    @item.ending_date = @previous_month
+    @item.ending_count.should eq 5
+  end
+
+  context '.purchase_amount_period' do
     before do
       @items = [
         EndcountItem.create(FactoryGirl.attributes_for(:item)),
@@ -54,6 +70,7 @@ describe EndcountItem do
                                         :smaller_unit => @cm_unit,
                                         :conversion_factor => 2.54)
       @item = EndcountItem.create(FactoryGirl.attributes_for(:item, :unit => @cm_unit))
+      @item.ending_date = Date.today
       @purchase = FactoryGirl.create(:purchase, :purchase_date => Date.today)
     end
 
@@ -104,6 +121,21 @@ describe EndcountItem do
                           unit: @item.unit,
                           purchase: FactoryGirl.create(:purchase, purchase_date: 2.months.ago))
       @item.unit_cost.should eq 45
+    end
+
+    it 'should be relative to ending_date' do
+      FactoryGirl.create(:purchase_item,
+                          item: @item,
+                          amount: 100,
+                          unit: @item.unit,
+                          purchase: FactoryGirl.create(:purchase, :purchase_date => Date.today))
+      FactoryGirl.create(:purchase_item,
+                          item: @item,
+                          amount: 200,
+                          unit: @item.unit,
+                          purchase: FactoryGirl.create(:purchase, :purchase_date => 5.months.ago.to_date))
+      @item.ending_date = 5.months.ago
+      @item.unit_cost.should eq 200
     end
   end
 

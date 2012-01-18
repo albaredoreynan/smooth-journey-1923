@@ -9,32 +9,37 @@ class Ability
         user.branches.first == branch
       end
       cannot [:create, :destroy], Branch
-       
+
       # Purchase
       can :new, Purchase
       can [:read, :create], Purchase, :branch_id => user.branches.first.id
       can :update, Purchase do |purchase|
         purchase.save_as_draft || purchase.branch == user.branches.first
       end
-      
+
       cannot [:edit, :update], Purchase do |purchase|
-        purchase.created_at < Time.now - 1.day
+        setting = user.setting
+        seconds_in_minute = 60
+        purchase.created_at < Time.now - setting.lock_module_in * seconds_in_minute
       end
-      
-      # within_day = Time.now - 1.day
-#       
-      # if Purchase.created_at? within_day
-        # can :update, Purchase, :branch_id => user.branches.first.id
-      # end
+
       # Inventory Item
       can :manage, Item, :branch_id => user.branches.first.id
+      can :update_count, Item do |item|
+        item.entry_date < Date.today - 1.day
+      end
 
       # Category
       can :manage, Category, :restaurant_id => user.branches.first.restaurant
     end
+
+    if user.client?
+      can :manage, Setting, :company_id => user.companies.first.id
+    end
+
     if user.admin?
       can :manage, :all
     end
-    
+
   end
 end

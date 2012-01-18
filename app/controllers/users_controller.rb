@@ -1,10 +1,10 @@
 class UsersController < ApplicationController
 
-def index
-end
+  def index
+    @users = User.all
+  end
 
-def destroy
-  
-end
+  def destroy
+  end
 
 end

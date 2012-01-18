@@ -1,0 +1,9 @@
+.block
+  .content
+    %h2.title Settings
+    .inner
+      = simple_form_for @setting, :url => 'settings/update' do |f|
+        = f.input :enable_lock_module
+        = f.input :lock_module_in, hint: 'in minutes'
+        .actions
+          = f.submit

@@ -3,7 +3,8 @@ class EndcountsController < ApplicationController
   set_tab :inventory
 
   def index
-    @items = Endcount.ending_counts_at(endcount.all, params[:date] || Date.today)
+    ending_date = params[:date] ? Date.parse(params[:date]) : Date.today
+    @items = Endcount.ending_counts_at(endcount.all, ending_date)
   end
 
   def show
@@ -102,17 +103,25 @@ class EndcountsController < ApplicationController
   end
 
   def update_item_counts
-    params[:items] = params[:items].nil? ? [] : params[:items]
+    entry_date = params[:entry_date].nil? ? Date.today : Date.parse(params[:entry_date])
+
+    params[:items] ||= {}
     params[:items].each do |key, val|
-      next if val.nil?
+      next if val[:item_count].blank?
       item = Item.find(key)
-      item.update_count(val[:item_count], params[:entry_date] || Date.today) unless val[:item_count].blank?
+      unless current_user.admin?
+        item_count = item.counted_at(entry_date)
+        item_count.setting = current_user.setting
+        next if item_count.locked?
+      end
+      item.update_count(val[:item_count], entry_date) unless val[:item_count].blank?
     end
+
     redirect_to endcounts_path
   end
 
   private
   def endcount
-    current_user.branch? ? EndcountItem.where(:branch_id => current_user.branches.first) : EndcountItem
+    current_user.branch? ? EndcountItem.where(:branch_id => current_branch.id) : EndcountItem
   end
 end

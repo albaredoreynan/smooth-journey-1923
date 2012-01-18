@@ -18,5 +18,6 @@ describe Company do
 
   context 'Association' do
     it { should have_many :restaurants }
+    it { should have_one :setting }
   end
 end
