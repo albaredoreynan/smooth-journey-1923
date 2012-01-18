@@ -4,8 +4,8 @@ class Reports::EndcountReportsController < ApplicationController
 
   def index
     endcount_items = EndcountItem.where(current_ability.attributes_for(:read, Item))
-    if params[:month] && params[:year]
-      ending_date = Date.new(params[:year].to_i, params[:month].to_i)
+    if params[:date]
+      ending_date = Date.new(params[:date][:year].to_i, params[:date][:month].to_i)
     else
       ending_date = Date.today
     end

@@ -40,13 +40,13 @@ describe Reports::EndcountReportsController do
 
       it "should get endcount's beginning_count from previous month" do
         view_month = 5.months.ago
-        get 'index', :month => view_month.month, :year => view_month.year
+        get 'index', :date => { :month => view_month.month, :year => view_month.year }
         assigns[:endcount].items[0].beginning_count.should eq 5
       end
 
       it "should get endcount's ending_count from previous month" do
         view_month = 5.months.ago
-        get 'index', :month => view_month.month, :year => view_month.year
+        get 'index', :date => { :month => view_month.month, :year => view_month.year }
         assigns[:endcount].items[0].ending_count.should eq 10
       end
     end

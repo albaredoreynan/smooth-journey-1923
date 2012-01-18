@@ -1,11 +1,12 @@
 = form_tag @search_path, :method => :get do
+  - ending_date = params[:date] ? Date.new(params[:date][:year].to_i, params[:date][:month].to_i) : Date.today
   .input_group
     = label_tag 'View End Counts From'
     .input
       = label_tag 'Month'
-      = select_month(Date.today, :field_name => 'by_month')
+      = select_month(ending_date, :field_name => 'month')
     .input
       = label_tag 'Year'
-      = select_year(Date.today, :field_name => 'birth')
+      = select_year(ending_date, :field_name => 'year')
   .actions
     = submit_tag :Search
