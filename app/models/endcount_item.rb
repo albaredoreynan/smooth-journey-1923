@@ -29,6 +29,11 @@ class EndcountItem < Item
       .where('purchases.purchase_date <= ?', @ending_date).map(&:net_amount).inject(:+)
   end
 
+  def unit_cost
+    purchased_items_last_month.length > 0 ?  average_unit_cost : last_unit_cost
+  end
+
+  private
   def last_count_from_previous_month
     previous_month = @ending_date.to_date - 1.month
     sql = %Q{date_part('year', entry_date) = ? and date_part('month', entry_date) = ?}
@@ -36,11 +41,6 @@ class EndcountItem < Item
     count.try(:stock_count)
   end
 
-  def unit_cost
-    purchased_items_last_month.length > 0 ?  average_unit_cost : last_unit_cost
-  end
-
-  private
   def purchased_items_last_month
     period = @ending_date.nil? ? Date.today - 1.month : @ending_date - 1.month
     finder = purchase_items.joins(:purchase)
