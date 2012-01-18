@@ -13,7 +13,7 @@ describe EndcountItem do
 
   it 'should return last count from previous month' do
     @item.ending_date = Date.today
-    @item.last_count_from_previous_month.should eq 7.5
+    @item.beginning_count.should eq 7.5
   end
 
   context '#purchase_amount_period' do
