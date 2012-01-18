@@ -19,8 +19,8 @@
             %th Unit
             %th Unit cost
             %th VAT
-            %th Purchase amount
-            %th Net amount
+            %th.monetary Purchase amount
+            %th.monetary Net amount
         - grand_total = 0
         - @purchase_items.each do |subcategory, purchase_items|
           %tbody
@@ -43,6 +43,6 @@
                   %td.monetary= number_to_currency(purchase_item.purchase_amount, :unit => peso_sign)
                   %td.monetary= number_to_currency(purchase_item.net_amount, :unit => peso_sign)
         %tfoot
-          %tr
+          %tr.totals
             %th{class: 'grand_total', colspan: 10} Grand Total
             %th.monetary= number_to_currency(grand_total, :unit => peso_sign)
