@@ -6,9 +6,9 @@ describe Endcount do
     @latter_date = Date.new(2012, 1, 2)
     @item = EndcountItem.create(FactoryGirl.attributes_for(:item))
     @item_counts = [
-      FactoryGirl.create(:item_count, :item => @item, :stock_count =>  5, :entry_date => @first_date),
-      FactoryGirl.create(:item_count, :item => @item, :stock_count =>  7.5, :entry_date => @first_date.end_of_month),
-      FactoryGirl.create(:item_count, :item => @item, :stock_count => 10, :entry_date => @latter_date)
+      FactoryGirl.create(:item_count, :item => @item, :stock_count =>   5, :entry_date => @first_date),
+      FactoryGirl.create(:item_count, :item => @item, :stock_count => 7.5, :entry_date => @first_date.end_of_month),
+      FactoryGirl.create(:item_count, :item => @item, :stock_count =>  10, :entry_date => @latter_date)
     ]
     @endcount = Endcount.new([@item], @latter_date, @first_date)
   end
@@ -28,6 +28,11 @@ describe Endcount do
 
   it 'should return ending_count' do
     @endcount.items.first.ending_count.should eq 10
+  end
+
+  it 'should return the last ending count of the month relative to ending date' do
+    endcount = Endcount.new([@item], @first_date)
+    endcount.items.first.ending_count.should eq 7.5
   end
 
   it 'should return item counts at specified date' do
