@@ -27,6 +27,7 @@
           %th Count
           %th Total
           %th{ :title => 'Cost of Goods' } COGS
+          
         - @endcount.items.each do |endcount_item|
           %tr
             %td= endcount_item.name

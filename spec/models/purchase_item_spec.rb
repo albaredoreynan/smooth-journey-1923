@@ -142,7 +142,8 @@ describe PurchaseItem do
     before do
       @start_date = 5.days.ago.to_date
       @end_date = Date.today
-      @item = FactoryGirl.create(:item, name: 'Magic Wand')
+      @subcategory = FactoryGirl.create(:subcategory, :name => 'SubY')
+      @item = FactoryGirl.create(:item, name: 'Magic Wand', :subcategory => @subcategory)
       supplier = FactoryGirl.create(:supplier, name: 'Supplier X')
       @purchase_items = [
         FactoryGirl.create(:purchase_item, item: @item,
@@ -160,7 +161,7 @@ describe PurchaseItem do
       FactoryGirl.create(:purchase_item, item: @item,
                           purchase: FactoryGirl.create(:purchase, purchase_date: 1.year.ago.to_date))
       search_results = PurchaseItem.search(start_date: @start_date, end_date: @end_date)
-      search_results.should eq @purchase_items
+      search_results.should eq [@purchase_items[1], @purchase_items[0]]
     end
 
     it 'should search by supplier name' do
@@ -176,6 +177,13 @@ describe PurchaseItem do
     it 'should search an item name' do
       FactoryGirl.create(:purchase_item, item: FactoryGirl.create(:item, name: 'other item'))
       search_results = PurchaseItem.search(item: 'Magic') # item name that starts with ..
+      search_results.should eq [@purchase_items[1], @purchase_items[0]]
+    end
+    
+    it 'should search by subcategory' do
+      subcategory = FactoryGirl.create(:subcategory, :name => 'aaa')
+      FactoryGirl.create(:purchase_item, item: FactoryGirl.create(:item, :subcategory => subcategory))
+      search_results = PurchaseItem.search(:subcategory => 'SubY')
       search_results.should eq [@purchase_items[1], @purchase_items[0]]
     end
 
