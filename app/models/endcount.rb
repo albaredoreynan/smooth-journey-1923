@@ -5,7 +5,7 @@ class Endcount
   attr_accessor :items
 
   def initialize(items, ending_date, beginning_date=nil)
-    @ending_date = ending_date.to_date
+    @ending_date = Date.today.month < ending_date.month ? ending_date.end_of_month : ending_date
     @beginning_date = beginning_date || @ending_date.beginning_of_month
     @items = process_items(items)
   end
