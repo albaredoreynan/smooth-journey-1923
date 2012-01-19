@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'cancan/matchers'
 
 describe InventoryitemsController do
   context 'as admin' do
@@ -22,6 +23,24 @@ describe InventoryitemsController do
         put 'update', :id => item.id, :item => {:item_count => 50}
         item.reload
         item.item_count.should eq 50
+      end
+    end
+  end
+
+  context 'as client admin' do
+    login_client
+
+    context 'GET #index' do
+      before do
+        @restaurant = FactoryGirl.create(:restaurant, :company => @current_company)
+        @branch = FactoryGirl.create(:branch, :restaurant => @restaurant)
+        @item = FactoryGirl.create(:item, :branch => @branch)
+        FactoryGirl.create(:item)
+      end
+
+      it 'should load items' do
+        get 'index'
+        assigns[:items].should eq [@item]
       end
     end
   end

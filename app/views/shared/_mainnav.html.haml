@@ -5,7 +5,9 @@
     = tab.inventory 'Inventory', endcounts_path
     -#= tab.employees 'Employees', employees_path
     = tab.reports 'Reports', endcount_reports_path
-    - default_database_path = can? :read, Company ? companies_path : branches_path
-    = tab.database 'Database', default_database_path
+    - if current_user.admin?
+      = tab.database 'Database', companies_path
+    - else
+      = tab.database 'Database', branches_path
     - if can? :manage, Setting
       = tab.settings 'Settings', '/settings'

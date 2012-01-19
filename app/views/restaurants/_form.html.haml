@@ -1,7 +1,8 @@
 = simple_form_for @restaurant do |f|
   = f.input :store_id
   = f.input :name
-  = f.association :company, :prompt => '(select)'
+  - if can? [:new, :create], Company
+    = f.association :company, :prompt => '(select)'
   = f.input :description
   = f.input :currency_id
   .actions

@@ -30,6 +30,7 @@ class InventoryitemsController < ApplicationController
     current_ability.attributes_for(:new, Item).each do |key, value|
       @item.send("#{key}=", value)
     end
+
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @item }

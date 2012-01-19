@@ -1,11 +1,10 @@
 class RestaurantsController < ApplicationController
+  load_and_authorize_resource
 
   set_tab :database
 
-  # GET /restaurants
-  # GET /restaurants.xml
   def index
-    @restaurants = Restaurant.page(params[:page]).joins(:company)
+    @restaurants = Restaurant.joins(:company).accessible_by(current_ability).page(params[:page])
 
     respond_to do |format|
       format.html # index.html.erb
@@ -13,8 +12,6 @@ class RestaurantsController < ApplicationController
     end
   end
 
-  # GET /restaurants/1
-  # GET /restaurants/1.xml
   def show
     @restaurant = Restaurant.find(params[:id])
 
@@ -24,10 +21,11 @@ class RestaurantsController < ApplicationController
     end
   end
 
-  # GET /restaurants/new
-  # GET /restaurants/new.xml
   def new
     @restaurant = Restaurant.new
+    current_ability.attributes_for(:new, Restaurant).each do |key, value|
+      @restaurant.send("#{key}=", value)
+    end
 
     respond_to do |format|
       format.html # new.html.erb
@@ -35,15 +33,15 @@ class RestaurantsController < ApplicationController
     end
   end
 
-  # GET /restaurants/1/edit
   def edit
     @restaurant = Restaurant.find(params[:id])
   end
 
-  # POST /restaurants
-  # POST /restaurants.xml
   def create
     @restaurant = Restaurant.new(params[:restaurant])
+    current_ability.attributes_for(:create, Restaurant).each do |key, value|
+      @restaurant.send("#{key}=", value)
+    end
 
     respond_to do |format|
       if @restaurant.save
@@ -56,13 +54,11 @@ class RestaurantsController < ApplicationController
     end
   end
 
-  # PUT /restaurants/1
-  # PUT /restaurants/1.xml
   def update
     @restaurant = Restaurant.find(params[:id])
 
     respond_to do |format|
-      if @restaurant.update_attributes(params[:restaurant])
+      if @restaurant.update_attributes(current_ability.attributes_for(:update, Restaurant).merge(params[:restaurant]))
         format.html { redirect_to(@restaurant, :notice => 'Restaurant was successfully updated.') }
         format.xml  { head :ok }
       else
@@ -72,8 +68,6 @@ class RestaurantsController < ApplicationController
     end
   end
 
-  # DELETE /restaurants/1
-  # DELETE /restaurants/1.xml
   def destroy
     @restaurant = Restaurant.find(params[:id])
     @restaurant.destroy

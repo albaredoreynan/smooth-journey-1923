@@ -34,10 +34,12 @@ class Ability
     end
 
     if user.client?
-      can :manage, Company
-      can :manage, Branch
-      can :manage, Restaurant
+      can [:read, :edit, :update], Company, :id => user.companies.first.id
+      can :new, Branch
+      can :manage, Branch, :restaurant => { :company => { :id => user.companies.first.id } }
+      can :manage, Restaurant, :company_id => user.companies.first.id
       can :manage, Setting, :company_id => user.companies.first.id
+      can :manage, Item, :branch => { :restaurant => {:company => { :id => user.companies.first.id } } }
     end
 
     if user.admin?
