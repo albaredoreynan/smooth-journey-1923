@@ -11,6 +11,7 @@ class Reports::PurchaseReportsController < ApplicationController
       supplier: params[:supplier],
       invoice_number: params[:invoice_number],
       item: params[:item],
+      subcategory: params[:subcategory]
     ).group_by do |pi|
       pi.item.subcategory || Subcategory.new(:name => '(No subcategory)')
     end

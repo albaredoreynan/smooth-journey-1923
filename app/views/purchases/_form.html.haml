@@ -14,7 +14,6 @@
     = f.input :purchase_date, {label: "Date", as: :string, input_html: {class: 'datepicker', value: Date.today}}
     = f.association :supplier
     = f.input :invoice_number
-    = f.input :vat_type, :collection => ["VAT-Inclusive", "VAT-Exclusive", "VAT-Exempted"]
     = f.association :currency, :collection => Currency.all.map{ |currency| [currency.currency, currency.id] }
 
   .purchase_items_wrapper
