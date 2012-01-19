@@ -34,6 +34,9 @@ class Ability
     end
 
     if user.client?
+      can :manage, Company
+      can :manage, Branch
+      can :manage, Restaurant
       can :manage, Setting, :company_id => user.companies.first.id
     end
 
