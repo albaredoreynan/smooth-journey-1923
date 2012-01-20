@@ -13,10 +13,8 @@ class PurchaseItem < ActiveRecord::Base
   validates :item_id,     :presence => true
   validates :amount,      :presence => true, :numericality => true
   validates :quantity,    :presence => true, :numericality => true
-  
-  default_scope joins(:purchase).order('purchase_date DESC')
 
-  default_scope order('id ASC')
+  default_scope joins(:purchase).order('purchase_date DESC')
 
   scope :start_date, lambda {|date| joins(:purchase).where('purchases.purchase_date >= ?', date) unless date.blank?}
   scope :end_date, lambda {|date| joins(:purchase).where('purchases.purchase_date <= ?', date) unless date.blank?}
