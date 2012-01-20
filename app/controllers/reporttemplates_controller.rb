@@ -1,6 +1,4 @@
 class ReporttemplatesController < ApplicationController
-  # GET /reporttemplates
-  # GET /reporttemplates.xml
   def index
     @reporttemplates = Reporttemplate.all
 
@@ -10,8 +8,6 @@ class ReporttemplatesController < ApplicationController
     end
   end
 
-  # GET /reporttemplates/1
-  # GET /reporttemplates/1.xml
   def show
     @reporttemplate = Reporttemplate.find(params[:id])
 
@@ -21,8 +17,6 @@ class ReporttemplatesController < ApplicationController
     end
   end
 
-  # GET /reporttemplates/new
-  # GET /reporttemplates/new.xml
   def new
     @reporttemplate = Reporttemplate.new
 
@@ -32,13 +26,10 @@ class ReporttemplatesController < ApplicationController
     end
   end
 
-  # GET /reporttemplates/1/edit
   def edit
     @reporttemplate = Reporttemplate.find(params[:id])
   end
 
-  # POST /reporttemplates
-  # POST /reporttemplates.xml
   def create
     @reporttemplate = Reporttemplate.new(params[:reporttemplate])
 
@@ -53,8 +44,6 @@ class ReporttemplatesController < ApplicationController
     end
   end
 
-  # PUT /reporttemplates/1
-  # PUT /reporttemplates/1.xml
   def update
     @reporttemplate = Reporttemplate.find(params[:id])
 
@@ -69,8 +58,6 @@ class ReporttemplatesController < ApplicationController
     end
   end
 
-  # DELETE /reporttemplates/1
-  # DELETE /reporttemplates/1.xml
   def destroy
     @reporttemplate = Reporttemplate.find(params[:id])
     @reporttemplate.destroy

@@ -1,6 +1,4 @@
 class RestaurantcategoriesController < ApplicationController
-  # GET /restaurantcategories
-  # GET /restaurantcategories.xml
   def index
     @restaurantcategories = Restaurantcategory.all
 
@@ -10,8 +8,6 @@ class RestaurantcategoriesController < ApplicationController
     end
   end
 
-  # GET /restaurantcategories/1
-  # GET /restaurantcategories/1.xml
   def show
     @restaurantcategory = Restaurantcategory.find(params[:id])
 
@@ -21,8 +17,6 @@ class RestaurantcategoriesController < ApplicationController
     end
   end
 
-  # GET /restaurantcategories/new
-  # GET /restaurantcategories/new.xml
   def new
     @restaurantcategory = Restaurantcategory.new
 
@@ -32,13 +26,10 @@ class RestaurantcategoriesController < ApplicationController
     end
   end
 
-  # GET /restaurantcategories/1/edit
   def edit
     @restaurantcategory = Restaurantcategory.find(params[:id])
   end
 
-  # POST /restaurantcategories
-  # POST /restaurantcategories.xml
   def create
     @restaurantcategory = Restaurantcategory.new(params[:restaurantcategory])
 
@@ -53,8 +44,6 @@ class RestaurantcategoriesController < ApplicationController
     end
   end
 
-  # PUT /restaurantcategories/1
-  # PUT /restaurantcategories/1.xml
   def update
     @restaurantcategory = Restaurantcategory.find(params[:id])
 
@@ -69,8 +58,6 @@ class RestaurantcategoriesController < ApplicationController
     end
   end
 
-  # DELETE /restaurantcategories/1
-  # DELETE /restaurantcategories/1.xml
   def destroy
     @restaurantcategory = Restaurantcategory.find(params[:id])
     @restaurantcategory.destroy

@@ -1,6 +1,6 @@
 = simple_form_for @category do |f|
   = f.input :name
-  = f.association :restaurant
+  = f.association :restaurant, :collection => Restaurant.accessible_by(current_ability).map { |rest| [rest.name, rest.id] }
   = f.input :description
   .actions
     = f.button :submit

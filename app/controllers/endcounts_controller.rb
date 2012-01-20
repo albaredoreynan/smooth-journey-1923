@@ -3,8 +3,9 @@ class EndcountsController < ApplicationController
   set_tab :inventory
 
   def index
+    authorize! :index, Endcount
     ending_date = params[:date] ? Date.parse(params[:date]) : Date.today
-    @items = Endcount.ending_counts_at(endcount.all, ending_date)
+    @items = Endcount.ending_counts_at(EndcountItem.accessible_by(current_ability), ending_date)
   end
 
   def show
@@ -118,10 +119,5 @@ class EndcountsController < ApplicationController
     end
 
     redirect_to endcounts_path
-  end
-
-  private
-  def endcount
-    current_user.branch? ? EndcountItem.where(:branch_id => current_branch.id) : EndcountItem
   end
 end

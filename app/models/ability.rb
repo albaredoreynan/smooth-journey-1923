@@ -24,7 +24,8 @@ class Ability
       end
 
       # Inventory Item
-      can :manage, Item, :branch_id => user.branches.first.id
+      can :manage, Endcount
+      can :manage, [ Item, EndcountItem ], :branch_id => user.branches.first.id
       can :update_count, Item do |item|
         item.entry_date < Date.today - 1.day
       end
@@ -35,11 +36,18 @@ class Ability
 
     if user.client?
       can [:read, :edit, :update], Company, :id => user.companies.first.id
-      can :new, Branch
+      can :new,    Branch
       can :manage, Branch, :restaurant => { :company => { :id => user.companies.first.id } }
+      can :new, Category
+      can :manage, Category, :restaurant => { :company => { :id => user.companies.first.id } }
+      can :manage, Endcount
+      can :manage, [ Item, EndcountItem ], :branch => { :restaurant => { :company => { :id => user.companies.first.id } } }
       can :manage, Restaurant, :company_id => user.companies.first.id
       can :manage, Setting, :company_id => user.companies.first.id
-      can :manage, Item, :branch => { :restaurant => {:company => { :id => user.companies.first.id } } }
+      can [:new, :create], Subcategory
+      can :manage, Subcategory, :category => { :restaurant => { :company => { :id => user.companies.first.id } } }
+      can :new, Unit
+      can :manage, Unit, :restaurant => { :company => { :id => user.companies.first.id } }
     end
 
     if user.admin?

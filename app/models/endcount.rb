@@ -9,7 +9,7 @@ class Endcount
     @beginning_date = beginning_date || @ending_date.beginning_of_month
     @items = process_items(items)
   end
-  
+
   def self.ending_counts_at(items, date=Date.today)
     items.each do |item|
       item.ending_date = date

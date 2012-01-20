@@ -2,8 +2,6 @@ class CurrenciesController < ApplicationController
 
   set_tab :database
 
-  # GET /currencies
-  # GET /currencies.json
   def index
     @currencies = Currency.page(params[:page])
 
@@ -13,8 +11,6 @@ class CurrenciesController < ApplicationController
     end
   end
 
-  # GET /currencies/1
-  # GET /currencies/1.json
   def show
     @currency = Currency.find(params[:id])
 
@@ -24,8 +20,6 @@ class CurrenciesController < ApplicationController
     end
   end
 
-  # GET /currencies/new
-  # GET /currencies/new.json
   def new
     @currency = Currency.new
 
@@ -35,13 +29,10 @@ class CurrenciesController < ApplicationController
     end
   end
 
-  # GET /currencies/1/edit
   def edit
     @currency = Currency.find(params[:id])
   end
 
-  # POST /currencies
-  # POST /currencies.json
   def create
     @currency = Currency.new(params[:currency])
 
@@ -56,8 +47,6 @@ class CurrenciesController < ApplicationController
     end
   end
 
-  # PUT /currencies/1
-  # PUT /currencies/1.json
   def update
     @currency = Currency.find(params[:id])
 
@@ -72,8 +61,6 @@ class CurrenciesController < ApplicationController
     end
   end
 
-  # DELETE /currencies/1
-  # DELETE /currencies/1.json
   def destroy
     @currency = Currency.find(params[:id])
     @currency.destroy

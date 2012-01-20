@@ -2,8 +2,6 @@ class ConversionsController < ApplicationController
 
   set_tab :database
 
-  # GET /conversions
-  # GET /conversions.xml
   def index
     @conversions = Conversion.page(params[:page])
 
@@ -13,8 +11,6 @@ class ConversionsController < ApplicationController
     end
   end
 
-  # GET /conversions/1
-  # GET /conversions/1.xml
   def show
     @conversion = Conversion.find(params[:id])
 
@@ -24,8 +20,6 @@ class ConversionsController < ApplicationController
     end
   end
 
-  # GET /conversions/new
-  # GET /conversions/new.xml
   def new
     @conversion = Conversion.new
 
@@ -35,13 +29,10 @@ class ConversionsController < ApplicationController
     end
   end
 
-  # GET /conversions/1/edit
   def edit
     @conversion = Conversion.find(params[:id])
   end
 
-  # POST /conversions
-  # POST /conversions.xml
   def create
     @conversion = Conversion.new(params[:conversion])
 
@@ -56,8 +47,6 @@ class ConversionsController < ApplicationController
     end
   end
 
-  # PUT /conversions/1
-  # PUT /conversions/1.xml
   def update
     @conversion = Conversion.find(params[:id])
 
@@ -72,8 +61,6 @@ class ConversionsController < ApplicationController
     end
   end
 
-  # DELETE /conversions/1
-  # DELETE /conversions/1.xml
   def destroy
     @conversion = Conversion.find(params[:id])
     @conversion.destroy

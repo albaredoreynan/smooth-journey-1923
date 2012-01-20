@@ -1,14 +1,14 @@
 class UnitsController < ApplicationController
+  load_and_authorize_resource
 
   set_tab :database
 
-  # GET /units
-  # GET /units.xml
   def index
+    authorize! :index, Unit
     if params[:search]
-      @units = Unit.search(params[:search]).page(params[:page])
+      @units = Unit.accessible_by(current_ability).search(params[:search]).page(params[:page])
     else
-      @units = Unit.page(params[:page])
+      @units = Unit.accessible_by(current_ability).page(params[:page])
     end
 
     respond_to do |format|
@@ -17,8 +17,6 @@ class UnitsController < ApplicationController
     end
   end
 
-  # GET /units/1
-  # GET /units/1.xml
   def show
     @unit = Unit.find(params[:id])
 
@@ -28,10 +26,9 @@ class UnitsController < ApplicationController
     end
   end
 
-  # GET /units/new
-  # GET /units/new.xml
   def new
     @unit = Unit.new
+    authorize! :new, Unit
 
     respond_to do |format|
       format.html # new.html.erb
@@ -39,13 +36,10 @@ class UnitsController < ApplicationController
     end
   end
 
-  # GET /units/1/edit
   def edit
     @unit = Unit.find(params[:id])
   end
 
-  # POST /units
-  # POST /units.xml
   def create
     @unit = Unit.new(params[:unit])
 
@@ -60,8 +54,6 @@ class UnitsController < ApplicationController
     end
   end
 
-  # PUT /units/1
-  # PUT /units/1.xml
   def update
     @unit = Unit.find(params[:id])
 
@@ -76,8 +68,6 @@ class UnitsController < ApplicationController
     end
   end
 
-  # DELETE /units/1
-  # DELETE /units/1.xml
   def destroy
     @unit = Unit.find(params[:id])
     @unit.destroy

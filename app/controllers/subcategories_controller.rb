@@ -1,11 +1,10 @@
 class SubcategoriesController < ApplicationController
+  load_and_authorize_resource
 
   set_tab :database
 
-  # GET /subcategories
-  # GET /subcategories.xml
   def index
-    @subcategories = Subcategory.page(params[:page])
+    @subcategories = Subcategory.accessible_by(current_ability).page(params[:page])
 
     respond_to do |format|
       format.html # index.html.erb
@@ -13,8 +12,6 @@ class SubcategoriesController < ApplicationController
     end
   end
 
-  # GET /subcategories/1
-  # GET /subcategories/1.xml
   def show
     @subcategory = Subcategory.find(params[:id])
 
@@ -24,8 +21,6 @@ class SubcategoriesController < ApplicationController
     end
   end
 
-  # GET /subcategories/new
-  # GET /subcategories/new.xml
   def new
     @subcategory = Subcategory.new
 
@@ -35,15 +30,13 @@ class SubcategoriesController < ApplicationController
     end
   end
 
-  # GET /subcategories/1/edit
   def edit
     @subcategory = Subcategory.find(params[:id])
   end
 
-  # POST /subcategories
-  # POST /subcategories.xml
   def create
     @subcategory = Subcategory.new(params[:subcategory])
+    authorize! :create, @subcategory
 
     respond_to do |format|
       if @subcategory.save
@@ -56,8 +49,6 @@ class SubcategoriesController < ApplicationController
     end
   end
 
-  # PUT /subcategories/1
-  # PUT /subcategories/1.xml
   def update
     @subcategory = Subcategory.find(params[:id])
 
@@ -72,8 +63,6 @@ class SubcategoriesController < ApplicationController
     end
   end
 
-  # DELETE /subcategories/1
-  # DELETE /subcategories/1.xml
   def destroy
     @subcategory = Subcategory.find(params[:id])
     @subcategory.destroy

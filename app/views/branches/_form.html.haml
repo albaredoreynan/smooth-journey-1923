@@ -1,5 +1,5 @@
 = simple_form_for @branch do |f|
-  = f.association :restaurant
+  = f.association :restaurant, :collection => Restaurant.accessible_by(current_ability).map { |r| [r.name, r.id] }
   = f.input :location
   = f.input :address
   = f.input :contact_number
