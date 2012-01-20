@@ -28,12 +28,12 @@ class UnitsController < ApplicationController
 
   def new
     @unit = Unit.new
-    authorize! :new, Unit
 
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @unit }
     end
+    authorize!, :new, @unit
   end
 
   def edit
