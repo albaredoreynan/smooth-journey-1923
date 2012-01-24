@@ -6,14 +6,14 @@
       .new_actions
         = link_to 'New Company', new_company_path, :class => 'button'
     .inner
-      %table
+      %table#companies
         %tr
           %th Name
           %th Address
           %th Contact Number
           %th.actions Action
         - @companies.each do |company|
-          %tr
+          %tr{:id => dom_id(company)}
             %td= company.name
             %td= company.address
             %td= company.contact_number
