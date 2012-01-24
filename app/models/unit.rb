@@ -1,9 +1,7 @@
 class Unit < ActiveRecord::Base
   validates :symbol, :presence => true
-  
+
   belongs_to :restaurant
-  
-  def self.search(keyword)
-    where("name ILIKE :keyword or symbol ILIKE :keyword", {:keyword => '%'+keyword+'%'})
-  end
+
+  scope :search, lambda { |keyword| where("units.name ILIKE :keyword OR units.symbol ILIKE :keyword", { :keyword => "%#{keyword}%" }) }
 end

@@ -5,11 +5,7 @@ class UnitsController < ApplicationController
 
   def index
     authorize! :index, Unit
-    if params[:search]
-      @units = Unit.accessible_by(current_ability).search(params[:search]).page(params[:page])
-    else
-      @units = Unit.accessible_by(current_ability).page(params[:page])
-    end
+    @units = Unit.accessible_by(current_ability).search(params[:search]).page(params[:page])
 
     respond_to do |format|
       format.html # index.html.erb
@@ -33,7 +29,7 @@ class UnitsController < ApplicationController
       format.html # new.html.erb
       format.xml  { render :xml => @unit }
     end
-    authorize!, :new, @unit
+    authorize! :new, @unit
   end
 
   def edit
