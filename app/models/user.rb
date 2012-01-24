@@ -25,4 +25,8 @@ class User < ActiveRecord::Base
       companies.first.setting
     end
   end
+
+  def self.filter_by_company(company_id)
+    joins(:roles => :company).where('companies.id = ?', company_id)
+  end
 end

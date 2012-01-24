@@ -29,4 +29,16 @@ describe User do
       client_user.setting.should eq setting
     end
   end
+
+  describe '#filter_by_company' do
+    it 'should return users from company' do
+      FactoryGirl.create(:user) # other user
+      company = FactoryGirl.create(:company)
+      company_user = FactoryGirl.create(:user, :email => 'company_user@example.com')
+      FactoryGirl.create(:role, :user => company_user, :company => company)
+
+      results = User.filter_by_company(company.id)
+      results.should eq [company_user]
+    end
+  end
 end
