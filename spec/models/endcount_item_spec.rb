@@ -41,14 +41,13 @@ describe EndcountItem do
       @purchases = [
         FactoryGirl.create(:purchase,
                            :purchase_date => 5.days.ago,
-                           :vat_type => 'VAT-Exempted',
                            :purchase_items => [
                               FactoryGirl.create(:purchase_item, :amount => 5, :item => @items[0]),
                               FactoryGirl.create(:purchase_item, :amount => 6, :item => @items[1])
         ]),
         FactoryGirl.create(:purchase, :purchase_date => Date.today, :purchase_items => [
-          FactoryGirl.create(:purchase_item, :amount => 7, :vat_type => 'VAT-Exempted', :item => @items[0]),
-          FactoryGirl.create(:purchase_item, :amount => 8, :vat_type => 'VAT-Exempted', :item => @items[1])
+          FactoryGirl.create(:purchase_item, :amount => 7, :item => @items[0]),
+          FactoryGirl.create(:purchase_item, :amount => 8, :item => @items[1])
         ])
       ]
       @items.map(&:reload)

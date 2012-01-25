@@ -13,6 +13,8 @@ class PurchaseItem < ActiveRecord::Base
   validates :item_id,     :presence => true
   validates :amount,      :presence => true, :numericality => true
   validates :quantity,    :presence => true, :numericality => true
+  validates :vat_type,    :presence => true,
+                          :inclusion => { :in => %w(VAT-Exclusive VAT-Inclusive VAT-Exempted) }
 
   default_scope joins(:purchase).order('purchase_date DESC')
 
@@ -34,10 +36,6 @@ class PurchaseItem < ActiveRecord::Base
 
   def purchase_amount
     vat_type == 'VAT-Exclusive' ? amount + vat_amount : amount
-  end
-
-  def vat_type
-    purchase.vat_type
   end
 
   def vat_amount

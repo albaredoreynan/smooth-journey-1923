@@ -16,20 +16,20 @@ describe Purchase do
       %w(VAT-Inclusive VAT-Exclusive VAT-Exempted).each do |vat_type|
         @purchase_row << FactoryGirl.create(:purchase_item,
                                             :amount => 5,
-                                            :purchase => FactoryGirl.create(:purchase, :vat_type => vat_type))
+                                            :vat_type => vat_type)
       end
     end
 
     it 'should calculate vat_amount when vat type is inclusive' do
-      @purchase_row[0].purchase.vat_amount.should eq 0.54
+      @purchase_row[0].vat_amount.should eq 0.54
     end
 
     it 'should calculate vat_amount when vat type is exclusive' do
-      @purchase_row[1].purchase.vat_amount.should eq 0.6
+      @purchase_row[1].vat_amount.should eq 0.6
     end
 
     it 'should calculate vat_amount when vat type is exempted' do
-      @purchase_row[2].purchase.vat_amount.should eq 0
+      @purchase_row[2].vat_amount.should eq 0
     end
   end
 
