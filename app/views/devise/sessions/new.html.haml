@@ -8,8 +8,8 @@
           %p= message
     = form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f|
       .input
-        = f.label :email
-        = f.email_field :email
+        = f.label :username
+        = f.text_field :username
       .input
         = f.label :password
         = f.password_field :password
