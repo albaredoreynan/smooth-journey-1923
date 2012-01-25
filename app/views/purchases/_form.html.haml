@@ -9,8 +9,8 @@
           %li= msg
   %fieldset.purchase_form
     = f.input :id, :as => :hidden
-    - if current_user.admin?
-      = f.association :branch, :collection => Branch.all.map{ |branch| [branch.location, branch.id] }
+    - if can? :manage, Branch
+      = f.association :branch, :collection => Branch.accessible_by(current_ability).map{ |branch| [branch.location, branch.id] }
     = f.input :purchase_date, {label: "Date", as: :string, input_html: {class: 'datepicker', value: Date.today}}
     = f.association :supplier
     = f.input :invoice_number
