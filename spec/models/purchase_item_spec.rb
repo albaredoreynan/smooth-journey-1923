@@ -39,12 +39,12 @@ describe PurchaseItem do
 
   end
 
-  describe '#net_amount' do
+  describe '.net_amount' do
     it 'should calculate net_amount when vat type is inclusive' do
       purchase_row = FactoryGirl.create(:purchase_item,
                                         :amount => 5,
                                         :vat_type => 'VAT-Inclusive')
-      purchase_row.net_amount.should eq 4.46
+      purchase_row.net_amount.should be_between(4.464, 4.465)
     end
 
     it 'should calculate net_amount when vat type is exclusive' do
@@ -62,7 +62,7 @@ describe PurchaseItem do
     end
   end
 
-  describe '#purchase_amount' do
+  describe '.purchase_amount' do
     it 'should calculate purchase_amount when vat_type is exclusive' do
       purchase_item = FactoryGirl.create(:purchase_item,
                                         :amount => 1,

@@ -41,7 +41,7 @@ class PurchaseItem < ActiveRecord::Base
   def vat_amount
     case vat_type
     when 'VAT-Inclusive'
-      amount - (amount / 1.12).round(2)
+      amount - (amount / 1.12)
     when 'VAT-Exclusive'
       amount * 0.12
     when 'VAT-Exempted'
@@ -50,7 +50,7 @@ class PurchaseItem < ActiveRecord::Base
   end
 
   def net_amount
-    vat_type == 'VAT-Inclusive' ? (amount - vat_amount).round(2) : amount
+    vat_type == 'VAT-Inclusive' ? (amount - vat_amount) : amount
   end
 
   def item_name

@@ -10,66 +10,47 @@ describe Purchase do
     end
   end
 
-  context '#vat_amount' do
-    before do
-      @purchase_row = []
-      %w(VAT-Inclusive VAT-Exclusive VAT-Exempted).each do |vat_type|
-        @purchase_row << FactoryGirl.create(:purchase_item,
-                                            :amount => 5,
-                                            :vat_type => vat_type)
-      end
-    end
-
-    it 'should calculate vat_amount when vat type is inclusive' do
-      @purchase_row[0].vat_amount.should eq 0.54
-    end
-
-    it 'should calculate vat_amount when vat type is exclusive' do
-      @purchase_row[1].vat_amount.should eq 0.6
-    end
-
-    it 'should calculate vat_amount when vat type is exempted' do
-      @purchase_row[2].vat_amount.should eq 0
-    end
-  end
-
   context 'calculator methods' do
     before do
       @purchase = FactoryGirl.create(:purchase)
       @purchase_items = [
-        FactoryGirl.create(:purchase_item, :purchase => @purchase, :amount => 5.00, :vat_type => 'VAT-Exempted'),
-        FactoryGirl.create(:purchase_item, :purchase => @purchase, :amount => 5.00, :vat_type => 'VAT-Exempted')
+        FactoryGirl.create(:purchase_item, :purchase => @purchase, :amount => 5, :vat_type => 'VAT-Exclusive'),
+        FactoryGirl.create(:purchase_item, :purchase => @purchase, :amount => 5, :vat_type => 'VAT-Inclusive'),
+        FactoryGirl.create(:purchase_item, :purchase => @purchase, :amount => 5, :vat_type => 'VAT-Exempted')
       ]
-      @purchase.reload
     end
 
-    context 'no purchase_item' do
-      before do
-        @no_item_purchase = FactoryGirl.create(:purchase)
-      end
-      it 'should display 0 when there is no net amount' do
-        @no_item_purchase.net_amount.should eq 0.00
+    describe '.vat_amount' do
+      it 'should return 0 when no purchase items' do
+        purchase = FactoryGirl.create(:purchase)
+        purchase.vat_amount.should eq 0
       end
 
-      it 'should display 0 when there is no vat_amount' do
-        @no_item_purchase.vat_amount.should eq 0.00
-      end
-
-      it 'should display 0 when there is no amount' do
-        @no_item_purchase.amount.should eq 0.00
+      it 'should return total vat_amount' do
+        @purchase.vat_amount.should be_between(1.135, 1.136)
       end
     end
 
-    it 'should total net amount' do
-      @purchase.amount.should eq 10.00
+    describe '.net_amount' do
+      it 'should return 0 when no purchase items' do
+        purchase = FactoryGirl.create(:purchase)
+        purchase.net_amount.should eq 0
+      end
+
+      it 'should return total net_amount' do
+        @purchase.net_amount.should be_between(14.464, 14.465)
+      end
     end
 
-    it 'should return total net amount' do
-      @purchase.net_amount.should eq 10.00
-    end
+    describe '.amount' do
+      it 'should return 0 when no purchase items' do
+        purchase = FactoryGirl.create(:purchase)
+        purchase.amount.should eq 0
+      end
 
-    it 'should return total vat amount' do
-      @purchase.vat_amount.should eq 0
+      it 'should return total amount' do
+        @purchase.amount.should eq 15
+      end
     end
   end
 

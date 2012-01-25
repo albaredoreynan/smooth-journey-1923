@@ -39,16 +39,7 @@ class Purchase < ActiveRecord::Base
   end
 
   def vat_amount
-    case self[:vat_type]
-    when 'VAT-Inclusive'
-      amount - (amount / 1.12).round(2)
-    when 'VAT-Exclusive'
-      amount * 0.12
-    when 'VAT-Exempted'
-      0
-    else
-      0
-    end
+    purchase_items.map(&:vat_amount).inject(:+) || 0.00
   end
 
   def supplier_name
