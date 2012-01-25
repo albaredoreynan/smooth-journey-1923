@@ -49,7 +49,10 @@ Rrbs::Application.routes.draw do
 
   match '/reports/endcounts', :to => 'reports/endcount_reports#index', :as => 'endcount_reports'
   match '/reports/purchases', :to => 'reports/purchase_reports#index', :as => 'purchase_reports'
-
+  
+  match "/members", :to => "users#index", :via => "get"
+  match "/members", :to => "users#create", :via => "post"
+  
   resources :users
 
   resources :endcounts do

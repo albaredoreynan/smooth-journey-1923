@@ -4,6 +4,27 @@ describe User do
 
   it { should have_many :roles }
   it { should have_many :branches }
+  
+  context 'Validation' do
+    before do
+      @user = User.new
+    end
+    
+    it 'should be invalid without username' do
+      @user.should have_at_least(1).error_on :username
+    end
+    
+    it 'should have a unique username' do
+      FactoryGirl.create(:user, :username => 'nan')
+      @user.username = 'nan'
+      @user.should have(1).error_on :username
+    end
+    
+    it 'should be invalid without email' do
+      @user.should have(1).error_on :email
+    end
+    
+  end
 
   it 'should return true if admin user' do
     admin_user = FactoryGirl.create(:admin_user)
@@ -13,6 +34,23 @@ describe User do
   it 'should return true if branch user' do
     branch_user = FactoryGirl.create(:branch_user)
     branch_user.should be_branch
+  end
+  
+  it 'should assign role after user has been created' do
+    lambda {
+      @user = User.create(FactoryGirl.attributes_for(:user).merge(:role => 'branch', :branch_id => 1))
+    }.should change(Role, :count).by(1)
+    
+    role = Role.find_by_user_id(@user.id)
+    role.name.should eq 'branch'
+  end
+  
+  it 'should save role branch' do
+    branch = FactoryGirl.create(:branch)
+    @user = User.create(FactoryGirl.attributes_for(:user).merge(:role => 'branch', :branch_id => branch.id))
+    
+    role = Role.find_by_user_id(@user.id)
+    role.branch.should eq branch
   end
 
   describe '.setting' do
