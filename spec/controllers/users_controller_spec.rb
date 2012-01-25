@@ -25,5 +25,36 @@ describe UsersController do
         assigns[:users].should eq [ user ]
       end
     end
+    
+    describe 'GET #new' do
+      it 'should have instance of User' do
+        get 'new'
+        assigns[:user].should be_instance_of User
+      end
+      
+      it 'shoul be a new record' do
+        get 'new'
+        assigns[:user].should be_new_record
+      end
+    end
+    
+    describe 'POST #create' do
+      before do
+        @branch = FactoryGirl.create(:branch)
+        @post_params = { :username => 'test', :password => 'test123', :email => 'test@example.com', :role => 'branch', :branch_id => @branch.id }
+      end
+      
+      it 'should save new user' do
+        lambda {
+          post 'create', :user => @post_params
+        }.should change(User, :count).by(1)
+      end
+      
+      it 'should assign role' do
+        lambda {
+          post 'create', :user => @post_params
+        }.should change(Role, :count).by(1)
+      end
+    end
   end
 end
