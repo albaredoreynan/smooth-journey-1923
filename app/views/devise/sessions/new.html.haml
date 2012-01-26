@@ -2,10 +2,11 @@
 .block#block-login
   %h2 Sign in
   .content.login
-    .flash
-      - flash.each do |type, message|
-        %div{ :class => "message #{type}" }
-          %p= message
+    - unless flash.empty?
+      .flash
+        - flash.each do |type, message|
+          %div{ :class => "message #{type}" }
+            %p= message
     = form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f|
       .input
         = f.label :username
