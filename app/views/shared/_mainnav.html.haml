@@ -9,5 +9,5 @@
       = tab.database 'Database', companies_path
     - else
       = tab.database 'Database', branches_path
-    - if can? :manage, Setting
+    - if can? :update, Company
       = tab.settings 'Settings', '/settings'

@@ -1,5 +1,5 @@
 class SettingsController < ApplicationController
-  load_and_authorize_resource
+  load_and_authorize_resource :company
 
   def index
     @company = @current_company
