@@ -1,5 +1,5 @@
 class ItemCount < ActiveRecord::Base
-  attr_accessor :setting
+  attr_accessor :settings
 
   belongs_to :endcount
   belongs_to :item
@@ -12,9 +12,9 @@ class ItemCount < ActiveRecord::Base
   end
 
   def locked?
-    return true if setting.nil?
+    return true if self.settings.nil?
     unless self[:created_at].nil?
-      self[:created_at] < setting.lock_module_in.hours.ago
+      self[:created_at] < self.settings[:lock_module_in].to_i.hours.ago
     else
       false
     end

@@ -159,11 +159,10 @@ describe PurchasesController do
 
   context 'as branch manager' do
     login_branch
+
     before do
-      @setting = FactoryGirl.create(:setting,
-                                    company: @current_branch.company,
-                                    enable_lock_module: true,
-                                    lock_module_in: 1440)
+      @company = @current_branch.company
+      @company.update_attribute(:settings, { :enable_lock_module => true, :lock_module_in => 1440 })
     end
 
     context 'GET #index' do
@@ -240,7 +239,7 @@ describe PurchasesController do
       end
 
       it 'should be able to update purchase before lock' do
-        @setting.update_attribute(:lock_module_in, 180)
+        @company.settings.merge!(:lock_module_in => 180)
         purchase = FactoryGirl.create(:purchase, :branch => @current_branch, :created_at => 2.hour.ago)
         put_params = FactoryGirl.attributes_for(:purchase, :invoice_number => '2323')
         lambda {

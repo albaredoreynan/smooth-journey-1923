@@ -16,14 +16,13 @@ describe Branch do
 
   describe '.setting' do
     before do
-      @setting = FactoryGirl.create(:setting)
-      company = FactoryGirl.create(:company, :setting => @setting)
+      company = FactoryGirl.create(:company)
       restaurant = FactoryGirl.create(:restaurant, :company => company)
       @branch = FactoryGirl.create(:branch, :restaurant => restaurant)
     end
 
     it 'should return a setting' do
-      @branch.setting.should eq @setting
+      @branch.settings.should eq Company::DEFAULT_SETTINGS
     end
   end
 

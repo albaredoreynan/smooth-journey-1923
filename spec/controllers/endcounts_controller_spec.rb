@@ -104,10 +104,8 @@ describe EndcountsController do
     login_branch
 
     before do
-      @setting = FactoryGirl.create(:setting,
-                                    company: @current_branch.company,
-                                    enable_lock_module: true,
-                                    lock_module_in: 1440)
+      @company = @current_branch.company
+      @company.settings = { :enable_lock_module => true, :lock_module_in => 1440 }
     end
 
     context 'GET #index' do
@@ -115,6 +113,7 @@ describe EndcountsController do
         @other_item = EndcountItem.create(FactoryGirl.attributes_for(:item))
         @item = EndcountItem.create(FactoryGirl.attributes_for(:item, :branch => @current_user.branches.first))
       end
+
 
       it 'should load all items' do
         get 'index'

@@ -11,9 +11,9 @@ class User < ActiveRecord::Base
   has_many :roles
   has_many :branches, :through => :roles
   has_many :companies, :through => :roles
-  
+
   validates :username, :presence => true, :uniqueness => true
-  
+
   after_save :set_role
 
   Role::VALID_ROLES.each do |role_name|
@@ -22,18 +22,18 @@ class User < ActiveRecord::Base
     end
   end
 
-  def setting
+  def settings
     if branch?
-      branches.first.setting
+      branches.first.settings
     elsif client?
-      companies.first.setting
+      companies.first.settings
     end
   end
 
   def self.filter_by_company(company_id)
     joins(:roles => :company).where('companies.id = ?', company_id)
   end
-  
+
   private
   def set_role
     roles.create(:name => @role, :branch_id => @branch_id)

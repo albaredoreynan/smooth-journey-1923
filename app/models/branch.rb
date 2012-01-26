@@ -9,7 +9,7 @@ class Branch < ActiveRecord::Base
     restaurant.company
   end
 
-  def setting
-    company.setting
+  def settings
+    company.settings
   end
 end

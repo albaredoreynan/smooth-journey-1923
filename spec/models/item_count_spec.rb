@@ -42,9 +42,7 @@ describe ItemCount do
     context 'setting.lock_module_in = 30' do
       before do
         @item_count = FactoryGirl.create(:item_count)
-        @item_count.setting = FactoryGirl.create(:setting,
-                                                enable_lock_module: true,
-                                                lock_module_in: 30)
+        @item_count.settings = ({ :enable_lock_module => true, :lock_module_in => 30 })
       end
 
       it 'should lock update on a specified date' do

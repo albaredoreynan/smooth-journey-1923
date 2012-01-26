@@ -15,4 +15,3 @@ class SettingsController < ApplicationController
     end
   end
 end
-

@@ -10,14 +10,14 @@ describe SettingsController do
         assigns[:company].should be_instance_of Company
       end
 
-      it 'should be able to show setting' do
+      it 'should be able to show settings' do
         get 'index'
         response.should be_successful
       end
     end
 
     context 'PUT #update' do
-      it 'should be able to update setting' do
+      it 'should be able to company settings' do
         lambda {
           put 'update', :company => { :settings => { :enable_lock_module => true, :lock_module_in => 25 } }
         }.should change{@current_company.reload.settings}

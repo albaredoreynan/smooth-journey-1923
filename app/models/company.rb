@@ -8,7 +8,6 @@ class Company < ActiveRecord::Base
 
   after_initialize :set_default_settings
 
-  has_one :setting
   has_many :restaurants
 
   private
