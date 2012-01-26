@@ -2,8 +2,9 @@
   .content
     %h2.title Settings
     .inner
-      = simple_form_for @setting, :url => 'settings/update' do |f|
-        = f.input :enable_lock_module
-        = f.input :lock_module_in, hint: 'in minutes'
+      = simple_form_for @company, :url => 'settings/update' do |f|
+        = f.fields_for :settings do |sf|
+          = sf.input :enable_lock_module, :as => :boolean, :input_html => { :checked => @company.settings['enable_lock_module'].to_bool }
+          = sf.input :lock_module_in, :hint => 'in minutes', :input_html => { :value => @company.settings['lock_module_in'] }
         .actions
           = f.submit
