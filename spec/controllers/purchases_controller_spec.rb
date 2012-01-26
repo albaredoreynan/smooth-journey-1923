@@ -93,7 +93,7 @@ describe PurchasesController do
         @purchase = FactoryGirl.create(:purchase)
         supplier = @purchase.supplier
         branch = @purchase.branch
-        @post_params = { supplier_id: supplier.id, branch_id: branch.id }
+        @post_params = { :supplier_id => supplier.id, :branch_id => branch.id }
       end
 
       after do
@@ -127,6 +127,12 @@ describe PurchasesController do
         session[:purchase] = @purchase.id
         post :create, :purchase => @post_params
         @purchase.reload.save_as_draft.should eq false
+      end
+
+      it 'should be able to track who created the purchase' do
+        post :create, :purchase => @post_params.merge({ :invoice_number => '999' })
+        purchase = Purchase.find_by_invoice_number('999')
+        purchase.created_by.should eq @current_user
       end
     end
 

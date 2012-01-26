@@ -46,6 +46,8 @@ class PurchasesController < ApplicationController
       current_ability.attributes_for(:create, Purchase).each do |key, value|
         @purchase.send("#{key}=", value)
       end
+
+      @purchase.update_attributes(params[:purchase].merge({ :created_by_id => current_user.id }))
       if @purchase.save
         @purchase.update_attribute(:save_as_draft, false)
         format.html { redirect_to(@purchase, :notice => 'Purchase was successfully created.') }
@@ -88,7 +90,7 @@ class PurchasesController < ApplicationController
     else
       purchase_attrs = { save_as_draft: true }
       if current_user.branch?
-        purchase_attrs.merge!({ branch: current_branch })
+        purchase_attrs.merge!({ :branch => current_branch })
       end
       @purchase = Purchase.create purchase_attrs
       session[:purchase] = @purchase.id

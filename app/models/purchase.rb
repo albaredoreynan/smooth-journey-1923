@@ -3,6 +3,7 @@ class Purchase < ActiveRecord::Base
   belongs_to :supplier
   belongs_to :branch
   belongs_to :currency
+  belongs_to :created_by, :class_name => 'User'
 
   has_many :purchase_items, :dependent => :destroy
 

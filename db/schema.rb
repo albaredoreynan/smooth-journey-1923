@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120126070402) do
+ActiveRecord::Schema.define(:version => 20120126080127) do
 
   create_table "branches", :force => true do |t|
     t.integer  "restaurant_id"
@@ -177,7 +177,10 @@ ActiveRecord::Schema.define(:version => 20120126070402) do
     t.boolean  "save_as_draft"
     t.integer  "currency_id"
     t.text     "vat_type"
+    t.integer  "created_by_id"
   end
+
+  add_index "purchases", ["created_by_id"], :name => "index_purchases_on_created_by_id"
 
   create_table "reporttemplates", :force => true do |t|
     t.string   "report_name"
