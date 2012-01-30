@@ -10,5 +10,12 @@ class Reports::EndcountReportsController < ApplicationController
       ending_date = Date.today
     end
     @endcount = Endcount.new(endcount_items, ending_date)
+
+    respond_to do |wants|
+      wants.html
+      wants.csv do
+        render_csv(params[:controller])
+      end
+    end
   end
 end

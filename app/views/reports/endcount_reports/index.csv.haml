@@ -1,0 +1,17 @@
+:plain
+  Subcategory, Item, Unit cost, Unit, Beginning count, Beginning total, Purchases, Ending count, Ending total, COGS
+:ruby
+  require 'csv'
+  by_subcategories = @endcount.items.group_by { |i| i.subcategory }
+  by_subcategories.each do |subcategory, items|
+    csv_output = CSV.generate do |csv|
+      csv << [subcategory.name]
+      items.each do |item|
+        csv << [nil, item.name, item.unit_cost, item.unit_name,
+          item.beginning_count, item.beginning_total,
+          item.purchase_amount_period, item.ending_count, item.ending_total,
+          item.cogs ]
+      end
+    end
+    puts csv_output
+  end

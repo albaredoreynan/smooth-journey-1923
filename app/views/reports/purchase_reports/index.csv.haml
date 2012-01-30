@@ -1,0 +1,21 @@
+:plain
+  Item, Invoice number, Supplier name, Purchase date, Qty, Unit, Unit cost, VAT, Purchase amount, Net amount
+:ruby
+  require 'csv'
+  csv_output = CSV.generate do |csv|
+    @purchase_items.each do |subcategory, purchase_items|
+      purchase_items.each do |purchase_item|
+        csv << [purchase_item.item.name,
+          purchase_item.purchase.invoice_number,
+          purchase_item.purchase.supplier_name,
+          purchase_item.purchase.purchase_date,
+          purchase_item.quantity,
+          purchase_item.item.unit_name,
+          purchase_item.unit_cost,
+          purchase_item.vat_amount,
+          purchase_item.purchase_amount,
+          purchase_item.net_amount]
+      end
+    end
+  end
+  puts csv_output

@@ -5,7 +5,11 @@
 .block
   = render 'shared/menu/reports'
   .content
-    %h2 Purchase Reports
+    .title_action_bar
+      %h2.title Purchase Reports
+      .new_actions
+        = 'Download as'
+        = link_to 'CSV', :format => :csv
     .inner
       %table
         %thead
@@ -15,10 +19,10 @@
             %th Invoice number
             %th Supplier name
             %th Purchase date
-            %th Qty
+            %th.monetary Qty
             %th Unit
-            %th Unit cost
-            %th VAT
+            %th.monetary Unit cost
+            %th.monetary VAT
             %th.monetary Purchase amount
             %th.monetary Net amount
         - grand_total = 0

@@ -85,7 +85,7 @@ describe PurchaseItem do
     end
   end
 
-  describe '#quantity' do
+  describe '.quantity' do
     before do
       @unit = FactoryGirl.create(:unit)
       @purchase_item = FactoryGirl.create(:purchase_item, :quantity => 10, :unit => @unit)
@@ -106,7 +106,7 @@ describe PurchaseItem do
     end
   end
 
-  describe '#unit_cost' do
+  describe '.unit_cost' do
     before do
       @inch_unit = FactoryGirl.create(:unit, :symbol => 'in')
       @cm_unit = FactoryGirl.create(:unit, :symbol => 'cm')
@@ -133,7 +133,7 @@ describe PurchaseItem do
     end
   end
 
-  describe '#item_name' do
+  describe '.item_name' do
     it 'should return an item_name' do
       @item = FactoryGirl.create(:item, :name => 'Circlet of Nobility')
       @purchase_item = FactoryGirl.create(:purchase_item, :item => @item)
@@ -141,7 +141,7 @@ describe PurchaseItem do
     end
   end
 
-  describe '#subcategory_name' do
+  describe '.subcategory_name' do
     it 'should return a subcategory name' do
       @item = FactoryGirl.create(:item, :subcategory => FactoryGirl.create(:subcategory, name: 'SubA'))
       purchase_item  = FactoryGirl.create(:purchase_item, item: @item)
@@ -149,7 +149,7 @@ describe PurchaseItem do
     end
   end
 
-  describe '#unit_name' do
+  describe '.unit_name' do
     it 'should return a unit_name' do
       @unit = FactoryGirl.create(:unit, :name => 'kg')
       @purchase_item = FactoryGirl.create(:purchase_item, :unit => @unit)

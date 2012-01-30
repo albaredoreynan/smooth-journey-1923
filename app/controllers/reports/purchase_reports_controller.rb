@@ -15,5 +15,12 @@ class Reports::PurchaseReportsController < ApplicationController
     ).group_by do |pi|
       pi.item.subcategory || Subcategory.new(:name => '(No subcategory)')
     end
+
+    respond_to do |wants|
+      wants.html
+      wants.csv do
+        render_csv(params['controller'])
+      end
+    end
   end
 end

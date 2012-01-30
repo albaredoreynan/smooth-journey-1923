@@ -6,7 +6,11 @@
   = render 'shared/menu/reports'
   .secondary-navigation
   .content
-    %h2 Item Cost Analysis
+    .title_action_bar
+      %h2.title Item Cost Analysis
+      .new_actions
+        = 'Download as'
+        = link_to 'CSV', :format => :csv
     .inner
       %table
         %thead
