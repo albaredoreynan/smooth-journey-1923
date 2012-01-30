@@ -68,7 +68,7 @@ describe EndcountItem do
                                         :bigger_unit => @inch_unit,
                                         :smaller_unit => @cm_unit,
                                         :conversion_factor => 2.54)
-      @item = EndcountItem.create(FactoryGirl.attributes_for(:item, :unit => @cm_unit))
+      @item = EndcountItem.create(FactoryGirl.attributes_for(:item, :unit_id => @cm_unit.id))
       @item.ending_date = Date.today
       @purchase = FactoryGirl.create(:purchase, :purchase_date => Date.today)
     end
@@ -78,7 +78,7 @@ describe EndcountItem do
       item_with_no_purchase.unit_cost.should eq 0
     end
 
-    it 'should return converted' do
+    it 'should return unit converted' do
       FactoryGirl.create(:purchase_item,
                           :item => @item,
                           :amount => 10,

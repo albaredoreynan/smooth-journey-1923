@@ -34,12 +34,12 @@ describe Role do
       @user = FactoryGirl.create(:user)
     end
     it 'should automatically set company id from the branch' do
-      role = Role.create(FactoryGirl.attributes_for(:role, :branch => @branch, :user => @user))
+      role = Role.create(FactoryGirl.attributes_for(:role, :branch_id => @branch.id, :user_id => @user.id))
       role.reload.company_id.should eq @company.id
     end
 
     it 'should save even without branch' do
-      role = Role.create(FactoryGirl.attributes_for(:role, :branch => nil, :user => @user))
+      role = Role.create(FactoryGirl.attributes_for(:role, :branch_id => nil, :user_id => @user.id))
       role.reload.company_id.should be_nil
     end
   end

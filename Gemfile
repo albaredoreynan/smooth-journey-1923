@@ -16,14 +16,11 @@ gem 'tabs_on_rails'
 gem 'heroku'
 gem 'hpricot'
 gem 'kaminari'
-if HOST_OS =~ /linux/i
-  gem 'therubyracer'
-end
 
 group :assets do
-  gem 'sass-rails', "  ~> 3.1.0"
-  gem 'coffee-rails', "~> 3.1.0"
-  gem 'uglifier'
+  gem 'sass-rails', "  ~> 3.2.3"
+  gem 'coffee-rails', "~> 3.2.1"
+  gem 'uglifier', '>= 1.0.3'
 end
 
 group :development do
