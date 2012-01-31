@@ -5,9 +5,11 @@ describe PurchaseItem do
   context 'Validation' do
     before do
       @purchase_row = PurchaseItem.new
+      @purchase_row.item = FactoryGirl.create(:item)
     end
 
     it 'should be invalid without item id' do
+      @purchase_row.item_id = nil
       @purchase_row.should have(1).error_on :item_id
     end
 
@@ -36,7 +38,10 @@ describe PurchaseItem do
         @purchase_row.should have(0).error_on :vat_type
       end
     end
-
+    
+    it 'should be invalid without unit id' do
+      @purchase_row.should have_at_least(1).error_on :unit_id
+    end
   end
 
   describe '.net_amount' do
@@ -88,7 +93,8 @@ describe PurchaseItem do
   describe '.quantity' do
     before do
       @unit = FactoryGirl.create(:unit)
-      @purchase_item = FactoryGirl.create(:purchase_item, :quantity => 10, :unit => @unit)
+      @item = FactoryGirl.create(:item, :unit => @unit)
+      @purchase_item = FactoryGirl.create(:purchase_item, :quantity => 10, :unit => @unit, :item => @item)
     end
 
     it 'should create a Quantity object on purchase_item' do
@@ -114,6 +120,10 @@ describe PurchaseItem do
                          :bigger_unit => @inch_unit,
                          :smaller_unit => @cm_unit,
                          :conversion_factor => 2.54)
+      # FactoryGirl.create(:conversion,
+                         # :bigger_unit => @cm_unit,
+                         # :smaller_unit => @inch_unit,
+                         # :conversion_factor => 0.393700787)
       @item = FactoryGirl.create(:item, :unit => @cm_unit)
       @purchase_item = FactoryGirl.create(:purchase_item,
                                           :amount => 5,
@@ -136,7 +146,7 @@ describe PurchaseItem do
   describe '.item_name' do
     it 'should return an item_name' do
       @item = FactoryGirl.create(:item, :name => 'Circlet of Nobility')
-      @purchase_item = FactoryGirl.create(:purchase_item, :item => @item)
+      @purchase_item = FactoryGirl.create(:purchase_item, :item => @item, :unit => @item.unit)
       @purchase_item.item_name.should eq 'Circlet of Nobility'
     end
   end
@@ -144,7 +154,7 @@ describe PurchaseItem do
   describe '.subcategory_name' do
     it 'should return a subcategory name' do
       @item = FactoryGirl.create(:item, :subcategory => FactoryGirl.create(:subcategory, name: 'SubA'))
-      purchase_item  = FactoryGirl.create(:purchase_item, item: @item)
+      purchase_item  = FactoryGirl.create(:purchase_item, :item => @item, :unit => @item.unit)
       purchase_item.subcategory_name.should eq 'SubA'
     end
   end
@@ -152,7 +162,8 @@ describe PurchaseItem do
   describe '.unit_name' do
     it 'should return a unit_name' do
       @unit = FactoryGirl.create(:unit, :name => 'kg')
-      @purchase_item = FactoryGirl.create(:purchase_item, :unit => @unit)
+      @item = FactoryGirl.create(:item, :unit => @unit)
+      @purchase_item = FactoryGirl.create(:purchase_item, :item => @item, :unit => @unit)
       @purchase_item.unit_name.should eq 'kg'
     end
   end
@@ -165,19 +176,19 @@ describe PurchaseItem do
       @item = FactoryGirl.create(:item, name: 'Magic Wand', :subcategory => @subcategory)
       supplier = FactoryGirl.create(:supplier, name: 'Supplier X')
       @purchase_items = [
-        FactoryGirl.create(:purchase_item, item: @item,
+        FactoryGirl.create(:purchase_item, :item => @item, :unit => @item.unit,
                             purchase: FactoryGirl.create(:purchase,
                                                          invoice_number: '9090',
                                                          purchase_date: @start_date,
                                                          supplier: supplier)),
-        FactoryGirl.create(:purchase_item, item: @item,
+        FactoryGirl.create(:purchase_item, :item => @item, :unit => @item.unit,
                             purchase: FactoryGirl.create(:purchase, purchase_date: @end_date))
       ]
     end
 
     it 'should search by purchase_date' do
       # purchase that should not be included on search result
-      FactoryGirl.create(:purchase_item, item: @item,
+      FactoryGirl.create(:purchase_item, :item => @item, :unit => @item.unit,
                           purchase: FactoryGirl.create(:purchase, purchase_date: 1.year.ago.to_date))
       search_results = PurchaseItem.search(start_date: @start_date, end_date: @end_date)
       search_results.should eq [@purchase_items[1], @purchase_items[0]]
@@ -194,14 +205,16 @@ describe PurchaseItem do
     end
 
     it 'should search an item name' do
-      FactoryGirl.create(:purchase_item, item: FactoryGirl.create(:item, name: 'other item'))
+      item = FactoryGirl.create(:item, name: 'other item')
+      FactoryGirl.create(:purchase_item, :item => item, :unit => item.unit)
       search_results = PurchaseItem.search(item: 'Magic') # item name that starts with ..
       search_results.should eq [@purchase_items[1], @purchase_items[0]]
     end
 
     it 'should search by subcategory' do
       subcategory = FactoryGirl.create(:subcategory, :name => 'aaa')
-      FactoryGirl.create(:purchase_item, item: FactoryGirl.create(:item, :subcategory => subcategory))
+      item = FactoryGirl.create(:item, :subcategory => subcategory)
+      FactoryGirl.create(:purchase_item, :item => item, :unit => item.unit)
       search_results = PurchaseItem.search(:subcategory => 'SubY')
       search_results.should eq [@purchase_items[1], @purchase_items[0]]
     end
@@ -209,6 +222,33 @@ describe PurchaseItem do
     it 'should search with combined queries' do
       search_results = PurchaseItem.search(start_date: @start_date, end_date: @end_date, supplier: 'Supplier X')
       search_results.should eq [@purchase_items[0]]
+    end
+  end
+  
+  context 'Units' do
+    before do
+      @base_unit = FactoryGirl.create(:unit)
+      @y_unit = FactoryGirl.create(:unit)
+      @z_unit = FactoryGirl.create(:unit)
+      FactoryGirl.create(:conversion, :bigger_unit => @y_unit, :smaller_unit => @base_unit)
+      FactoryGirl.create(:conversion, :bigger_unit => @z_unit, :smaller_unit => @base_unit)
+      @item = FactoryGirl.create(:item, :unit => @base_unit)
+    end
+    
+    it 'should show available units' do
+      purchase_item = FactoryGirl.create(:purchase_item, :item => @item, :unit => @base_unit)
+      purchase_item.available_units.should eq [ @base_unit, @y_unit, @z_unit ]
+    end
+    
+    it 'should be invalid without conversion from base unit' do
+      other_base_unit = FactoryGirl.create(:unit)
+      purchase_item = FactoryGirl.build(:purchase_item, :item => @item, :unit => other_base_unit)
+      purchase_item.should have(1).error_on :unit_id
+    end
+    
+    it 'shoul be valid if unit is equal to base unit' do
+      purchase_item = FactoryGirl.build(:purchase_item, :item => @item, :unit => @item.unit)
+      purchase_item.should have(0).error_on :unit_id
     end
   end
 end

@@ -13,8 +13,10 @@ class PurchaseItem < ActiveRecord::Base
   validates :item_id,     :presence => true
   validates :amount,      :presence => true, :numericality => true
   validates :quantity,    :presence => true, :numericality => true
+  validates :unit_id,     :presence => true
   validates :vat_type,    :presence => true,
                           :inclusion => { :in => %w(VAT-Exclusive VAT-Inclusive VAT-Exempted) }
+  validate :only_allow_unit_with_conversion_to_base_unit
 
   default_scope joins(:purchase).order('purchase_date DESC')
 
@@ -33,7 +35,11 @@ class PurchaseItem < ActiveRecord::Base
     finder = finder.start_date(queries[:start_date]).end_date(queries[:end_date])
     return finder
   end
-
+  
+  def available_units
+    item.available_units
+  end
+  
   def purchase_amount
     vat_type == 'VAT-Exclusive' ? amount + vat_amount : amount
   end
@@ -75,5 +81,13 @@ class PurchaseItem < ActiveRecord::Base
 
   def subcategory_name
     item.subcategory_name
+  end
+  
+  private
+  def only_allow_unit_with_conversion_to_base_unit
+    return if item.nil?
+    unless available_units.map(&:id).reject(&:nil?).include?(unit_id)
+      errors.add(:unit_id, 'does not have a conversion to base unit')
+    end
   end
 end

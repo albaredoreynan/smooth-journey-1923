@@ -81,4 +81,10 @@ class InventoryitemsController < ApplicationController
       format.xml  { head :ok }
     end
   end
+  
+  def available_units
+    @item = Item.find(params[:id])
+    @available_units = @item.available_units
+    render :json => @available_units
+  end
 end
