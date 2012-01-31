@@ -1,4 +1,4 @@
-class Reports::PurchaseReportsController < ApplicationController
+class Reports::PurchaseReportsController < ReportsController
 
   set_tab :reports
 
@@ -19,7 +19,12 @@ class Reports::PurchaseReportsController < ApplicationController
     respond_to do |wants|
       wants.html
       wants.csv do
-        render_csv(params['controller'])
+        filename = params[:controller]
+        render_csv(filename)
+      end
+      wants.pdf do
+        headers['Content-Disposition'] = "attachment; filename=\"#{params[:controller]}\""
+        render :layout => false
       end
     end
   end

@@ -16,6 +16,7 @@ gem 'tabs_on_rails'
 gem 'heroku'
 gem 'hpricot'
 gem 'kaminari'
+gem 'prawn'
 
 group :assets do
   gem 'sass-rails', "  ~> 3.2.3"
