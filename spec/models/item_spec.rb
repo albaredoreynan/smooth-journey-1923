@@ -7,7 +7,7 @@ describe Item do
     @item.should have(1).error_on(:name)
   end
 
-  context '#branch_location' do
+  context '.branch_location' do
     before do
       @branch = FactoryGirl.create(:branch, :location => 'Leragas The Vile shop')
       @item = FactoryGirl.create(:item, :branch => @branch)
@@ -18,7 +18,7 @@ describe Item do
     end
   end
 
-  context '#unit_name' do
+  context '.unit_name' do
     before do
       @unit = FactoryGirl.create(:unit, :symbol => 'kg', :name => 'Kilogram')
       @item = FactoryGirl.create(:item, :unit => @unit)
@@ -113,6 +113,11 @@ describe Item do
     it 'should update count given a specified date' do
       @item.update_count(234, 5.days.ago)
       @item.counted_at(5.days.ago).try(:stock_count).should eq 234
+    end
+
+    it 'should return the latest entry when there are two counts within the day' do
+      FactoryGirl.create(:item_count, :item => @item, :stock_count => 7.5, :entry_date => 5.days.ago.to_date)
+      @item.counted_at(5.days.ago).try(:stock_count).should eq 7.5
     end
   end
 end

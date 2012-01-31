@@ -17,7 +17,7 @@ describe Reports::PurchaseReportsController do
 
     it 'should load all purchase items from beginning of the month as default' do
       FactoryGirl.create(:purchase_item, item: @item, amount: 2, quantity: 1,
-                          purchase: FactoryGirl.create(:purchase, purchase_date: 30.days.ago.to_date))
+                          purchase: FactoryGirl.create(:purchase, purchase_date: 1.month.ago.to_date))
       get 'index'
       assigns[:purchase_items].should eq @item.subcategory => [@purchase_items[1], @purchase_items[0]]
     end
@@ -38,7 +38,7 @@ describe Reports::PurchaseReportsController do
       get 'index', invoice_number: '9090'
       assigns[:purchase_items].should eq @item.subcategory => [purchase_with_invoice]
     end
-    
+
     it 'should search by subcategory' do
       item = FactoryGirl.create(:item, :subcategory => FactoryGirl.create(:subcategory, :name => 'SubX'))
       target_purchase = FactoryGirl.create(:purchase_item, :item => item)

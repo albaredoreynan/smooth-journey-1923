@@ -5,8 +5,8 @@ describe EndcountItem do
     @previous_month = Date.today - 1.month
     @item = EndcountItem.create(FactoryGirl.attributes_for(:item))
     @item_counts = [
-      FactoryGirl.create(:item_count, :item => @item, :stock_count => 2, :entry_date => @previous_month.beginning_of_month - 1.day),
-      FactoryGirl.create(:item_count, :item => @item, :stock_count => 5, :entry_date => @previous_month),
+      FactoryGirl.create(:item_count, :item => @item, :stock_count =>   2, :entry_date => @previous_month.beginning_of_month - 1.day),
+      FactoryGirl.create(:item_count, :item => @item, :stock_count =>   5, :entry_date => @previous_month),
       FactoryGirl.create(:item_count, :item => @item, :stock_count => 7.5, :entry_date => @previous_month.end_of_month),
       FactoryGirl.create(:item_count, :item => @item, :stock_count =>  10, :entry_date => Date.today)
     ]
@@ -29,7 +29,11 @@ describe EndcountItem do
 
   it 'should return ending_count relative to ending_date' do
     @item.ending_date = @previous_month
-    @item.ending_count.should eq 5
+    if @previous_month == @previous_month.end_of_month
+      @item.ending_count.should eq 7.5
+    else
+      @item.ending_count.should eq 5
+    end
   end
 
   context '.purchase_amount_period' do
