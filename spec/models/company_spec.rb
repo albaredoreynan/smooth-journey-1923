@@ -36,5 +36,12 @@ describe Company do
       company = Company.new
       company.settings.should eq ({ :enable_lock_module => false, :lock_module_in => 0 })
     end
+
+    it 'should save the correct data type' do
+      # pass value by string on settings field and it should save as boolean and integer
+      company = Company.create({:settings => { :enable_lock_module => '1', :lock_module_in => '23' }})
+      company.settings[:enable_lock_module].should be_kind_of TrueClass
+      company.settings[:lock_module_in].should be_kind_of Integer
+    end
   end
 end
