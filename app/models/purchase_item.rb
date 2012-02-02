@@ -37,7 +37,7 @@ class PurchaseItem < ActiveRecord::Base
   end
   
   def available_units
-    item.available_units
+    #item.available_units
   end
   
   def purchase_amount

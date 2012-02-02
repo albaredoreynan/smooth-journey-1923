@@ -94,6 +94,13 @@ jQuery ->
       @element.show()
       $.Widget::destroy.call this
 ) jQuery
-$ ->
-  $("#item_id").combobox()
 
+$ ->
+  $("#item_id").combobox selected: (event, ui) ->
+    $.ajax
+      url: "/inventoryitems/" + ui.item.value + "/available_units"
+      dataType: "json"
+      success: (data) ->
+        $("#unit_id").empty()
+        $(data).each (index, elem) ->
+          $("#unit_id").append $("<option></option>").attr("value", elem.id).text(elem.name)
