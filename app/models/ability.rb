@@ -20,7 +20,7 @@ class Ability
       cannot [:edit, :update], Purchase do |purchase|
         setting = user.settings
         seconds_in_minute = 60
-        purchase.created_at < Time.now - setting[:lock_module_in] * seconds_in_minute
+        purchase.created_at < Time.now - setting[:lock_module_in].to_i * seconds_in_minute
       end
 
       # Inventory Item
@@ -42,6 +42,7 @@ class Ability
       can :manage, Category, :restaurant => { :company => { :id => user.companies.first.id } }
       can :manage, Endcount
       can :manage, [ Item, EndcountItem ], :branch => { :restaurant => { :company => { :id => user.companies.first.id } } }
+      can :manage, Purchase
       can :manage, Restaurant, :company_id => user.companies.first.id
       can [:new, :create], Subcategory
       can :manage, Subcategory, :category => { :restaurant => { :company => { :id => user.companies.first.id } } }

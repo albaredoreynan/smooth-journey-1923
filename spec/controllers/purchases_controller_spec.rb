@@ -161,7 +161,6 @@ describe PurchasesController do
         session[:purchase].should be_nil
       end
     end
-
   end
 
   context 'as branch manager' do

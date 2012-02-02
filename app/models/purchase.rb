@@ -40,7 +40,7 @@ class Purchase < ActiveRecord::Base
   end
 
   def vat_amount
-    purchase_items.map(&:vat_amount).inject(:+) || 0.00
+    purchase_items.map(&:vat_amount).reject(&:nil?).inject(:+) || 0.00
   end
 
   def supplier_name
