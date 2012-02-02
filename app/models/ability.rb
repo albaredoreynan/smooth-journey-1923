@@ -20,7 +20,7 @@ class Ability
       cannot [:edit, :update], Purchase do |purchase|
         setting = user.settings
         seconds_in_minute = 60
-        purchase.created_at < Time.now - setting[:lock_module_in] * seconds_in_minute
+        purchase.created_at < Time.now - setting[:lock_module_in].to_i * seconds_in_minute
       end
 
       # Inventory Item
