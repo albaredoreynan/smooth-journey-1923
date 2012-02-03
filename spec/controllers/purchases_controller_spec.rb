@@ -134,6 +134,11 @@ describe PurchasesController do
         purchase = Purchase.find_by_invoice_number('999')
         purchase.created_by.should eq @current_user
       end
+      
+      it 'should redirect to #index' do
+        post :create, :purchase => @post_params
+        response.should redirect_to purchases_path
+      end
     end
 
     describe 'PUT #update' do
@@ -159,6 +164,12 @@ describe PurchasesController do
         session[:purchase] = @purchase.id
         put 'update', :id => @purchase.id, :purchase => @put_params
         session[:purchase].should be_nil
+      end
+      
+      it 'should redirect to #index' do
+        session[:purchase] = @purchase.id
+        put :update, :id => @purchase.id, :purchase => @put_params
+        response.should redirect_to purchases_path
       end
     end
   end

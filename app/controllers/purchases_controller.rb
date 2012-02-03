@@ -50,7 +50,7 @@ class PurchasesController < ApplicationController
       @purchase.update_attributes(params[:purchase].merge({ :created_by_id => current_user.id }))
       if @purchase.save
         @purchase.update_attribute(:save_as_draft, false)
-        format.html { redirect_to(@purchase, :notice => 'Purchase was successfully created.') }
+        format.html { redirect_to('/purchases', :notice => 'Purchase was successfully created.') }
       end
     end
   end
@@ -64,7 +64,7 @@ class PurchasesController < ApplicationController
       attr = attr.merge({:branch => current_branch}) if current_user.branch?
       if @purchase.update_attributes(attr)
         session.delete :purchase
-        format.html { redirect_to(@purchase, :notice => 'Purchase was successfully updated.') }
+        format.html { redirect_to('/purchases', :notice => 'Purchase was successfully updated.') }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
