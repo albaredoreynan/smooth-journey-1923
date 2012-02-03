@@ -23,18 +23,18 @@ describe Quantity do
   end
 
   it 'should return Quantity object on convert' do
-    quantity = Quantity.new(100, 'in')
-    quantity.to('cm').should be_instance_of Quantity
+    quantity = Quantity.new(100, @in_unit)
+    quantity.to(@cm_unit).should be_instance_of Quantity
   end
 
   it 'should convert length correctly' do
-    quantity = Quantity.new(100, 'in')
-    quantity.to('cm').value.should eq 254
+    quantity = Quantity.new(100, @in_unit)
+    quantity.to(@cm_unit).value.should eq 254
   end
 
   it 'should return default if unit-to does not exists' do
     qty = Quantity.new(100, 'rare-unit')
-    qty_to = qty.to('does-not-exists')
+    qty_to = qty.to(FactoryGirl.create(:unit))
     qty_to.value.should eq qty.value
     qty_to.unit.symbol.should eq qty.unit.symbol
   end
@@ -42,7 +42,7 @@ describe Quantity do
   it 'should return default value and unit if conversion-to does not exists' do
     qty = Quantity.new(100, @cm_unit.symbol)
     xunit = FactoryGirl.create(:unit, :symbol => 'xunit')
-    qty_to = qty.to('xunit')
+    qty_to = qty.to(xunit)
     qty_to.value.should eq qty.value
     qty_to.unit.symbol.should eq qty.unit.symbol
   end

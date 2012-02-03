@@ -4,7 +4,7 @@ class PurchaseItem < ActiveRecord::Base
 
   composed_of :qty, :mapping => [%w(quantity quantity), %w(unit_id symbol)],
                     :class_name => 'Quantity',
-                    :constructor => Proc.new {|quantity, unit_id| Quantity.new(quantity, Unit.find(unit_id).symbol) }
+                    :constructor => Proc.new {|quantity, unit_id| Quantity.new(quantity, Unit.find(unit_id)) }
 
   belongs_to :purchase
   belongs_to :item
@@ -72,7 +72,7 @@ class PurchaseItem < ActiveRecord::Base
   end
 
   def quantity
-    @convert_unit ? qty.to(item.unit.symbol).value : self[:quantity]
+    @convert_unit ? qty.to(item.unit).value : self[:quantity]
   end
 
   def unit_cost
