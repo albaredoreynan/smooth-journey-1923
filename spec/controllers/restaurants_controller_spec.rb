@@ -17,7 +17,7 @@ describe RestaurantsController do
 
     context 'POST #create' do
       before do
-        @post_params = { restaurant: { store_id: '123', name: 'Restaurant X' } }
+        @post_params = { restaurant: { name: 'Restaurant X' } }
       end
 
       it 'should redirect to #index' do

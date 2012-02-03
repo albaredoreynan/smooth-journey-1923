@@ -197,7 +197,6 @@ ActiveRecord::Schema.define(:version => 20120130054949) do
   end
 
   create_table "restaurants", :force => true do |t|
-    t.integer  "store_id"
     t.string   "name"
     t.integer  "company_id"
     t.text     "description"

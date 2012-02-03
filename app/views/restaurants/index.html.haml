@@ -8,7 +8,6 @@
     .inner
       %table
         %tr
-          %th Store
           %th Name
           %th Company
           %th Description
@@ -16,7 +15,6 @@
           %th.actions Actions
         - @restaurants.each do |restaurant|
           %tr
-            %td= restaurant.store_id
             %td= restaurant.name
             %td= restaurant.company.name
             %td= restaurant.description
