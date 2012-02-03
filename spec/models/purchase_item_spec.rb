@@ -247,34 +247,4 @@ describe PurchaseItem do
       search_results.should eq [@purchase_items[0]]
     end
   end
-<<<<<<< HEAD
-
-  context 'Units' do
-    before do
-      @base_unit = FactoryGirl.create(:unit)
-      @y_unit = FactoryGirl.create(:unit)
-      @z_unit = FactoryGirl.create(:unit)
-      FactoryGirl.create(:conversion, :bigger_unit => @y_unit, :smaller_unit => @base_unit)
-      FactoryGirl.create(:conversion, :bigger_unit => @z_unit, :smaller_unit => @base_unit)
-      @item = FactoryGirl.create(:item, :unit => @base_unit)
-    end
-
-    it 'should show available units' do
-      purchase_item = FactoryGirl.create(:purchase_item, :item => @item, :unit => @base_unit)
-      purchase_item.available_units.should eq [ @base_unit, @y_unit, @z_unit ]
-    end
-
-    it 'should be invalid without conversion from base unit' do
-      other_base_unit = FactoryGirl.create(:unit)
-      purchase_item = FactoryGirl.build(:purchase_item, :item => @item, :unit => other_base_unit)
-      purchase_item.should have(1).error_on :unit_id
-    end
-
-    it 'shoul be valid if unit is equal to base unit' do
-      purchase_item = FactoryGirl.build(:purchase_item, :item => @item, :unit => @item.unit)
-      purchase_item.should have(0).error_on :unit_id
-    end
-  end
-=======
->>>>>>> development
 end
