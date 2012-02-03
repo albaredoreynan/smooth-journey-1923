@@ -17,6 +17,7 @@ jQuery ->
           unit_id: $('#unit_id').val(),
           unit_cost: $('#unit_cost').val(),
           quantity: $('#quantity').val(),
+          particulars: $('#particulars').val(),
           amount: $('#amount').val(),
           vat_type: $(':input[name=vat_type]:checked').val(),
         }

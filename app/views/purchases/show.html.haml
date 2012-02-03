@@ -25,6 +25,7 @@
           %tr
             %th Inventory item
             %th Quantity
+            %th Particulars
             %th.monetary Amount
             %th Unit Cost
             %th VAT type
@@ -34,6 +35,7 @@
             %tr
               %td= purchase_item.item_name
               %td= "#{purchase_item.quantity} #{purchase_item.unit_name}"
+              %td= purchase_item.particulars
               %td.monetary= number_to_currency(purchase_item.amount, :unit => peso_sign)
               %td= purchase_item_unit_cost(purchase_item)
               %td= purchase_item.vat_type
@@ -41,6 +43,7 @@
               %td.monetary= number_to_currency(purchase_item.net_amount, :unit => peso_sign)
         %tbody
           %tr.totals
+            %th &nbsp;
             %th &nbsp;
             %th Total
             %th.monetary= number_to_currency(@purchase.amount, :unit => peso_sign)
