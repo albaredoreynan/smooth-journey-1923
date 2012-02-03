@@ -32,4 +32,5 @@ module ControllerMacros
       @current_branch = @current_user.branches.first
     end
   end
+
 end

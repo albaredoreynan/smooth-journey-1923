@@ -35,11 +35,11 @@ class PurchaseItem < ActiveRecord::Base
     finder = finder.start_date(queries[:start_date]).end_date(queries[:end_date])
     return finder
   end
-  
+
   def available_units
     item.available_units
   end
-  
+
   def purchase_amount
     vat_type == 'VAT-Exclusive' ? amount + vat_amount : amount
   end
@@ -82,7 +82,7 @@ class PurchaseItem < ActiveRecord::Base
   def subcategory_name
     item.subcategory_name
   end
-  
+
   private
   def only_allow_unit_with_conversion_to_base_unit
     return if item.nil?
