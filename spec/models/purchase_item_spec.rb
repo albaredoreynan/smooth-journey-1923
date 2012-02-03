@@ -90,13 +90,17 @@ describe PurchaseItem do
     end
   end
 
+  def prepare_purchase_item_macro
+    @base_unit = FactoryGirl.create(:unit, :name => 'base')
+    @to_unit = FactoryGirl.create(:unit, :name => 'to')
+    FactoryGirl.create(:conversion, :bigger_unit => @to_unit, :smaller_unit => @base_unit, :conversion_factor => 2)
+    @item = FactoryGirl.create(:item, :unit => @base_unit)
+    @purchase_item = FactoryGirl.create(:purchase_item, :item => @item, :quantity => 10, :unit => @to_unit)
+  end
+
   describe '.quantity' do
     before do
-      @base_unit = FactoryGirl.create(:unit, :name => 'base')
-      @to_unit = FactoryGirl.create(:unit, :name => 'to')
-      FactoryGirl.create(:conversion, :bigger_unit => @to_unit, :smaller_unit => @base_unit, :conversion_factor => 2)
-      @item = FactoryGirl.create(:item, :unit => @base_unit)
-      @purchase_item = FactoryGirl.create(:purchase_item, :item => @item, :quantity => 10, :unit => @to_unit)
+      prepare_purchase_item_macro
     end
 
     it 'should create a Quantity object on purchase_item' do
@@ -121,32 +125,17 @@ describe PurchaseItem do
 
   describe '.unit_cost' do
     before do
-      @inch_unit = FactoryGirl.create(:unit, :symbol => 'in')
-      @cm_unit = FactoryGirl.create(:unit, :symbol => 'cm')
-      FactoryGirl.create(:conversion,
-                         :bigger_unit => @inch_unit,
-                         :smaller_unit => @cm_unit,
-                         :conversion_factor => 2.54)
-      # FactoryGirl.create(:conversion,
-                         # :bigger_unit => @cm_unit,
-                         # :smaller_unit => @inch_unit,
-                         # :conversion_factor => 0.393700787)
-      @item = FactoryGirl.create(:item, :unit => @cm_unit)
-      @purchase_item = FactoryGirl.create(:purchase_item,
-                                          :amount => 5,
-                                          :quantity => 2,
-                                          :item => @item,
-                                          :unit => @inch_unit)
+      prepare_purchase_item_macro
     end
 
     it 'should calculate unit_cost without conversion' do
       @purchase_item.convert_unit = false
-      @purchase_item.unit_cost.should eq 2.5
+      @purchase_item.unit_cost.should eq 0.1
     end
 
     it 'should calculate unit_cost in inventory unit' do
       @purchase_item.convert_unit = true
-      @purchase_item.unit_cost.should be_between(0.98, 0.985)
+      @purchase_item.unit_cost.should eq 0.05
     end
   end
 
@@ -172,6 +161,33 @@ describe PurchaseItem do
       @item = FactoryGirl.create(:item, :unit => @unit)
       @purchase_item = FactoryGirl.create(:purchase_item, :item => @item, :unit => @unit)
       @purchase_item.unit_name.should eq 'kg'
+    end
+  end
+
+  context '.available_units' do
+    before do
+      @base_unit = FactoryGirl.create(:unit)
+      @y_unit = FactoryGirl.create(:unit)
+      @z_unit = FactoryGirl.create(:unit)
+      FactoryGirl.create(:conversion, :bigger_unit => @y_unit, :smaller_unit => @base_unit)
+      FactoryGirl.create(:conversion, :bigger_unit => @z_unit, :smaller_unit => @base_unit)
+      @item = FactoryGirl.create(:item, :unit => @base_unit)
+    end
+
+    it 'should show available units' do
+      purchase_item = FactoryGirl.create(:purchase_item, :item => @item, :unit => @base_unit)
+      purchase_item.available_units.should eq [ @base_unit, @y_unit, @z_unit ]
+    end
+
+    it 'should be invalid without conversion from base unit' do
+      other_base_unit = FactoryGirl.create(:unit)
+      purchase_item = FactoryGirl.build(:purchase_item, :item => @item, :unit => other_base_unit)
+      purchase_item.should have(1).error_on :unit_id
+    end
+
+    it 'shoul be valid if unit is equal to base unit' do
+      purchase_item = FactoryGirl.build(:purchase_item, :item => @item, :unit => @item.unit)
+      purchase_item.should have(0).error_on :unit_id
     end
   end
 
@@ -231,6 +247,7 @@ describe PurchaseItem do
       search_results.should eq [@purchase_items[0]]
     end
   end
+<<<<<<< HEAD
 
   context 'Units' do
     before do
@@ -258,4 +275,6 @@ describe PurchaseItem do
       purchase_item.should have(0).error_on :unit_id
     end
   end
+=======
+>>>>>>> development
 end
