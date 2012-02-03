@@ -87,8 +87,11 @@ describe PurchaseItem do
 
   describe '.quantity' do
     before do
-      @unit = FactoryGirl.create(:unit)
-      @purchase_item = FactoryGirl.create(:purchase_item, :quantity => 10, :unit => @unit)
+      @base_unit = FactoryGirl.create(:unit, :name => 'base')
+      @to_unit = FactoryGirl.create(:unit, :name => 'to')
+      FactoryGirl.create(:conversion, :bigger_unit => @to_unit, :smaller_unit => @base_unit, :conversion_factor => 2)
+      @item = FactoryGirl.create(:item, :unit => @base_unit)
+      @purchase_item = FactoryGirl.create(:purchase_item, :item => @item, :quantity => 10, :unit => @to_unit)
     end
 
     it 'should create a Quantity object on purchase_item' do
@@ -102,7 +105,12 @@ describe PurchaseItem do
 
     it 'should create a Quantity given a valid attributes' do
       @purchase_item.qty.value.should eq 10
-      @purchase_item.qty.unit.symbol.should eq @unit.symbol
+      @purchase_item.qty.unit.symbol.should eq @to_unit.symbol
+    end
+
+    it 'should convert to base unit of item' do
+      @purchase_item.convert_unit = true
+      @purchase_item.quantity.should eq 20
     end
   end
 

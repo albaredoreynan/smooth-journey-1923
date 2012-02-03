@@ -5,19 +5,18 @@ class Quantity
     @value = value.to_f
     case unit
     when String
-      @unit = Unit.find_or_create_by_symbol(unit.to_s)
+      @unit = Unit.find_by_symbol(unit.to_s) || Unit.new(:symbol => unit)
     when Unit
       @unit = unit
     end
   end
 
-  def to(symbol)
-    unit_to = Unit.find_by_symbol(symbol)
-    return self if unit_to.nil?
-    conversion = Conversion.where(:bigger_unit_id => @unit.id, :smaller_unit_id => unit_to.id).first
+  def to(unit)
+    return self if unit.nil?
+    conversion = Conversion.where(:bigger_unit_id => @unit.id, :smaller_unit_id => unit.id).first
     return self if conversion.nil?
     factor = conversion.conversion_factor
-    Quantity.new(@value * factor, unit_to.symbol)
+    Quantity.new(@value * factor, unit)
   end
 
   def to_s

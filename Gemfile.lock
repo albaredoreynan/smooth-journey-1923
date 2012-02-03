@@ -72,7 +72,7 @@ GEM
       thor (~> 0.14.6)
     guard-rspec (0.6.0)
       guard (>= 0.10.0)
-    guard-spork (0.5.1)
+    guard-spork (0.5.2)
       guard (>= 0.10.0)
       spork (>= 0.8.4)
     haml (3.1.4)
@@ -81,7 +81,7 @@ GEM
       activesupport (~> 3.0)
       haml (~> 3.0)
       railties (~> 3.0)
-    heroku (2.19.1)
+    heroku (2.19.2)
       launchy (>= 0.3.2)
       rest-client (~> 1.6.1)
       rubyzip

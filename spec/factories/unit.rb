@@ -1,5 +1,5 @@
 FactoryGirl.define do
   factory :unit do
-    symbol 'kg'
+    sequence(:symbol) {|n| "unit#{n}"}
   end
 end
