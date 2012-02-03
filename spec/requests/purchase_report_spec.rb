@@ -7,8 +7,9 @@ describe 'PurchaseReport' do
   before do
     user = FactoryGirl.create(:client_user)
     login_as(user)
-
-    @purchase_item = FactoryGirl.create(:purchase_item, :item => FactoryGirl.create(:item, :name => 'xxx'))
+    
+    item = FactoryGirl.create(:item, :name => 'xxx')
+    @purchase_item = FactoryGirl.create(:purchase_item, :item => item, :unit => item.unit)
 
     visit '/reports/purchases'
   end
@@ -21,6 +22,10 @@ describe 'PurchaseReport' do
 
   context 'render as CSV' do
     before do
+      item = FactoryGirl.create(:item, :name => 'xxx')
+      @purchase_item = FactoryGirl.create(:purchase_item, :item => item, :unit => item.unit)
+      visit '/reports/purchases'
+
       click_link 'CSV'
     end
 

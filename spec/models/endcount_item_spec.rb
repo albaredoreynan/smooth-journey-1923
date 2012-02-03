@@ -38,26 +38,29 @@ describe EndcountItem do
 
   context '.purchase_amount_period' do
     before do
+    end
+
+    it 'should return total amount from a given date period' do
       @items = [
         EndcountItem.create(FactoryGirl.attributes_for(:item)),
         EndcountItem.create(FactoryGirl.attributes_for(:item))
       ]
+      # item's unit should not be nil
+      @items.each do |item|
+        item.unit = FactoryGirl.create(:unit)
+        item.save
+      end
       @purchases = [
-        FactoryGirl.create(:purchase,
-                           :purchase_date => 5.days.ago,
-                           :purchase_items => [
-                              FactoryGirl.create(:purchase_item, :amount => 5, :item => @items[0]),
-                              FactoryGirl.create(:purchase_item, :amount => 6, :item => @items[1])
-        ]),
+        FactoryGirl.create(:purchase, :purchase_date => 5.days.ago, :purchase_items => [
+                              FactoryGirl.create(:purchase_item, :amount => 5, :item => @items[0], :unit => @items[0].unit),
+                              FactoryGirl.create(:purchase_item, :amount => 6, :item => @items[1], :unit => @items[1].unit)
+                           ]),
         FactoryGirl.create(:purchase, :purchase_date => Date.today, :purchase_items => [
-          FactoryGirl.create(:purchase_item, :amount => 7, :item => @items[0]),
-          FactoryGirl.create(:purchase_item, :amount => 8, :item => @items[1])
-        ])
+                              FactoryGirl.create(:purchase_item, :amount => 7, :item => @items[0], :unit => @items[0].unit),
+                              FactoryGirl.create(:purchase_item, :amount => 8, :item => @items[1], :unit => @items[1].unit)
+                           ])
       ]
       @items.map(&:reload)
-    end
-
-    it 'should return total amount from a given date period' do
       @items[0].beginning_date = 5.days.ago
       @items[0].ending_date = Date.today
       @items[0].purchase_amount_period.should eq 12

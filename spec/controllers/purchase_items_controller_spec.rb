@@ -7,7 +7,8 @@ describe PurchaseItemsController do
     context 'POST #create' do
       before do
         @purchase = FactoryGirl.create(:purchase)
-        @post_params = { item_id: 1, amount: 10, quantity: 1, vat_type: 'VAT-Inclusive' }
+        @item = FactoryGirl.create(:item)
+        @post_params = { :item_id => @item.id, :unit_id => @item.unit.id, :amount => 10, :quantity => 1, :vat_type => 'VAT-Inclusive' }
       end
 
       it 'should assign a purchase' do

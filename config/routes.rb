@@ -43,7 +43,9 @@ Rrbs::Application.routes.draw do
     resources :purchase_items
   end
 
-  resources :inventoryitems
+  resources :inventoryitems do
+    get 'available_units', :on => :member
+  end
 
   resources :units
 

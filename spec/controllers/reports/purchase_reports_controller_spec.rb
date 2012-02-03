@@ -8,15 +8,15 @@ describe Reports::PurchaseReportsController do
       @item = FactoryGirl.create(:item, :subcategory => FactoryGirl.create(:subcategory, :name => 'SubA'))
       supplier = FactoryGirl.create(:supplier, name: 'Supplier Y')
       @purchase_items = [
-        FactoryGirl.create(:purchase_item, item: @item, amount: 5, quantity: 1,
-                           purchase: FactoryGirl.create(:purchase, purchase_date: Date.today.beginning_of_month)),
-        FactoryGirl.create(:purchase_item, item: @item, amount: 6, quantity: 1,
-                           purchase: FactoryGirl.create(:purchase, purchase_date: Date.today, supplier: supplier))
+        FactoryGirl.create(:purchase_item, :item => @item, :unit => @item.unit, :amount => 5, :quantity => 1,
+                           :purchase => FactoryGirl.create(:purchase, :purchase_date => Date.today.beginning_of_month)),
+        FactoryGirl.create(:purchase_item, :item => @item, :unit => @item.unit, :amount => 6, :quantity => 1,
+                           :purchase => FactoryGirl.create(:purchase, :purchase_date => Date.today, :supplier => supplier))
       ]
     end
 
     it 'should load all purchase items from beginning of the month as default' do
-      FactoryGirl.create(:purchase_item, item: @item, amount: 2, quantity: 1,
+      FactoryGirl.create(:purchase_item, :item => @item, :unit => @item.unit, :amount => 2, :quantity => 1,
                           purchase: FactoryGirl.create(:purchase, purchase_date: 1.month.ago.to_date))
       get 'index'
       assigns[:purchase_items].should eq @item.subcategory => [@purchase_items[1], @purchase_items[0]]
@@ -34,14 +34,14 @@ describe Reports::PurchaseReportsController do
     end
 
     it 'should search by invoice number' do
-      purchase_with_invoice = FactoryGirl.create(:purchase_item, item: @item, purchase: FactoryGirl.create(:purchase, invoice_number: '9090'))
+      purchase_with_invoice = FactoryGirl.create(:purchase_item, :item => @item, :unit => @item.unit, :purchase => FactoryGirl.create(:purchase, :invoice_number => '9090'))
       get 'index', invoice_number: '9090'
       assigns[:purchase_items].should eq @item.subcategory => [purchase_with_invoice]
     end
 
     it 'should search by subcategory' do
       item = FactoryGirl.create(:item, :subcategory => FactoryGirl.create(:subcategory, :name => 'SubX'))
-      target_purchase = FactoryGirl.create(:purchase_item, :item => item)
+      target_purchase = FactoryGirl.create(:purchase_item, :item => item, :unit => item.unit)
       get 'index', subcategory: 'SubX'
       assigns[:purchase_items].should eq item.subcategory => [target_purchase]
     end

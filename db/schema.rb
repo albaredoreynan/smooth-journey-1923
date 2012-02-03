@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120130054618) do
+ActiveRecord::Schema.define(:version => 20120130054949) do
 
   create_table "branches", :force => true do |t|
     t.integer  "restaurant_id"
@@ -325,12 +325,12 @@ ActiveRecord::Schema.define(:version => 20120130054618) do
   add_index "units", ["restaurant_id"], :name => "index_units_on_restaurant_id"
 
   create_table "users", :force => true do |t|
-    t.string   "email",                               :default => "", :null => false
-    t.string   "encrypted_password",   :limit => 128, :default => "", :null => false
-    t.string   "password_salt",                       :default => "", :null => false
+    t.string   "email",                                 :default => "", :null => false
+    t.string   "encrypted_password",     :limit => 128, :default => "", :null => false
+    t.string   "password_salt",                         :default => "", :null => false
     t.string   "reset_password_token"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                       :default => 0
+    t.integer  "sign_in_count",                         :default => 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
@@ -338,6 +338,7 @@ ActiveRecord::Schema.define(:version => 20120130054618) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "username"
+    t.string   "reset_password_sent_at"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

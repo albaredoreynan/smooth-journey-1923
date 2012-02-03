@@ -8,6 +8,7 @@ describe Purchase do
       purchase = FactoryGirl.create(:purchase, :supplier => supplier)
       purchase.supplier_name.should eq 'Sena the Accessorizer'
     end
+    
   end
 
   context 'calculator methods' do

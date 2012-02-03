@@ -54,4 +54,12 @@ class Item < ActiveRecord::Base
   def counted_at(date)
     item_counts.where('entry_date = ?', date.to_date).order('created_at DESC').try(:first) || ItemCount.new
   end
+  
+  def available_units
+    units = [ unit ]
+    Conversion.where(:smaller_unit_id => unit.id).each do |conversion|
+      units << conversion.bigger_unit
+    end
+    return units
+  end
 end
