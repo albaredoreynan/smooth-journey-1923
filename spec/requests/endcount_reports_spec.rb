@@ -11,32 +11,55 @@ describe 'EndcountReport' do
 
   context 'render as HTML' do
     before do
-      @base_unit = FactoryGirl.create(:unit, :name => 'base')
-      @to_unit = FactoryGirl.create(:unit, :name => 'to')
-      FactoryGirl.create(:conversion, :bigger_unit => @to_unit, :smaller_unit => @base_unit, :conversion_factor => 2)
-      @item = FactoryGirl.create(:item, :unit => @base_unit)
-      @purchase_item = FactoryGirl.create(:purchase_item, :item => @item, :quantity => 10, :unit => @to_unit)
+      # freeze time
+      def Date.today
+        Date.new(2012, 2, 6)
+      end
+
+      @item = FactoryGirl.create(:item)
+      FactoryGirl.create(:item_count, :item => @item, :stock_count => 1, :entry_date => Date.new(2011, 12, 31))
+      FactoryGirl.create(:item_count, :item => @item, :stock_count => 2, :entry_date => Date.new(2012,  1, 31))
+      FactoryGirl.create(:item_count, :item => @item, :stock_count => 3, :entry_date => Date.new(2012,  2,  6))
+
+      FactoryGirl.create(:purchase, :purchase_date => Date.new(2012, 2, 1), :purchase_items => [
+        FactoryGirl.create(:purchase_item, :item => @item, :quantity => 1, :amount => 1, :unit => @item.unit)
+      ])
     end
 
-    it 'should a page title' do
-      visit '/reports/endcounts'
-      page.should have_content "Item Cost Analysis"
+    context 'today' do
+      before do
+        visit '/reports/endcounts'
+      end
+
+      it 'should display the correct beginning count' do
+        find("tr#endcount_item_#{@item.id} td:eq(4)").should have_content "2.0"
+      end
+
+      it 'should display the correct beginning total' do
+        find("tr#endcount_item_#{@item.id} td:eq(5)").should have_content "2.00"
+      end
+
+      it 'should display the correct purchase amount' do
+        find("tr#endcount_item_#{@item.id} td:eq(6)").should have_content "1.00"
+      end
+
+      it 'should display the correct ending count' do
+        find("tr#endcount_item_#{@item.id} td:eq(7)").should have_content "3.0"
+      end
+
+      it 'should display the correct ending total' do
+        find("tr#endcount_item_#{@item.id} td:eq(8)").should have_content "3.0"
+      end
     end
 
-    it 'should display the correct unit cost' do
-      visit '/reports/endcounts'
+    context 'previous month' do
+      before do
+        visit '/reports/endcounts?date[month]=1&date[year]=2012'
+      end
 
-      # find Unit cost column
-      unit_cost_column = "tr#endcount_item_#{@item.id} td:eq(2)"
-      find(unit_cost_column).should have_content '0.05'
-    end
-
-    it 'should display the correct unit' do
-      visit '/reports/endcounts'
-
-      # find Unit column
-      unit_column = "tr#endcount_item_#{@item.id} td:eq(3)"
-      find(unit_column).should have_content @base_unit.name
+      it 'should display the correct beginning count' do
+        find("tr#endcount_item_#{@item.id} td:eq(4)").should have_content "1.0"
+      end
     end
   end
 

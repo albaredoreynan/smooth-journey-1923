@@ -38,16 +38,42 @@ describe Reports::EndcountReportsController do
         assigns[:endcount].items[0].ending_count.should eq 40
       end
 
-      it "should get endcount's beginning_count from previous month" do
-        view_month = 5.months.ago
-        get 'index', :date => { :month => view_month.month, :year => view_month.year }
-        assigns[:endcount].items[0].beginning_count.should eq 5
+      it 'should default ending_date today when current month' do
+        today = Date.today
+        get 'index', :date => { :month => today.month, :year => today.year }
+        assigns[:ending_date].should eq today
       end
 
-      it "should get endcount's ending_count from previous month" do
-        view_month = 5.months.ago
-        get 'index', :date => { :month => view_month.month, :year => view_month.year }
-        assigns[:endcount].items[0].ending_count.should eq 10
+      context "previous months" do
+        before do
+          @view_month = 5.months.ago
+        end
+
+        it "should get endcount's beginning_count from previous month" do
+          get 'index', :date => { :month => @view_month.month, :year => @view_month.year }
+          assigns[:endcount].items[0].beginning_count.should eq 5
+        end
+
+        it 'should ending_date to end_of_month' do
+          get 'index', :date => { :month =>  @view_month.month, :year => @view_month.year }
+          assigns[:ending_date].should eq @view_month.end_of_month.to_date
+        end
+
+        it "should get endcount's ending_count from previous month" do
+          get 'index', :date => { :month => @view_month.month, :year => @view_month.year }
+          assigns[:endcount].items[0].ending_count.should eq 10
+        end
+
+        it 'should get total purchases amount from beginning to ending date' do
+          FactoryGirl.create(:purchase_item,
+                            :item => @item, :amount => 1, :quantity => 1, :unit => @item.unit,
+                            :purchase => FactoryGirl.create(:purchase, :purchase_date => @view_month))
+          FactoryGirl.create(:purchase_item,
+                            :item => @item, :amount => 1, :quantity => 1, :unit => @item.unit,
+                            :purchase => FactoryGirl.create(:purchase, :purchase_date => @view_month + 1.day))
+          get 'index', :date => { :month => @view_month.month, :year => @view_month.year}
+          assigns[:endcount].items[0].purchase_amount_period.should eq 2.0
+        end
       end
     end
   end

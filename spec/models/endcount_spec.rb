@@ -2,8 +2,8 @@ require 'spec_helper'
 
 describe Endcount do
   before do
-    @first_date = Date.new(2011, 12, 25)
-    @latter_date = Date.new(2012, 1, 2)
+    @first_date  = Date.new(2011, 12, 25)
+    @latter_date = Date.new(2012,  1,  2)
     @item = EndcountItem.create(FactoryGirl.attributes_for(:item))
     @item_counts = [
       FactoryGirl.create(:item_count, :item => @item, :stock_count =>   5, :entry_date => @first_date),
