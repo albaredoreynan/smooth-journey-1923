@@ -13,13 +13,13 @@ describe 'EndcountReport' do
     before do
       # freeze time
       def Date.today
-        Date.new(2012, 2, 6)
+        Date.new(2012, 2, 7)
       end
 
       @item = FactoryGirl.create(:item)
       FactoryGirl.create(:item_count, :item => @item, :stock_count => 1, :entry_date => Date.new(2011, 12, 31))
       FactoryGirl.create(:item_count, :item => @item, :stock_count => 2, :entry_date => Date.new(2012,  1, 31))
-      FactoryGirl.create(:item_count, :item => @item, :stock_count => 3, :entry_date => Date.new(2012,  2,  6))
+      FactoryGirl.create(:item_count, :item => @item, :stock_count => 3, :entry_date => Date.today)
 
       FactoryGirl.create(:purchase, :purchase_date => Date.new(2012, 2, 1), :purchase_items => [
         FactoryGirl.create(:purchase_item, :item => @item, :quantity => 1, :amount => 1, :unit => @item.unit)
