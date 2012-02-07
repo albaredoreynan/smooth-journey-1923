@@ -36,12 +36,6 @@ describe BranchesController do
   context 'as branch manager' do
     login_branch
 
-    context 'current_user' do
-      it 'should logged in as branch manager' do
-        @current_user.email.should eq 'branch@example.com'
-      end
-    end
-
     context 'GET #index' do
       before do
         FactoryGirl.create(:branch, :location => 'Other Branch')

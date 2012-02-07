@@ -17,6 +17,10 @@ describe 'PurchaseReport' do
     visit '/reports/purchases'
   end
 
+  after do
+    Warden.test_reset!
+  end
+
   context 'render as HTML' do
     before do
       @cols = { :quantity => 6, :unit => 7, :unit_cost => 8 }

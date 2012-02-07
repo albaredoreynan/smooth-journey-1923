@@ -9,6 +9,10 @@ describe 'EndcountReport' do
     login_as(user)
   end
 
+  after do
+    Warden.test_reset!
+  end
+
   context 'render as HTML' do
     before do
       # freeze time
