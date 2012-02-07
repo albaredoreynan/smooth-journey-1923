@@ -1,28 +1,10 @@
-#add_item_form.form
-  .input.item-name
-    .ui-widget
-      = label_tag :item_id, 'Item Name'
-      = select_tag :item_id, options_for_select(Item.accessible_by(current_ability).map { |item| [item.name, item.id] })
-  .input.item-quantity
-    = label_tag :quantity, 'Quantity'
-    = text_field_tag :quantity, nil, :style => 'width:30%'
-  .input.item-unit
-    = label_tag :unit, 'Unit'
-    = select_tag :unit_id, options_for_select(Unit.all.map { |unit| [unit.name, unit.id] })
-  %fieldset.input.item-vat-type.radio_group
-    = label_tag :unit, 'Vat Type'  
-    .input
-      = radio_button_tag :vat_type, 'VAT-Exclusive', nil, :id => 'vat_type_exclusive'
-      = label_tag :vat_type_exclusive, 'VAT-Exclusive'
-      = radio_button_tag :vat_type, 'VAT-Inclusive', nil, :id => 'vat_type_inclusive'
-      = label_tag :vat_type_inclusive, 'VAT-Inclusive'
-      = radio_button_tag :vat_type, 'VAT-Exempted', nil, :id => 'vat_type_exempted'
-      = label_tag :vat_type_exempted, 'VAT-Exempted'
-  .input.item-particulars
-    = label_tag :particulars, 'Particulars'
-    = text_field_tag :particulars
-  .input.item-amount
-    = label_tag :amount, 'Amount'
-    = text_field_tag :amount
+= simple_form_for([@purchase, PurchaseItem.new], :remote => true, :html => { 'data-type' => 'html' }) do |f|
+  = f.input :item_id, :collection => Item.accessible_by(current_ability).map { |item| [item.name, item.id] }
+  = f.input :quantity, :input_html => { :style => 'width:30%' }
+  = f.association :unit
+  = f.input :vat_type, :label => 'VAT Type',
+    :collection => ['VAT-Exclusive', 'VAT-Inclusive', 'VAT-Exempted']
+  = f.input :particulars
+  = f.input :amount
   .actions
-    = submit_tag 'Add Item', :id => 'add-item'
+    = f.button :submit, :value => 'Add Item', :id => 'add-item'
