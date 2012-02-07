@@ -1,5 +1,13 @@
 module Taxable
+  extend ActiveSupport::Concern
+
   attr_accessor :vat_amount, :net_amount
+
+  included do
+    validates :vat_type,
+      :presence => true,
+      :inclusion => { :in => %w(VAT-Exclusive VAT-Inclusive VAT-Exempted) }
+  end
 
   def vat_amount
     case vat_type
