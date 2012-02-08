@@ -64,7 +64,6 @@ describe 'EndcountReport' do
 
   context 'render as CSV' do
     before do
-      #@purchase_item = FactoryGirl.create(:purchase_item, :item => FactoryGirl.create(:item, :name => 'xxx'))
       visit '/reports/endcounts'
       click_link 'CSV'
     end
@@ -80,8 +79,5 @@ describe 'EndcountReport' do
           page.should have_content head
         end
       end
-
-    it 'should have a content' do
-    end
   end
 end
