@@ -7,7 +7,7 @@
   .secondary-navigation
   .content
     .title_action_bar
-      %h2.title Item Cost Analysis
+      %h2.title= endcount_reports_title(params[:date], params[:date])
       .new_actions
         = 'Download as'
         = link_to 'CSV', :format => :csv
