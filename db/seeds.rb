@@ -4,3 +4,4 @@ tristan = User.create(:username => 'tristan', :email => 'tristan@example.com', :
 company = Company.create(:name => 'Test Company')
 
 Role.create(:name => 'client', :user => vince, :company => company)
+Role.create(:name => 'client', :user => tristan, :company => company)
