@@ -211,14 +211,6 @@ ActiveRecord::Schema.define(:version => 20120209053108) do
     t.float    "dinein_pta",        :null => false
   end
 
-  create_table "settings", :force => true do |t|
-    t.integer "company_id"
-    t.boolean "enable_lock_module"
-    t.integer "lock_module_in"
-  end
-
-  add_index "settings", ["company_id"], :name => "index_settings_on_company_id"
-
   create_table "settlement_sales", :force => true do |t|
     t.integer  "employee_id",      :null => false
     t.float    "vat"
