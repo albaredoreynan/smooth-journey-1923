@@ -4,7 +4,7 @@ class PurchaseItem < ActiveRecord::Base
 
   composed_of :qty, :mapping => [%w(quantity quantity), %w(unit_id symbol)],
                     :class_name => 'Quantity',
-                    :constructor => Proc.new {|quantity, unit_id| Quantity.new(quantity, Unit.find(unit_id).symbol) }
+                    :constructor => Proc.new {|quantity, unit_id| Quantity.new(quantity, Unit.find(unit_id)) }
 
   belongs_to :purchase
   belongs_to :item
@@ -35,11 +35,11 @@ class PurchaseItem < ActiveRecord::Base
     finder = finder.start_date(queries[:start_date]).end_date(queries[:end_date])
     return finder
   end
-  
+
   def available_units
     item.available_units
   end
-  
+
   def purchase_amount
     vat_type == 'VAT-Exclusive' ? amount + vat_amount : amount
   end
@@ -72,7 +72,7 @@ class PurchaseItem < ActiveRecord::Base
   end
 
   def quantity
-    @convert_unit ? qty.to(item.unit.symbol).value : self[:quantity]
+    @convert_unit ? qty.to(item.unit).value : self[:quantity]
   end
 
   def unit_cost
@@ -82,7 +82,7 @@ class PurchaseItem < ActiveRecord::Base
   def subcategory_name
     item.subcategory_name
   end
-  
+
   private
   def only_allow_unit_with_conversion_to_base_unit
     return if item.nil?

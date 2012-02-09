@@ -4,11 +4,18 @@ class Reports::EndcountReportsController < ReportsController
 
   def index
     endcount_items = EndcountItem.includes(:subcategory).where(current_ability.attributes_for(:read, Item))
+    # TODO: please DRY this
     if params[:date]
-      @ending_date = Date.new(params[:date][:year].to_i, params[:date][:month].to_i)
+      query_date = Date.new(params[:date][:year].to_i, params[:date][:month].to_i)
+      if query_date.month == Date.today.month
+        @ending_date = Date.today
+      else
+        @ending_date = query_date.end_of_month
+      end
     else
       @ending_date = Date.today
     end
+
     @endcount = Endcount.new(endcount_items, @ending_date)
 
     respond_to do |wants|

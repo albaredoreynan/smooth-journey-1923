@@ -76,9 +76,9 @@
         %tfoot
           %tr.totals
             %th{:colspan => 3} Grand Total
-            %th.number= grand_total_beginning_count
+            %th.number= number_with_precision(grand_total_beginning_count, :precision => 2, :delimeter => ',')
             %th.monetary= number_to_currency(grand_total_beginning_total, :unit => peso_sign)
             %th.monetary= number_to_currency(grand_total_purchase_amount, :unit => peso_sign)
-            %th.number= grand_total_ending_count
+            %th.number= number_with_precision(grand_total_ending_count, :precision => 2, :delimeter => ',')
             %th.monetary= number_to_currency(grand_total_ending_total, :unit => peso_sign)
             %th.number= number_with_precision(grand_total_cogs, :precision => 2, :delimiter => ',')

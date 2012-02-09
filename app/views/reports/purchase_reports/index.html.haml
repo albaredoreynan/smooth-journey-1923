@@ -35,13 +35,14 @@
               - grand_total += subtotal
               %th.monetary= number_to_currency(subtotal, :unit => peso_sign)
               - purchase_items.each do |purchase_item|
+                - purchase_item.convert_unit = true
                 %tr{id: dom_id(purchase_item.item), class: 'item_row'}
                   %td &nbsp;
                   %td= purchase_item.item.name
                   %td= purchase_item.purchase.invoice_number
                   %td= purchase_item.purchase.supplier_name
                   %td= purchase_item.purchase.purchase_date
-                  %td= purchase_item.quantity
+                  %td.number= number_with_precision(purchase_item.quantity, :precision => 2, :delimeter => ',')
                   %td= purchase_item.item.unit_name
                   %td.monetary= number_to_currency(purchase_item.unit_cost, :unit => peso_sign)
                   %td.monetary= number_to_currency(purchase_item.vat_amount, :unit => peso_sign)
