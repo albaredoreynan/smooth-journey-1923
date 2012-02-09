@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120203030232) do
+ActiveRecord::Schema.define(:version => 20120209053108) do
 
   create_table "branches", :force => true do |t|
     t.integer  "restaurant_id"
@@ -86,13 +86,6 @@ ActiveRecord::Schema.define(:version => 20120203030232) do
     t.datetime "updated_at"
   end
 
-  create_table "departments", :force => true do |t|
-    t.string   "department_name"
-    t.integer  "restaurant_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "employees", :force => true do |t|
     t.string   "first_name"
     t.string   "last_name"
@@ -107,14 +100,6 @@ ActiveRecord::Schema.define(:version => 20120203030232) do
     t.text     "address"
     t.datetime "created_at"
     t.datetime "updated_at"
-  end
-
-  create_table "endcounts", :force => true do |t|
-    t.date     "begin_date"
-    t.date     "end_date"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "save_as_draft"
   end
 
   create_table "item_counts", :force => true do |t|
@@ -142,13 +127,6 @@ ActiveRecord::Schema.define(:version => 20120203030232) do
   add_index "items", ["branch_id"], :name => "index_items_on_branch_id"
   add_index "items", ["subcategory_id"], :name => "index_items_on_subcategory_id"
   add_index "items", ["unit_id"], :name => "index_items_on_unit_id"
-
-  create_table "jobs", :force => true do |t|
-    t.string   "job_name"
-    t.integer  "department_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
   create_table "purchase_items", :force => true do |t|
     t.integer  "purchase_id"
@@ -181,20 +159,6 @@ ActiveRecord::Schema.define(:version => 20120203030232) do
   end
 
   add_index "purchases", ["created_by_id"], :name => "index_purchases_on_created_by_id"
-
-  create_table "reporttemplates", :force => true do |t|
-    t.string   "report_name"
-    t.text     "report_description"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "restaurantcategories", :force => true do |t|
-    t.string   "category_listName"
-    t.integer  "restaurant_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
   create_table "restaurants", :force => true do |t|
     t.string   "name"
