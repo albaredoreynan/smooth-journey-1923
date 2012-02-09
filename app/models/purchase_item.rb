@@ -44,7 +44,7 @@ class PurchaseItem < ActiveRecord::Base
   end
 
   def unit_cost
-    (self[:amount] / quantity)
+    (net_amount / quantity)
   end
 
   def subcategory_name
