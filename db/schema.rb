@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120209053108) do
+ActiveRecord::Schema.define(:version => 20120209053547) do
 
   create_table "branches", :force => true do |t|
     t.integer  "restaurant_id"
@@ -23,21 +23,21 @@ ActiveRecord::Schema.define(:version => 20120209053108) do
   end
 
   create_table "categories", :force => true do |t|
+    t.integer  "restaurant_id"
     t.string   "name"
     t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "restaurant_id"
   end
 
   add_index "categories", ["restaurant_id"], :name => "index_categories_on_restaurant_id"
 
   create_table "category_sales", :force => true do |t|
     t.integer  "sale_id",     :null => false
+    t.integer  "category_id", :null => false
     t.float    "amount"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "category_id", :null => false
   end
 
   add_index "category_sales", ["category_id"], :name => "index_csrows_on_category_id"
@@ -66,17 +66,17 @@ ActiveRecord::Schema.define(:version => 20120209053108) do
     t.string   "name"
     t.text     "address"
     t.string   "contact_number"
+    t.text     "settings"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.text     "settings"
   end
 
   create_table "conversions", :force => true do |t|
+    t.integer  "bigger_unit_id"
+    t.integer  "smaller_unit_id"
     t.float    "conversion_factor"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "bigger_unit_id"
-    t.integer  "smaller_unit_id"
   end
 
   create_table "currencies", :force => true do |t|
@@ -104,11 +104,11 @@ ActiveRecord::Schema.define(:version => 20120209053108) do
 
   create_table "item_counts", :force => true do |t|
     t.integer  "item_id"
+    t.integer  "unit_id"
     t.float    "stock_count"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.date     "entry_date"
-    t.integer  "unit_id"
   end
 
   add_index "item_counts", ["unit_id"], :name => "index_item_counts_on_unit_id"
@@ -116,12 +116,12 @@ ActiveRecord::Schema.define(:version => 20120209053108) do
   create_table "items", :force => true do |t|
     t.string   "name"
     t.integer  "unit_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
     t.string   "item_type"
     t.integer  "subcategory_id"
     t.boolean  "non_inventory"
     t.integer  "branch_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "items", ["branch_id"], :name => "index_items_on_branch_id"
@@ -136,9 +136,9 @@ ActiveRecord::Schema.define(:version => 20120209053108) do
     t.float    "quantity"
     t.float    "amount"
     t.text     "vat_type"
+    t.string   "particulars"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "particulars"
   end
 
   add_index "purchase_items", ["item_id"], :name => "index_purchaserows_on_item_id"
@@ -150,12 +150,12 @@ ActiveRecord::Schema.define(:version => 20120209053108) do
     t.string   "invoice_number"
     t.integer  "supplier_id"
     t.integer  "branch_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
     t.boolean  "save_as_draft"
     t.integer  "currency_id"
     t.text     "vat_type"
     t.integer  "created_by_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "purchases", ["created_by_id"], :name => "index_purchases_on_created_by_id"
@@ -167,16 +167,15 @@ ActiveRecord::Schema.define(:version => 20120209053108) do
     t.integer  "currency_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "store_id"
   end
 
   create_table "roles", :force => true do |t|
     t.string   "name"
+    t.integer  "company_id"
     t.integer  "user_id"
     t.integer  "branch_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "company_id"
   end
 
   add_index "roles", ["branch_id"], :name => "index_roles_on_branch_id"
@@ -211,6 +210,14 @@ ActiveRecord::Schema.define(:version => 20120209053108) do
     t.float    "dinein_pta",        :null => false
   end
 
+  create_table "settings", :force => true do |t|
+    t.integer "company_id"
+    t.boolean "enable_lock_module"
+    t.integer "lock_module_in"
+  end
+
+  add_index "settings", ["company_id"], :name => "index_settings_on_company_id"
+
   create_table "settlement_sales", :force => true do |t|
     t.integer  "employee_id",      :null => false
     t.float    "vat"
@@ -239,9 +246,9 @@ ActiveRecord::Schema.define(:version => 20120209053108) do
   create_table "settlement_type_sales", :force => true do |t|
     t.integer "settlement_type_id"
     t.float   "amount"
+    t.integer "sale_id"
     t.date    "created_at",         :null => false
     t.date    "updated_at",         :null => false
-    t.integer "sale_id"
   end
 
   add_index "settlement_type_sales", ["sale_id"], :name => "index_ssrows_on_sale_id"
@@ -268,13 +275,13 @@ ActiveRecord::Schema.define(:version => 20120209053108) do
     t.text     "address"
     t.text     "description"
     t.string   "contact_number"
-    t.datetime "created_at"
-    t.datetime "updated_at"
     t.string   "contact_person"
     t.integer  "company_id"
     t.string   "tin"
     t.string   "mobile_number"
     t.string   "contact_title"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "units", :force => true do |t|
@@ -289,6 +296,7 @@ ActiveRecord::Schema.define(:version => 20120209053108) do
   add_index "units", ["restaurant_id"], :name => "index_units_on_restaurant_id"
 
   create_table "users", :force => true do |t|
+    t.string   "username"
     t.string   "email",                                 :default => "", :null => false
     t.string   "encrypted_password",     :limit => 128, :default => "", :null => false
     t.string   "password_salt",                         :default => "", :null => false
@@ -299,10 +307,9 @@ ActiveRecord::Schema.define(:version => 20120209053108) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
+    t.string   "reset_password_sent_at"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "username"
-    t.string   "reset_password_sent_at"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
