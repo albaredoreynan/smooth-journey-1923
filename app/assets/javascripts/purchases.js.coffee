@@ -1,38 +1,31 @@
 jQuery ->
-  $('.update_vat_amount').change ->
-    $('#vat_amount').val(vatAmount($('#purchase_amount').val(), $(this).val())[0])
-    $('#net_amount').val(vatAmount($('#purchase_amount').val(), $(this).val())[1])
+  $('#new_purchase_item')
+    .live 'ajax:beforeSend', (event, xhr) ->
+      # disable form elements
+      $(this).find(':input').attr('disabled', 'disabled')
 
-  $('#add-item').click ->
-    purchase_id = $('#purchase_id').val()
-    inputs = $(this).parents('#add_item_form').find(':input').attr('disabled', 'disabled')
-    _this = this
-    $.ajax({
-      type: "POST",
-      url: "/purchases/"+purchase_id+"/purchase_items/",
-      data: ({
-        _method: "post",
-        purchase_item: {
-          item_id: $('#item_id').val(),
-          unit_id: $('#unit_id').val(),
-          unit_cost: $('#unit_cost').val(),
-          quantity: $('#quantity').val(),
-          particulars: $('#particulars').val(),
-          amount: $('#amount').val(),
-          vat_type: $(':input[name=vat_type]:checked').val(),
-        }
-      })
-      success: (data) ->
-        $('.purchase_items_wrapper').html($(data).find(".purchase-items"))
-        $('#dialog_item input:text' ).val('')
-        $('#unit_id').val('')
-        $('#item_id').val('')
-      complete: ->
-        inputs.not(_this).not('input[name=vat_type]').val('')
-        inputs.removeAttr('disabled')
-    })
+    .live 'ajax:success', (event, data) ->
+      $('div#main div.flash').remove()
+      $('.purchase_items_wrapper').html($(data).find(".purchase-items"))
+      $('#unit_id, #item_id').val('')
 
-(($) ->
+    .live 'ajax:error', (event, xhr, status) ->
+      errorText = ''
+      try
+        errors = $.parseJSON xhr.responseText
+      catch err
+        errors = { message: "Please reload the page and try again."}
+
+      $('div#main').prepend($('<div></div>').attr('class', 'flash')
+        .append($('<div></div>').attr('class', 'message alert')
+          .html('Unable to add item. Please try again.')))
+
+    .live 'ajax:complete', (event, data) ->
+      # re-enable form elements
+      inputs = $(this).find(':input')
+      inputs.not('input[type=submit], input[name=purchase_item[vat_type]').val('')
+      inputs.removeAttr('disabled')
+
   $.widget "ui.combobox",
     _create: ->
       self = this
@@ -94,14 +87,13 @@ jQuery ->
       @button.remove()
       @element.show()
       $.Widget::destroy.call this
-) jQuery
 
-$ ->
-  $("#item_id").combobox selected: (event, ui) ->
+  $("#purchase_item_item_id").combobox selected: (event, ui) ->
     $.ajax
       url: "/inventoryitems/" + ui.item.value + "/available_units"
       dataType: "json"
       success: (data) ->
-        $("#unit_id").empty()
+        unit_id = $('#purchase_item_unit_id')
+        unit_id.empty()
         $(data).each (index, elem) ->
-          $("#unit_id").append $("<option></option>").attr("value", elem.id).text(elem.name)
+          unit_id.append $("<option></option>").attr("value", elem.id).text(elem.name)

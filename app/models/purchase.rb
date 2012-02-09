@@ -50,5 +50,4 @@ class Purchase < ActiveRecord::Base
   def branch_location
     branch.location if branch
   end
-
 end

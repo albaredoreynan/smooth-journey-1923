@@ -9,19 +9,18 @@ describe 'EndcountReport' do
     login_as(user)
   end
 
+  after do
+    Warden.test_reset!
+  end
+
   context 'render as HTML' do
     before do
-      # freeze time
-      def Date.today
-        Date.new(2012, 2, 6)
-      end
-
       @item = FactoryGirl.create(:item)
-      FactoryGirl.create(:item_count, :item => @item, :stock_count => 1, :entry_date => Date.new(2011, 12, 31))
-      FactoryGirl.create(:item_count, :item => @item, :stock_count => 2, :entry_date => Date.new(2012,  1, 31))
-      FactoryGirl.create(:item_count, :item => @item, :stock_count => 3, :entry_date => Date.new(2012,  2,  6))
+      FactoryGirl.create(:item_count, :item => @item, :stock_count => 1, :entry_date => 2.months.ago.end_of_month.to_date)
+      FactoryGirl.create(:item_count, :item => @item, :stock_count => 2, :entry_date => 1.months.ago.end_of_month.to_date)
+      FactoryGirl.create(:item_count, :item => @item, :stock_count => 3, :entry_date => Date.today)
 
-      FactoryGirl.create(:purchase, :purchase_date => Date.new(2012, 2, 1), :purchase_items => [
+      FactoryGirl.create(:purchase, :purchase_date => Date.today.beginning_of_month.to_date, :purchase_items => [
         FactoryGirl.create(:purchase_item, :item => @item, :quantity => 1, :amount => 1, :unit => @item.unit)
       ])
     end
@@ -65,7 +64,6 @@ describe 'EndcountReport' do
 
   context 'render as CSV' do
     before do
-      #@purchase_item = FactoryGirl.create(:purchase_item, :item => FactoryGirl.create(:item, :name => 'xxx'))
       visit '/reports/endcounts'
       click_link 'CSV'
     end
@@ -81,8 +79,5 @@ describe 'EndcountReport' do
           page.should have_content head
         end
       end
-
-    it 'should have a content' do
-    end
   end
 end

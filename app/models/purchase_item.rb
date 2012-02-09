@@ -1,5 +1,6 @@
 class PurchaseItem < ActiveRecord::Base
-  attr_accessor :vat_amount, :net_amount
+  include Taxable
+
   attr_accessor :convert_unit
 
   composed_of :qty, :mapping => [%w(quantity quantity), %w(unit_id symbol)],
@@ -14,8 +15,6 @@ class PurchaseItem < ActiveRecord::Base
   validates :amount,      :presence => true, :numericality => true
   validates :quantity,    :presence => true, :numericality => true
   validates :unit_id,     :presence => true
-  validates :vat_type,    :presence => true,
-                          :inclusion => { :in => %w(VAT-Exclusive VAT-Inclusive VAT-Exempted) }
   validate :only_allow_unit_with_conversion_to_base_unit
 
   default_scope joins(:purchase).order('purchase_date DESC')
@@ -27,6 +26,10 @@ class PurchaseItem < ActiveRecord::Base
   scope :search_by_item_name, lambda {|keyword| joins(:item).where('items.name ILIKE ?', "%#{keyword}%") unless keyword.blank?}
   scope :search_by_subcategory, lambda {|keyword| joins(:item => :subcategory).where('subcategories.name ILIKE ?', "%#{keyword}%") unless keyword.blank?}
 
+  delegate :name, :to => :item, :prefix => true
+  delegate :name, :symbol, :to => :unit, :prefix => true
+  delegate :available_units, :to => :item
+
   def self.search(queries)
     finder =        search_by_supplier(queries[:supplier])
     finder = finder.search_by_invoice_number(queries[:invoice_number])
@@ -34,41 +37,6 @@ class PurchaseItem < ActiveRecord::Base
     finder = finder.search_by_subcategory(queries[:subcategory])
     finder = finder.start_date(queries[:start_date]).end_date(queries[:end_date])
     return finder
-  end
-
-  def available_units
-    item.available_units
-  end
-
-  def purchase_amount
-    vat_type == 'VAT-Exclusive' ? amount + vat_amount : amount
-  end
-
-  def vat_amount
-    case vat_type
-    when 'VAT-Inclusive'
-      amount - (amount / 1.12)
-    when 'VAT-Exclusive'
-      amount * 0.12
-    when 'VAT-Exempted'
-      0
-    end
-  end
-
-  def net_amount
-    vat_type == 'VAT-Inclusive' ? (amount - vat_amount) : amount
-  end
-
-  def item_name
-    item.name if item
-  end
-
-  def unit_name
-    unit.name if unit
-  end
-
-  def unit_symbol
-    unit.symbol
   end
 
   def quantity

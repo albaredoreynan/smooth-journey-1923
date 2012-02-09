@@ -4,6 +4,10 @@ describe "Purchases" do
   include Warden::Test::Helpers
   Warden.test_mode!
 
+  after do
+    Warden.test_reset!
+  end
+
   context 'as client user' do
     before do
       user = FactoryGirl.create(:client_user)

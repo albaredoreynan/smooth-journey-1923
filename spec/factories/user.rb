@@ -12,7 +12,6 @@ FactoryGirl.define do
     end
 
     factory :client_user do
-      email 'client@example.com'
       after_create do |user|
         company = FactoryGirl.create(:company)
         FactoryGirl.create(:role, name: 'client', company: company, user: user)
@@ -20,7 +19,6 @@ FactoryGirl.define do
     end
 
     factory :branch_user do
-      email 'branch@example.com'
       after_create do |user|
         branch = FactoryGirl.create(:branch)
         FactoryGirl.create(:role, name: 'branch', branch: branch, user: user)

@@ -1,10 +1,8 @@
 class PurchaseItemsController < ApplicationController
 
-  respond_to :html, :js
+  respond_to :html, :json
 
   before_filter :load_purchase
-
-  respond_to :html, :js
 
   def new
     @purchase_item = @purchase.purchase_items.new
@@ -15,8 +13,12 @@ class PurchaseItemsController < ApplicationController
 
   def create
     @purchase_item = @purchase.purchase_items.new(params[:purchase_item])
-    @purchase_item.save
-    render :partial => 'purchases/form', :locals => { :purchase => @purchase }
+
+    if @purchase_item.save
+      render :partial => 'purchases/form', :locals => { :purchase => @purchase }, :layout => false, :status => :created
+    else
+      render :json => @purchase_item.errors, :status => :unprocessable_entity
+    end
   end
 
   def update
