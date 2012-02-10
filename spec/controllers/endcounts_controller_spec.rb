@@ -40,14 +40,14 @@ describe EndcountsController do
 
       context 'PUT #update_item_count' do
         before do
-          @item = FactoryGirl.create(:item, item_counts: [FactoryGirl.create(:item_count)])
+          @item = FactoryGirl.create(:item, item_counts: [FactoryGirl.create(:item_count, :stock_count => 0)])
           @put_params = { :items => { @item.id => { :item_count => 500 } } }
         end
 
         it 'should mass update item_count' do
           lambda {
             put 'update_item_counts', @put_params
-          }.should change {@item.reload.item_count}.to(500.00)
+          }.should change {@item.reload.item_count}.from(0).to(500.00)
         end
 
         it 'should not create a new record when param is blank' do
@@ -97,6 +97,15 @@ describe EndcountsController do
     it 'should only show items that owns by the company' do
       get 'index'
       assigns[:items].should eq [ @endcount_item ]
+    end
+
+    it 'should be able to update item_count' do
+      @item = FactoryGirl.create(:item, item_counts: [FactoryGirl.create(:item_count, :entry_date => Date.today, :stock_count => 0)])
+      @put_params = { :entry_date => Date.today.strftime('%F'), :items => { @item.id => { :item_count => 500 } } }
+
+      lambda {
+        put 'update_item_counts', @put_params
+      }.should change {@item.reload.item_count}.from(0).to(500.00)
     end
   end
 

@@ -30,18 +30,25 @@ describe ItemCount do
   end
 
   context '.locked?' do
-    context 'setting not present' do
-      before do
-        @item_count = FactoryGirl.create(:item_count)
-      end
+    before do
+      @item_count = FactoryGirl.create(:item_count)
+    end
 
+    context 'setting not present' do
       it 'should be locked when setting not present' do
         @item_count.should be_locked
       end
     end
+
+    context 'enable_lock_module = false' do
+      it 'should be able to update item count' do
+        @item_count.settings = ({ :enable_lock_module => false, :lock_module_in => 0 })
+        @item_count.should_not be_locked
+      end
+    end
+
     context 'setting.lock_module_in = 30' do
       before do
-        @item_count = FactoryGirl.create(:item_count)
         @item_count.settings = ({ :enable_lock_module => true, :lock_module_in => 30 })
       end
 

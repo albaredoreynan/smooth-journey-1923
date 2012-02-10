@@ -105,6 +105,7 @@ class EndcountsController < ApplicationController
 
   def update_item_counts
     entry_date = params[:entry_date].nil? ? Date.today : Date.parse(params[:entry_date])
+    errors = []
 
     params[:items] ||= {}
     params[:items].each do |key, val|
@@ -113,11 +114,19 @@ class EndcountsController < ApplicationController
       unless current_user.admin?
         item_count = item.counted_at(entry_date)
         item_count.settings = current_user.settings
-        next if item_count.locked?
+        if item_count.locked?
+          errors << item.name
+          next
+        end
       end
       item.update_count(val[:item_count], entry_date) unless val[:item_count].blank?
     end
 
-    redirect_to endcounts_path
+    error_message = "Unable to update #{errors.join(', ')}"
+    if errors.any?
+      redirect_to endcounts_path, :alert => error_message
+    else
+      redirect_to endcounts_path
+    end
   end
 end

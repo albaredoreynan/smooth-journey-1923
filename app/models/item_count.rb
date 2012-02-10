@@ -13,8 +13,11 @@ class ItemCount < ActiveRecord::Base
 
   def locked?
     return true if self.settings.nil?
+    enable_lock_module = self.settings[:enable_lock_module]
+    lock_module_in = self.settings[:lock_module_in].to_i
+
     unless self[:created_at].nil?
-      self[:created_at] < self.settings[:lock_module_in].to_i.hours.ago
+      enable_lock_module && self[:created_at] < lock_module_in.hours.ago
     else
       false
     end
