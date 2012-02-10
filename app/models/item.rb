@@ -10,6 +10,8 @@ class Item < ActiveRecord::Base
 
   default_scope order('name ASC')
 
+  scope :inventory, where(:non_inventory => false)
+
   after_save :new_item_count, :if => :new_record? do
     item_counts.create(:stock_count => 0.00)
   end
@@ -54,7 +56,7 @@ class Item < ActiveRecord::Base
   def counted_at(date)
     item_counts.where('entry_date = ?', date.to_date).order('created_at DESC').try(:first) || ItemCount.new
   end
-  
+
   def available_units
     units = [ unit ]
     Conversion.where(:smaller_unit_id => unit.id).each do |conversion|

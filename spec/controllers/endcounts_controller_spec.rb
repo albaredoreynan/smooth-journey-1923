@@ -87,14 +87,20 @@ describe EndcountsController do
 
     before do
       restaurant = FactoryGirl.create(:restaurant, :company => @current_company)
-      branch = FactoryGirl.create(:branch, :restaurant => restaurant)
+      @branch = FactoryGirl.create(:branch, :restaurant => restaurant)
       category = FactoryGirl.create(:category, :restaurant => restaurant)
       subcategory = FactoryGirl.create(:subcategory, :category => category)
-      @endcount_item = EndcountItem.create(FactoryGirl.attributes_for(:item, :branch => branch))
+      @endcount_item = EndcountItem.create(FactoryGirl.attributes_for(:item, :branch => @branch))
       FactoryGirl.create(:item_count, :item => @endcount_item, :entry_date => Date.today)
     end
 
     it 'should only show items that owns by the company' do
+      get 'index'
+      assigns[:items].should eq [ @endcount_item ]
+    end
+
+    it 'should only show inventory items' do
+      non_inventory_item = EndcountItem.create(FactoryGirl.attributes_for(:item, :branch => @branch, :non_inventory => true))
       get 'index'
       assigns[:items].should eq [ @endcount_item ]
     end
