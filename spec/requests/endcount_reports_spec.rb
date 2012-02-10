@@ -72,12 +72,5 @@ describe 'EndcountReport' do
       page.response_headers['Content-Type'].should =~ /csv/
       page.response_headers['Content-Disposition'].should =~ /attachment/
     end
-
-    ['Item', 'Unit cost', 'Beginning count', 'Beginning total', 'Purchase',
-      'Ending count', 'Ending total', 'COGS'].each do |head|
-        it "should have a csv header \"#{head}\"" do
-          page.should have_content head
-        end
-      end
   end
 end
