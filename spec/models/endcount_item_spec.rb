@@ -98,7 +98,7 @@ describe EndcountItem do
                           :quantity => 1,
                           :purchase => @purchase,
                           :unit => @inch_unit)
-      @item.unit_cost.should be_between(2.952, 2.953)
+      @item.unit_cost.should eq 2.95
     end
 
     it 'should average until last month' do
