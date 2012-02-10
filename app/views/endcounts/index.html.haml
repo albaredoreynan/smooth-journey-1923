@@ -1,9 +1,10 @@
-- content_for :head, javascript_include_tag(:endcount)
-- content_for :sidebar do
-  .block.search_box
-    %h3 Show by Date
+- content_for :head do
+  = javascript_include_tag(:endcount)
+  /[if !IE]
     = javascript_tag("$(function() { $('#show_by_date').datepicker('setDate', new Date($('#entry_date').val() )); });")
-    #show_by_date
+- content_for :sidebar do
+  %h3 Show by Date
+  #show_by_date
 .block
   = render 'shared/menu/inventory'
   .content
