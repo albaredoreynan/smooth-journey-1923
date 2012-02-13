@@ -3,7 +3,10 @@ class Reports::EndcountReportsController < ReportsController
   set_tab :reports
 
   def index
-    endcount_items = EndcountItem.includes(:subcategory).where(current_ability.attributes_for(:read, Item))
+    endcount_items = EndcountItem.
+      includes(:subcategory).
+      where(current_ability.attributes_for(:read, Item)).
+      inventory
     # TODO: please DRY this
     if params[:date]
       query_date = Date.new(params[:date][:year].to_i, params[:date][:month].to_i)

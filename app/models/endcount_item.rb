@@ -30,7 +30,8 @@ class EndcountItem < Item
   end
 
   def unit_cost
-    purchased_items_last_month.length > 0 ?  average_unit_cost : last_unit_cost
+    cost = purchased_items_last_month.length > 0 ?  average_unit_cost : last_unit_cost
+    cost.round 2
   end
 
   private

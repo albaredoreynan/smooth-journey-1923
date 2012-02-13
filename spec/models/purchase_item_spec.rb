@@ -137,6 +137,11 @@ describe PurchaseItem do
       @purchase_item.convert_unit = true
       @purchase_item.unit_cost.should eq 0.05
     end
+
+    it 'should be net of vat' do
+      @purchase_item.update_attribute(:vat_type, 'VAT-Inclusive')
+      @purchase_item.unit_cost.should be_between(0.089, 0.09)
+    end
   end
 
   describe '.item_name' do

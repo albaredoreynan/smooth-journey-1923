@@ -60,10 +60,6 @@ describe 'PurchaseReport' do
       page.response_headers['Content-Disposition'].should =~ /attachment/
     end
 
-    it 'should have a csv header' do
-      page.should have_content 'Item, Invoice number, Supplier name, Purchase date'
-    end
-
     it 'should have a content' do
       page.should have_content 'xxx'
     end
