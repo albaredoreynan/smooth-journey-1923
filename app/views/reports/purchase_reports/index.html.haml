@@ -6,7 +6,9 @@
   = render 'shared/menu/reports'
   .content
     .title_action_bar
-      %h2.title= purchase_reports_title(params[:start_date], params[:end_date])
+      %h2.title= purchase_reports_title(@start_date, @end_date)
+      - @start_date = params[:start_date]
+      - @end_date = params[:end_date]
       .new_actions
         = 'Download as'
         = link_to 'CSV', :format => :csv
