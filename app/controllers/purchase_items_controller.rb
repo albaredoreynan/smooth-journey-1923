@@ -2,7 +2,7 @@ class PurchaseItemsController < ApplicationController
 
   respond_to :html, :json
 
-  before_filter :load_purchase
+  before_filter :load_purchase, :except => :validate
 
   def new
     @purchase_item = @purchase.purchase_items.new
@@ -43,6 +43,15 @@ class PurchaseItemsController < ApplicationController
       format.html { head :ok }
       format.xml  { head :ok }
       format.js
+    end
+  end
+
+  def validate
+    purchase_item = PurchaseItem.new(params[:purchase_item])
+    if purchase_item.valid?
+      render :partial => '/purchases/purchase_item_row', :locals => { :purchase_item => purchase_item }, :status => :accepted
+    else
+      render :json => purchase_item.errors, :status => :unprocessable_entity
     end
   end
 

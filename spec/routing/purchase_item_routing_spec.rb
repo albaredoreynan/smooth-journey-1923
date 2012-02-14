@@ -16,4 +16,9 @@ describe PurchaseItemsController do
     { :delete => '/purchases/1/purchase_items/2' }.
       should route_to(:controller => 'purchase_items', :action => 'destroy', :purchase_id => '1', :id => '2')
   end
+
+  it 'should route POST purchase_items/validate' do
+    { :post => '/purchase_items/validate' }.
+      should route_to(:controller => 'purchase_items', :action => 'validate' )
+  end
 end

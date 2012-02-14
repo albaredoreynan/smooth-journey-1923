@@ -65,26 +65,9 @@ describe PurchasesController do
         session.delete :purchase
       end
 
-      it 'should create a new Purchase' do
+      it 'should create an instance of Purchase' do
         get 'new'
         assigns[:purchase].should be_kind_of(Purchase)
-      end
-
-      it 'should assign a purchase id on session' do
-        get 'new'
-        session[:purchase].should_not be_nil
-      end
-
-      it 'should restore a purchase' do
-        session[:purchase] = @purchase.id
-        get 'new'
-        assigns[:purchase].should eq @purchase
-      end
-
-      it 'should reset purchase if purchase id was not found' do
-        session[:purchase] = 'x'
-        get 'new'
-        response.should be_successful
       end
     end
 
@@ -93,7 +76,8 @@ describe PurchasesController do
         @purchase = FactoryGirl.create(:purchase)
         supplier = @purchase.supplier
         branch = @purchase.branch
-        @post_params = { :supplier_id => supplier.id, :branch_id => branch.id }
+        @post_params = { :supplier_id => supplier.id, :branch_id => branch.id,
+          :purchase_date => Date.today }
       end
 
       after do
@@ -101,43 +85,44 @@ describe PurchasesController do
       end
 
       it 'should create a new Purchase' do
-        session[:purchase].should be_nil
         lambda {
           post :create, :purchase => @post_params
         }.should change(Purchase, :count).by(1)
       end
 
-      it 'should restore a Purchase' do
-        session[:purchase] = @purchase.id
-        lambda {
-          post :create, :purchase => @post_params
-        }.should_not change(Purchase, :count)
-        assigns[:purchase].should eq @purchase
-      end
-
-      it 'should load its purchase item' do
-        session[:purchase] = @purchase.id
-        @purchase_item = FactoryGirl.create(:purchase_item, :purchase => @purchase)
-        post :create, :purchase => @post_params
-        assigns[:purchase].purchase_items.should eq [@purchase_item]
-      end
-
-      it 'should set purchase as non-draft' do
-        @purchase.update_attribute(:save_as_draft, true)
-        session[:purchase] = @purchase.id
-        post :create, :purchase => @post_params
-        @purchase.reload.save_as_draft.should eq false
-      end
-
-      it 'should be able to track who created the purchase' do
-        post :create, :purchase => @post_params.merge({ :invoice_number => '999' })
-        purchase = Purchase.find_by_invoice_number('999')
-        purchase.created_by.should eq @current_user
-      end
-      
       it 'should redirect to #index' do
         post :create, :purchase => @post_params
         response.should redirect_to purchases_path
+      end
+
+      it 'should render new when something goes wrong' do
+        post :create, :purchase => {}
+        response.should render_template :new
+      end
+
+      context 'Association' do
+        before do
+          @item = FactoryGirl.create(:item)
+        end
+
+        it 'should be accept nested attribute' do
+          @post_params.merge! :purchase_items_attributes => [
+            { :item_id =>  @item.id, :unit_id => @item.unit_id, :quantity => 1,
+              :amount => 1, :vat_type => 'VAT-Exempted'}
+          ]
+          lambda {
+            post :create, :purchase => @post_params
+          }.should change(PurchaseItem, :count).by(1)
+        end
+
+        context 'when failing' do
+          it 'should repopulate purchase items' do
+            purchase_item = FactoryGirl.attributes_for(:purchase_item)
+            @post_params.merge! :purchase_items_attributes => [ purchase_item ]
+            post :create, :purchase => @post_params
+            assigns[:purchase].purchase_items.should_not be_empty
+          end
+        end
       end
     end
 
@@ -149,25 +134,7 @@ describe PurchasesController do
         @put_params = { :supplier_id => supplier.id, :branch_id => branch.id }
       end
 
-      after do
-        session.delete :purchase
-      end
-
-      it 'should set purchase as non-draft' do
-        @purchase.update_attribute(:save_as_draft, true)
-        session[:purchase] = @purchase.id
-        put 'update', :id => @purchase.id, :purchase => @put_params
-        @purchase.reload.save_as_draft.should eq false
-      end
-
-      it 'should clear the purchase session' do
-        session[:purchase] = @purchase.id
-        put 'update', :id => @purchase.id, :purchase => @put_params
-        session[:purchase].should be_nil
-      end
-      
       it 'should redirect to #index' do
-        session[:purchase] = @purchase.id
         put :update, :id => @purchase.id, :purchase => @put_params
         response.should redirect_to purchases_path
       end
@@ -217,21 +184,9 @@ describe PurchasesController do
     end
 
     context 'PUT #update' do
-      it 'should allow update purchase when draft' do
-        purchase = FactoryGirl.create(:purchase, :branch => nil, :save_as_draft => true)
-        ability = Ability.new(@current_user)
-        ability.should be_able_to(:update, purchase)
-      end
-
-      it 'should not allow update purchase when no branch' do
-        purchase = FactoryGirl.create(:purchase, :branch => nil, :save_as_draft => false)
-        ability = Ability.new(@current_user)
-        ability.should_not be_able_to(:update, purchase)
-      end
-
       it 'should be able to update a purchase' do
-        purchase = FactoryGirl.create(:purchase, :branch => nil, :save_as_draft => true)
-        put_params = FactoryGirl.attributes_for(:purchase, :invoice_number => '333')
+        purchase = FactoryGirl.create(:purchase, :save_as_draft => true)
+        put_params = FactoryGirl.attributes_for(:purchase, :branch => nil, :invoice_number => '333')
         lambda {
           put 'update', :id => purchase.to_param, :purchase => put_params
         }.should change{purchase.reload.invoice_number}.to('333')

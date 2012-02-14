@@ -25,7 +25,7 @@ describe "Purchases" do
       fill_in :date, :with => '2011-01-01'
       select 'my branch', :from => 'Branch'
 
-      click_on 'Update Purchase'
+      click_on 'Create Purchase'
     end
 
     it 'new purchase with purchase item' do

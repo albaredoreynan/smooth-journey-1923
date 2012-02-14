@@ -1,9 +1,23 @@
-%tr{:id => dom_id(f.object)}
-  %td.item-name= f.object.item_name
-  %td.number.item-quantity= "#{f.object.quantity} #{f.object.unit_name}"
-  %td.item-particulars=f.object.particulars
-  %td.item-unit-cost= purchase_item_unit_cost(f.object)
-  %td.item-vat-type= f.object.vat_type
-  %td.monetary.item-amount= number_to_currency(f.object.amount, :unit => peso_sign)
+%tr{:id => dom_id(purchase_item)}
+  %td.item-name
+    = purchase_item.item_name
+  = hidden_field_tag('purchase[purchase_items_attributes][][item_id]', purchase_item.item_id)
+  %td.number.item-quantity
+    = "#{purchase_item.quantity} #{purchase_item.unit_name}"
+  = hidden_field_tag('purchase[purchase_items_attributes][][quantity]', purchase_item.quantity)
+  %td.item-particulars
+    = purchase_item.particulars
+  = hidden_field_tag('purchase[purchase_items_attributes][][particulars]', purchase_item.particulars)
+  %td.item-unit-cost
+    = purchase_item_unit_cost(purchase_item)
+  = hidden_field_tag('purchase[purchase_items_attributes][][unit_id]', purchase_item.unit_id)
+  %td.item-vat-type
+    = purchase_item.vat_type
+  = hidden_field_tag('purchase[purchase_items_attributes][][vat_type]', purchase_item.vat_type)
+  %td.monetary.item-amount
+    = number_to_currency(purchase_item.amount, :unit => peso_sign)
+  = hidden_field_tag('purchase[purchase_items_attributes][][amount]', purchase_item.amount)
   %td.actions
-    = link_to_delete f.object, {:url => purchase_purchase_item_path(f.object.purchase, f.object)}
+    = link_to 'Delete', '#',
+      :class => 'delete_purchase_item',
+      :onclick => "$(this).closest('tr').fadeOut('hide').remove(); $('td#purchase_total_amount').trigger('change')"

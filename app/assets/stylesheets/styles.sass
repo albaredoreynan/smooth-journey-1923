@@ -7,6 +7,7 @@
 
 $form-left-column: 200px
 $space-between-label-and-field: 10px
+$red: #993624
 
 @mixin border-radius($radius:4px)
   border-radius: $radius
@@ -144,7 +145,7 @@ form, .form
     clear: left
 
     &.field_with_errors
-      border: solid 1px red
+      border: solid 1px $red
       display: inline
 
       &:after, label:after
@@ -163,18 +164,22 @@ form, .form
     &.button, &[type=submit]
       width: auto !important
 
-  .input.checkbox
+  .input
+    span.error
+      margin-left: 2px
+      color: $red
 
-    input
-      position: relative
-      left: -123px
+    &.checkbox
+      input
+        position: relative
+        left: -123px
 
-    label
-      display: block
-      padding-left: 123px
-      padding-top: 4px
-      &:after
-        content: ''
+      label
+        display: block
+        padding-left: 123px
+        padding-top: 4px
+        &:after
+          content: ''
 
   textarea
     height: 115px

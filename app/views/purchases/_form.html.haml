@@ -1,12 +1,4 @@
 = simple_form_for @purchase do |f|
-  - if @purchase.errors.any?
-    #error_explanation
-      %h2
-        = pluralize(@purchase.errors.count, "error")
-        prohibited this purchase from being saved:
-      %ul
-        - @purchase.errors.full_messages.each do |msg|
-          %li= msg
   %fieldset.purchase_form
     = f.input :id, :as => :hidden
     - if can? :manage, Branch
@@ -16,27 +8,27 @@
     = f.input :invoice_number
     = f.association :currency, :collection => Currency.all.map{ |currency| [currency.currency, currency.id] }
 
-  .purchase_items_wrapper
-    %table.purchase-items
-      %tbody#purchase_items
-        %tr
-          %th= 'Item Name'
-          %th.number= 'Quantity'
-          %th= 'Particulars'
-          %th= 'Unit Price'
-          %th= 'VAT Type'
-          %th.monetary= 'Amount'
-          %th.actions= 'Actions'
-        = f.fields_for :purchase_items do |pi_form|
-          = render :partial => 'purchases/purchase_item_row', :locals => { :f => pi_form }
-      %tfoot
-        %tr.totals
-          %td &nbsp;
-          %td &nbsp;
-          %td &nbsp;
-          %td &nbsp;
-          %td Total
-          %td#purchase_total_amount.monetary= number_to_currency(@purchase.amount, :unit => peso_sign)
-          %td &nbsp;
+  %table#purchase_items
+    %thead
+      %tr
+        %th= 'Item Name'
+        %th.number= 'Quantity'
+        %th= 'Particulars'
+        %th= 'Unit Price'
+        %th= 'VAT Type'
+        %th.monetary= 'Amount'
+        %th.actions= 'Actions'
+    %tbody
+      - @purchase.purchase_items.each do |purchase_item|
+        = render :partial => 'purchases/purchase_item_row', :locals => { :purchase_item => purchase_item }
+    %tfoot
+      %tr.totals
+        %td &nbsp;
+        %td &nbsp;
+        %td &nbsp;
+        %td &nbsp;
+        %td Total
+        %td#purchase_total_amount.monetary= number_to_currency(@purchase.amount, :unit => peso_sign)
+        %td &nbsp;
   .actions
     = f.submit

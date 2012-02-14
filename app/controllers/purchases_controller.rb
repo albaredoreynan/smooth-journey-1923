@@ -2,8 +2,6 @@ class PurchasesController < ApplicationController
 
   set_tab :purchases
 
-  before_filter :load_purchase_from_session, :only => [:new, :create]
-
   def index
     if params[:start_date] || params[:end_date] || params[:invoice_number] || params[:supplier]
       @purchases = Purchase.accessible_by(current_ability).non_draft.search(params).page(params[:page])
@@ -28,6 +26,7 @@ class PurchasesController < ApplicationController
   end
 
   def new
+    @purchase = Purchase.new
     current_ability.attributes_for(:new, Purchase).each do |key, value|
       @purchase.send("#{key}=", value)
     end
@@ -37,34 +36,38 @@ class PurchasesController < ApplicationController
     end
   end
 
-  def edit
-    @purchase = Purchase.find(params[:id])
-  end
-
   def create
+    @purchase = Purchase.new(params[:purchase])
+    @purchase.created_by = current_user
     respond_to do |format|
       current_ability.attributes_for(:create, Purchase).each do |key, value|
         @purchase.send("#{key}=", value)
       end
 
-      @purchase.update_attributes(params[:purchase].merge({ :created_by_id => current_user.id }))
       if @purchase.save
         @purchase.update_attribute(:save_as_draft, false)
-        format.html { redirect_to('/purchases', :notice => 'Purchase was successfully created.') }
+        format.html { redirect_to(purchases_path, :notice => 'Purchase was successfully created.') }
+      else
+        format.html { render :new, :alert => 'Unable to save your purchase. Please try again.' }
       end
     end
+  end
+
+  def edit
+    @purchase = Purchase.find(params[:id])
   end
 
   def update
     @purchase = Purchase.find(params[:id])
     authorize! :update, @purchase
+    if current_user.branch?
+      @purchase.branch = current_branch
+    end
+
     respond_to do |format|
-      attr =            params[:purchase]
-      attr = attr.merge({save_as_draft: false})
-      attr = attr.merge({:branch => current_branch}) if current_user.branch?
-      if @purchase.update_attributes(attr)
+      if @purchase.update_attributes(params[:purchase])
         session.delete :purchase
-        format.html { redirect_to('/purchases', :notice => 'Purchase was successfully updated.') }
+        format.html { redirect_to(purchases_path, :notice => 'Purchase was successfully updated.') }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -80,20 +83,6 @@ class PurchasesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(purchases_url) }
       format.xml  { head :ok }
-    end
-  end
-
-  private
-  def load_purchase_from_session
-    if session[:purchase]
-      @purchase = Purchase.find_or_create_by_id(session[:purchase])
-    else
-      purchase_attrs = { save_as_draft: true }
-      if current_user.branch?
-        purchase_attrs.merge!({ :branch => current_branch })
-      end
-      @purchase = Purchase.create purchase_attrs
-      session[:purchase] = @purchase.id
     end
   end
 end
