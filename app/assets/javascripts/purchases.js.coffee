@@ -6,16 +6,12 @@ jQuery ->
 
     .live 'ajax:success', (event, data) ->
       $('div#main div.flash').remove()
-      $('.purchase_items_wrapper').html($(data).find(".purchase-items"))
+      $('table#purchase_items tbody').append(data)
       $('#unit_id, #item_id').val('')
+      $('td#purchase_total_amount').trigger('change')
 
     .live 'ajax:error', (event, xhr, status) ->
-      errorText = ''
-      try
-        errors = $.parseJSON xhr.responseText
-      catch err
-        errors = { message: "Please reload the page and try again."}
-
+      $('div#main div.flash').remove()
       $('div#main').prepend($('<div></div>').attr('class', 'flash')
         .append($('<div></div>').attr('class', 'message alert')
           .html('Unable to add item. Please try again.')))
@@ -25,6 +21,15 @@ jQuery ->
       inputs = $(this).find(':input')
       inputs.not('input[type=submit], input[name=purchase_item[vat_type]').val('')
       inputs.removeAttr('disabled')
+
+  $('td#purchase_total_amount').change ->
+    total = 0
+    amounts = $('td.item-amount').map ->
+      parseFloat($(this).html().trim())
+    $(amounts).each (index, value) ->
+      total += value
+    $(this).html((total).toFixed(2))
+
 
   $.widget "ui.combobox",
     _create: ->

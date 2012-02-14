@@ -8,7 +8,7 @@ describe Purchase do
       purchase = FactoryGirl.create(:purchase, :supplier => supplier)
       purchase.supplier_name.should eq 'Sena the Accessorizer'
     end
-    
+
   end
 
   context 'calculator methods' do
@@ -53,6 +53,12 @@ describe Purchase do
         @purchase.amount.should eq 15
       end
     end
+  end
+
+  context 'Validation' do
+    it { should validate_presence_of :branch_id }
+    it { should validate_presence_of :purchase_date }
+    it { should validate_presence_of :supplier_id }
   end
 
   context 'Search' do

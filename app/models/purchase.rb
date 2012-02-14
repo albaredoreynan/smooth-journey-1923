@@ -4,8 +4,11 @@ class Purchase < ActiveRecord::Base
   belongs_to :branch
   belongs_to :currency
   belongs_to :created_by, :class_name => 'User'
-
   has_many :purchase_items, :dependent => :destroy
+
+  validates :branch_id, :presence => true
+  validates :purchase_date, :presence => true
+  validates :supplier_id, :presence => true
 
   default_scope order("purchase_date desc")
 
