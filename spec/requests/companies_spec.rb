@@ -29,7 +29,7 @@ describe "Companies" do
     end
   end
 
-  describe 'POST /companies' do
+  describe 'POST /companies', :slow => true do
     it 'should add new company' do
       visit '/companies'
       click_link 'New Company'
