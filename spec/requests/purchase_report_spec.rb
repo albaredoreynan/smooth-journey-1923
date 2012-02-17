@@ -55,12 +55,12 @@ describe 'PurchaseReport' do
       click_link 'CSV'
     end
 
-    it 'should have correct response header' do
+    it 'should have correct response header', :slow => true do
       page.response_headers['Content-Type'].should =~ /csv/
       page.response_headers['Content-Disposition'].should =~ /attachment/
     end
 
-    it 'should have a content' do
+    it 'should have a content', :slow => true do
       page.should have_content 'xxx'
     end
   end

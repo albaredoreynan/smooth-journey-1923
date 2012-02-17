@@ -30,11 +30,11 @@ describe 'EndcountReport' do
         visit '/reports/endcounts'
       end
 
-      it 'should display the correct beginning count' do
+      it 'should display the correct beginning count', :slow => true do
         find("tr#endcount_item_#{@item.id} td:eq(4)").should have_content "2.0"
       end
 
-      it 'should display the correct beginning total' do
+      it 'should display the correct beginning total', :slow => true do
         find("tr#endcount_item_#{@item.id} td:eq(5)").should have_content "2.00"
       end
 
