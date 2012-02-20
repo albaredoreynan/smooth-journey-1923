@@ -1,112 +1,78 @@
 - content_for(:head, javascript_include_tag(:sales))
-= form_for(@sale) do |f|
-  - if @sale.errors.any?
-    #error_explanation
-      / <h2><haml:loud> pluralize(@sale.errors.count, &amp;quot;error&amp;quot;) </haml:loud> prohibited this sale from being saved:</h2>
-      %ul.errors
-        - @sale.errors.full_messages.each do |msg|
-          %li= msg
+= simple_form_for(@sale) do |f|
+  %fieldset
+    = f.input :branch_id, :collection => Branch.all.map{|branch| [branch.location, branch.id]}
+    = f.input :date, :class => 'datepicker'
+    = f.input :employee_id, :collection => Employee.all.map{|employee| [employee.full_name, employee.id]}
+    = f.input :customer_count
+    = f.input :transaction_count
 
-  %fieldset#colleft
-    .multi_input
+  %fieldset
+    %legend.box_name= "Sales By Category"
+    = f.fields_for :category_sales do |cs|
       .input
-        %span
-          = f.label :branch_id
-          = f.collection_select :branch_id, Branch.all, :id, :location, :prompt => true
-        %span
-          = f.label :date
-          = f.date_select :date
-        %span
-          = f.label :employee_id
-          = collection_select(:sale, :employee_id, Employee.all, :id, :full_name, :prompt => true)
+        = cs.hidden_field :category_id, :value => cs.object.category_id
+        = f.label cs.object.category.name
+        = cs.text_field :amount, :class => :category
+    = f.input :total_amount_cs
+    = f.input :total_revenue_cs
+    = f.input :vat, :input_html => { :name => :vat }
+    = f.input :service_charge
+    .input
+      = label_tag :gross_total, "Gross Total"
+      = text_field_tag :gross_total
+
+  %fieldset
+    %legend.box_name= "Sales By Settlement"
+    = f.fields_for :settlement_type_sales do |sts|
       .input
-        %span
-          = f.label :customer_count
-          = f.text_field :customer_count
-        %span
-          = f.label :transaction_count
-          = f.text_field :transaction_count
-    .colleft
-      %fieldset.field_divider
-        %legend.box_name= "Sales By Category"
-        = f.fields_for :category_sales do |cs|
-          .input
-            = cs.hidden_field :category_id, :value => cs.object.category_id
-            = f.label cs.object.category.name
-            = cs.text_field :amount, :class => :category
-        .input
-          = f.label "Total Amount"
-          = f.text_field :total_amount_cs
-        .input
-          = f.label "Total Revenue"
-          = f.text_field :total_revenue_cs
-        .input
-          = f.label :vat, 'VAT'
-          = text_field_tag :vat,'',:size => 30
-        .input
-          = f.label "Service Charge"
-          = f.text_field :service_charge
-        .input
-          = f.label "GROSS TOTAL"
-          = text_field_tag :gross_total,'',:size => 30
+        = sts.hidden_field :settlement_type_id, :value => sts.object.settlement_type_id
+        = f.label sts.object.settlement_type.name
+        = sts.text_field :amount, :class => :settlementtype
+    = f.input :void
+    = f.input :vat
+    = f.input :gross_total_ss, :label => 'Gross Total'
+    = f.input :net_total_ss, :label => 'Net Total'
 
-    .colright
-      %fieldset.field_divider
-        %legend.box_name= "Sales By Settlement"
-        = f.fields_for :settlement_type_sales do |sts|
-          .input
-            = sts.hidden_field :settlement_type_id, :value => sts.object.settlement_type_id
-            = f.label sts.object.settlement_type.name
-            = sts.text_field :amount, :class => :settlementtype
-        .input
-          = f.label "VOIDS"
-          = f.text_field :void
-        .input
-          = f.label "VAT"
-          = f.text_field :vat
-        .input
-          = f.label "GROSS TOTAL"
-          = f.text_field :gross_total_ss
-        .input
-          = f.label "NET TOTAL"
-          = f.text_field :net_total_ss
-    .colleft
-      %fieldset.field_divider
-        %legend.box_name= "Types Of Transaction"
-        %h4.title DINE IN
-        .input
-          = f.label "Customer Count (CC)"
-          = f.text_field :dinein_cc
-        .input
-          = f.label "Transaction Count (TC)"
-          = f.text_field :dinein_tc
-        .input
-          = f.label "Per Person Average (PPA)"
-          = f.text_field :dinein_ppa
-        .input
-          = f.label "Per Transaction Average (PTA)"
-          = f.text_field :dinein_pta
+  %fieldset
+    %legend.box_name= "Types Of Transaction"
+    %fieldset
+      %legend DINE IN
+      .input
+        = f.label "Customer Count (CC)"
+        = f.text_field :dinein_cc
+      .input
+        = f.label "Transaction Count (TC)"
+        = f.text_field :dinein_tc
+      .input
+        = f.label "Per Person Average (PPA)"
+        = f.text_field :dinein_ppa
+      .input
+        = f.label "Per Transaction Average (PTA)"
+        = f.text_field :dinein_pta
 
-        %h4.title DELIVERY:
-        .input
-          = f.label "Delivery Sales (DS)"
-          = f.text_field :delivery_sales
-        .input
-          = f.label "Transaction Count (TC)"
-          = f.text_field :delivery_tc
-        .input
-          = f.label "Per Transaction Average (PTA)"
-          = f.text_field :delivery_pta
+    %fieldset
+      %legend DELIVERY
+      .input
+        = f.label "Delivery Sales (DS)"
+        = f.text_field :delivery_sales
+      .input
+        = f.label "Transaction Count (TC)"
+        = f.text_field :delivery_tc
+      .input
+        = f.label "Per Transaction Average (PTA)"
+        = f.text_field :delivery_pta
 
-        %h4.title TAKE OUT:
-        .input
-          = f.label "Transaction Count (TC)"
-          = f.text_field :takeout_tc
-        .input
-          = f.label "Per Transaction Average (PTA)"
-          = f.text_field :takeout_pta
-        .input
-          = f.label "Service Charge"
-          = f.text_field :service_charge
+    %fieldset
+      %legend TAKE OUT
+      .input
+        = f.label "Transaction Count (TC)"
+        = f.text_field :takeout_tc
+      .input
+        = f.label "Per Transaction Average (PTA)"
+        = f.text_field :takeout_pta
+      .input
+        = f.label "Service Charge"
+        = f.text_field :service_charge
     .actions
-      = f.submit "Save as Draft", :onHover => "checkTotal()"
+      = f.button :submit
