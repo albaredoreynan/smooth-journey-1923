@@ -5,7 +5,6 @@ module Taxable
 
   included do
     validates :vat_type,
-      :presence => true,
       :inclusion => { :in => %w(VAT-Exclusive VAT-Inclusive VAT-Exempted) }
   end
 

@@ -1,7 +1,8 @@
 class Sale < ActiveRecord::Base
 
-  validates_presence_of :customer_count
   validates_presence_of :date
+  validates_presence_of :customer_count
+  validates_presence_of :transaction_count
   validates_presence_of :delivery_pta
   validates_presence_of :delivery_sales
   validates_presence_of :delivery_tc
@@ -16,10 +17,12 @@ class Sale < ActiveRecord::Base
   validates_presence_of :takeout_tc
   validates_presence_of :total_amount_cs
   validates_presence_of :total_revenue_cs
-  validates_presence_of :transaction_count
   validates_presence_of :vat
   validates_presence_of :void
   validate :check_total
+
+  scope :start_date, lambda {|date| where('date >= ?', date) unless date.blank?}
+  scope :end_date, lambda {|date| where('date <= ?', date) unless date.blank?}
 
   has_many :category_sales
   has_many :settlement_type_sales
@@ -36,18 +39,10 @@ class Sale < ActiveRecord::Base
     settlement_type_sales.map(&:amount).reject(&:nil?).sum
   end
 
-  def self.search_by_date(from, to)
-    if from && to.blank?
-      where('date >= ?', from)
-    elsif from.blank? && to
-      where('date <= ?', to)
-    else
-      where('date >= ? AND date <= ?', from, to)
-    end
-  end
-
-  def self.search_by_employee_or_date(from,to,employee_id)
-    where("(date >= ? and date <= ?) or employee_id = ?",from,to,employee_id)
+  def self.search_by_date(starting, ending)
+    finder = start_date(starting)
+    finder = finder.end_date(ending)
+    return finder
   end
 
   def self.total_void
