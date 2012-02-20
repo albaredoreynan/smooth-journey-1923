@@ -2,7 +2,7 @@
 = simple_form_for(@sale) do |f|
   %fieldset
     = f.input :branch_id, :collection => Branch.all.map{|branch| [branch.location, branch.id]}
-    = f.input :date, :class => 'datepicker'
+    = f.input :date
     = f.input :employee_id, :collection => Employee.all.map{|employee| [employee.full_name, employee.id]}
     = f.input :customer_count
     = f.input :transaction_count
