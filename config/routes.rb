@@ -19,7 +19,10 @@ Rrbs::Application.routes.draw do
 
   resources :branches
 
-  resources :sales
+  match 'sales/categories' => 'sales#index'
+  resources :sales do
+    get 'settlement_types', :on => :collection
+  end
 
   resources :companies
 
