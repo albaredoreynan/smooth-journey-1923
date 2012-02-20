@@ -15,6 +15,7 @@ class PurchaseItem < ActiveRecord::Base
   validates :amount,      :presence => true, :numericality => true
   validates :quantity,    :presence => true, :numericality => true
   validates :unit_id,     :presence => true
+  validates :vat_type,    :presence => true
   validate :only_allow_unit_with_conversion_to_base_unit
 
   default_scope joins(:purchase).order('purchase_date DESC')
