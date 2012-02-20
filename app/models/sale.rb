@@ -19,6 +19,7 @@ class Sale < ActiveRecord::Base
   validates_presence_of :transaction_count
   validates_presence_of :vat
   validates_presence_of :void
+  validate :check_total
 
   has_many :category_sales
   has_many :settlement_type_sales
@@ -26,12 +27,6 @@ class Sale < ActiveRecord::Base
 
   accepts_nested_attributes_for :category_sales
   accepts_nested_attributes_for :settlement_type_sales
-
-  validate :check_total
-
-  def check_total
-    errors.add(:base, "The total doesn't add up.") if category_total != settlement_type_total
-  end
 
   def category_total
     category_sales.map(&:amount).reject(&:nil?).sum
@@ -91,4 +86,8 @@ class Sale < ActiveRecord::Base
     where("date = ?",date).map(&:total_amount_cs).sum
   end
 
+  private
+  def check_total
+    errors.add(:base, "The total doesn't add up.") if category_total != settlement_type_total
+  end
 end
