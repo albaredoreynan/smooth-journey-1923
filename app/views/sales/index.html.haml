@@ -1,32 +1,32 @@
 - content_for :sidebar do
-  %h3 Filters
-  = form_tag '/sales/search', :method => :get do
-    .input
-      = label_tag 'From'
-      = text_field_tag :start_date, nil, :class => 'datepicker'
-    .input
-      = label_tag 'To'
-      = text_field_tag :end_date, nil, :class => 'datepicker'
-    .input
-      = label_tag :restaurant
-      = collection_select(:restaurant, :name, Restaurant.all, :id, :name, :prompt => true)
-    .input
-      = label_tag :branch
-      = collection_select(:branch, :location, Branch.all, :id, :location, :prompt => true)
-    .actions
-      = submit_tag :Search, :class => 'button'
+  -#%h3 Filters
+  -#= form_tag '/sales/search', :method => :get do
+    -#.input
+      -#= label_tag 'From'
+      -#= text_field_tag :start_date, nil, :class => 'datepicker'
+    -#.input
+      -#= label_tag 'To'
+      -#= text_field_tag :end_date, nil, :class => 'datepicker'
+    -#.input
+      -#= label_tag :restaurant
+      -#= collection_select(:restaurant, :name, Restaurant.all, :id, :name, :prompt => true)
+    -#.input
+      -#= label_tag :branch
+      -#= collection_select(:branch, :location, Branch.all, :id, :location, :prompt => true)
+    -#.actions
+      -#= submit_tag :Search, :class => 'button'
 
 .block
   .secondary-navigation
     %ul.wat-cf
-      %li
-        = link_to 'Sales by Category Type', sales_path
-      %li
-        = link_to 'Sales by Settlement Type', sales_by_settlement_type_path
-      %li
-        = link_to 'Sales by Server', sales_by_server_path
+      %li= link_to 'Sales by Category Type', sales_path
+      %li= link_to 'Sales by Settlement Type', '#'
+      %li= link_to 'Sales by Server', '#'
   .content
-    %h2.title Listing Category Sales
+    .title_action_bar
+      %h2.title Listing Category Sales
+      .new_actions
+        = link_to 'New Sale', new_sale_path, :class => :button
     .inner
       - totalcateg = Hash.new
       %table
@@ -35,12 +35,12 @@
           - @categories.each do |category|
             %th= category.name
             - totalcateg = Hash[category.id => 0]
-          %th VAT
-          %th Void
-          %th Service Charge
-          %th Total Revenue
-          %th Customer Count
-          %th Transaction Count
+          %th.monetary VAT
+          %th.monetary Void
+          %th.monetary Service Charge
+          %th.monetary Total Revenue
+          %th.number Customer Count
+          %th.number Transaction Count
         - totalvat  = 0
         - totalvoid = 0
         - totalsc   = 0
@@ -65,16 +65,13 @@
             - totalcc = totalcc + sale.map(&:customer_count).sum
             %td= sale.map(&:transaction_count).sum
             - totaltc = totaltc + sale.map(&:transaction_count).sum
-        %tr
-          %td
-            %b/
-            %center TOTAL
+        %tr.totals
+          %td Grand Total
           - @categories.each do |category|
             %td.monetary= number_to_currency(totalcateg[category.id], :precision => 2, :unit => peso_sign)
           %td.monetary= number_to_currency(totalvat, :precision => 2, :unit => peso_sign)
           %td.monetary= number_to_currency(totalvoid, :precision => 2, :unit => peso_sign)
           %td.monetary= number_to_currency(totalsc, :precision => 2, :unit => peso_sign)
           %td.monetary= number_to_currency(totalrev, :precision => 2, :unit => peso_sign)
-          %td= totalcc
-          %td= totaltc
-      = link_to 'New Sale', new_sale_path, :class => :button
+          %td.number= totalcc
+          %td.number= totaltc
