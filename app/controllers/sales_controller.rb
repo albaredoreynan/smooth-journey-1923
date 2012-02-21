@@ -3,13 +3,7 @@ class SalesController < ApplicationController
   set_tab :sales
 
   def index
-    @categories = Category.all
-
-    unless params[:start_date].blank? && params[:end_date].blank?
-      @sales = Sale.search_by_date(params[:start_date], params[:end_date]).group_by { |sale| sale.date.to_date }
-    else
-      @sales = Sale.all.group_by{ |sale| sale.date.to_date }
-    end
+    @sales = Sale.accessible_by(current_ability)
   end
 
   def show
@@ -23,17 +17,12 @@ class SalesController < ApplicationController
 
   def new
     @sale = Sale.new
-    @category_names = Category.all.map(&:name).reverse
-    @category_ids = Category.all.map(&:id).reverse
-    @settlement_type_names = SettlementType.all.map(&:name).reverse
-    @settlement_type_ids = SettlementType.all.map(&:id).reverse
-
-    categories = Category.all
+    categories = Category.accessible_by(current_ability)
     categories.each do |c|
       @sale.category_sales.build({:category_id => c.id})
     end
 
-    settlement_types = SettlementType.all
+    settlement_types = SettlementType.accessible_by(current_ability)
     settlement_types.each do |st|
       @sale.settlement_type_sales.build({:settlement_type_id => st.id})
     end

@@ -37,6 +37,10 @@ describe Sale do
     }.should change(Sale, :count).by 1
   end
 
+  context 'Association' do
+    it { should belong_to :branch }
+  end
+
   context 'totals' do
     before do
       @sale = Sale.new(FactoryGirl.attributes_for(:sale))
@@ -80,7 +84,7 @@ describe Sale do
 
     it 'should search sales by date' do
       search_result = Sale.search_by_date(@start_date.strftime('%F'), @end_date.strftime('%F'))
-      search_result.should eq [@sales[0], @sales[1]]
+      search_result.should eq [@sales[1], @sales[0]]
 
       search_result = Sale.search_by_date(@start_date.strftime('%F'), 4.days.ago.strftime('%F'))
       search_result.should eq [@sales[0]]

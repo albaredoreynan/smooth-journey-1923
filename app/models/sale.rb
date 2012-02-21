@@ -21,12 +21,15 @@ class Sale < ActiveRecord::Base
   validates_presence_of :void
   validate :check_total
 
+  default_scope :order => 'date DESC'
+
   scope :start_date, lambda {|date| where('date >= ?', date) unless date.blank?}
   scope :end_date, lambda {|date| where('date <= ?', date) unless date.blank?}
 
   has_many :category_sales
   has_many :settlement_type_sales
   belongs_to :employee
+  belongs_to :branch
 
   accepts_nested_attributes_for :category_sales
   accepts_nested_attributes_for :settlement_type_sales
