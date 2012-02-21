@@ -32,7 +32,6 @@ class Ability
 
       # Category
       can :manage, Category, :restaurant_id => user.branches.first.restaurant
-      
     end
 
     if user.client?
@@ -47,14 +46,15 @@ class Ability
       can :manage, Restaurant, :company_id => user.companies.first.id
       can [:new, :create], Subcategory
       can :manage, Subcategory, :category => { :restaurant => { :company => { :id => user.companies.first.id } } }
+      can :new, SettlementType
+      can :manage, SettlementType, :branch => { :restaurant => { :company => { :id => user.companies.first.id } } }
       can :new, Unit
       can :manage, Unit, :restaurant => { :company => { :id => user.companies.first.id } }
-      can :manage, Supplier, :company_id =>  user.companies.first.id 
+      can :manage, Supplier, :company_id =>  user.companies.first.id
     end
 
     if user.admin?
       can :manage, :all
     end
-
   end
 end
