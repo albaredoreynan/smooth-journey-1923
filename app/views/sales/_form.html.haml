@@ -1,7 +1,7 @@
 - content_for(:head, javascript_include_tag(:sales))
 = simple_form_for(@sale) do |f|
   %fieldset
-    - if can?(:index, Branch)
+    - if can?(:manage, Branch)
       = f.input :branch_id, :collection => Branch.accessible_by(current_ability).map{|branch| [branch.location, branch.id]}
     = f.input :date, :input_html => { :value => Date.today }
     = f.input :employee_id, :collection => Employee.all.map{|employee| [employee.full_name, employee.id]}

@@ -75,6 +75,16 @@ describe SalesController do
     end
   end
 
+  context 'as branch user' do
+    login_branch
+    context 'POST #create' do
+      it 'should set branch id' do
+        post 'create', :sale => FactoryGirl.attributes_for(:sale)
+        Sale.last.branch.should eq @current_branch
+      end
+    end
+  end
+
   #context 'GET #sales_by_settlement_type' do
     #before do
       #@sale = FactoryGirl.create(:sale)

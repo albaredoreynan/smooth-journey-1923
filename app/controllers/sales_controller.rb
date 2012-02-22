@@ -50,13 +50,11 @@ class SalesController < ApplicationController
 
   def create
     @sale = Sale.new(params[:sale])
-    if params[:commit] == "Save"
-      @sale.save_as_draft = 0
-    elsif params[:commit] == "Save as Draft"
-      @sale.save_as_draft = 1
-    end
 
     respond_to do |format|
+      if current_user.branch?
+        @sale.branch = @current_branch
+      end
       if @sale.save
         format.html { redirect_to(@sale, :notice => 'Sale was successfully created.') }
         format.xml  { render :xml => @sale, :status => :created, :location => @sale }
