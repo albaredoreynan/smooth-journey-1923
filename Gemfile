@@ -19,6 +19,7 @@ gem 'kaminari'
 gem 'prawn'
 gem 'prawn-layout'
 gem 'paranoia'
+gem 'orm_adapter'
 
 group :assets do
   gem 'sass-rails', "  ~> 3.2.3"
