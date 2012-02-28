@@ -2,7 +2,9 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    if user.branch?
+    user_role = user.roles.first.name
+    case user_role
+    when 'branch'
       # Branch
       can :read, Branch, :id => user.branches.first.id
       can :update, Branch do |branch|
@@ -32,28 +34,25 @@ class Ability
 
       # Category
       can :manage, Category, :restaurant_id => user.branches.first.restaurant
-    end
 
-    if user.client?
-      can [:read, :edit, :update], Company, :id => user.companies.first.id
+    when 'client'
+      company_id = user.companies.first.id
+      can [:read, :edit, :update], Company, :id => company_id
       can :new,    Branch
-      can :manage, Branch, :restaurant => { :company => { :id => user.companies.first.id } }
+      can :manage, Branch, :restaurant => { :company => { :id => company_id } }
       can :new, Category
-      can :manage, Category, :restaurant => { :company => { :id => user.companies.first.id } }
+      can :manage, Category, :restaurant => { :company => { :id => company_id } }
       can :manage, Endcount
-      can :manage, [ Item, EndcountItem ], :branch => { :restaurant => { :company => { :id => user.companies.first.id } } }
+      can :manage, [ Item, EndcountItem ], :branch => { :restaurant => { :company => { :id => company_id } } }
       can :manage, Purchase
-      can :manage, Restaurant, :company_id => user.companies.first.id
+      can :manage, Restaurant, :company_id => company_id
       can [:new, :create], Subcategory
-      can :manage, Subcategory, :category => { :restaurant => { :company => { :id => user.companies.first.id } } }
-      can :new, SettlementType
-      can :manage, SettlementType, :branch => { :restaurant => { :company => { :id => user.companies.first.id } } }
+      can :manage, Subcategory, :category => { :restaurant => { :company => { :id => company_id } } }
       can :new, Unit
-      can :manage, Unit, :restaurant => { :company => { :id => user.companies.first.id } }
-      can :manage, Supplier, :company_id =>  user.companies.first.id
-    end
+      can :manage, Unit, :restaurant => { :company => { :id => company_id } }
+      can :manage, Supplier, :company_id =>  company_id
 
-    if user.admin?
+    when 'admin'
       can :manage, :all
     end
   end

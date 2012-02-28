@@ -17,6 +17,8 @@ gem 'heroku'
 gem 'hpricot'
 gem 'kaminari'
 gem 'prawn'
+gem 'prawn-layout'
+gem 'paranoia'
 
 group :assets do
   gem 'sass-rails', "  ~> 3.2.3"

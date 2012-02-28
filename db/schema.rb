@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120209053547) do
+ActiveRecord::Schema.define(:version => 20120220072219) do
 
   create_table "branches", :force => true do |t|
     t.integer  "restaurant_id"
@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(:version => 20120209053547) do
     t.text     "address"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "deleted_at"
   end
 
   create_table "categories", :force => true do |t|
@@ -28,6 +29,7 @@ ActiveRecord::Schema.define(:version => 20120209053547) do
     t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "deleted_at"
   end
 
   add_index "categories", ["restaurant_id"], :name => "index_categories_on_restaurant_id"
@@ -38,6 +40,7 @@ ActiveRecord::Schema.define(:version => 20120209053547) do
     t.float    "amount"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "deleted_at"
   end
 
   add_index "category_sales", ["category_id"], :name => "index_csrows_on_category_id"
@@ -58,6 +61,7 @@ ActiveRecord::Schema.define(:version => 20120209053547) do
     t.integer  "save_as_draft"
     t.float    "cs_total_amount"
     t.integer  "category_id"
+    t.datetime "deleted_at"
   end
 
   add_index "categorysales", ["employee_id"], :name => "employee_id"
@@ -69,6 +73,7 @@ ActiveRecord::Schema.define(:version => 20120209053547) do
     t.text     "settings"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "deleted_at"
   end
 
   create_table "conversions", :force => true do |t|
@@ -77,6 +82,7 @@ ActiveRecord::Schema.define(:version => 20120209053547) do
     t.float    "conversion_factor"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "deleted_at"
   end
 
   create_table "currencies", :force => true do |t|
@@ -84,6 +90,15 @@ ActiveRecord::Schema.define(:version => 20120209053547) do
     t.string   "symbol"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "deleted_at"
+  end
+
+  create_table "departments", :force => true do |t|
+    t.string   "department_name"
+    t.integer  "restaurant_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "deleted_at"
   end
 
   create_table "employees", :force => true do |t|
@@ -100,6 +115,16 @@ ActiveRecord::Schema.define(:version => 20120209053547) do
     t.text     "address"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "deleted_at"
+  end
+
+  create_table "endcounts", :force => true do |t|
+    t.date     "begin_date"
+    t.date     "end_date"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "save_as_draft"
+    t.datetime "deleted_at"
   end
 
   create_table "item_counts", :force => true do |t|
@@ -109,6 +134,7 @@ ActiveRecord::Schema.define(:version => 20120209053547) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.date     "entry_date"
+    t.datetime "deleted_at"
   end
 
   add_index "item_counts", ["unit_id"], :name => "index_item_counts_on_unit_id"
@@ -122,11 +148,20 @@ ActiveRecord::Schema.define(:version => 20120209053547) do
     t.integer  "branch_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "deleted_at"
   end
 
   add_index "items", ["branch_id"], :name => "index_items_on_branch_id"
   add_index "items", ["subcategory_id"], :name => "index_items_on_subcategory_id"
   add_index "items", ["unit_id"], :name => "index_items_on_unit_id"
+
+  create_table "jobs", :force => true do |t|
+    t.string   "job_name"
+    t.integer  "department_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "deleted_at"
+  end
 
   create_table "purchase_items", :force => true do |t|
     t.integer  "purchase_id"
@@ -139,6 +174,7 @@ ActiveRecord::Schema.define(:version => 20120209053547) do
     t.string   "particulars"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "deleted_at"
   end
 
   add_index "purchase_items", ["item_id"], :name => "index_purchaserows_on_item_id"
@@ -156,9 +192,26 @@ ActiveRecord::Schema.define(:version => 20120209053547) do
     t.integer  "created_by_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "deleted_at"
   end
 
   add_index "purchases", ["created_by_id"], :name => "index_purchases_on_created_by_id"
+
+  create_table "reporttemplates", :force => true do |t|
+    t.string   "report_name"
+    t.text     "report_description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "deleted_at"
+  end
+
+  create_table "restaurantcategories", :force => true do |t|
+    t.string   "category_listName"
+    t.integer  "restaurant_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "deleted_at"
+  end
 
   create_table "restaurants", :force => true do |t|
     t.string   "name"
@@ -167,6 +220,7 @@ ActiveRecord::Schema.define(:version => 20120209053547) do
     t.integer  "currency_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "deleted_at"
   end
 
   create_table "roles", :force => true do |t|
@@ -176,6 +230,7 @@ ActiveRecord::Schema.define(:version => 20120209053547) do
     t.integer  "branch_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "deleted_at"
   end
 
   add_index "roles", ["branch_id"], :name => "index_roles_on_branch_id"
@@ -208,12 +263,14 @@ ActiveRecord::Schema.define(:version => 20120209053547) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.float    "dinein_pta",        :null => false
+    t.datetime "deleted_at"
   end
 
   create_table "settings", :force => true do |t|
-    t.integer "company_id"
-    t.boolean "enable_lock_module"
-    t.integer "lock_module_in"
+    t.integer  "company_id"
+    t.boolean  "enable_lock_module"
+    t.integer  "lock_module_in"
+    t.datetime "deleted_at"
   end
 
   add_index "settings", ["company_id"], :name => "index_settings_on_company_id"
@@ -241,14 +298,16 @@ ActiveRecord::Schema.define(:version => 20120209053547) do
     t.float    "delivery_pta",     :null => false
     t.integer  "takeout_tc",       :null => false
     t.float    "takeout_pta",      :null => false
+    t.datetime "deleted_at"
   end
 
   create_table "settlement_type_sales", :force => true do |t|
-    t.integer "settlement_type_id"
-    t.float   "amount"
-    t.integer "sale_id"
-    t.date    "created_at",         :null => false
-    t.date    "updated_at",         :null => false
+    t.integer  "settlement_type_id"
+    t.float    "amount"
+    t.integer  "sale_id"
+    t.date     "created_at",         :null => false
+    t.date     "updated_at",         :null => false
+    t.datetime "deleted_at"
   end
 
   add_index "settlement_type_sales", ["sale_id"], :name => "index_ssrows_on_sale_id"
@@ -258,6 +317,7 @@ ActiveRecord::Schema.define(:version => 20120209053547) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "branch_id"
+    t.datetime "deleted_at"
   end
 
   create_table "subcategories", :force => true do |t|
@@ -266,6 +326,7 @@ ActiveRecord::Schema.define(:version => 20120209053547) do
     t.integer  "category_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "deleted_at"
   end
 
   create_table "suppliers", :force => true do |t|
@@ -282,6 +343,7 @@ ActiveRecord::Schema.define(:version => 20120209053547) do
     t.string   "contact_title"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "deleted_at"
   end
 
   create_table "units", :force => true do |t|
@@ -291,6 +353,7 @@ ActiveRecord::Schema.define(:version => 20120209053547) do
     t.string   "name"
     t.string   "unit_type"
     t.integer  "restaurant_id"
+    t.datetime "deleted_at"
   end
 
   add_index "units", ["restaurant_id"], :name => "index_units_on_restaurant_id"
@@ -310,6 +373,7 @@ ActiveRecord::Schema.define(:version => 20120209053547) do
     t.string   "reset_password_sent_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "deleted_at"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

@@ -34,7 +34,7 @@ describe PurchaseItemsController do
         @purchase_item = FactoryGirl.create(:purchase_item)
         @purchase = @purchase_item.purchase
       end
-
+      
       it 'should be successful' do
         delete :destroy, :purchase_id => @purchase.id, :id => @purchase_item.id
         response.should be_successful

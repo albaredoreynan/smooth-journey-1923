@@ -37,7 +37,7 @@ class PurchaseItemsController < ApplicationController
 
   def destroy
     @purchase_item = PurchaseItem.find(params[:id])
-    @purchase_item.destroy
+    @purchase_item.delete
 
     respond_to do |format|
       format.html { head :ok }
