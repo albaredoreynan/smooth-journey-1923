@@ -34,7 +34,6 @@ class Ability
 
       # Category
       can :manage, Category, :restaurant_id => user.branches.first.restaurant
-
     when 'client'
       company_id = user.companies.first.id
       can [:read, :edit, :update], Company, :id => company_id
