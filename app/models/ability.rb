@@ -40,6 +40,7 @@ class Ability
       can [:read, :edit, :update], Company, :id => company_id
       can :new,    Branch
       can :manage, Branch, :restaurant => { :company => { :id => company_id } }
+      can [:new, :create], Category
       can :manage, Category, :restaurant => { :company => { :id => company_id } }
       can :manage, Endcount
       can :manage, [ Item, EndcountItem ], :branch => { :restaurant => { :company => { :id => company_id } } }
