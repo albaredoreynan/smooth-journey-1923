@@ -18,7 +18,17 @@ class UsersController < ApplicationController
     if @user.save
       redirect_to(users_path, :notice => 'User was successfully created.')
     else
-      render :new
+      render :news
+    end
+  end
+  
+  def destroy
+    @user = User.find(params[:id])
+    @user.destroy
+
+    respond_to do |format|
+      format.html { redirect_to(users_url) }
+      format.xml  { head :ok }
     end
   end
 end

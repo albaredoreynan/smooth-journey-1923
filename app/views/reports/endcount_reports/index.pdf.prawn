@@ -1,11 +1,12 @@
-pdf.text 'Endcount Report', :style => :bold
-pdf.text "Date: #{@ending_date.strftime("%-d-%b-%Y")}"
+pdf.text "Item Cost Analysis as of #{@ending_date.strftime("%-d-%b-%Y")}" , :style => :bold
 pdf.move_down 10
 pdf.font_size 7
 
 rows = []
+
 headers = ['Item', 'Unit cost', 'Unit', 'Beginning count', 'Beginning total',
   'Purchases', 'Ending count', 'Ending total', 'COGS']
+
 rows << headers
 
 @endcount
@@ -51,7 +52,7 @@ by_subcategory.each do |subcategory, items|
       number_to_currency(item.ending_total, :unit => peso_sign),
       number_to_currency(item.cogs, :unit => peso_sign)]
   end
-  rows << ['Total', nil, nil,
+  rows << ['Grand Total', nil, nil,
     grand_total_beginning_count,
     number_to_currency(grand_total_beginning_total, :unit => peso_sign),
     number_to_currency(grand_total_purchase_amount, :unit => peso_sign),
@@ -60,8 +61,14 @@ by_subcategory.each do |subcategory, items|
     grand_total_cogs]
 end
 
-pdf.table ( rows ) do
-  header = true
-  columns(4).align = :right
-  columns(6..9).align = :right
+pdf.table rows,
+  :border_style => :grid,
+  :font_size => 8,
+  :position => :center,
+  :row_colors => ["d2e3ed", "FFFFFF"]
+
+pdf.font_size 8
+pdf.bounding_box([pdf.bounds.right - 50,pdf.bounds.bottom], :width => 60, :height => 20) do
+  pagecount = pdf.page_count
+  pdf.text "Page #{pagecount}"
 end

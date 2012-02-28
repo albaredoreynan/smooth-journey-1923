@@ -1,4 +1,6 @@
 class Unit < ActiveRecord::Base
+  acts_as_paranoid
+  
   validates :symbol, :presence => true
 
   belongs_to :restaurant

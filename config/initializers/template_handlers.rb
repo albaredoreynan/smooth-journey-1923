@@ -1,4 +1,6 @@
 require 'prawn'
+require 'prawn/layout'
+require 'prawn/table'
 module Prawn
   module Rails
     class TemplateHandler
