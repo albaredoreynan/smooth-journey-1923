@@ -34,7 +34,6 @@ class Ability
 
       # Category
       can :manage, Category, :restaurant_id => user.branches.first.restaurant
-      
     when 'client'
       company_id = user.companies.first.id
       can [:read, :edit, :update], Company, :id => company_id
@@ -50,11 +49,10 @@ class Ability
       can :manage, Subcategory, :category => { :restaurant => { :company => { :id => company_id } } }
       can :new, Unit
       can :manage, Unit, :restaurant => { :company => { :id => company_id } }
-      can :manage, Supplier, :company_id =>  company_id 
-      
+      can :manage, Supplier, :company_id =>  company_id
+
     when 'admin'
       can :manage, :all
     end
-
   end
 end

@@ -1,11 +1,10 @@
 class SettlementTypesController < ApplicationController
+  load_and_authorize_resource
 
   set_tab :database
 
-  # GET /settlement_types
-  # GET /settlement_types.xml
   def index
-    @settlement_types = SettlementType.page(params[:page])
+    @settlement_types = SettlementType.accessible_by(current_ability).page(params[:page])
 
     respond_to do |format|
       format.html # index.html.erb
@@ -13,8 +12,6 @@ class SettlementTypesController < ApplicationController
     end
   end
 
-  # GET /settlement_types/1
-  # GET /settlement_types/1.xml
   def show
     @settlement_type = SettlementType.find(params[:id])
 
@@ -24,8 +21,6 @@ class SettlementTypesController < ApplicationController
     end
   end
 
-  # GET /settlement_types/new
-  # GET /settlement_types/new.xml
   def new
     @settlement_type = SettlementType.new
 
@@ -35,13 +30,10 @@ class SettlementTypesController < ApplicationController
     end
   end
 
-  # GET /settlement_types/1/edit
   def edit
     @settlement_type = SettlementType.find(params[:id])
   end
 
-  # POST /settlement_types
-  # POST /settlement_types.xml
   def create
     @settlement_type = SettlementType.new(params[:settlement_type])
 
@@ -56,8 +48,6 @@ class SettlementTypesController < ApplicationController
     end
   end
 
-  # PUT /settlement_types/1
-  # PUT /settlement_types/1.xml
   def update
     @settlement_type = SettlementType.find(params[:id])
 
@@ -72,8 +62,6 @@ class SettlementTypesController < ApplicationController
     end
   end
 
-  # DELETE /settlement_types/1
-  # DELETE /settlement_types/1.xml
   def destroy
     @settlement_type = SettlementType.find(params[:id])
     @settlement_type.destroy
