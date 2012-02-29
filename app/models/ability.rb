@@ -12,7 +12,7 @@ class Ability
       can :new, Purchase
       can [:read, :create], Purchase, :branch_id => branch.id
       can :update, Purchase do |purchase|
-        purchase.save_as_draft || purchase.branch == branch
+        purchase.branch == branch
       end
 
       cannot [:edit, :update], Purchase do |purchase|
@@ -73,7 +73,8 @@ class Ability
       can :manage, Conversion
       can :manage, Endcount
       can :manage, [ Item, EndcountItem ], :branch => { :restaurant => { :company => { :id => company_id } } }
-      can :manage, Purchase
+      can :manage, Purchase, :branch => { :restaurant => { :company => { :id => company_id } } }
+      can :manage, PurchaseItem, :purchase => { :branch => { :restaurant => { :company => { :id => company_id } } } }
       can :manage, Restaurant, :company_id => company_id
       can [:new, :create], Subcategory
       can :manage, Subcategory, :category => { :restaurant => { :company => { :id => company_id } } }

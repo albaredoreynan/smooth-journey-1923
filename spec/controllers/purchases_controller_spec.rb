@@ -141,6 +141,33 @@ describe PurchasesController do
     end
   end
 
+  context 'as client' do
+    login_client
+
+    before do
+      restaurant = FactoryGirl.create(:restaurant, :company => @current_company)
+      branch = FactoryGirl.create(:branch, :restaurant => restaurant)
+      @purchase = FactoryGirl.create(:purchase, :branch => branch)
+    end
+
+    context 'GET #index' do
+      it "should only show company's purchases" do
+        FactoryGirl.create(:purchase) # other purchase
+
+        get 'index'
+        assigns[:purchases].should eq [ @purchase ]
+      end
+    end
+
+    context 'DELETE #destroy' do
+      it 'should allow delete a purchase' do
+        lambda {
+          delete 'destroy', :id => @purchase.id
+        }.should change(Purchase, :count)
+      end
+    end
+  end
+
   context 'as branch manager' do
     login_branch
 
@@ -184,14 +211,6 @@ describe PurchasesController do
     end
 
     context 'PUT #update' do
-      it 'should be able to update a purchase' do
-        purchase = FactoryGirl.create(:purchase, :save_as_draft => true)
-        put_params = FactoryGirl.attributes_for(:purchase, :branch => nil, :invoice_number => '333')
-        lambda {
-          put 'update', :id => purchase.to_param, :purchase => put_params
-        }.should change{purchase.reload.invoice_number}.to('333')
-      end
-
       it 'should not change its branch' do
         purchase = FactoryGirl.create(:purchase, :branch => @current_branch)
         branch = FactoryGirl.create(:branch)
@@ -225,6 +244,15 @@ describe PurchasesController do
         lambda {
           put 'update', :id => purchase.to_param, :purchase => put_params
         }.should_not change{purchase.reload.invoice_number}
+      end
+    end
+
+    context 'DELETE #destroy' do
+      it 'should not allow to delete a purchase' do
+        purchase = FactoryGirl.create(:purchase, :branch => @current_branch)
+        lambda {
+          delete 'destroy', :id => purchase.id
+        }.should_not change(Purchase, :count)
       end
     end
   end

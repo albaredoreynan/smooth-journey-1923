@@ -3,6 +3,7 @@ class PurchasesController < ApplicationController
   set_tab :purchases
 
   def index
+    authorize! :index, Purchase
     if params[:start_date] || params[:end_date] || params[:invoice_number] || params[:supplier]
       @purchases = Purchase.accessible_by(current_ability).non_draft.search(params).page(params[:page])
     else
@@ -55,6 +56,7 @@ class PurchasesController < ApplicationController
 
   def edit
     @purchase = Purchase.find(params[:id])
+    authorize! :edit, @purchase
   end
 
   def update
@@ -78,6 +80,7 @@ class PurchasesController < ApplicationController
 
   def destroy
     @purchase = Purchase.find(params[:id])
+    authorize! :delete, @purchase
     @purchase.destroy
 
     respond_to do |format|

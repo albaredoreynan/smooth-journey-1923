@@ -1,9 +1,9 @@
 require 'spec_helper'
 
 describe Reports::PurchaseReportsController do
-  login_admin
-
   context 'as admin' do
+    login_admin
+
     before do
       @item = FactoryGirl.create(:item, :subcategory => FactoryGirl.create(:subcategory, :name => 'SubA'))
       supplier = FactoryGirl.create(:supplier, name: 'Supplier Y')
@@ -44,6 +44,23 @@ describe Reports::PurchaseReportsController do
       target_purchase = FactoryGirl.create(:purchase_item, :item => item, :unit => item.unit)
       get 'index', subcategory: 'SubX'
       assigns[:purchase_items].should eq item.subcategory => [target_purchase]
+    end
+  end
+
+  context 'as client' do
+    login_client
+
+    context 'GET #index' do
+      it "should only show company's purchase report" do
+        restaurant = FactoryGirl.create(:restaurant, :company => @current_company)
+        branch = FactoryGirl.create(:branch, :restaurant => restaurant)
+        purchase = FactoryGirl.create(:purchase, :branch => branch)
+        purchase_item = FactoryGirl.create(:purchase_item, :purchase => purchase)
+        FactoryGirl.create(:purchase_item) # other purchase item
+
+        get 'index'
+        assigns[:purchase_items].should eq purchase_item.item.subcategory => [purchase_item]
+      end
     end
   end
 end
