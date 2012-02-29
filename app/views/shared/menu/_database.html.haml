@@ -1,6 +1,6 @@
 .secondary-navigation
   %ul.wat-cf
-    - if can? :manage, Company
+    - if can? :read, Company
       %li= link_to 'Companies', companies_path
     - if can? :manage, Restaurant
       %li= link_to 'Restaurants', restaurants_path
