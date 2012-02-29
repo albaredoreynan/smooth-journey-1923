@@ -47,6 +47,7 @@ class Ability
       can :manage, Restaurant, :company_id => company_id
       can [:new, :create], Subcategory
       can :manage, Subcategory, :category => { :restaurant => { :company => { :id => company_id } } }
+      can :manage, SettlementType, :branch => { :restaurant => { :company => { :id => company_id } } }
       can :new, Unit
       can :manage, Unit, :restaurant => { :company => { :id => company_id } }
       can :manage, Supplier, :company_id =>  company_id
