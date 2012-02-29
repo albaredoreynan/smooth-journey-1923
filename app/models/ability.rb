@@ -18,7 +18,7 @@ class Ability
       can :new, Purchase
       can [:read, :create], Purchase, :branch_id => branch.id
       can :update, Purchase do |purchase|
-        purchase.save_as_draft || purchase.branch == branch
+        purchase.branch == branch
       end
 
       cannot [:edit, :update], Purchase do |purchase|

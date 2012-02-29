@@ -184,14 +184,6 @@ describe PurchasesController do
     end
 
     context 'PUT #update' do
-      it 'should be able to update a purchase' do
-        purchase = FactoryGirl.create(:purchase, :save_as_draft => true)
-        put_params = FactoryGirl.attributes_for(:purchase, :branch => nil, :invoice_number => '333')
-        lambda {
-          put 'update', :id => purchase.to_param, :purchase => put_params
-        }.should change{purchase.reload.invoice_number}.to('333')
-      end
-
       it 'should not change its branch' do
         purchase = FactoryGirl.create(:purchase, :branch => @current_branch)
         branch = FactoryGirl.create(:branch)
