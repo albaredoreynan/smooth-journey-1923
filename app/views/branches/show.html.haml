@@ -13,6 +13,7 @@
       %p
         %b Contact Number:
         = @branch.contact_number
-      = link_to 'Edit', edit_branch_path(@branch)
-      |
+      - if can? :edit, Branch
+        = link_to 'Edit', edit_branch_path(@branch)
+        |
       \#{link_to 'Back', branches_path}

@@ -4,7 +4,8 @@
     .title_action_bar
       %h2.title Subcategories
       .new_actions
-        = link_to 'New Subcategory', new_subcategory_path, :class => 'button'
+        - if can? :create, Subcategory
+          = link_to 'New Subcategory', new_subcategory_path, :class => 'button'
     .inner
       %table
         %tr
@@ -19,6 +20,8 @@
             %td= subcategory.category.name unless subcategory.category.nil?
             %td
               = link_to 'Show', subcategory
-              = link_to 'Edit', edit_subcategory_path(subcategory)
-              = link_to 'Destroy', subcategory, :confirm => 'Are you sure?', :method => :delete
+              - if can? :edit, subcategory
+                = link_to 'Edit', edit_subcategory_path(subcategory)
+              - if can? :delete, subcategory
+                = link_to 'Destroy', subcategory, :confirm => 'Are you sure?', :method => :delete
     = paginate @subcategories

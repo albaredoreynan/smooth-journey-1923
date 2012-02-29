@@ -4,7 +4,8 @@
     .title_action_bar
       %h2.title Suppliers
       .new_actions
-        = link_to 'New Supplier', new_supplier_path, :class => 'button'
+        - if can? :new, Supplier
+          = link_to 'New Supplier', new_supplier_path, :class => 'button'
     .inner
       %table
         %tr
@@ -24,7 +25,10 @@
             %td= supplier.description
             %td= supplier.contact_number
             %td
+              
               = link_to 'Show', supplier
-              = link_to 'Edit', edit_supplier_path(supplier)
-              = link_to 'Destroy', supplier, :confirm => 'Are you sure?', :method => :delete
+              - if can? :edit, supplier
+                = link_to 'Edit', edit_supplier_path(supplier)
+              - if can? :destroy, supplier
+                = link_to 'Destroy', supplier, :confirm => 'Are you sure?', :method => :delete
     = paginate @suppliers

@@ -4,7 +4,7 @@
     - if can? :manage, Branch
       = f.association :branch, :collection => Branch.accessible_by(current_ability).map{ |branch| [branch.location, branch.id] }
     = f.input :purchase_date, :label => 'Date', :input_html => {:value => Date.today}
-    = f.association :supplier
+    = f.association :supplier, :collection => Supplier.accessible_by(current_ability).map{ |supplier| [supplier.name, supplier.id] }
     = f.input :invoice_number
     = f.association :currency, :collection => Currency.all.map{ |currency| [currency.currency, currency.id] }
 

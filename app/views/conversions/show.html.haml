@@ -10,6 +10,7 @@
       %p
         %b Conversion factor:
         = @conversion.conversion_factor
-      = link_to 'Edit', edit_conversion_path(@conversion)
-      |
+      - if can? :edit, Conversion
+        = link_to 'Edit', edit_conversion_path(@conversion)
+        |
       \#{link_to 'Back', conversions_path}

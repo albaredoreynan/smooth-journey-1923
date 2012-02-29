@@ -8,6 +8,7 @@
       %p
         %b Category:
         = @subcategory.category.name
-      = link_to 'Edit', edit_subcategory_path(@subcategory)
-      |
+      - if can? :edit, Subcategory
+        = link_to 'Edit', edit_subcategory_path(@subcategory)
+        |
       \#{link_to 'Back', subcategories_path}

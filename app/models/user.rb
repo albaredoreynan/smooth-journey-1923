@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
 
   validates :username, :presence => true, :uniqueness => true
 
-  after_save :set_role
+  after_save :set_roles if :new_record?
 
   Role::VALID_ROLES.each do |role_name|
     define_method "#{role_name}?" do
@@ -35,7 +35,7 @@ class User < ActiveRecord::Base
   end
 
   private
-  def set_role
+  def set_roles
     roles.create(:name => @role, :branch_id => @branch_id)
   end
 end

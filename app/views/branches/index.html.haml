@@ -22,7 +22,8 @@
             %td= branch.contact_number
             %td.last
               = link_to 'Show', branch
-              = link_to 'Edit', edit_branch_path(branch)
-              - if can? :destroy, Branch
+              - if can? :edit,  branch
+                = link_to 'Edit', edit_branch_path(branch)
+              - if can? :destroy, branch
                 = link_to 'Destroy', branch, :confirm => 'Are you sure?', :method => :delete
     = paginate @branches

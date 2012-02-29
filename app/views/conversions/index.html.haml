@@ -4,7 +4,8 @@
     .title_action_bar
       %h2.title Conversion
       .new_actions
-        = link_to 'New Conversion', new_conversion_path, :class => :button
+        - if can? :create, Conversion
+          = link_to 'New Conversion', new_conversion_path, :class => :button
     .inner
       %table
         %tr
@@ -19,5 +20,7 @@
             %td= conversion.conversion_factor
             %td
               = link_to 'Show', conversion
-              = link_to 'Edit', edit_conversion_path(conversion)
-              = link_to 'Destroy', conversion, :confirm => 'Are you sure?', :method => :delete
+              - if can? :edit, conversion
+                = link_to 'Edit', edit_conversion_path(conversion)
+              - if can? :destroy, conversion
+                = link_to 'Destroy', conversion, :confirm => 'Are you sure?', :method => :delete

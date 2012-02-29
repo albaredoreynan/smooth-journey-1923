@@ -4,7 +4,8 @@
     .title_action_bar
       %h2.title Categories
       .new_actions
-        = link_to 'New Category', new_category_path, :class => 'button'
+        - if can? :create, Category
+          = link_to 'New Category', new_category_path, :class => 'button'
     .inner
       %table
         %tr
@@ -19,6 +20,8 @@
             %td= category.restaurant.name unless category.restaurant.nil?
             %td
               = link_to 'Show', category
-              = link_to 'Edit', edit_category_path(category)
-              = link_to 'Destroy', category, :confirm => 'Are you sure?', :method => :delete
+              - if can? :edit, category
+                = link_to 'Edit', edit_category_path(category)
+              - if can? :destroy, category
+                = link_to 'Destroy', category, :confirm => 'Are you sure?', :method => :delete
     = paginate @categories

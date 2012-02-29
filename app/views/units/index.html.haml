@@ -12,7 +12,8 @@
     .title_action_bar
       %h2 Units
       .new_actions
-        = link_to 'New Unit', new_unit_path, :class => 'button'
+        - if can? :create, Unit
+          = link_to 'New Unit', new_unit_path, :class => 'button'
     .inner
       %table.table_form
       %table
@@ -28,6 +29,8 @@
             %td= unit.unit_type
             %td
               = link_to 'Show', unit
-              = link_to 'Edit', edit_unit_path(unit)
-              = link_to 'Destroy', unit, :confirm => 'Are you sure?', :method => :delete
+              - if can? :edit, unit  
+                = link_to 'Edit', edit_unit_path(unit)
+              - if can? :destroy, unit
+                = link_to 'Destroy', unit, :confirm => 'Are you sure?', :method => :delete
     = paginate @units

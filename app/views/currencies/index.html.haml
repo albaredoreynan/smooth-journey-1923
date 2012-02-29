@@ -3,6 +3,7 @@
   .content
     .title_action_bar
       %h2.title Currency
+      - if can? :create, Currency
       .new_actions
         = link_to 'New Currency', new_currency_path, :class => :button
     .inner
@@ -10,15 +11,16 @@
         %tr
           %th Currency
           %th Symbol
-          %th
-          %th
-          %th
+          %th Action
 
         - @currencies.each do |currency|
           %tr
             %td= currency.currency
             %td= currency.symbol
-            %td= link_to 'Show', currency
-            %td= link_to 'Edit', edit_currency_path(currency)
-            %td= link_to 'Destroy', currency, :confirm => 'Are you sure?', :method => :delete
+            %td
+              = link_to 'Show', currency
+              - if can? :edit, currency
+                = link_to 'Edit', edit_currency_path(currency)
+              - if can? :destroy, currency
+                = link_to 'Destroy', currency, :confirm => 'Are you sure?', :method => :delete
     = paginate @currencies

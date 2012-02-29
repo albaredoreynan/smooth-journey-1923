@@ -3,6 +3,7 @@
     %h2= "Unit: #{@unit.symbol}"
     .inner
       %p= @unit.name
-      = link_to 'Edit', edit_unit_path(@unit)
-      |
+      - if can? :edit, Unit
+        = link_to 'Edit', edit_unit_path(@unit)
+        |
       \#{link_to 'Back', units_path}

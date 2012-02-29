@@ -2,6 +2,7 @@
   .content
     %h2= "Settlement Type: #{@settlement_type.name}"
     .inner
-      = link_to 'Edit', edit_settlement_type_path(@settlement_type)
-      |
+      - if can? :edit, SettlementType
+        = link_to 'Edit', edit_settlement_type_path(@settlement_type)
+        |
       \#{link_to 'Back', settlement_types_path}
