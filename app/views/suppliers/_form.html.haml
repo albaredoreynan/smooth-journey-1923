@@ -1,5 +1,6 @@
 = simple_form_for @supplier do |f|
-  = f.association :company, :collection => Company.accessible_by(current_ability).map { |c| [c.name, c.id] }
+  - if can? :manage, Company
+    = f.association :company, :collection => Company.accessible_by(current_ability).map { |c| [c.name, c.id] }
   = f.input :name
   = f.input :email
   = f.input :address
