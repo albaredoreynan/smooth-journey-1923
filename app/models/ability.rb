@@ -2,6 +2,7 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
+    user ||= User.new
     role_name = user.roles.first.name
     case role_name
     when 'branch'
@@ -83,7 +84,7 @@ class Ability
       can :new, Unit
       can :manage, Unit, :restaurant => { :company => { :id => company_id } }
       can :new, User
-      can :manage, User, :company_id => user.roles.first.company_id
+      can :manage, User, :roles => { :company => { :id => user.roles.first.company.id } }
 
     when 'admin'
       can :manage, :all

@@ -1,5 +1,8 @@
-%h1 Editing user
-= render 'form'
-= link_to 'Show', @user
-|
-\#{link_to 'Back', users_path}
+.block
+  .content
+    %h2 Editing User
+  .inner
+    = render 'form'
+    = link_to 'Show', @user
+    |
+    \#{link_to 'Back', users_path}

@@ -1,10 +1,10 @@
 class UsersController < ApplicationController
 
   def index
-    if current_user.client?
-      @users = User.where('users.id != ?', current_user.id).filter_by_company(current_company.id)
-    else
+    if current_user.admin?
       @users = User.where('users.id != ?', current_user.id)
+    else
+      @users = User.where('users.id != ?', current_user.id).accessible_by(current_ability)
     end
   end
 
@@ -19,6 +19,19 @@ class UsersController < ApplicationController
     else
       render :new
     end
+  end
+
+  def show
+    @user = User.find(params[:id])
+  end
+
+  def edit
+    @user = User.find(params[:id])
+  end
+
+  def update
+    @user = User.find(params[:id])
+    @user.save
   end
 
   def destroy

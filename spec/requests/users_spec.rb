@@ -6,8 +6,8 @@ describe 'DeviseController' do
     it 'should be able to sign up' do
       visit '/users/sign_up'
 
-      fill_in 'Username', :with => 'client'
-      fill_in 'Email', :with => 'client@example.com'
+      fill_in 'Username', :with => 'testuser'
+      fill_in 'Email', :with => 'testuser@example.com'
       fill_in 'Password', :with => 'password'
       fill_in 'Password confirmation', :with => 'password'
 

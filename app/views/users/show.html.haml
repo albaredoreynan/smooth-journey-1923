@@ -5,14 +5,8 @@
         %b Email:
         = @user.email
       %p
-        %b Password:
-        = @user.password
-      %p
         %b Role:
-        = @user.role_id
-      %p
-        %b Employee:
-        = @user.employee_id
+        = @user.roles.first.name
       - if can? :edit, User
         = link_to 'Edit', edit_user_path(@user)
         |

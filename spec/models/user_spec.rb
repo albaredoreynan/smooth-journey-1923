@@ -52,14 +52,14 @@ describe User do
     role = Role.find_by_user_id(@user.id)
     role.branch.should eq branch
   end
-  
-  it 'should save role if it is a new record' do
+
+  it 'should NOT create new role if already exists' do
     @user = User.create(FactoryGirl.attributes_for(:user).merge(:role => 'branch', :branch_id => 1))
     lambda {
       @user.save
     }.should_not change(Role, :count)
-  end  
-  
+  end
+
   describe '.setting' do
     it 'should return branch setting' do
       branch_user = FactoryGirl.create(:branch_user)

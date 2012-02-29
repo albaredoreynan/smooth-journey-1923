@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
 
   validates :username, :presence => true, :uniqueness => true
 
-  after_save :set_roles if :new_record?
+  after_save :set_roles, :if => Proc.new { |user| user.roles.count == 0 }
 
   Role::VALID_ROLES.each do |role_name|
     define_method "#{role_name}?" do
