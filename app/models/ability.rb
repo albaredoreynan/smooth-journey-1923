@@ -19,7 +19,10 @@ class Ability
       cannot [:create, :edit, :update, :destroy], Subcategory, :category => {:restaurant => { :company => { :id => user.branches.first.id } } }
       
       # Branch
-      can :read, Branch, :id => user.branches.first.id
+      branch = user.branches.first
+      #company = branch.restaurant.company
+      can :read, Branch, :id => branch.id
+
       can :update, Branch do |branch|
         user.branches.first == branch
       end
@@ -27,9 +30,9 @@ class Ability
 
       # Purchase
       can :new, Purchase
-      can [:read, :create], Purchase, :branch_id => user.branches.first.id
+      can [:read, :create], Purchase, :branch_id => branch.id
       can :update, Purchase do |purchase|
-        purchase.save_as_draft || purchase.branch == user.branches.first
+        purchase.save_as_draft || purchase.branch == branch
       end
 
       cannot [:edit, :update], Purchase do |purchase|
@@ -40,13 +43,14 @@ class Ability
 
       # Inventory Item
       can :manage, Endcount
-      can :manage, [ Item, EndcountItem ], :branch_id => user.branches.first.id
+      can :manage, [ Item, EndcountItem ], :branch_id => branch.id
       can :update_count, Item do |item|
         item.entry_date < Date.today - 1.day
       end
 
       # Category
-      can :manage, Category, :restaurant_id => user.branches.first.restaurant
+      can :manage, Category, :restaurant_id => branch.restaurant
+      can :manage, Supplier, :company => { :id => branch.restaurant.company.id }
       
     when 'client'
       company_id = user.companies.first.id
@@ -61,11 +65,10 @@ class Ability
       can :manage, Restaurant, :company_id => company_id
       can [:new, :create], Subcategory
       can :manage, Subcategory, :category => { :restaurant => { :company => { :id => company_id } } }
-      can :manage, SettlementType
+      can :manage, SettlementType, :branch => { :restaurant => { :company => { :id => company_id } } }
+      can :manage, Supplier, :company_id =>  company_id
       can :new, Unit
       can :manage, Unit, :restaurant => { :company => { :id => company_id } }
-      can :manage, Supplier, :company_id =>  company_id 
-      
     when 'admin'
       can :manage, :all
     end
