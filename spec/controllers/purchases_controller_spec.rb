@@ -141,6 +141,22 @@ describe PurchasesController do
     end
   end
 
+  context 'as client' do
+    login_client
+
+    context 'GET #index' do
+      it "should only show company's purchases" do
+        restaurant = FactoryGirl.create(:restaurant, :company => @current_company)
+        branch = FactoryGirl.create(:branch, :restaurant => restaurant)
+        purchase = FactoryGirl.create(:purchase, :branch => branch)
+        FactoryGirl.create(:purchase) # other purchase
+
+        get 'index'
+        assigns[:purchases].should eq [ purchase ]
+      end
+    end
+  end
+
   context 'as branch manager' do
     login_branch
 
