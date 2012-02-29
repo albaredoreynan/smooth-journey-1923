@@ -13,7 +13,7 @@ describe UsersController do
     end
   end
 
-  describe 'as client user' do
+  context 'as client user' do
     login_client
 
     describe 'GET #index' do
@@ -25,35 +25,52 @@ describe UsersController do
         assigns[:users].should eq [ user ]
       end
     end
-    
+
     describe 'GET #new' do
       it 'should have instance of User' do
         get 'new'
         assigns[:user].should be_instance_of User
       end
-      
+
       it 'shoul be a new record' do
         get 'new'
         assigns[:user].should be_new_record
       end
     end
-    
+
     describe 'POST #create' do
       before do
         @branch = FactoryGirl.create(:branch)
         @post_params = { :username => 'test', :password => 'test123', :email => 'test@example.com', :role => 'branch', :branch_id => @branch.id }
       end
-      
+
       it 'should save new user' do
         lambda {
           post 'create', :user => @post_params
         }.should change(User, :count).by(1)
       end
-      
+
       it 'should assign role' do
         lambda {
           post 'create', :user => @post_params
         }.should change(Role, :count).by(1)
+      end
+    end
+  end
+
+  context 'as branch user' do
+    login_branch
+
+    describe 'GET #index' do
+      it 'should show all users'
+    end
+
+    describe 'GET #edit' do
+      it 'should NOT allow edit' do
+        user = FactoryGirl.create(:user)
+        role = FactoryGirl.create(:role, :user => user, :name => 'branch', :branch => @current_branch)
+        get 'edit', :id => user.id
+        response.should_not be_successful # it should redirect somewhere
       end
     end
   end

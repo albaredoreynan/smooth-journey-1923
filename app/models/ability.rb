@@ -5,9 +5,8 @@ class Ability
     role_name = user.roles.first.name
     case role_name
     when 'branch'
-            
       branch = user.branches.first
-      
+
       # Purchase
       can :new, Purchase
       can [:read, :create], Purchase, :branch_id => branch.id
@@ -27,42 +26,42 @@ class Ability
       can :update_count, Item do |item|
         item.entry_date < Date.today - 1.day
       end
-      
+
       # Branch
       can :read, Branch, :id => branch.id
       cannot [:create, :destroy, :edit, :update], Branch, :id => branch.id
-      
+
       # Category
       can :read, Category, :restaurant_id => branch.restaurant
       cannot [:create, :edit, :update, :destroy], Category, :restaurant_id => branch.restaurant
-      
+
       # Conversion
       can :read, Conversion
       cannot [:create, :edit, :update, :destroy], Conversion
-      
+
       # Currency
       can :read, Currency
       cannot [:create, :edit, :update, :destroy], Currency
-      
+
       # Settlement Type
       can :read, SettlementType, :branch_id => branch.id
-      cannot [:create, :edit, :update, :destroy], SettlementType, :branch_id => branch.id 
+      cannot [:create, :edit, :update, :destroy], SettlementType, :branch_id => branch.id
 
       # Subcategory
       can :read, Subcategory, :category => { :restaurant_id => branch.restaurant }
       cannot [:create, :edit, :update, :destroy], Subcategory, :category => { :restaurant_id => branch.restaurant }
-      
+
       # Supplier
       can :read, Supplier, :company => { :id => branch.restaurant.company.id }
       cannot [:create, :edit, :update, :destroy], Supplier, :company => { :id => branch.restaurant.company.id }
-      
+
       # Unit
       can :read, Unit, :restaurant_id => branch.restaurant
       cannot [:create, :edit, :update, :destroy], Unit, :restaurant_id => branch.restaurant
-      
-      can :read, User, :company_id => user.roles.first.company_id
-      cannot [:create, :edit, :update, :destroy], User, :company_id => user.roles.first.company_id
-      
+
+      can :read, User, :roles => { :company => { :id => user.roles.first.company.id } }
+      cannot [:create, :edit, :update, :destroy], User, :roles => { :company => { :id => user.roles.first.company.id } }
+
     when 'client'
       company_id = user.companies.first.id
       can [:read, :edit, :update], Company, :id => company_id
@@ -85,9 +84,9 @@ class Ability
       can :manage, Unit, :restaurant => { :company => { :id => company_id } }
       can :new, User
       can :manage, User, :company_id => user.roles.first.company_id
+
     when 'admin'
       can :manage, :all
     end
-
   end
 end

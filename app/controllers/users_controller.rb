@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  
+
   def index
     if current_user.client?
       @users = User.where('users.id != ?', current_user.id).filter_by_company(current_company.id)
@@ -7,11 +7,11 @@ class UsersController < ApplicationController
       @users = User.where('users.id != ?', current_user.id)
     end
   end
-  
+
   def new
     @user = User.new
   end
-  
+
   def create
     @user = User.new(params[:user])
     if @user.save
@@ -20,9 +20,10 @@ class UsersController < ApplicationController
       render :new
     end
   end
-  
+
   def destroy
     @user = User.find(params[:id])
+    authorize! :destroy, @user
     @user.destroy
 
     respond_to do |format|
@@ -30,5 +31,4 @@ class UsersController < ApplicationController
       format.xml  { head :ok }
     end
   end
- 
 end

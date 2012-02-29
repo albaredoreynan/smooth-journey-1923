@@ -13,4 +13,5 @@
     %li= link_to 'Units', units_path
     %li= link_to 'Conversions', conversions_path
     -#%li= link_to 'Currencies', currencies_path
-    %li= link_to 'Users', users_path
+    - if can? :manage, User
+      %li= link_to 'Users', users_path
