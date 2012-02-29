@@ -3,8 +3,9 @@
   .content
     .title_action_bar
       %h2.title List of Users
-      .new_actions
-        = link_to 'New User', new_user_path, :class => :button
+      - if can? :create, User
+        .new_actions
+          = link_to 'New User', new_user_path, :class => :button
     .inner
       %table
         %tr
@@ -15,5 +16,7 @@
             %td= user.email
             %td.actions.last
               = link_to 'Show', user
-              = link_to 'Edit', edit_user_path(user)
-              = link_to 'Destroy', user, :confirm => 'Are you sure?', :method => :delete
+              - if can? :edit, user
+                = link_to 'Edit', edit_user_path(user)
+              - if can? :destroy, user
+                = link_to 'Destroy', user, :confirm => 'Are you sure?', :method => :delete
