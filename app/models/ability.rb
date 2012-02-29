@@ -49,6 +49,7 @@ class Ability
       can :manage, Endcount
       can :manage, [ Item, EndcountItem ], :branch => { :restaurant => { :company => { :id => company_id } } }
       can :manage, Purchase
+      can :manage, PurchaseItem, :purchase => { :branch => { :restaurant => { :company => { :id => company_id } } } }
       can :manage, Restaurant, :company_id => company_id
       can [:new, :create], Subcategory
       can :manage, Subcategory, :category => { :restaurant => { :company => { :id => company_id } } }

@@ -12,7 +12,10 @@ describe 'PurchaseReport' do
     @to_unit = FactoryGirl.create(:unit, :name => 'to')
     FactoryGirl.create(:conversion, :bigger_unit => @to_unit, :smaller_unit => @base_unit, :conversion_factor => 2)
     @item = FactoryGirl.create(:item, :unit => @base_unit)
-    @purchase_item = FactoryGirl.create(:purchase_item, :item => @item, :quantity => 10, :unit => @to_unit)
+    restaurant = FactoryGirl.create(:restaurant, :company => user.companies.first)
+    branch = FactoryGirl.create(:branch, :restaurant => restaurant)
+    purchase = FactoryGirl.create(:purchase, :branch => branch)
+    @purchase_item = FactoryGirl.create(:purchase_item, :purchase => purchase, :item => @item, :quantity => 10, :unit => @to_unit)
 
     visit '/reports/purchases'
   end
