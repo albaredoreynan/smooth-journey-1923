@@ -3,6 +3,7 @@ class SuppliersController < ApplicationController
   set_tab :database
 
   def index
+    authorize! :index, Supplier
     @suppliers = Supplier.accessible_by(current_ability).page(params[:page])
 
     respond_to do |format|
@@ -13,6 +14,7 @@ class SuppliersController < ApplicationController
 
   def show
     @supplier = Supplier.find(params[:id])
+    authorize! :show, @supplier
 
     respond_to do |format|
       format.html # show.html.erb
@@ -31,10 +33,13 @@ class SuppliersController < ApplicationController
 
   def edit
     @supplier = Supplier.find(params[:id])
+    authorize! :edit, @supplier
   end
 
   def create
     @supplier = Supplier.new(params[:supplier])
+    @supplier.company = @current_company
+    authorize! :create, @supplier
 
     respond_to do |format|
       if @supplier.save
@@ -49,6 +54,7 @@ class SuppliersController < ApplicationController
 
   def update
     @supplier = Supplier.find(params[:id])
+    authorize! :update, @supplier
 
     respond_to do |format|
       if @supplier.update_attributes(params[:supplier])
@@ -63,6 +69,7 @@ class SuppliersController < ApplicationController
 
   def destroy
     @supplier = Supplier.find(params[:id])
+    authorize! :destroy, @supplier
     @supplier.destroy
 
     respond_to do |format|

@@ -30,6 +30,7 @@ module ControllerMacros
       @current_user= FactoryGirl.create(:branch_user)
       sign_in @current_user
       @current_branch = @current_user.branches.first
+      @current_company = @current_branch.restaurant.company
     end
   end
 
