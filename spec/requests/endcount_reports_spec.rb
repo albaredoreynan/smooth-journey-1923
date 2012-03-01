@@ -52,11 +52,9 @@ describe 'EndcountReport' do
     end
 
     context 'previous month' do
-      before do
-        visit '/reports/endcounts?date[month]=1&date[year]=2012'
-      end
-
       it 'should display the correct beginning count' do
+        previous_month = 1.months.ago
+        visit "/reports/endcounts?date[month]=#{previous_month.month}&date[year]=#{previous_month.year}"
         find("tr#endcount_item_#{@item.id} td:eq(4)").should have_content "1.0"
       end
     end
