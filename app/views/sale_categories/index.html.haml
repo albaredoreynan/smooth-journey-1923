@@ -1,0 +1,21 @@
+.block
+  = render 'shared/menu/sale'
+  .content
+    .title_action_bar
+      %h2.title Sale Category
+      - if can? :new, SaleCategory
+        .new_actions
+          = link_to 'New Sale Category', new_sale_category_path, :class => 'button'
+    .inner
+      %table
+        %tr
+          %th Name
+          %th.last Actions
+        - @sale_categories.each do |sale_category|
+          %tr
+            %td= sale_category.name
+            %td.last
+              - if can? :edit, sale_category
+                = link_to 'Edit', edit_sale_category_path(sale_category)
+              - if can? :delete, sale_category
+                = link_to 'Destroy', sale_category, :confirm => 'Are you sure?', :method => :delete

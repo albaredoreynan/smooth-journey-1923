@@ -74,7 +74,6 @@ class Ability
       company_id = user.companies.first.id
       can [:read, :edit, :update], Company, :id => company_id
       can :new,    Branch
-<<<<<<< HEAD
       can :manage, Branch, :restaurant => { :company => { :id => company_id } }
       can [:new, :create], Category
       can :manage, Category, :restaurant => { :company => { :id => company_id } }
@@ -85,32 +84,20 @@ class Ability
       can :manage, Purchase, :branch => { :restaurant => { :company => { :id => company_id } } }
       can :manage, PurchaseItem, :purchase => { :branch => { :restaurant => { :company => { :id => company_id } } } }
       can :manage, Restaurant, :company_id => company_id
-=======
-      can :manage, Branch, :restaurant => { :company => { :id => user.companies.first.id } }
-      can :new, Category, :restaurant => { :company => { :id => user.companies.first.id } }
-      can :manage, Category, :restaurant => { :company => { :id => user.companies.first.id } }
-      can :manage, Endcount
-      can :manage, [ Item, EndcountItem ], :branch => { :restaurant => { :company => { :id => user.companies.first.id } } }
-      can :manage, Purchase
-      can :manage, Restaurant, :company_id => user.companies.first.id
-      can :manage, Sale, :branch => { :restaurant => { :company => { :id => user.companies.first.id } } }
-      can :manage, SettlementType, :branch => { :restaurant => { :company => { :id => user.companies.first.id} } }
->>>>>>> 5168e59... Sales abilities in #index and #new
+      can :manage, Sale, :branch => { :restaurant => { :company => { :id => company_id } } }
+      can :manage, SaleCategory, :company_id => company_id
+      can :manage, SettlementType, :branch => { :restaurant => { :company => { :id => company_id } } }
       can [:new, :create], Subcategory
       can :manage, Subcategory, :category => { :restaurant => { :company => { :id => company_id } } }
       can [:new, :create], SettlementType
       can :manage, SettlementType, :branch => { :restaurant => { :company => { :id => company_id } } }
       can :manage, Supplier, :company_id =>  company_id
-      can :new, Unit
-<<<<<<< HEAD
+      can :new,    Unit
       can :manage, Unit, :restaurant => { :company => { :id => company_id } }
-      can :new, User
-      can :manage, User, :roles => { :company => { :id => user.roles.first.company.id } }
-=======
-      can :manage, Unit, :restaurant => { :company => { :id => user.companies.first.id } }
-      can :manage, Supplier, :company_id =>  user.companies.first.id
+      can :new,    User
+      can :manage, User, :roles => { :company => { :id => company_id } }
+      can :manage, Unit, :restaurant => { :company => { :id => company_id } }
     end
->>>>>>> 5168e59... Sales abilities in #index and #new
 
     when 'admin'
       can :manage, :all

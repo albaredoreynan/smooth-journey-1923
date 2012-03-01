@@ -17,14 +17,10 @@
       -#= submit_tag :Search, :class => 'button'
 
 .block
-  .secondary-navigation
-    %ul.wat-cf
-      %li= link_to 'Sales by Category Type', sales_path
-      %li= link_to 'Sales by Settlement Type', '#'
-      %li= link_to 'Sales by Server', '#'
+  = render :partial => 'shared/menu/sale'
   .content
     .title_action_bar
-      %h2.title Listing Category Sales
+      %h2.title Listing Sales
       .new_actions
         = link_to 'New Sale', new_sale_path, :class => :button
     .inner

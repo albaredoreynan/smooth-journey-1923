@@ -19,7 +19,13 @@ Rrbs::Application.routes.draw do
 
   resources :branches
 
-  match 'sales/categories' => 'sales#index'
+  get 'sales/categories' => 'sale_categories#index', :as => 'sale_categories'
+  post 'sales/categories' => 'sale_categories#create'
+  get 'sales/categories/:id/edit' => 'sale_categories#edit', :as => 'edit_sale_category'
+  put 'sales/category/:id' => 'sale_categories#update', :as => 'sale_category'
+  match 'sales/categories/new' => 'sale_categories#new', :as => 'new_sale_category'
+  delete 'sales/category/:id' => 'sale_categories#destroy', :as => 'sale_category'
+
   resources :sales do
     get 'settlement_types', :on => :collection
   end
