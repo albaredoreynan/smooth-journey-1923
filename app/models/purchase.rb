@@ -10,7 +10,7 @@ class Purchase < ActiveRecord::Base
   validates :purchase_date, :presence => true
   validates :supplier_id, :presence => true
 
-  default_scope order("purchase_date desc")
+  default_scope order("purchase_date desc, created_at desc")
 
   scope :start_date, lambda {|date| where('purchase_date >= ?', date) unless date.blank?}
   scope :end_date, lambda {|date| where('purchase_date <= ?', date) unless date.blank?}
