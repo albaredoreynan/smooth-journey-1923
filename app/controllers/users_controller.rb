@@ -27,11 +27,20 @@ class UsersController < ApplicationController
 
   def edit
     @user = User.find(params[:id])
+    authorize! :edit, @user
   end
 
   def update
     @user = User.find(params[:id])
-    @user.save
+    authorize! :update, @user
+
+    respond_to do |format|
+      if @user.update_attributes(params[:user])
+        format.html { redirect_to users_path, :notice => 'User was successfully saved.' }
+      else
+        format.html { render :action => 'edit' }
+      end
+    end
   end
 
   def destroy

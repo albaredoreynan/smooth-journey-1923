@@ -61,16 +61,33 @@ describe UsersController do
   context 'as branch user' do
     login_branch
 
+    before do
+      @user = FactoryGirl.create(:user)
+      FactoryGirl.create(:role, :user => @user, :name => 'branch', :branch => @current_branch)
+    end
+
     describe 'GET #index' do
       it 'should show all users'
     end
 
     describe 'GET #edit' do
-      it 'should NOT allow edit' do
-        user = FactoryGirl.create(:user)
-        role = FactoryGirl.create(:role, :user => user, :name => 'branch', :branch => @current_branch)
-        get 'edit', :id => user.id
+      it 'should NOT allow here' do
+        get 'edit', :id => @user.id
         response.should_not be_successful # it should redirect somewhere
+      end
+    end
+
+    describe 'PUT #update' do
+      it 'should NOT allow update other user info' do
+        lambda {
+          put 'update', :id => @user.id, :user => { :username => 'blah' }
+        }.should_not change{@user.reload.username}
+      end
+
+      it 'should be able to update current users info' do
+        lambda {
+          put 'update', :id => @current_user.id, :user => { :email => 'test@xyz.com' }
+        }.should change{@current_user.reload.email}
       end
     end
   end
