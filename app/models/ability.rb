@@ -61,7 +61,11 @@ class Ability
       cannot [:create, :edit, :update, :destroy], Unit, :restaurant_id => branch.restaurant
 
       can :read, User, :roles => { :company => { :id => user.roles.first.company.id } }
-      cannot [:create, :edit, :update, :destroy], User, :roles => { :company => { :id => user.roles.first.company.id } }
+      # only allow edit his own user info
+      can [:edit, :update], User do |usr|
+        user == usr
+      end
+      cannot [:create, :destroy], User, :roles => { :company => { :id => user.roles.first.company.id } }
 
     when 'client'
       company_id = user.companies.first.id
