@@ -17,9 +17,9 @@ class SalesController < ApplicationController
 
   def new
     @sale = Sale.new
-    categories = Category.accessible_by(current_ability)
+    categories = SaleCategory.accessible_by(current_ability)
     categories.each do |c|
-      @sale.category_sales.build({:category_id => c.id})
+      @sale.sale_category_rows.build({:category_id => c.id})
     end
 
     settlement_types = SettlementType.accessible_by(current_ability)

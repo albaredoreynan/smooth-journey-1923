@@ -60,10 +60,10 @@ describe SalesController do
       end
 
       it "should build client's categories" do
-        sale_category = FactoryGirl.create(:sale_category, :company => @current_company)
+        category = FactoryGirl.create(:sale_category, :company => @current_company)
         FactoryGirl.create(:sale_category) # other sale_category that should not be included
         get 'new'
-        assigns[:sale].sale_categories.map(&:sale_category_id).should eq [sale_category.id]
+        assigns[:sale].sale_category_rows.map(&:category_id).should eq [category.id]
       end
 
       it "should build client's settlement types" do
@@ -80,7 +80,7 @@ describe SalesController do
     context 'POST #create' do
       it 'should set branch id' do
         post 'create', :sale => FactoryGirl.attributes_for(:sale)
-        Sale.last.branch.should eq @current_branch
+        Sale.find_by_date(Date.today).branch.should eq @branch
       end
     end
   end
