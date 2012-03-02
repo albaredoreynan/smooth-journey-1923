@@ -60,10 +60,10 @@ describe SalesController do
       end
 
       it "should build client's categories" do
-        category = FactoryGirl.create(:category, :restaurant => @restaurant)
-        FactoryGirl.create(:category) # other category that should not be included
+        sale_category = FactoryGirl.create(:sale_category, :company => @current_company)
+        FactoryGirl.create(:sale_category) # other sale_category that should not be included
         get 'new'
-        assigns[:sale].category_sales.map(&:category_id).should eq [category.id]
+        assigns[:sale].sale_categories.map(&:sale_category_id).should eq [sale_category.id]
       end
 
       it "should build client's settlement types" do

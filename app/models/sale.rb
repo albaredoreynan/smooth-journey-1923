@@ -26,16 +26,19 @@ class Sale < ActiveRecord::Base
   scope :start_date, lambda {|date| where('date >= ?', date) unless date.blank?}
   scope :end_date, lambda {|date| where('date <= ?', date) unless date.blank?}
 
-  has_many :category_sales
   has_many :settlement_type_sales
+  has_many :sale_category_rows
+  has_many :categories,
+    :through => :sale_category_rows,
+    :source => :category,
+    :class_name => 'SaleCategory'
   belongs_to :employee
   belongs_to :branch
 
-  accepts_nested_attributes_for :category_sales
   accepts_nested_attributes_for :settlement_type_sales
 
   def category_total
-    category_sales.map(&:amount).reject(&:nil?).sum
+    categories.map(&:amount).reject(&:nil?).sum
   end
 
   def settlement_type_total
