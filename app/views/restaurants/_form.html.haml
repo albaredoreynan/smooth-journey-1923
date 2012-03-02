@@ -3,6 +3,6 @@
   - if can? [:new, :create], Company
     = f.association :company, :prompt => '(select)'
   = f.input :description
-  = f.input :currency_id
+  -#= f.input :currency_id
   .actions
     =f.button :submit

@@ -11,14 +11,14 @@
           %th Name
           %th Company
           %th Description
-          %th Currency
+          -# %th Currency
           %th.actions Actions
         - @restaurants.each do |restaurant|
           %tr
             %td= restaurant.name
             %td= restaurant.company.name
             %td= restaurant.description
-            %td= restaurant.currency_id
+            -# %td= restaurant.currency_id
             %td
               = link_to 'Show', restaurant
               = link_to 'Edit', edit_restaurant_path(restaurant)
