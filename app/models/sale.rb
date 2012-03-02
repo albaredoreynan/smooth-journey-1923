@@ -19,7 +19,6 @@ class Sale < ActiveRecord::Base
   validates_presence_of :total_revenue_cs
   validates_presence_of :vat
   validates_presence_of :void
-  validate :check_total
 
   default_scope :order => 'date DESC'
 
@@ -38,21 +37,16 @@ class Sale < ActiveRecord::Base
   accepts_nested_attributes_for :settlement_type_sales
 
   def category_total
-    categories.map(&:amount).reject(&:nil?).sum
+    sale_category_rows.map(&:amount).reject(&:nil?).inject(:+).to_f
   end
 
   def settlement_type_total
-    settlement_type_sales.map(&:amount).reject(&:nil?).sum
+    settlement_type_sales.map(&:amount).reject(&:nil?).inject(:+)
   end
 
   def self.search_by_date(starting, ending)
     finder = start_date(starting)
     finder = finder.end_date(ending)
     return finder
-  end
-
-  private
-  def check_total
-    errors.add(:base, "The total doesn't add up.") if category_total != settlement_type_total
   end
 end
