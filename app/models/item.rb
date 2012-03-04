@@ -5,6 +5,7 @@ class Item < ActiveRecord::Base
   belongs_to :unit
   belongs_to :branch
   belongs_to :subcategory
+  belongs_to :restaurant
   has_many :purchase_items
   has_many :item_counts
 

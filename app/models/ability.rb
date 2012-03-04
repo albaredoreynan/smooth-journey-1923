@@ -24,6 +24,7 @@ class Ability
       # Inventory Item
       can :manage, Endcount
       can :manage, [ Item, EndcountItem ], :branch_id => branch.id
+      can :manage, [ Item ], :restaurant_id => branch.restaurant.id
       can :update_count, Item do |item|
         item.entry_date < Date.today - 1.day
       end

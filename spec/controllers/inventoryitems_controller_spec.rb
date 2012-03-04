@@ -50,20 +50,28 @@ describe InventoryitemsController do
 
     context 'GET #index' do
       before do
-        @item = FactoryGirl.create(:item, :name => "Poor Man's Shield", :branch => @current_user.branches.first)
-        FactoryGirl.create(:item, :name => "Soul Ring")
+        @items = [
+          FactoryGirl.create(:item, :restaurant => @current_branch.restaurant),
+          FactoryGirl.create(:item, :restaurant => @current_branch.restaurant)]
+        FactoryGirl.create(:item) # other item
         get 'index'
       end
 
-      it 'should load all items within a branch' do
-        assigns[:items].should eq [@item]
+      it 'should load all items within a restaurant' do
+        assigns[:items].should eq [@items[0], @items[1]]
       end
     end
 
     context 'GET #new' do
       it 'should set a branch' do
+        pending 'for delete'
         get 'new'
         assigns[:item].branch_id.should eq @current_branch.id
+      end
+
+      it 'should set a restaurant' do
+        get 'new'
+        assigns[:item].restaurant_id.should eq @current_branch.restaurant.id
       end
     end
 

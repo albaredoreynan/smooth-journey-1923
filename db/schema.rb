@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120220072219) do
+ActiveRecord::Schema.define(:version => 20120304152328) do
 
   create_table "branches", :force => true do |t|
     t.integer  "restaurant_id"
@@ -149,9 +149,11 @@ ActiveRecord::Schema.define(:version => 20120220072219) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "deleted_at"
+    t.integer  "restaurant_id"
   end
 
   add_index "items", ["branch_id"], :name => "index_items_on_branch_id"
+  add_index "items", ["restaurant_id"], :name => "index_items_on_restaurant_id"
   add_index "items", ["subcategory_id"], :name => "index_items_on_subcategory_id"
   add_index "items", ["unit_id"], :name => "index_items_on_unit_id"
 
@@ -236,6 +238,26 @@ ActiveRecord::Schema.define(:version => 20120220072219) do
   add_index "roles", ["branch_id"], :name => "index_roles_on_branch_id"
   add_index "roles", ["company_id"], :name => "index_roles_on_company_id"
   add_index "roles", ["user_id"], :name => "index_roles_on_user_id"
+
+  create_table "sale_categories", :force => true do |t|
+    t.integer  "company_id"
+    t.string   "name"
+    t.datetime "deleted_at"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "sale_categories", ["company_id"], :name => "index_sale_categories_on_company_id"
+
+  create_table "sale_category_rows", :force => true do |t|
+    t.integer  "category_id"
+    t.integer  "sale_id"
+    t.decimal  "amount"
+    t.datetime "deleted_at"
+  end
+
+  add_index "sale_category_rows", ["category_id"], :name => "index_sale_category_rows_on_sale_category_id"
+  add_index "sale_category_rows", ["sale_id"], :name => "index_sale_category_rows_on_sale_id"
 
   create_table "sales", :force => true do |t|
     t.integer  "employee_id"
