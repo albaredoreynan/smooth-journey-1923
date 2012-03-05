@@ -18,9 +18,12 @@ class Reports::EndcountReportsController < ReportsController
     else
       @ending_date = Date.today
     end
-
+    
+    if params[:branch_id]
+      @branch_id = params[:branch_id]
+    end
+    
     @endcount = Endcount.new(endcount_items, @ending_date)
-
     respond_to do |wants|
       wants.html
       wants.csv do
