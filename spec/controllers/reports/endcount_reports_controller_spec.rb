@@ -1,12 +1,13 @@
 require 'spec_helper'
 
 describe Reports::EndcountReportsController do
-  context 'as admin' do
-    login_admin
+  context 'as client user' do
+    login_client
 
     context 'GET #index' do
       before do
-        @item = FactoryGirl.create(:item)
+        @restaurant = FactoryGirl.create(:restaurant, :company => @current_company)
+        @item = FactoryGirl.create(:item, :restaurant => @restaurant)
         @item_counts = [
           FactoryGirl.create(:item_count, :item => @item, :stock_count =>   5, :entry_date => 5.months.ago.beginning_of_month - 1.day),
           FactoryGirl.create(:item_count, :item => @item, :stock_count => 7.5, :entry_date => 5.months.ago),
@@ -65,16 +66,30 @@ describe Reports::EndcountReportsController do
         end
 
         it 'should get total purchases amount from beginning to ending date' do
+          pending
+          branch = FactoryGirl.create(:branch, :restaurant => @restaurant)
           FactoryGirl.create(:purchase_item,
                             :item => @item, :amount => 1, :quantity => 1, :unit => @item.unit,
-                            :purchase => FactoryGirl.create(:purchase, :purchase_date => @view_month))
+                            :purchase => FactoryGirl.create(:purchase, :branch => branch, :purchase_date => @view_month))
           FactoryGirl.create(:purchase_item,
                             :item => @item, :amount => 1, :quantity => 1, :unit => @item.unit,
-                            :purchase => FactoryGirl.create(:purchase, :purchase_date => @view_month + 1.day))
+                            :purchase => FactoryGirl.create(:purchase, :branch => branch, :purchase_date => @view_month + 1.day))
           get 'index', :date => { :month => @view_month.month, :year => @view_month.year}
           assigns[:endcount].items[0].purchase_amount_period.should eq 2.0
         end
       end
+    end
+  end
+
+  context 'as branch user' do
+    login_branch
+
+    it 'should only show purchases of branch' do
+      item = FactoryGirl.create(:item, :restaurant => @current_branch.restaurant)
+      FactoryGirl.create(:purchase_item, :item => item, :amount => 4, :unit => item.unit,
+                         :purchase => FactoryGirl.create(:purchase, :branch => @current_branch))
+      get 'index'
+      assigns[:endcount].items[0].purchase_amount_period.should eq 4
     end
   end
 end

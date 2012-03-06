@@ -26,6 +26,7 @@ class EndcountItem < Item
   def purchase_amount_period
     return if @beginning_date.nil? and @ending_date.nil?
     purchase_items.joins(:purchase)
+      .where('purchases.branch_id = ?', @branch_id)
       .where('purchases.purchase_date >= ?', @beginning_date)
       .where('purchases.purchase_date <= ?', @ending_date).map(&:net_amount).inject(:+)
   end

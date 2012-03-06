@@ -37,33 +37,28 @@ describe EndcountItem do
   end
 
   context '.purchase_amount_period' do
-    before do
-    end
-
     it 'should return total amount from a given date period' do
-      @items = [
-        EndcountItem.create(FactoryGirl.attributes_for(:item)),
-        EndcountItem.create(FactoryGirl.attributes_for(:item))
-      ]
+      branch = FactoryGirl.create(:branch)
+      @item = EndcountItem.create(FactoryGirl.attributes_for(:item, :restaurant_id => branch.restaurant.id))
+
       # item's unit should not be nil
-      @items.each do |item|
-        item.unit = FactoryGirl.create(:unit)
-        item.save
-      end
-      @purchases = [
-        FactoryGirl.create(:purchase, :purchase_date => 5.days.ago, :purchase_items => [
-                              FactoryGirl.create(:purchase_item, :amount => 5, :item => @items[0], :unit => @items[0].unit),
-                              FactoryGirl.create(:purchase_item, :amount => 6, :item => @items[1], :unit => @items[1].unit)
-                           ]),
-        FactoryGirl.create(:purchase, :purchase_date => Date.today, :purchase_items => [
-                              FactoryGirl.create(:purchase_item, :amount => 7, :item => @items[0], :unit => @items[0].unit),
-                              FactoryGirl.create(:purchase_item, :amount => 8, :item => @items[1], :unit => @items[1].unit)
-                           ])
-      ]
-      @items.map(&:reload)
-      @items[0].beginning_date = 5.days.ago
-      @items[0].ending_date = Date.today
-      @items[0].purchase_amount_period.should eq 12
+      @item.unit = FactoryGirl.create(:unit)
+      @item.save
+
+      FactoryGirl.create(:purchase_item, :amount => 5, :item => @item, :unit => @item.unit,
+                         :purchase => FactoryGirl.create(:purchase, :branch => branch, :purchase_date => 5.days.ago))
+
+      FactoryGirl.create(:purchase_item, :amount => 7, :item => @item, :unit => @item.unit,
+                         :purchase => FactoryGirl.create(:purchase, :branch => branch, :purchase_date => Date.today))
+
+      # other purchase that should not be calculated in purchase_amount_period
+      FactoryGirl.create(:purchase_item, :amount => 10, :item => @item, :unit => @item.unit)
+
+      @item.reload
+      @item.branch_id = branch.id
+      @item.beginning_date = 5.days.ago.to_date
+      @item.ending_date = Date.today
+      @item.purchase_amount_period.should eq 12
     end
   end
 

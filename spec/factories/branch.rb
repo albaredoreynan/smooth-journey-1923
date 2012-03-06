@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :branch do
     association :restaurant
-    location 'Ortigas'
+    sequence(:location) { |n| "Branch#{n}" }
   end
 end
