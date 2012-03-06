@@ -10,11 +10,11 @@
 
   %fieldset
     %legend.box_name= "Sales By Category"
-    = f.fields_for :category_sales do |cs|
+    = f.fields_for :sale_category_rows do |csf|
       .input
-        = cs.hidden_field :category_id, :value => cs.object.category_id
-        = f.label cs.object.category.name
-        = cs.text_field :amount, :class => :category
+        = csf.hidden_field :category_id, :value => csf.object.category_id
+        = f.label csf.object.category.name
+        = csf.text_field :amount, :class => :category
     = f.input :total_amount_cs
     = f.input :total_revenue_cs
     = f.input :vat, :input_html => { :name => :vat }

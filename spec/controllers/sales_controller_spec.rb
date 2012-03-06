@@ -60,10 +60,13 @@ describe SalesController do
       end
 
       it "should build client's categories" do
-        category = FactoryGirl.create(:sale_category, :company => @current_company)
         FactoryGirl.create(:sale_category) # other sale_category that should not be included
+        @categories = [
+          FactoryGirl.create(:sale_category, :company => @current_company),
+          FactoryGirl.create(:sale_category, :company => @current_company)
+        ]
         get 'new'
-        assigns[:sale].sale_category_rows.map(&:category_id).should eq [category.id]
+        assigns[:sale].sale_category_rows.map(&:category_id).should eq [ @categories[1].id, @categories[0].id ]
       end
 
       it "should build client's settlement types" do
@@ -72,11 +75,28 @@ describe SalesController do
         get 'new'
         assigns[:sale].settlement_type_sales.map(&:settlement_type_id).should eq [settlement_type.id]
       end
-    end
-  end
 
-  context 'as branch user' do
-    login_branch
+      it 'should build sale_category_rows' do
+      end
+    end
+
+    context 'GET #edit' do
+      before do
+        @sale = FactoryGirl.create(:sale)
+        get 'edit', :id => @sale.id
+      end
+
+      it 'should assign an existing Sale' do
+        pending
+        assigns[:sale].should == @sale
+      end
+
+      it 'should assign all categories' do
+        pending
+        assigns[:category_names].should == [@category.name]
+      end
+    end
+
     context 'POST #create' do
       it 'should set branch id' do
         post 'create', :sale => FactoryGirl.attributes_for(:sale)
@@ -85,92 +105,9 @@ describe SalesController do
     end
   end
 
-  #context 'GET #sales_by_settlement_type' do
-    #before do
-      #@sale = FactoryGirl.create(:sale)
-    #end
+  context 'as branch user' do
+    login_branch
 
-    #it 'should load all sales by settlement type' do
-      #get 'sales_by_settlement_type'
-      #assigns[:sales].should eq ({Date.today => [@sale]})
-    #end
-
-    #context 'Search' do
-      #before do
-        #@start_date = 5.days.ago
-        #@sale2 = FactoryGirl.create(:sale, :date => @start_date )
-      #end
-
-      #it 'should filter sale by date' do
-        #get 'index', :start_date => @start_date.to_date, :end_date => Date.today.strftime('%F')
-        #assigns[:sales].should eq ({Date.today => [@sale], @start_date.to_date => [@sale2]})
-      #end
-
-      #it 'should filter sale with start_date but without end_date' do
-        #get 'index', :start_date => @start_date.to_date, :end_date => ''
-        #assigns[:sales].should eq ({Date.today => [@sale], @start_date.to_date => [@sale2]})
-      #end
-
-      #it 'should filter sale with end_date but without start_date' do
-        #get 'index', :start_date => '', :end_date => Date.today.strftime('%F')
-        #assigns[:sales].should eq ({Date.today => [@sale], @start_date.to_date => [@sale2]})
-      #end
-
-      #it 'should filter sale without start_date and end_date' do
-        #get 'index', :start_date => '', :end_date => ''
-        #assigns[:sales].should eq ({Date.today => [@sale], @start_date.to_date => [@sale2]})
-      #end
-    #end
-  #end
-  #
-  describe 'GET #new' do
-    before do
-      get 'new'
-    end
-
-
-    context 'Category Sale' do
-      it 'should have blank a category_sales' do
-        pending
-        assigns[:sale].category_sales.should_not be_empty
-        assigns[:sale].category_sales.length.should eq 1
-      end
-
-      it 'should default category_id to Category' do
-        pending
-        assigns[:sale].category_sales.first.category_id.should eq @category.id
-      end
-    end
-
-    context 'Settlement Type Sale' do
-      it 'should have a blank settlement_type_sales' do
-        pending
-        assigns[:sale].settlement_type_sales.should_not be_empty
-        assigns[:sale].settlement_type_sales.length.should eq 1
-      end
-
-      it 'should default settlement_type_id to Settlement' do
-        pending
-        assigns[:sale].settlement_type_sales.first.settlement_type_id.should eq @settlement_type.id
-      end
-    end
-  end
-
-  describe 'GET #edit' do
-    before do
-      @sale = FactoryGirl.create(:sale)
-      get 'edit', :id => @sale.id
-    end
-
-    it 'should assign an existing Sale' do
-      pending
-      assigns[:sale].should == @sale
-    end
-
-    it 'should assign all categories' do
-      pending
-      assigns[:category_names].should == [@category.name]
-    end
   end
 
   describe 'POST #create' do
