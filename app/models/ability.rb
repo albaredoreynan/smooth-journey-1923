@@ -25,7 +25,7 @@ class Ability
       can :manage, Endcount
       can :manage, [EndcountItem, Item], :restaurant_id => branch.restaurant.id
       can :update_count, Item do |item|
-        item.entry_date < Date.today - 1.day
+        item.entry_date < Date.today - 1.day && item.branch == branch
       end
 
       #Item

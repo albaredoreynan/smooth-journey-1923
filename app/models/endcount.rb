@@ -10,8 +10,9 @@ class Endcount
     @items = process_items(items)
   end
 
-  def self.ending_counts_at(items, date=Date.today)
+  def self.ending_counts_at(items, date=Date.today, branch_id=nil)
     items.each do |item|
+      item.branch_id = branch_id
       item.ending_date = date
       item.ending_count || '-'
     end

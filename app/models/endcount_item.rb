@@ -1,5 +1,6 @@
 class EndcountItem < Item
   attr_accessor :beginning_date, :ending_date
+  attr_accessor :branch_id
 
   def beginning_count
     last_count_from_previous_month
@@ -10,7 +11,7 @@ class EndcountItem < Item
   end
 
   def ending_count
-    counted_at(@ending_date).try(:stock_count)
+    counted_at(@ending_date, @branch_id).try(:stock_count)
   end
 
   def ending_total

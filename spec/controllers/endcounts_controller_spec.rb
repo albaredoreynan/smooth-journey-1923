@@ -143,6 +143,12 @@ describe EndcountsController do
       it 'should load items within the restaurant' do
         assigns[:items].should eq [@item]
       end
+
+      it 'should load item count for this branch' do
+        item_count = FactoryGirl.create(:item_count, :item => @item, :branch => @current_branch, :stock_count => 95)
+        FactoryGirl.create(:item_count, :item => @item) # from other branch
+        assigns[:items].first.ending_count.should eq 95
+      end
     end
 
     context 'PUT #update_item_counts' do
@@ -150,9 +156,10 @@ describe EndcountsController do
         @entry_date = 5.days.ago
         @item = FactoryGirl.create(:item)
         @item_count = FactoryGirl.create(:item_count,
-                                         item: @item,
-                                         entry_date: @entry_date.to_date,
-                                         created_at: @entry_date)
+                                         :item => @item,
+                                         :branch => @current_branch,
+                                         :entry_date => @entry_date.to_date,
+                                         :created_at => @entry_date)
         @put_params = { :items => { @item.id => { :item_count => 500 } } }
       end
 
@@ -176,7 +183,7 @@ describe EndcountsController do
       end
 
       it 'should NOT be able to update item counts when locked' do
-        item_count = @item.counted_at(@entry_date)
+        item_count = @item.counted_at(@entry_date, @current_branch)
         item_count.should eq @item_count
         lambda {
           @put_params.merge!(entry_date: @entry_date.to_date)
