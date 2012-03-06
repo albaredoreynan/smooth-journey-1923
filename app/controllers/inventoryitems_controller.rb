@@ -5,9 +5,9 @@ class InventoryitemsController < ApplicationController
 
   def index
     if params[:search]
-      @items = Item.accessible_by(current_ability).search(params[:search])
+      @items = Item.accessible_by(current_ability).search(params[:search]).page(params[:page])
     else
-      @items = Item.accessible_by(current_ability).all
+      @items = Item.accessible_by(current_ability).page(params[:page])
     end
 
     respond_to do |format|

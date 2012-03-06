@@ -160,7 +160,7 @@ describe PurchasesController do
     end
 
     context 'DELETE #destroy' do
-      it 'should allow delete a purchase' do
+      it 'should allow delete' do
         lambda {
           delete 'destroy', :id => @purchase.id
         }.should change(Purchase, :count)

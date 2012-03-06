@@ -4,7 +4,7 @@ class Purchase < ActiveRecord::Base
   belongs_to :branch
   belongs_to :currency
   belongs_to :created_by, :class_name => 'User'
-  has_many :purchase_items, :dependent => :destroy
+  has_many :purchase_items
 
   validates :branch_id, :presence => true
   validates :purchase_date, :presence => true

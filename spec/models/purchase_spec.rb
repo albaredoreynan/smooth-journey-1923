@@ -93,4 +93,15 @@ describe Purchase do
       results.should eq [@purchase1, @purchase2]
     end
   end
+
+  context '.destroy' do
+    it 'should be destroyed' do
+      purchase = FactoryGirl.create(:purchase, :purchase_items => [
+        FactoryGirl.create(:purchase_item)
+      ])
+      lambda {
+        purchase.destroy
+      }.should change(Purchase, :count).by(-1)
+    end
+  end
 end
