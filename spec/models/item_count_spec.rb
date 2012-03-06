@@ -5,7 +5,11 @@ describe ItemCount do
     @unit = FactoryGirl.create(:unit, symbol: 'lbs')
     @item = FactoryGirl.create(:item, unit: @unit)
   end
-  it { should belong_to :item }
+
+  context 'Association' do
+    it { should belong_to :item }
+    it { should belong_to :branch }
+  end
 
   it 'should instantiate a quantity object' do
     item_count = FactoryGirl.create(:item_count)

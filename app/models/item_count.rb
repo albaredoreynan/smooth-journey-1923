@@ -4,6 +4,7 @@ class ItemCount < ActiveRecord::Base
   belongs_to :endcount
   belongs_to :item
   belongs_to :unit
+  belongs_to :branch
 
   before_save :set_item_unit
 

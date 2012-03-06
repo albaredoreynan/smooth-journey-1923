@@ -47,14 +47,16 @@ class Item < ActiveRecord::Base
     self.update_count(count)
   end
 
-  def update_count(count, date=Date.today)
+  def update_count(count, date=Date.today, branch=nil)
     unless new_record?
       today_count = item_counts.find_or_initialize_by_entry_date(date)
-      today_count.update_attribute(:stock_count, count)
+      today_count.stock_count = count
+      today_count.branch = branch
+      today_count.save
     end
   end
 
-  def counted_at(date)
+  def counted_at(date, branch=nil)
     item_counts.where('entry_date = ?', date.to_date).order('created_at DESC').try(:first) || ItemCount.new
   end
 

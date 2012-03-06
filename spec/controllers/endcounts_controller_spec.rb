@@ -147,6 +147,11 @@ describe EndcountsController do
         @put_params = { :items => { @item.id => { :item_count => 500 } } }
       end
 
+      it 'should set current branch' do
+        put 'update_item_counts', @put_params
+        item_counts = @item.item_counts.first.branch.should eq @current_branch
+      end
+
       it' should be able to update count today' do
         lambda {
           put 'update_item_counts', @put_params

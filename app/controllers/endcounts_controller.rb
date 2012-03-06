@@ -113,6 +113,7 @@ class EndcountsController < ApplicationController
       item = Item.find(key)
       unless current_user.admin?
         item_count = item.counted_at(entry_date)
+        item_count.branch = @current_branch if current_user.branch?
         item_count.settings = current_user.settings
         if item_count.locked?
           errors << item.name

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120304152328) do
+ActiveRecord::Schema.define(:version => 20120306025242) do
 
   create_table "branches", :force => true do |t|
     t.integer  "restaurant_id"
@@ -135,6 +135,7 @@ ActiveRecord::Schema.define(:version => 20120304152328) do
     t.datetime "updated_at"
     t.date     "entry_date"
     t.datetime "deleted_at"
+    t.integer  "branch_id"
   end
 
   add_index "item_counts", ["unit_id"], :name => "index_item_counts_on_unit_id"

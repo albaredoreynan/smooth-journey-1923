@@ -75,6 +75,28 @@ describe Item do
     end
   end
 
+  context '.update_count' do
+    before do
+      @item = FactoryGirl.create(:item)
+    end
+
+    it 'should update count' do
+      @item.update_count(456)
+      @item.item_count.should eq 456
+    end
+
+    it 'should update count given a specified date' do
+      @item.update_count(234, 5.days.ago)
+      @item.counted_at(5.days.ago).try(:stock_count).should eq 234
+    end
+
+    it 'should update branch' do
+      branch = FactoryGirl.create(:branch)
+      @item.update_count(123, nil, branch)
+      @item.item_counts.first.branch.should eq branch
+    end
+  end
+
   context 'Count' do
     before do
       @item = FactoryGirl.create(:item)
@@ -103,16 +125,6 @@ describe Item do
       lambda {
         @item.item_count = 500
       }.should_not change{@item.item_counts.count}
-    end
-
-    it 'should update count' do
-      @item.update_count(456)
-      @item.item_count.should eq 456
-    end
-
-    it 'should update count given a specified date' do
-      @item.update_count(234, 5.days.ago)
-      @item.counted_at(5.days.ago).try(:stock_count).should eq 234
     end
 
     it 'should return the latest entry when there are two counts within the day' do
