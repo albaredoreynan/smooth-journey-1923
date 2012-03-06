@@ -23,10 +23,14 @@ class Ability
 
       # Inventory Item
       can :manage, Endcount
-      can :manage, [ Item, EndcountItem ], :branch_id => branch.id
+      can :manage, EndcountItem, :branch_id => branch.id
       can :update_count, Item do |item|
         item.entry_date < Date.today - 1.day
       end
+      
+      #Item
+      can :read, Item, :branch_id => branch.id
+      cannot [:create, :destroy, :edit, :update], Item, :branch_id => branch.id 
 
       # Branch
       can :read, Branch, :id => branch.id
