@@ -19,7 +19,7 @@ describe Reports::PurchaseReportsController do
       FactoryGirl.create(:purchase_item, :item => @item, :unit => @item.unit, :amount => 2, :quantity => 1,
                           purchase: FactoryGirl.create(:purchase, purchase_date: 1.month.ago.to_date))
       get 'index'
-      assigns[:purchase_items].should eq @item.subcategory => [@purchase_items[0], @purchase_items[1]]
+      assigns[:purchase_items].should eq @item.subcategory => [@purchase_items[1], @purchase_items[0]]
     end
 
     it 'should not match' do

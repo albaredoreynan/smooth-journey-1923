@@ -23,15 +23,13 @@ class Ability
 
       # Inventory Item
       can :manage, Endcount
-      can :manage, EndcountItem, :branch_id => branch.id
-      can :manage, Item, :restaurant_id => branch.restaurant.id
+      can :manage, [EndcountItem, Item], :restaurant_id => branch.restaurant.id
       can :update_count, Item do |item|
         item.entry_date < Date.today - 1.day
       end
 
       #Item
-      can :read, Item, :branch_id => branch.id
-      cannot [:create, :destroy, :edit, :update], Item, :branch_id => branch.id
+      cannot [:create, :destroy, :edit, :update], Item
 
       # Branch
       can :read, Branch, :id => branch.id
@@ -81,7 +79,7 @@ class Ability
       can :manage, Category, :restaurant => { :company => { :id => company_id } }
       can :manage, Conversion
       can :manage, Endcount
-      can :manage, [ EndcountItem ], :branch => { :restaurant => { :company => { :id => company_id } } }
+      can :manage, [ EndcountItem ], :restaurant => { :company => { :id => company_id } }
       can :manage, [ Item ], :restaurant => { :company => { :id => company_id } }
       can :manage, Purchase, :branch => { :restaurant => { :company => { :id => company_id } } }
       can :manage, PurchaseItem, :purchase => { :branch => { :restaurant => { :company => { :id => company_id } } } }

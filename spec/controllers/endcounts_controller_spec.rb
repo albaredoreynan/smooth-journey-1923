@@ -90,7 +90,7 @@ describe EndcountsController do
       @branch = FactoryGirl.create(:branch, :restaurant => restaurant)
       category = FactoryGirl.create(:category, :restaurant => restaurant)
       subcategory = FactoryGirl.create(:subcategory, :category => category)
-      @endcount_item = EndcountItem.create(FactoryGirl.attributes_for(:item, :branch => @branch))
+      @endcount_item = EndcountItem.create(FactoryGirl.attributes_for(:item, :restaurant => restaurant))
       FactoryGirl.create(:item_count, :item => @endcount_item, :entry_date => Date.today)
     end
 
@@ -105,33 +105,42 @@ describe EndcountsController do
       assigns[:items].should eq [ @endcount_item ]
     end
 
-    it 'should be able to update item_count' do
-      @item = FactoryGirl.create(:item, item_counts: [FactoryGirl.create(:item_count, :entry_date => Date.today, :stock_count => 0)])
-      @put_params = { :entry_date => Date.today.strftime('%F'), :items => { @item.id => { :item_count => 500 } } }
+    context 'PUT #update_item_counts' do
+      before do
+        @item = FactoryGirl.create(:item, item_counts: [FactoryGirl.create(:item_count, :entry_date => Date.today, :stock_count => 0)])
+        @put_params = { :entry_date => Date.today.strftime('%F'), :items => { @item.id => { :item_count => 500 } } }
+      end
 
-      lambda {
-        put 'update_item_counts', @put_params
-      }.should change {@item.reload.item_count}.from(0).to(500.00)
+      it 'should be able to update item_count' do
+        lambda {
+          put 'update_item_counts', @put_params
+        }.should change {@item.reload.item_count}.from(0).to(500.00)
+      end
+
+      it 'should set a branch' do
+        restaurant = FactoryGirl.create(:restaurant, :company => @current_company)
+        branch = FactoryGirl.create(:branch, :restaurant => restaurant)
+        put 'update_item_counts', @put_params.merge!({:branch_id => branch.id})
+      end
     end
+
   end
 
-  context 'as branch manager' do
+  context 'as branch user' do
     login_branch
 
     before do
-      @company = @current_branch.company
-      @company.settings = { :enable_lock_module => true, :lock_module_in => 1440 }
+      @current_company.settings = { :enable_lock_module => true, :lock_module_in => 1440 }
     end
 
     context 'GET #index' do
       before do
-        @other_item = EndcountItem.create(FactoryGirl.attributes_for(:item))
-        @item = EndcountItem.create(FactoryGirl.attributes_for(:item, :branch => @current_user.branches.first))
+        EndcountItem.create(FactoryGirl.attributes_for(:item)) # other company
+        @item = EndcountItem.create(FactoryGirl.attributes_for(:item, :restaurant => @current_branch.restaurant))
+        get 'index'
       end
 
-
-      it 'should load all items' do
-        get 'index'
+      it 'should load items within the restaurant' do
         assigns[:items].should eq [@item]
       end
     end
@@ -149,7 +158,7 @@ describe EndcountsController do
 
       it 'should set current branch' do
         put 'update_item_counts', @put_params
-        item_counts = @item.item_counts.first.branch.should eq @current_branch
+        @item.reload.item_counts.last.branch.should eq @current_branch
       end
 
       it' should be able to update count today' do

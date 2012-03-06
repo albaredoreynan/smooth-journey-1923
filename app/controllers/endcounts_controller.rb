@@ -5,7 +5,8 @@ class EndcountsController < ApplicationController
   def index
     authorize! :index, Endcount
     ending_date = params[:date] ? Date.parse(params[:date]) : Date.today
-    @items = Endcount.ending_counts_at(EndcountItem.accessible_by(current_ability).inventory, ending_date)
+    endcount_item = EndcountItem.accessible_by(current_ability).inventory
+    @items = Endcount.ending_counts_at(endcount_item, ending_date)
   end
 
   def show
@@ -107,20 +108,27 @@ class EndcountsController < ApplicationController
     entry_date = params[:entry_date].nil? ? Date.today : Date.parse(params[:entry_date])
     errors = []
 
+    if current_user.branch?
+      branch = @current_branch
+    elsif current_user.client? && Branch.exists?(params[:branch_id])
+      branch = Branch.find(params[:branch_id])
+    else
+      branch = nil
+    end
+
     params[:items] ||= {}
     params[:items].each do |key, val|
       next if val[:item_count].blank?
       item = Item.find(key)
       unless current_user.admin?
         item_count = item.counted_at(entry_date)
-        item_count.branch = @current_branch if current_user.branch?
         item_count.settings = current_user.settings
         if item_count.locked?
           errors << item.name
           next
         end
       end
-      item.update_count(val[:item_count], entry_date) unless val[:item_count].blank?
+      item.update_count(val[:item_count], entry_date, branch) unless val[:item_count].blank?
     end
 
     error_message = "Unable to update #{errors.join(', ')}"

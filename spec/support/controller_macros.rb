@@ -33,5 +33,4 @@ module ControllerMacros
       @current_company = @current_branch.restaurant.company
     end
   end
-
 end
