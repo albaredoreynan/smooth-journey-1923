@@ -1,7 +1,7 @@
 %nav#user-navigation
   .sign_in
     - if user_signed_in?
-      Signed in as #{current_user.email}. Not you?
+      Signed in as #{link_to current_user.email, edit_user_path(current_user.id)}. Not you?
       \#{link_to "Sign out", destroy_user_session_path}
     - else
       = link_to "Sign up", new_user_registration_path

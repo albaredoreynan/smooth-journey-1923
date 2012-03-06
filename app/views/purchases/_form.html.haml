@@ -6,7 +6,7 @@
     = f.input :purchase_date, :label => 'Date', :input_html => {:value => Date.today}
     = f.association :supplier, :collection => Supplier.accessible_by(current_ability).map{ |supplier| [supplier.name, supplier.id] }
     = f.input :invoice_number
-    = f.association :currency, :collection => Currency.all.map{ |currency| [currency.currency, currency.id] }
+    -# = f.association :currency, :collection => Currency.all.map{ |currency| [currency.currency, currency.id] }
 
   %table#purchase_items
     %thead

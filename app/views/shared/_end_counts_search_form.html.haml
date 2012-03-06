@@ -1,6 +1,10 @@
 = form_tag @search_path, :method => :get do
   - ending_date = params[:date] ? Date.new(params[:date][:year].to_i, params[:date][:month].to_i) : Date.today
   .input_group
+    = label_tag 'Filter by Branch'
+    .input
+      = select_tag :branch_id, options_from_collection_for_select(Branch.accessible_by(current_ability), :id, :location)
+  .input_group
     = label_tag 'View End Counts From'
     .input
       = label_tag 'Month'
