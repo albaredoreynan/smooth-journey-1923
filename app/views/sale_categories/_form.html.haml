@@ -1,6 +1,6 @@
 = simple_form_for @sale_category do |f|
-  - if can? :manage, Company
-    = f.association :company, :collection => Company.all
+  - if can? :manage, Restaurant
+    = f.association :restaurant, :collection => Restaurant.accessible_by(current_ability)
   = f.input :name
   .actions
     = f.button :submit
