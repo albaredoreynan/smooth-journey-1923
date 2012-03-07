@@ -1,7 +1,8 @@
 = simple_form_for @unit do |f|
-  = f.association :restaurant, :collection => Restaurant.accessible_by(current_ability).map { |restaurant| [ restaurant.name, restaurant.id ] }
-  = f.input :symbol
-  = f.input :name
-  = f.input :unit_type, :collection => ["mass","volume","length"]
+  %fieldset
+    = f.association :restaurant, :collection => Restaurant.accessible_by(current_ability).map { |restaurant| [ restaurant.name, restaurant.id ] }
+    = f.input :symbol
+    = f.input :name
+    = f.input :unit_type, :collection => ["mass","volume","length"]
   .actions
     = f.button :submit

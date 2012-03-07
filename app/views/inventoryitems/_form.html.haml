@@ -1,14 +1,13 @@
 - url = @item.new_record? ? inventoryitems_path : inventoryitem_path(@item)
 = simple_form_for @item, :url => url do |f|
-  = f.input :name
-  - if can? :create, Branch
-    -# = f.association :branch, :collection => Branch.accessible_by(current_ability).map { |branch| ["#{branch.restaurant.name} - #{branch.location}", branch.id] }, :prompt => '(select)'
+  %fieldset
+    = f.input :name
     = f.association :restaurant, :collection => Restaurant.accessible_by(current_ability).map { |restaurant| [restaurant.name, restaurant.id] }, :prompt => '(select)'
-  = f.association :unit, :prompt => '(select)', :collection => Unit.accessible_by(current_ability).map { |unit| [unit.name, unit.id] }
-  = f.association :subcategory, :prompt => '(select)', :collection => Subcategory.accessible_by(current_ability).map { |subcategory| [subcategory.name, subcategory.id] }
-  = f.input :item_count
-  = content_tag(:div, class: 'input checkbox') do
-    = f.label :non_inventory, "Non-Inventory?"
-    = f.check_box :non_inventory
+    = f.association :unit, :prompt => '(select)', :collection => Unit.accessible_by(current_ability).map { |unit| [unit.name, unit.id] }
+    = f.association :subcategory, :prompt => '(select)', :collection => Subcategory.accessible_by(current_ability).map { |subcategory| [subcategory.name, subcategory.id] }
+    = f.input :item_count
+    = content_tag(:div, class: 'input checkbox') do
+      = f.label :non_inventory, "Non-Inventory?"
+      = f.check_box :non_inventory
   .actions
     = f.button :submit

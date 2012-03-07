@@ -1,8 +1,9 @@
 = simple_form_for @user, :method => 'post', :url => '/members' do |f|
-  = f.input :username
-  = f.input :password
-  = f.input :email
-  = f.input :role, :collection => ["branch"]
-  = f.input :branch_id, :collection => Branch.accessible_by(current_ability).map{|branch| [branch.location, branch.id]}
+  %fieldset
+    = f.input :username
+    = f.input :password
+    = f.input :email
+    = f.input :role, :collection => ["branch"]
+    = f.input :branch_id, :collection => Branch.accessible_by(current_ability).map{|branch| [branch.location, branch.id]}
   .actions
     = f.button :submit

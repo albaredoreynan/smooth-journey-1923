@@ -3,7 +3,7 @@
   %fieldset
     - if can?(:manage, Branch)
       = f.input :branch_id, :collection => Branch.accessible_by(current_ability).map{|branch| [branch.location, branch.id]}
-    = f.input :date, :input_html => { :value => Date.today }
+    = f.input :sale_date, :label => 'Date', :input_html => { :value => Date.today }
 
   %fieldset
     %legend= 'Sales By Category'
@@ -35,5 +35,5 @@
     = f.input :gc_sales
     = f.input :other_income
 
-    .actions
-      = f.button :submit
+  .actions
+    = f.button :submit

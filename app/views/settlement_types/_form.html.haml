@@ -3,5 +3,5 @@
     - if can?(:index, Branch)
       = f.association :branch, :collection => Branch.accessible_by(current_ability).map{ |branch| [branch.location, branch.id] }
     = f.input :name
-    .actions
-      = f.button :submit
+  .actions
+    = f.button :submit

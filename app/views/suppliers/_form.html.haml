@@ -1,14 +1,15 @@
 = simple_form_for @supplier do |f|
-  - if can? :manage, Company
-    = f.association :company, :collection => Company.accessible_by(current_ability).map { |c| [c.name, c.id] }
-  = f.input :name
-  = f.input :email
-  = f.input :address
-  = f.input :description
-  = f.input :contact_number
-  = f.input :contact_person
-  = f.input :contact_title
-  = f.input :mobile_number
-  = f.input :tin
+  %fieldset
+    - if can? :manage, Company
+      = f.association :company, :collection => Company.accessible_by(current_ability).map { |c| [c.name, c.id] }
+    = f.input :name
+    = f.input :email
+    = f.input :address
+    = f.input :description
+    = f.input :contact_number
+    = f.input :contact_person
+    = f.input :contact_title
+    = f.input :mobile_number
+    = f.input :tin
   .actions
     = f.button :submit
