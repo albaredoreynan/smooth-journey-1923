@@ -85,7 +85,7 @@ class Ability
       can :manage, PurchaseItem, :purchase => { :branch => { :restaurant => { :company => { :id => company_id } } } }
       can :manage, Restaurant, :company_id => company_id
       can :manage, Sale, :branch => { :restaurant => { :company => { :id => company_id } } }
-      can :manage, SaleCategory, :company_id => company_id
+      can :manage, SaleCategory, :restaurant => { :company_id => company_id }
       can :manage, SettlementType, :branch => { :restaurant => { :company => { :id => company_id } } }
       can [:new, :create], Subcategory
       can :manage, Subcategory, :category => { :restaurant => { :company => { :id => company_id } } }

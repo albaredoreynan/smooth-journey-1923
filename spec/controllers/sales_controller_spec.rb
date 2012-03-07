@@ -7,8 +7,8 @@ describe SalesController do
 
     context 'GET #index' do
       before do
-        restaurant = FactoryGirl.create(:restaurant, :company => @current_company)
-        @branch = FactoryGirl.create(:branch, :restaurant => restaurant)
+        @restaurant = FactoryGirl.create(:restaurant, :company => @current_company)
+        @branch = FactoryGirl.create(:branch, :restaurant => @restaurant)
         @sale = FactoryGirl.create(:sale, :branch => @branch)
       end
 
@@ -62,11 +62,11 @@ describe SalesController do
       it "should build client's categories" do
         FactoryGirl.create(:sale_category) # other sale_category that should not be included
         @categories = [
-          FactoryGirl.create(:sale_category, :company => @current_company),
-          FactoryGirl.create(:sale_category, :company => @current_company)
+          FactoryGirl.create(:sale_category, :restaurant => @restaurant),
+          FactoryGirl.create(:sale_category, :restaurant => @restaurant)
         ]
         get 'new'
-        assigns[:sale].sale_category_rows.map(&:category_id).should eq [ @categories[1].id, @categories[0].id ]
+        assigns[:sale].sale_category_rows.map(&:category_id).sort.should eq [ @categories[0].id, @categories[1].id ]
       end
 
       it "should build client's settlement types" do
@@ -87,7 +87,6 @@ describe SalesController do
       end
 
       it 'should assign an existing Sale' do
-        pending
         assigns[:sale].should == @sale
       end
 
@@ -101,93 +100,6 @@ describe SalesController do
       it 'should set branch id' do
         post 'create', :sale => FactoryGirl.attributes_for(:sale)
         Sale.find_by_date(Date.today).branch.should eq @branch
-      end
-    end
-  end
-
-  context 'as branch user' do
-    login_branch
-
-  end
-
-  describe 'POST #create' do
-    context 'when successful' do
-      before do
-        @category_a = FactoryGirl.create(:category)
-        @category_b = FactoryGirl.create(:category, :name => 'Category B')
-
-        @settlement_type_a = FactoryGirl.create(:settlement_type)
-        @settlement_type_b = FactoryGirl.create(:settlement_type, :name => 'Gift cheque')
-
-        @post_param = {
-          "sale"=>{
-            "branch_id"=>"1",
-            "date(1i)"=>"2011",
-            "date(2i)"=>"11",
-            "date(3i)"=>"16",
-            "employee_id"=>"",
-            "customer_count"=>"100",
-            "transaction_count"=>"50",
-            "total_amount_cs"=>"30",
-            "total_revenue_cs"=>"10",
-            "service_charge"=>"10",
-            "void"=>"1",
-            "vat"=>"2.4",
-            "gross_total_ss"=>"20",
-            "net_total_ss"=>"17.6",
-            "dinein_cc"=>"10",
-            "delivery_sales"=>"10",
-            "dinein_tc"=>"10",
-            "delivery_tc"=>"10",
-            "dinein_ppa"=>"10",
-            "delivery_pta"=>"10",
-            "dinein_pta"=>"10",
-            "takeout_tc"=>"10",
-            "takeout_pta"=>"10",
-            "category_sales_attributes"=>{
-              "0"=>{
-                "category_id"=>@category_a.id,
-                "amount"=>"10"},
-              "1"=>{
-                "category_id"=>@category_b.id,
-                "amount"=>"10"},
-            },
-            "settlement_type_sales_attributes"=>{
-              "0"=>{
-                "settlement_type_id"=>@settlement_type_a.id,
-                "amount"=>"10"
-              },
-              "1"=>{
-                "settlement_type_id"=>@settlement_type_b.id,
-                "amount"=>"10"
-              }
-            },
-          },
-          "vat"=>"",
-          "gross_total"=>"",
-          "commit"=>"Save as Draft"
-        }
-      end
-
-      it 'should save a new sale' do
-        pending
-        lambda {
-          post 'create', @post_param
-        }.should change(Sale, :count).by 1
-      end
-
-      it 'should save category sales' do
-        pending
-        lambda {
-          post 'create', @post_param
-        }.should change(CategorySale, :count).by 2
-      end
-
-      it 'should save settlement type sales' do
-        pending
-        lambda {
-          post 'create', @post_param
-        }.should change(SettlementTypeSale, :count).by 2
       end
     end
   end

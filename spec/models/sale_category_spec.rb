@@ -12,6 +12,6 @@ describe SaleCategory do
   end
 
   context 'Association' do
-    it { should belong_to :company }
+    it { should belong_to :restaurant }
   end
 end

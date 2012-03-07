@@ -12,7 +12,6 @@ class SaleCategoriesController < ApplicationController
 
   def create
     @sale_category = SaleCategory.new(params[:sale_category])
-    @sale_category.company = @current_company
 
     if @sale_category.save
       redirect_to sale_categories_path, :notice => 'Sale Category has been saved.'

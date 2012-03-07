@@ -4,9 +4,13 @@ describe SaleCategoriesController do
   context 'as client' do
     login_client
 
+    before do
+      @restaurant = FactoryGirl.create(:restaurant, :company => @current_company)
+    end
+
     context 'GET #index' do
       it 'should load sale categories within the company' do
-        sale_category = FactoryGirl.create(:sale_category, :company_id => @current_company.id)
+        sale_category = FactoryGirl.create(:sale_category, :restaurant => @restaurant)
         FactoryGirl.create(:sale_category) # other sale category
         get 'index'
         assigns[:sale_categories].should eq [ sale_category ]
@@ -22,23 +26,16 @@ describe SaleCategoriesController do
 
     context 'POST #create' do
       it 'should create a sale category' do
-        post_params = { :name => 'blah', :company_id => @current_company.id }
+        post_params = { :name => 'blah', :restaurant_id => @restaurant.id }
         lambda {
           post 'create', :sale_category => post_params
         }.should change(SaleCategory, :count).by(1)
-      end
-
-      it 'shoul set company' do
-        post_params = { :name => 'blah' }
-        post 'create', :sale_category => post_params
-        sale_category = SaleCategory.find_by_name('blah')
-        sale_category.company.should eq @current_company
       end
     end
 
     context 'GET #edit' do
       it 'should load sale category' do
-        sale_category = FactoryGirl.create(:sale_category, :company => @current_company)
+        sale_category = FactoryGirl.create(:sale_category, :restaurant => @restaurant)
         get 'edit', :id => sale_category.id
         assigns[:sale_category].should eq sale_category
       end
@@ -52,7 +49,7 @@ describe SaleCategoriesController do
 
     context 'PUT #update' do
       it 'should be able to update sale category' do
-        sale_category = FactoryGirl.create(:sale_category, :company => @current_company)
+        sale_category = FactoryGirl.create(:sale_category, :restaurant => @restaurant)
         put_params = { :name => 'blah' }
         lambda {
           put 'update', :id => sale_category.id, :sale_category => put_params
@@ -70,7 +67,7 @@ describe SaleCategoriesController do
 
     context 'DELETE #destroy' do
       it 'should be able to destroy sale category' do
-        sale_category = FactoryGirl.create(:sale_category, :company => @current_company)
+        sale_category = FactoryGirl.create(:sale_category, :restaurant => @restaurant)
         lambda {
           delete 'destroy', :id => sale_category.id
         }.should change(SaleCategory, :count)
