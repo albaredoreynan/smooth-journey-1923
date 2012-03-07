@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120307052843) do
+ActiveRecord::Schema.define(:version => 20120307071031) do
 
   create_table "branches", :force => true do |t|
     t.integer  "restaurant_id"
@@ -261,32 +261,21 @@ ActiveRecord::Schema.define(:version => 20120307052843) do
   add_index "sale_category_rows", ["sale_id"], :name => "index_sale_category_rows_on_sale_id"
 
   create_table "sales", :force => true do |t|
-    t.integer  "employee_id"
     t.float    "vat"
-    t.float    "void"
-    t.date     "date"
-    t.float    "revenue_ss"
     t.integer  "customer_count"
     t.integer  "transaction_count"
-    t.float    "gross_total_ss"
-    t.float    "net_total_ss"
-    t.integer  "dinein_cc"
-    t.integer  "dinein_tc"
-    t.float    "dinein_ppa"
     t.float    "delivery_sales"
-    t.integer  "delivery_tc"
-    t.float    "delivery_pta"
-    t.integer  "takeout_tc"
-    t.float    "takeout_pta"
-    t.float    "total_amount_cs"
-    t.float    "total_revenue_cs"
     t.integer  "branch_id"
     t.float    "service_charge"
-    t.integer  "save_as_draft"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.float    "dinein_pta",        :null => false
     t.datetime "deleted_at"
+    t.date     "sale_date"
+    t.decimal  "gc_redeemed"
+    t.decimal  "cash_in_drawer"
+    t.decimal  "gc_sales"
+    t.decimal  "other_income"
+    t.integer  "created_by_id"
   end
 
   create_table "settings", :force => true do |t|

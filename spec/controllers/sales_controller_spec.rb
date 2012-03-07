@@ -21,7 +21,7 @@ describe SalesController do
       context 'Search' do
         before do
           @start_date = 5.days.ago
-          @sale2 = FactoryGirl.create(:sale, :date => @start_date, :branch => @branch )
+          @sale2 = FactoryGirl.create(:sale, :sale_date => @start_date, :branch => @branch )
         end
 
         it 'should filter sale by date' do
@@ -99,7 +99,7 @@ describe SalesController do
     context 'POST #create' do
       it 'should set branch id' do
         post 'create', :sale => FactoryGirl.attributes_for(:sale)
-        Sale.find_by_date(Date.today).branch.should eq @branch
+        Sale.find_by_sale_date(Date.today).branch.should eq @branch
       end
     end
   end

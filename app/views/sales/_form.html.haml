@@ -4,76 +4,36 @@
     - if can?(:manage, Branch)
       = f.input :branch_id, :collection => Branch.accessible_by(current_ability).map{|branch| [branch.location, branch.id]}
     = f.input :date, :input_html => { :value => Date.today }
-    = f.input :employee_id, :collection => Employee.all.map{|employee| [employee.full_name, employee.id]}
-    = f.input :customer_count
-    = f.input :transaction_count
 
   %fieldset
-    %legend.box_name= "Sales By Category"
+    %legend= 'Sales By Category'
     = f.fields_for :sale_category_rows do |csf|
       .input
         = csf.hidden_field :category_id, :value => csf.object.category_id
         = f.label csf.object.category.name
         = csf.text_field :amount, :class => :category
-    = f.input :total_amount_cs
-    = f.input :total_revenue_cs
     = f.input :vat, :input_html => { :name => :vat }
     = f.input :service_charge
-    .input
-      = label_tag :gross_total, "Gross Total"
-      = text_field_tag :gross_total
 
   %fieldset
-    %legend.box_name= "Sales By Settlement"
+    %legend= 'Sales By Settlement'
     = f.fields_for :settlement_type_sales do |sts|
       .input
         = sts.hidden_field :settlement_type_id, :value => sts.object.settlement_type_id
         = f.label sts.object.settlement_type.name
         = sts.text_field :amount, :class => :settlementtype
-    = f.input :void
     = f.input :vat, :input_html => { :name => :vat }
-    = f.input :gross_total_ss, :label => 'Gross Total'
-    = f.input :net_total_ss, :label => 'Net Total'
 
   %fieldset
-    %legend.box_name= "Types Of Transaction"
-    %fieldset
-      %legend DINE IN
-      .input
-        = f.label "Customer Count (CC)"
-        = f.text_field :dinein_cc
-      .input
-        = f.label "Transaction Count (TC)"
-        = f.text_field :dinein_tc
-      .input
-        = f.label "Per Person Average (PPA)"
-        = f.text_field :dinein_ppa
-      .input
-        = f.label "Per Transaction Average (PTA)"
-        = f.text_field :dinein_pta
+    %legend= 'Statistics'
+    = f.input :customer_count
+    = f.input :transaction_count
 
-    %fieldset
-      %legend DELIVERY
-      .input
-        = f.label "Delivery Sales (DS)"
-        = f.text_field :delivery_sales
-      .input
-        = f.label "Transaction Count (TC)"
-        = f.text_field :delivery_tc
-      .input
-        = f.label "Per Transaction Average (PTA)"
-        = f.text_field :delivery_pta
+  %fieldset
+    %legend= 'Cash for Deposit'
+    = f.input :cash_in_drawer
+    = f.input :gc_sales
+    = f.input :other_income
 
-    %fieldset
-      %legend TAKE OUT
-      .input
-        = f.label "Transaction Count (TC)"
-        = f.text_field :takeout_tc
-      .input
-        = f.label "Per Transaction Average (PTA)"
-        = f.text_field :takeout_pta
-      .input
-        = f.label "Service Charge"
-        = f.text_field :service_charge
     .actions
       = f.button :submit

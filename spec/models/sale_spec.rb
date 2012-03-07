@@ -27,8 +27,8 @@ describe Sale do
       @start_date = 6.days.ago
       @end_date = Date.today
       @sales = [
-        FactoryGirl.create(:sale, :date => 5.days.ago),
-        FactoryGirl.create(:sale, :date => @end_date)
+        FactoryGirl.create(:sale, :sale_date => 5.days.ago),
+        FactoryGirl.create(:sale, :sale_date => @end_date)
       ]
     end
 
