@@ -27,15 +27,24 @@
       %table
         %tr
           %th Date
+          %th Branch
+          %th.monetary Net Sales
           %th.monetary VAT
-          %th.monetary Void
-          %th.monetary Service Charge
           %th.monetary Total Revenue
-          %th.number Customer Count
-          %th.number Transaction Count
+          %th.monetary Settlement Type Sales
+          %th.monetary Cash for Deposit
+          %th.actions= 'Actions'
         - @sales.each do |sale|
           %tr
-            %td= sale.date
+            %td= sale.sale_date.strftime("%-d-%b-%Y")
+            %td= sale.branch.location
+            %td.monetary= sale.net_sales
+            %td.monetary= sale.vat
+            %td.monetary= sale.total_revenues
+            %td.monetary= sale.total_settlement_type_sales
+            %td.monetary= sale.cash_for_deposit
+            %td
+              = link_to 'Show', sale_path(sale)
         %tr.totals
           %td Grand Total
           %td.monetary &nbsp;
@@ -44,3 +53,4 @@
           %td.monetary &nbsp;
           %td.number &nbsp;
           %td.number &nbsp;
+          %td.actions &nbsp;

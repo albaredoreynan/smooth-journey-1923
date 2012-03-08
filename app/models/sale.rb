@@ -15,7 +15,6 @@ class Sale < ActiveRecord::Base
     :source => :category,
     :class_name => 'SaleCategory'
   has_many :sale_category_rows
-  belongs_to :employee
   belongs_to :branch
 
   accepts_nested_attributes_for :settlement_type_sales
@@ -39,6 +38,18 @@ class Sale < ActiveRecord::Base
 
   def total_settlement_type_sales
     settlement_type_total + gc_redeemed + delivery_sales
+  end
+
+  def cash_for_deposit
+    cash_in_drawer + gc_sales + other_income
+  end
+
+  def per_person_ave
+    (net_sales / customer_count).round(2) unless customer_count == 0
+  end
+
+  def per_trans_ave
+    (net_sales / transaction_count).round(2) unless transaction_count == 0
   end
 
   def self.search_by_date(starting, ending)

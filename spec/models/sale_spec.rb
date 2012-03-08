@@ -109,5 +109,17 @@ describe Sale do
     it 'should compute total settlement type sales' do
       @sale.total_settlement_type_sales.should eq 135_542.00
     end
+
+    it 'should compute total cash for deposit' do
+      @sale.cash_for_deposit.should eq 103_795.22
+    end
+
+    it 'should compute per person ave' do
+      @sale.per_person_ave.should eq 227.20
+    end
+
+    it 'should compute per trans ave' do
+      @sale.per_trans_ave.should eq 607.10
+    end
   end
 end

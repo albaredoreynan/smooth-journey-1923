@@ -12,7 +12,7 @@
         = csf.hidden_field :category_id, :value => csf.object.category_id
         = f.label csf.object.category.name
         = csf.text_field :amount, :class => :category
-    = f.input :vat, :input_html => { :name => :vat }
+    = f.input :vat
     = f.input :service_charge
 
   %fieldset

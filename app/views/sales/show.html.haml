@@ -1,71 +1,78 @@
 .block
   .content
-    /%h2.title New purchase
     .inner
-      %p#notice= notice
       %p
-        %b Employee:
-        = @sale.employee_id
-      %p
-        %b Vat:
-        = @sale.vat
-      %p
-        %b Void:
-        = @sale.void
+        %b Branch:
+        = @sale.branch.location
       %p
         %b Date:
-        = @sale.date
-      %p
-        %b Revenue ss:
-        = @sale.revenue_ss
-      %p
-        %b Customer count:
-        = @sale.customer_count
-      %p
-        %b Transaction count:
-        = @sale.transaction_count
-      %p
-        %b Gross total ss:
-        = @sale.gross_total_ss
-      %p
-        %b Net total ss:
-        = @sale.net_total_ss
-      %p
-        %b Dinein cc:
-        = @sale.dinein_cc
-      %p
-        %b Dinein tc:
-        = @sale.dinein_tc
-      %p
-        %b Dinein ppa:
-        = @sale.dinein_ppa
-      %p
-        %b Delivery sales:
-        = @sale.delivery_sales
-      %p
-        %b Delivery tc:
-        = @sale.delivery_tc
-      %p
-        %b Delivery pta:
-        = @sale.delivery_pta
-      %p
-        %b Takeout tc:
-        = @sale.takeout_tc
-      %p
-        %b Takeout pta:
-        = @sale.takeout_pta
-      %p
-        %b Total amount cs:
-        = @sale.total_amount_cs
-      %p
-        %b Total revenue cs:
-        = @sale.total_revenue_cs
-      %p
-        %b Service charge:
-        = @sale.service_charge
-      %p
-        %b Save as draft:
-        = @sale.save_as_draft
+        = @sale.sale_date.strftime("%-d-%b-%Y")
+
+      %table
+        %tr
+          %th{:colspan => 2}= 'Sale by Category'
+        %tr
+        - @sale.sale_category_rows.each do |scr|
+          %tr
+            %td= scr.category.name
+            %td.monetary= scr.amount
+        %tr.totals
+          %td= 'Net Sales'
+          %td.monetary= @sale.net_sales
+        %tr
+          %td= 'VAT'
+          %td.monetary= @sale.vat
+        %tr
+          %td= 'Service Charge'
+          %td.monetary= @sale.service_charge
+        %tr.totals
+          %td= 'Total Revenues'
+          %td.monetary= @sale.total_revenues
+        %tr
+          %th{:colspan => 2}= 'Sale by Settlement Type'
+
+        - @sale.settlement_type_sales.each do |sts|
+          %tr
+            %td= sts.settlement_type.name
+            %td.monetary= sts.amount
+        %tr
+          %td= 'GC Redeemed'
+          %td.monetary= @sale.gc_redeemed
+        %tr
+          %td= 'Delivery'
+          %td.monetary= @sale.delivery_sales
+        %tr.totals
+          %td= 'Total'
+          %td.monetary= @sale.total_settlement_type_sales
+        %tr
+          %th{:colspan => 2}= 'Statistics'
+        %tr
+          %td= 'Customer Count'
+          %td.monetary= @sale.customer_count
+        %tr
+          %td= 'Per Person Average'
+          %td.monetary= @sale.per_person_ave
+        %tr
+          %td= 'Transaction Count'
+          %td.monetary= @sale.transaction_count
+        %tr
+          %td= 'Per Trans Average'
+          %td.monetary= @sale.per_trans_ave
+        %tr
+          %th{:colspan => 2}= 'Cash For Deposit'
+        %tr
+          %td= 'Cash in Drawer'
+          %td.monetary= @sale.cash_in_drawer
+        %tr
+          %td= 'GC Sales'
+          %td.monetary= @sale.gc_sales
+        %tr
+          %td= 'Other Income'
+          %td.monetary= @sale.other_income
+        %tr.totals
+          %td= 'Total'
+          %td.monetary= @sale.cash_for_deposit
+
       = link_to 'Edit', edit_sale_path(@sale)
       |
       \#{link_to 'Back', sales_path}

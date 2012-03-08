@@ -7,7 +7,8 @@ class SalesController < ApplicationController
   end
 
   def show
-    @sale = Sale.find(params[:id])
+    @sale = Sale.includes([:sale_category_rows, :settlement_type_sales, :branch])
+      .find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
