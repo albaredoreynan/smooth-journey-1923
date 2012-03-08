@@ -252,4 +252,13 @@ describe PurchaseItem do
       search_results.should eq [@purchase_items[0]]
     end
   end
+
+  context '.destroy' do
+    it 'should destroy' do
+      purchase_item = FactoryGirl.create(:purchase_item)
+      lambda {
+        purchase_item.destroy
+      }.should change(PurchaseItem, :count).by(-1)
+    end
+  end
 end

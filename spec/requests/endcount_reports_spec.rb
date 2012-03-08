@@ -24,9 +24,8 @@ describe 'EndcountReport' do
       FactoryGirl.create(:item_count, :branch => @branch, :item => @item, :stock_count => 2, :entry_date => 1.months.ago.end_of_month.to_date)
       FactoryGirl.create(:item_count, :branch => @branch, :item => @item, :stock_count => 3, :entry_date => Date.today)
 
-      FactoryGirl.create(:purchase, :branch => @branch, :purchase_date => Date.today.beginning_of_month.to_date, :purchase_items => [
-        FactoryGirl.create(:purchase_item, :item => @item, :quantity => 1, :amount => 1, :unit => @item.unit)
-      ])
+      purchase = FactoryGirl.create(:purchase, :branch => @branch, :purchase_date => Date.today.beginning_of_month.to_date)
+      FactoryGirl.create(:purchase_item, :purchase => purchase, :item => @item, :quantity => 1, :amount => 1, :unit => @item.unit)
     end
 
     context 'today' do
@@ -43,7 +42,6 @@ describe 'EndcountReport' do
       end
 
       it 'should display the correct purchase amount' do
-        pending
         find("tr#endcount_item_#{@item.id} td:eq(6)").should have_content "1.00"
       end
 

@@ -33,7 +33,6 @@ describe Sale do
     end
 
     it 'should search sales by date' do
-      pending
       search_result = Sale.search_by_date(@start_date.strftime('%F'), @end_date.strftime('%F'))
       search_result.should eq [@sales[1], @sales[0]]
 

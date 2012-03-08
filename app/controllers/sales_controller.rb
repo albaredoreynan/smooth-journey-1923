@@ -36,11 +36,6 @@ class SalesController < ApplicationController
 
   def edit
     @sale = Sale.find(params[:id])
-
-    @category_names = Category.all.map(&:name).reverse
-    @category_ids = Category.all.map(&:id).reverse
-    @settlement_type_names = SettlementType.all.map(&:name).reverse
-    @settlement_type_ids = SettlementType.all.map(&:id).reverse
   end
 
   def create

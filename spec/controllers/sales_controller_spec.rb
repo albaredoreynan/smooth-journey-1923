@@ -86,11 +86,6 @@ describe SalesController do
       it 'should assign an existing Sale' do
         assigns[:sale].should == @sale
       end
-
-      it 'should assign all categories' do
-        pending
-        assigns[:category_names].should == [@category.name]
-      end
     end
 
     context 'POST #create' do
