@@ -9,7 +9,6 @@
     .inner
       %table
         %tr
-          %th Company
           %th Name
           %th Email
           %th Address
@@ -18,14 +17,13 @@
           %th.actions Actions
         - @suppliers.each do |supplier|
           %tr
-            %td= supplier.company.name unless supplier.company.nil?
             %td= supplier.name
             %td= supplier.email
             %td= supplier.address
             %td= supplier.description
             %td= supplier.contact_number
             %td
-              
+
               = link_to 'Show', supplier
               - if can? :edit, supplier
                 = link_to 'Edit', edit_supplier_path(supplier)

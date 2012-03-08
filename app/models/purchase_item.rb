@@ -18,7 +18,7 @@ class PurchaseItem < ActiveRecord::Base
   validates :vat_type,    :presence => true
   validate :only_allow_unit_with_conversion_to_base_unit
 
-  default_scope joins(:purchase).order('purchase_date DESC')
+  default_scope joins(:purchase).order('purchases.purchase_date DESC')
 
   scope :start_date, lambda {|date| joins(:purchase).where('purchases.purchase_date >= ?', date) unless date.blank?}
   scope :end_date, lambda {|date| joins(:purchase).where('purchases.purchase_date <= ?', date) unless date.blank?}
