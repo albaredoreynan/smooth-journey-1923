@@ -97,7 +97,6 @@ class Ability
       can :new,    User
       can :manage, User, :roles => { :company => { :id => company_id } }
       can :manage, Unit, :restaurant => { :company => { :id => company_id } }
-    end
 
     when 'admin'
       can :manage, :all
