@@ -22,7 +22,8 @@ class Reports::EndcountReportsController < ReportsController
     if current_user.branch?
       branch_id = @current_branch.id
     else
-      branch_id = params[:branch_id]
+      @branch = Branch.accessible_by(current_ability).first
+      branch_id = params[:branch_id] || @branch.id
     end
     @endcount = Endcount.new(endcount_items, @ending_date, nil, branch_id)
     respond_to do |wants|
