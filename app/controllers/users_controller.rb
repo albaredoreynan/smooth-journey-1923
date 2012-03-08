@@ -2,9 +2,9 @@ class UsersController < ApplicationController
 
   def index
     if current_user.admin?
-      @users = User.where('users.id != ?', current_user.id)
+      @users = User.where('users.id != ?', current_user.id).page(params[:page])
     else
-      @users = User.where('users.id != ?', current_user.id).accessible_by(current_ability)
+      @users = User.where('users.id != ?', current_user.id).accessible_by(current_ability).page(params[:page])
     end
   end
 

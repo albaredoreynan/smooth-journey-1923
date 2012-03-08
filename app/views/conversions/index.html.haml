@@ -24,3 +24,4 @@
                 = link_to 'Edit', edit_conversion_path(conversion)
               - if can? :destroy, conversion
                 = link_to 'Destroy', conversion, :confirm => 'Are you sure?', :method => :delete
+      = paginate @conversions

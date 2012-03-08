@@ -29,4 +29,4 @@
                 = link_to 'Edit', edit_supplier_path(supplier)
               - if can? :destroy, supplier
                 = link_to 'Destroy', supplier, :confirm => 'Are you sure?', :method => :delete
-    = paginate @suppliers
+      = paginate @suppliers

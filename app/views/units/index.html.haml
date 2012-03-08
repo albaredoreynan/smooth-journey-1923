@@ -29,8 +29,8 @@
             %td= unit.unit_type
             %td
               = link_to 'Show', unit
-              - if can? :edit, unit  
+              - if can? :edit, unit
                 = link_to 'Edit', edit_unit_path(unit)
               - if can? :destroy, unit
                 = link_to 'Destroy', unit, :confirm => 'Are you sure?', :method => :delete
-    = paginate @units
+      = paginate @units

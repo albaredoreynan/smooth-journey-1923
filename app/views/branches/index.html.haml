@@ -26,4 +26,4 @@
                 = link_to 'Edit', edit_branch_path(branch)
               - if can? :destroy, branch
                 = link_to 'Destroy', branch, :confirm => 'Are you sure?', :method => :delete
-    = paginate @branches
+      = paginate @branches

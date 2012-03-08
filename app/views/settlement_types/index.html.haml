@@ -20,4 +20,4 @@
                 = link_to 'Edit', edit_settlement_type_path(settlement_type)
               - if can? :destroy, settlement_type
                 = link_to 'Destroy', settlement_type, :confirm => 'Are you sure?', :method => :delete
-    = paginate @settlement_types
+      = paginate @settlement_types
