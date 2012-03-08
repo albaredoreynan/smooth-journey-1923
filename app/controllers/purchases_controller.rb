@@ -4,7 +4,7 @@ class PurchasesController < ApplicationController
 
   def index
     authorize! :index, Purchase
-    if params[:start_date] || params[:end_date] || params[:invoice_number] || params[:supplier]
+    if params[:start_date] || params[:end_date] || params[:invoice_number] || params[:supplier] || params[:branch_id]
       @purchases = Purchase.accessible_by(current_ability).non_draft.search(params).page(params[:page])
     else
       @purchases = Purchase.accessible_by(current_ability).non_draft.page(params[:page])
