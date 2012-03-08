@@ -13,7 +13,7 @@ class Reports::PurchaseReportsController < ReportsController
       :item => params[:item],
       :subcategory => params[:subcategory]
     ).group_by do |pi|
-      pi.item.subcategory || Subcategory.new(:name => '(No subcategory)')
+      pi.item.subcategory ||= Subcategory.new(:name => '(No subcategory)')
     end
 
     respond_to do |wants|
