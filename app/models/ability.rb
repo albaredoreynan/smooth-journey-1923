@@ -3,7 +3,7 @@ class Ability
 
   def initialize(user)
     user ||= User.new
-    role_name = user.roles.first.name
+    role_name = user.roles.try(:first).try(:name)
     case role_name
     when 'branch'
       branch = user.branches.first
