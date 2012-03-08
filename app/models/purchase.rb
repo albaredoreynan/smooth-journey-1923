@@ -16,7 +16,6 @@ class Purchase < ActiveRecord::Base
   scope :end_date, lambda {|date| where('purchase_date <= ?', date) unless date.blank?}
   scope :search_by_invoice_number, lambda {|keyword| where(['invoice_number ILIKE ?', "#{keyword}"]) unless keyword.blank?}
   scope :search_by_supplier, lambda {|keyword| joins(:supplier).where(['suppliers.name ILIKE ?', "#{keyword}%"]) unless keyword.blank?}
-  scope :non_draft, where(:save_as_draft => false)
   scope :locked, where('created_at < ?', Time.now - 1.day)
 
   accepts_nested_attributes_for :purchase_items #, :reject_if => lambda { |a| a[:item_id].blank? }
