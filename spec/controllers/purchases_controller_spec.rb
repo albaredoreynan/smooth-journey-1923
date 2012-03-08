@@ -50,13 +50,6 @@ describe PurchasesController do
           assigns[:purchases].should eq [@purchases.last, @purchases.first]
         end
       end
-
-      it "should show all non-draft purchases" do
-        purchase = FactoryGirl.create(:purchase, :save_as_draft => false)
-        draft_purchase = FactoryGirl.create(:purchase, :save_as_draft => true)
-        get 'index'
-        assigns[:purchases].should eq [purchase]
-      end
     end
 
     describe 'GET #new' do

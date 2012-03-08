@@ -5,9 +5,9 @@ class PurchasesController < ApplicationController
   def index
     authorize! :index, Purchase
     if params[:start_date] || params[:end_date] || params[:invoice_number] || params[:supplier] || params[:branch_id]
-      @purchases = Purchase.accessible_by(current_ability).non_draft.search(params).page(params[:page])
+      @purchases = Purchase.accessible_by(current_ability).search(params).page(params[:page])
     else
-      @purchases = Purchase.accessible_by(current_ability).non_draft.page(params[:page])
+      @purchases = Purchase.accessible_by(current_ability).page(params[:page])
     end
 
     respond_to do |format|
@@ -46,7 +46,6 @@ class PurchasesController < ApplicationController
       end
 
       if @purchase.save
-        @purchase.update_attribute(:save_as_draft, false)
         format.html { redirect_to(purchases_path, :notice => 'Purchase was successfully created.') }
       else
         format.html { render :new, :alert => 'Unable to save your purchase. Please try again.' }
