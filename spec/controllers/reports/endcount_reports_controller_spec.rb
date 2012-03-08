@@ -7,13 +7,14 @@ describe Reports::EndcountReportsController do
     context 'GET #index' do
       before do
         @restaurant = FactoryGirl.create(:restaurant, :company => @current_company)
+        @branch = FactoryGirl.create(:branch, :restaurant => @restaurant)
         @item = FactoryGirl.create(:item, :restaurant => @restaurant)
         @item_counts = [
-          FactoryGirl.create(:item_count, :item => @item, :stock_count =>   5, :entry_date => 5.months.ago.beginning_of_month - 1.day),
-          FactoryGirl.create(:item_count, :item => @item, :stock_count => 7.5, :entry_date => 5.months.ago),
-          FactoryGirl.create(:item_count, :item => @item, :stock_count =>  10, :entry_date => 5.months.ago.end_of_month),
-          FactoryGirl.create(:item_count, :item => @item, :stock_count =>  30, :entry_date => Date.today.beginning_of_month - 1.day),
-          FactoryGirl.create(:item_count, :item => @item, :stock_count =>  40, :entry_date => Date.today)
+          FactoryGirl.create(:item_count, :branch => @branch, :item => @item, :stock_count =>   5, :entry_date => 5.months.ago.beginning_of_month - 1.day),
+          FactoryGirl.create(:item_count, :branch => @branch, :item => @item, :stock_count => 7.5, :entry_date => 5.months.ago),
+          FactoryGirl.create(:item_count, :branch => @branch, :item => @item, :stock_count =>  10, :entry_date => 5.months.ago.end_of_month),
+          FactoryGirl.create(:item_count, :branch => @branch, :item => @item, :stock_count =>  30, :entry_date => Date.today.beginning_of_month - 1.day),
+          FactoryGirl.create(:item_count, :branch => @branch, :item => @item, :stock_count =>  40, :entry_date => Date.today)
         ]
       end
 

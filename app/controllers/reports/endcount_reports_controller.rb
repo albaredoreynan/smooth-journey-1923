@@ -7,6 +7,7 @@ class Reports::EndcountReportsController < ReportsController
       includes(:subcategory).
       where(current_ability.attributes_for(:read, Item)).
       inventory
+
     # TODO: please DRY this
     if params[:date]
       query_date = Date.new(params[:date][:year].to_i, params[:date][:month].to_i)
@@ -25,7 +26,9 @@ class Reports::EndcountReportsController < ReportsController
       @branch = Branch.accessible_by(current_ability).first
       branch_id = params[:branch_id] || @branch.id
     end
+
     @endcount = Endcount.new(endcount_items, @ending_date, nil, branch_id)
+
     respond_to do |wants|
       wants.html
       wants.csv do
