@@ -26,7 +26,7 @@ describe 'PurchaseReport' do
 
   context 'render as HTML' do
     before do
-      @cols = { :quantity => 6, :unit => 7, :unit_cost => 8 }
+      @cols = { :quantity => 5, :unit => 6, :unit_cost => 7 }
       def self.item_column_finder(col)
         find("tr#item_#{@item.id} td:eq(#{col})")
       end
