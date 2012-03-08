@@ -42,4 +42,72 @@ describe Sale do
     end
   end
 
+  context 'Calculators' do
+    before do
+      # based on actual data
+      restaurant = FactoryGirl.create(:restaurant)
+      branch = FactoryGirl.create(:branch, :restaurant => restaurant)
+
+      sale_categories = [
+        FactoryGirl.create(:sale_category, :name => 'Food', :restaurant => restaurant),
+        FactoryGirl.create(:sale_category, :name => 'Beverage', :restaurant => restaurant),
+        FactoryGirl.create(:sale_category, :name => 'Beer', :restaurant => restaurant),
+        FactoryGirl.create(:sale_category, :name => 'Liquor', :restaurant => restaurant),
+      ]
+      settlement_types = [
+        FactoryGirl.create(:settlement_type, :name => 'Cash', :branch => branch),
+        FactoryGirl.create(:settlement_type, :name => 'Credit Card', :branch => branch),
+        FactoryGirl.create(:settlement_type, :name => 'Comp 91', :branch => branch),
+        FactoryGirl.create(:settlement_type, :name => 'Comp 92', :branch => branch),
+        FactoryGirl.create(:settlement_type, :name => 'Comp 93', :branch => branch),
+        FactoryGirl.create(:settlement_type, :name => 'Comp 94', :branch => branch),
+        FactoryGirl.create(:settlement_type, :name => 'Comp 95', :branch => branch),
+        FactoryGirl.create(:settlement_type, :name => 'Comp 96', :branch => branch),
+        FactoryGirl.create(:settlement_type, :name => 'Comp 97', :branch => branch),
+      ]
+
+      sale_params = {
+        :branch_id => branch.id, :sale_date => Date.today,
+        :sale_category_rows_attributes => {
+          0 => { :category_id => sale_categories[0].id, :amount => 100_000.00 }, # food
+          1 => { :category_id => sale_categories[1].id, :amount =>  10_000.00 }, # beverage
+          2 => { :category_id => sale_categories[2].id, :amount =>   1_000.00 }, # beer
+          3 => { :category_id => sale_categories[3].id, :amount =>     100.00 }, # liquor
+        },
+        :vat =>                13_332.00,
+        :service_charge =>        11_110,
+        :settlement_type_sales_attributes => {
+          0 => { :settlement_type_id => settlement_types[0].id, :amount => 98_345.00 },
+          1 => { :settlement_type_id => settlement_types[1].id, :amount => 24_654.00 },
+          2 => { :settlement_type_id => settlement_types[2].id, :amount =>    367.00 },
+          3 => { :settlement_type_id => settlement_types[3].id, :amount =>  2_927.00 },
+          4 => { :settlement_type_id => settlement_types[4].id, :amount =>    413.00 },
+          5 => { :settlement_type_id => settlement_types[5].id, :amount =>     13.00 },
+          6 => { :settlement_type_id => settlement_types[6].id, :amount =>       nil },
+          7 => { :settlement_type_id => settlement_types[7].id, :amount =>       nil },
+          8 => { :settlement_type_id => settlement_types[8].id, :amount =>       nil },
+        },
+        :gc_redeemed =>         1_000.00,
+        :delivery_sales =>      7_823.00,
+        :customer_count =>           489,
+        :transaction_count =>        183,
+        :cash_in_drawer =>     98_345.22,
+        :gc_sales =>            5_000.00,
+        :other_income =>          450.00,
+      }
+      @sale = Sale.new sale_params
+    end
+
+    it 'should compute total revenues' do
+      @sale.total_revenues.should eq 135_542.00
+    end
+
+    it 'should compute net sales' do
+      @sale.net_sales.should eq 111_100.00
+    end
+
+    it 'should compute total settlement type sales' do
+      @sale.total_settlement_type_sales.should eq 135_542.00
+    end
+  end
 end

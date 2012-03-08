@@ -29,6 +29,18 @@ class Sale < ActiveRecord::Base
     settlement_type_sales.map(&:amount).reject(&:nil?).inject(:+)
   end
 
+  def net_sales
+    category_total
+  end
+
+  def total_revenues
+    category_total + vat + service_charge
+  end
+
+  def total_settlement_type_sales
+    settlement_type_total + gc_redeemed + delivery_sales
+  end
+
   def self.search_by_date(starting, ending)
     finder = start_date(starting)
     finder = finder.end_date(ending)

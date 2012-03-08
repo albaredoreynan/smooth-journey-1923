@@ -36,12 +36,6 @@ class SalesController < ApplicationController
   def edit
     @sale = Sale.find(params[:id])
 
-    if params[:commit] == "Save"
-      @sale.save_as_draft = 0
-    elsif params[:commit] == "Save as Draft"
-      @sale.save_as_draft = 1
-    end
-
     @category_names = Category.all.map(&:name).reverse
     @category_ids = Category.all.map(&:id).reverse
     @settlement_type_names = SettlementType.all.map(&:name).reverse

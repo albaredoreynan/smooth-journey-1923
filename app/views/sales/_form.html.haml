@@ -22,7 +22,8 @@
         = sts.hidden_field :settlement_type_id, :value => sts.object.settlement_type_id
         = f.label sts.object.settlement_type.name
         = sts.text_field :amount, :class => :settlementtype
-    = f.input :vat, :input_html => { :name => :vat }
+    = f.input :gc_redeemed
+    = f.input :delivery_sales
 
   %fieldset
     %legend= 'Statistics'
