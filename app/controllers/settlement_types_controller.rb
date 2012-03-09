@@ -1,7 +1,8 @@
 class SettlementTypesController < ApplicationController
   load_and_authorize_resource
 
-  set_tab :database
+  set_tab :sales
+  set_tab :settlement_types
 
   def index
     @settlement_types = SettlementType.accessible_by(current_ability).page(params[:page])

@@ -1,6 +1,7 @@
 class SaleCategoriesController < ApplicationController
 
   set_tab :sales
+  set_tab :sale_categories
 
   def index
     @sale_categories = SaleCategory.accessible_by(current_ability)

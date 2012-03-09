@@ -1,21 +1,3 @@
--#- content_for :sidebar do
-  -#%h3 Filters
-  -#= form_tag '/sales/search', :method => :get do
-    -#.input
-      -#= label_tag 'From'
-      -#= text_field_tag :start_date, nil, :class => 'datepicker'
-    -#.input
-      -#= label_tag 'To'
-      -#= text_field_tag :end_date, nil, :class => 'datepicker'
-    -#.input
-      -#= label_tag :restaurant
-      -#= collection_select(:restaurant, :name, Restaurant.all, :id, :name, :prompt => true)
-    -#.input
-      -#= label_tag :branch
-      -#= collection_select(:branch, :location, Branch.all, :id, :location, :prompt => true)
-    -#.actions
-      -#= submit_tag :Search, :class => 'button'
-
 .block
   = render :partial => 'shared/menu/sale'
   .content
@@ -45,12 +27,3 @@
             %td.monetary= sale.cash_for_deposit
             %td
               = link_to 'Show', sale_path(sale)
-        %tr.totals
-          %td Grand Total
-          %td.monetary &nbsp;
-          %td.monetary &nbsp;
-          %td.monetary &nbsp;
-          %td.monetary &nbsp;
-          %td.number &nbsp;
-          %td.number &nbsp;
-          %td.actions &nbsp;

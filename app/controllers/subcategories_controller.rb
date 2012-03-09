@@ -1,7 +1,8 @@
 class SubcategoriesController < ApplicationController
   load_and_authorize_resource
 
-  set_tab :database
+  set_tab :inventory
+  set_tab :subcategories
 
   def index
     @subcategories = Subcategory.accessible_by(current_ability).page(params[:page])

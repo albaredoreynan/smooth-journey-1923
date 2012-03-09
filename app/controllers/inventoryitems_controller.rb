@@ -2,6 +2,7 @@ class InventoryitemsController < ApplicationController
   load_and_authorize_resource :item
 
   set_tab :inventory
+  set_tab :items
 
   def index
     if params[:search]
@@ -81,7 +82,7 @@ class InventoryitemsController < ApplicationController
       format.xml  { head :ok }
     end
   end
-  
+
   def available_units
     @item = Item.find(params[:id])
     @available_units = @item.available_units
