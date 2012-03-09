@@ -20,7 +20,6 @@ gem 'prawn'
 gem 'prawn-layout'
 gem 'paranoia'
 gem 'orm_adapter'
-gem 'database_cleaner'
 
 group :assets do
   gem 'sass-rails', "  ~> 3.2.3"
@@ -32,6 +31,7 @@ group :development do
   gem 'factory_girl_rails'
   gem 'ruby_parser'
   gem 'web-app-theme'
+  gem 'database_cleaner'
 end
 
 group :test do
