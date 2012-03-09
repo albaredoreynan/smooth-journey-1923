@@ -1,8 +1,9 @@
 class Sale < ActiveRecord::Base
 
-  validates_presence_of :customer_count
-  validates_presence_of :transaction_count
-  validates_presence_of :vat
+  validates :customer_count, :presence => true
+  validates :transaction_count, :presence => true
+  validates :vat, :presence => true
+  validates :sale_date, :presence => true
 
   default_scope :order => 'sale_date DESC'
 

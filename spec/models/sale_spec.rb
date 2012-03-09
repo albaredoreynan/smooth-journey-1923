@@ -2,6 +2,16 @@ require 'spec_helper'
 
 describe Sale do
 
+  context 'Validation' do
+    before do
+      @sale = Sale.new
+    end
+
+    it 'should be invalid without a date' do
+      @sale.should have(1).error_on :sale_date
+    end
+  end
+
   it 'should save given a valid attributes' do
     sale = Sale.new(FactoryGirl.attributes_for(:sale))
     lambda {
