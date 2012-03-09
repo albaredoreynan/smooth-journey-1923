@@ -66,10 +66,6 @@ describe UsersController do
       FactoryGirl.create(:role, :user => @user, :name => 'branch', :branch => @current_branch)
     end
 
-    describe 'GET #index' do
-      it 'should show all users'
-    end
-
     describe 'GET #edit' do
       it 'should NOT allow here' do
         get 'edit', :id => @user.id

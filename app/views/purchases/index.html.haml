@@ -24,7 +24,7 @@
             %tr
               %td= purchase.invoice_number
               %td= purchase.purchase_date.strftime("%-d-%b-%Y") if purchase.purchase_date
-              %td= purchase.supplier_name
+              %td= link_to purchase.supplier_name, supplier_path(purchase.supplier)
               %td.monetary= number_to_currency(purchase.amount, :unit => peso_sign)
               %td.monetary= number_to_currency(purchase.net_amount, :unit => peso_sign)
               %td.monetary= number_to_currency(purchase.vat_amount, :unit => peso_sign)

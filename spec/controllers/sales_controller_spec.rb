@@ -122,17 +122,17 @@ describe SalesController do
         post_params = {
           :branch_id => @branch.id, :sale_date => Date.today,
           :sale_category_rows_attributes => {
-            0 => { :category_id => sale_categories[0].id, :amount => 99_220.00 }, # food
-            1 => { :category_id => sale_categories[1].id, :amount =>  7_060.00 }, # beverage
-            2 => { :category_id => sale_categories[2].id, :amount =>  1_000.00 }, # beer
-            3 => { :category_id => sale_categories[3].id, :amount =>    100.00 }, # liquor
+            0 => { :category_id => sale_categories[0].id, :amount => 100_000.00 }, # food
+            1 => { :category_id => sale_categories[1].id, :amount =>  10_000.00 }, # beverage
+            2 => { :category_id => sale_categories[2].id, :amount =>   1_000.00 }, # beer
+            3 => { :category_id => sale_categories[3].id, :amount =>     100.00 }, # liquor
           },
           :vat =>                13_332.00,
           :service_charge =>        11_110,
           :settlement_type_sales_attributes => {
-            0 => { :settlement_type_id => settlement_types[0].id, :amount => 98_344.78 },
-            1 => { :settlement_type_id => settlement_types[1].id, :amount => 24_654.22 },
-            2 => { :settlement_type_id => settlement_types[2].id, :amount =>    365.00 },
+            0 => { :settlement_type_id => settlement_types[0].id, :amount => 98_345.00 },
+            1 => { :settlement_type_id => settlement_types[1].id, :amount => 24_654.00 },
+            2 => { :settlement_type_id => settlement_types[2].id, :amount =>    367.00 },
             3 => { :settlement_type_id => settlement_types[3].id, :amount =>  2_927.00 },
             4 => { :settlement_type_id => settlement_types[4].id, :amount =>    413.00 },
             5 => { :settlement_type_id => settlement_types[5].id, :amount =>     13.00 },

@@ -2,40 +2,15 @@ require 'spec_helper'
 require 'cancan/matchers'
 
 describe InventoryitemsController do
-  context 'as admin' do
-    login_admin
-
-    context 'POST #create' do
-      before do
-        @post_params = { :name => 'Bracer', :item_count => 90 }
-      end
-
-      it 'should set initial item count on an item' do
-        pending
-        post :create, :item => @post_params
-        item = Item.where(:name => 'Bracer').first
-        item.item_count.should eq 90
-      end
-    end
-
-    context 'PUT #update' do
-      it 'should update item_count' do
-        pending
-        item_count = FactoryGirl.create(:item_count, :stock_count => 100)
-        item = item_count.item
-        put 'update', :id => item.id, :item => {:item_count => 50}
-        item.reload
-        item.item_count.should eq 50
-      end
-    end
-  end
-
   context 'as client admin' do
     login_client
 
+    before do
+      @restaurant = FactoryGirl.create(:restaurant, :company => @current_company)
+    end
+
     context 'GET #index' do
       before do
-        @restaurant = FactoryGirl.create(:restaurant, :company => @current_company)
         #@branch = FactoryGirl.create(:branch, :restaurant => @restaurant)
         @item = FactoryGirl.create(:item, :restaurant => @restaurant)
         FactoryGirl.create(:item)
@@ -50,6 +25,10 @@ describe InventoryitemsController do
 
   context 'as branch manager' do
     login_branch
+
+    before do
+      @restaurant = @current_branch.restaurant
+    end
 
     context 'GET #index' do
       before do
@@ -66,12 +45,6 @@ describe InventoryitemsController do
     end
 
     context 'GET #new' do
-      it 'should set a branch' do
-        pending 'for delete'
-        get 'new'
-        assigns[:item].branch_id.should eq @current_branch.id
-      end
-
       it 'should set a restaurant' do
         get 'new'
         assigns[:item].restaurant_id.should eq @current_branch.restaurant.id
@@ -86,20 +59,20 @@ describe InventoryitemsController do
     end
 
     context 'POST #create' do
-      it 'should set a branch' do
-        pending
+      it 'should set a restaurant' do
         post 'create', :item => FactoryGirl.attributes_for(:item, :name => 'XXX')
         item = Item.find_by_name('XXX')
-        item.branch.should eq @current_branch
+        item.restaurant.should eq @restaurant
       end
     end
 
     context 'PUT #update' do
-      it 'should not update branch_id' do
-        pending
-        @branch = FactoryGirl.create(:branch)
-        put_params = {:branch_id => @branch.to_param}
-        @item = FactoryGirl.create(:item, :branch => @current_branch)
+      it 'should NOT update restaurant_id' do
+        @restaurant = FactoryGirl.create(:restaurant)
+
+        put_params = { :branch_id => @restaurant.to_param }
+        @item = FactoryGirl.create(:item, :restaurant => @restaurant)
+
         lambda {
           put 'update', :id => @item.to_param, :item => put_params
         }.should_not change{@item.reload.branch_id}

@@ -28,7 +28,7 @@ class Ability
         item.entry_date < Date.today - 1.day && item.branch == branch
       end
 
-      #Item
+      # Item
       cannot [:create, :destroy, :edit, :update], Item
 
       # Branch

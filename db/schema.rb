@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120308093705) do
+ActiveRecord::Schema.define(:version => 20120309061308) do
 
   create_table "branches", :force => true do |t|
     t.integer  "restaurant_id"
@@ -260,19 +260,19 @@ ActiveRecord::Schema.define(:version => 20120308093705) do
   add_index "sale_category_rows", ["sale_id"], :name => "index_sale_category_rows_on_sale_id"
 
   create_table "sales", :force => true do |t|
-    t.float    "vat"
-    t.integer  "customer_count"
-    t.integer  "transaction_count"
-    t.float    "delivery_sales"
+    t.float    "vat",               :default => 0.0
+    t.integer  "customer_count",    :default => 0
+    t.integer  "transaction_count", :default => 0
+    t.float    "delivery_sales",    :default => 0.0
     t.integer  "branch_id"
-    t.float    "service_charge"
+    t.float    "service_charge",    :default => 0.0
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "deleted_at"
-    t.decimal  "gc_redeemed"
-    t.decimal  "cash_in_drawer"
-    t.decimal  "gc_sales"
-    t.decimal  "other_income"
+    t.decimal  "gc_redeemed",       :default => 0.0
+    t.decimal  "cash_in_drawer",    :default => 0.0
+    t.decimal  "gc_sales",          :default => 0.0
+    t.decimal  "other_income",      :default => 0.0
     t.integer  "created_by_id"
     t.date     "sale_date"
   end

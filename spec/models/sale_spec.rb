@@ -10,6 +10,13 @@ describe Sale do
     it 'should be invalid without a date' do
       @sale.should have(1).error_on :sale_date
     end
+
+    it 'should be invalid if total revenue and total settlement type sales are not equal' do
+      sale = Sale.new(FactoryGirl.attributes_for(:sale))
+      sale.stub(:total_revenue => 1)
+      sale.stub(:total_settlement_type_sales => 2)
+      sale.should_not be_valid
+    end
   end
 
   it 'should save given a valid attributes' do
@@ -28,7 +35,7 @@ describe Sale do
       sale = FactoryGirl.create(:sale)
       FactoryGirl.create(:sale_category_row, :amount => 5, :sale => sale)
       FactoryGirl.create(:sale_category_row, :amount => 4, :sale => sale)
-      sale.category_total.should eq 9
+      sale.reload.category_total.should eq 9
     end
   end
 

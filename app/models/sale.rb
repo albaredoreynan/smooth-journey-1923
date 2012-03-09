@@ -4,6 +4,7 @@ class Sale < ActiveRecord::Base
   validates :transaction_count, :presence => true
   validates :vat, :presence => true
   validates :sale_date, :presence => true
+  validate :totals_should_be_equal
 
   default_scope :order => 'sale_date DESC'
 
@@ -57,5 +58,12 @@ class Sale < ActiveRecord::Base
     finder = start_date(starting)
     finder = finder.end_date(ending)
     return finder
+  end
+
+  private
+  def totals_should_be_equal
+    unless total_revenues == total_settlement_type_sales
+      errors.add(:base, 'totals should add up.')
+    end
   end
 end
