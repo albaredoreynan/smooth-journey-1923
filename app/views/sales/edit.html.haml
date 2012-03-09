@@ -1,7 +1,6 @@
 .block
   .content
-    %h1.title Editing sale
-    = render 'form'
-    = link_to 'Show', @sale, :class => :button
-    |
-    \#{link_to 'Back', sales_path, :class => :button}
+    %h2.title Edit Sale
+    .inner
+      = render 'form'
+      = link_to 'Show', @sale, :class => :button
