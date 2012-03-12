@@ -1,4 +1,3 @@
-- content_for(:head, javascript_include_tag(:sales))
 = simple_form_for(@sale) do |f|
   %fieldset
     - if can?(:manage, Branch)
