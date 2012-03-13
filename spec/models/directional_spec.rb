@@ -18,7 +18,7 @@ describe Directional do
       FactoryGirl.create(:sale_category_row, :amount =>  5_000, :sale => @sales[0], :category => @sale_categories[0]),
       FactoryGirl.create(:sale_category_row, :amount => 20_000, :sale => @sales[1], :category => @sale_categories[1])
     ]
-    @directional = Directional.new(Date.today.beginning_of_month, Date.today, @branch.id)
+    @directional = Directional.new(Date.today.beginning_of_month, Date.today, @branch)
   end
 
   context '.net_sales' do

@@ -1,11 +1,11 @@
 class Directional
 
-  def initialize(beginning_date, ending_date, branch_id = nil)
+  def initialize(beginning_date, ending_date, branch)
     @beginning_date = beginning_date
     @ending_date = ending_date
-    @branch_id = branch_id
+    @branch = branch
 
-    @sale = Sale.start_date(@beginning_date).end_date(@ending_date).where(:branch_id => @branch_id)
+    @sale = Sale.start_date(@beginning_date).end_date(@ending_date).where(:branch_id => @branch)
     @sale_category_rows = SaleCategoryRow.where(:sale_id => @sale.map(&:id)).group_by do |scr|
       scr.category.name
     end
@@ -41,5 +41,14 @@ class Directional
 
   def per_trans_ave
     @sale.map(&:per_trans_ave).inject(:+).round(2)
+  end
+
+  def cogs
+    cogs_category = Array.new
+    subcategories = Subcategory.all
+    subcategories.each do |s|
+      cogs_category << CogsCategory.new(s, @ending_date, @branch)
+    end
+    cogs_category
   end
 end

@@ -30,7 +30,7 @@ describe CogsCategory do
       FactoryGirl.create(:purchase_item, :purchase => @purchases[1], :item => @items[1], :amount => 9, :unit => @items[1].unit)
     ]
 
-    @cogs_category = CogsCategory.new(@subcategory, Date.today, @branch.id)
+    @cogs_category = CogsCategory.new(@subcategory, Date.today, @branch)
   end
 
   context '.beginning' do

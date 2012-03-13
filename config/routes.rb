@@ -8,6 +8,8 @@ Rrbs::Application.routes.draw do
   match '/serversales/search' => "settlement_sales#serversales_search", :as => :serversales_search
   match '/settlement_sales/search' => "settlement_sales#search", :as => :settlement_sales_search
 
+  match '/directional' => 'directional#index', :as => 'directional'
+
   match '/settings' => 'settings#index'
   put '/settings/update'
 

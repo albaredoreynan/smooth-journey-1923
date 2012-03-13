@@ -1,0 +1,41 @@
+.block
+  = render 'shared/menu/reports'
+  .content
+    .title_action_bar
+      %h2.title Directional
+    .inner
+      %table
+        %tr
+          %th Net Sales
+          %th &nbsp;
+
+        - @directional.net_sales.each do |category, net_sale|
+          %tr
+            %td= category
+            %td= net_sale
+        %tr.totals
+          %td= 'Total'
+          %td= @directional.net_sale_total
+
+      %table{:title => 'Cost of Goods'}
+        %tr
+          %th Cost of Goods
+          %th Beggining
+          %th Purchase
+          %th Purchase %
+          %th Ending
+          %th COGS
+          %th COGS %
+          %th Goal %
+          %th VAR +/-
+        - @directional.cogs.each do |c|
+          %tr
+            %td= c.name
+            %td= c.beginning
+            %td= c.purchase
+            %td
+            %td= c.ending
+            %td= c.cogs
+            %td
+            %td
+            %td
