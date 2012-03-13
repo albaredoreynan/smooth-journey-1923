@@ -23,7 +23,7 @@ class Sale < ActiveRecord::Base
   accepts_nested_attributes_for :sale_category_rows
 
   def category_total
-    sale_category_rows.map(&:amount).reject(&:nil?).inject(:+).to_f
+    sale_category_rows.map(&:amount).reject(&:nil?).inject(:+).to_f || 0
   end
 
   def settlement_type_total
