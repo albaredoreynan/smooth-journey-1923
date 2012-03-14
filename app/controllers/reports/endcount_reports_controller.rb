@@ -1,24 +1,16 @@
 class Reports::EndcountReportsController < ReportsController
 
+  include EndMonth
+
   set_tab :reports
+
+  before_filter :month_to_date_or_last_day_of_month, :only => :index
 
   def index
     endcount_items = EndcountItem.
       includes(:subcategory).
       where(current_ability.attributes_for(:read, Item)).
       inventory
-
-    # TODO: please DRY this
-    if params[:date]
-      query_date = Date.new(params[:date][:year].to_i, params[:date][:month].to_i)
-      if query_date.month == Date.today.month
-        @ending_date = Date.today
-      else
-        @ending_date = query_date.end_of_month
-      end
-    else
-      @ending_date = Date.today
-    end
 
     if current_user.branch?
       branch_id = @current_branch.id
