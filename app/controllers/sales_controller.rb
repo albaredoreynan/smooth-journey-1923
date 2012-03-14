@@ -58,12 +58,6 @@ class SalesController < ApplicationController
   def update
     @sale = Sale.find(params[:id])
 
-    if params[:commit] == "Save"
-      @sale.save_as_draft = 0
-    elsif params[:commit] == "Save as Draft"
-      @sale.save_as_draft = 1
-    end
-
     respond_to do |format|
       if @sale.update_attributes(params[:sale])
         format.html { redirect_to(@sale, :notice => 'Sale was successfully updated.') }

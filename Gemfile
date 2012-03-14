@@ -31,6 +31,7 @@ group :development do
   gem 'factory_girl_rails'
   gem 'ruby_parser'
   gem 'web-app-theme'
+  gem 'database_cleaner'
 end
 
 group :test do

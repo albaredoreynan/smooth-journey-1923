@@ -1,7 +1,8 @@
 class CategoriesController < ApplicationController
   load_and_authorize_resource
 
-  set_tab :database
+  set_tab :inventory
+  set_tab :categories
 
   def index
     @categories = Category.accessible_by(current_ability).page(params[:page])

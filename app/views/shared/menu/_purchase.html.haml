@@ -1,0 +1,4 @@
+.secondary-navigation
+  = tabs_tag :builder => MenuTabBuilder do |tab|
+    = tab.purchases 'Purchases', purchases_path
+    = tab.suppliers 'Suppliers', suppliers_path

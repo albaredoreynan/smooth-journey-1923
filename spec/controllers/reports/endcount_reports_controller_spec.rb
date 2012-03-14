@@ -67,14 +67,12 @@ describe Reports::EndcountReportsController do
         end
 
         it 'should get total purchases amount from beginning to ending date' do
-          pending
-          branch = FactoryGirl.create(:branch, :restaurant => @restaurant)
           FactoryGirl.create(:purchase_item,
                             :item => @item, :amount => 1, :quantity => 1, :unit => @item.unit,
-                            :purchase => FactoryGirl.create(:purchase, :branch => branch, :purchase_date => @view_month))
+                            :purchase => FactoryGirl.create(:purchase, :branch => @branch, :purchase_date => @view_month))
           FactoryGirl.create(:purchase_item,
                             :item => @item, :amount => 1, :quantity => 1, :unit => @item.unit,
-                            :purchase => FactoryGirl.create(:purchase, :branch => branch, :purchase_date => @view_month + 1.day))
+                            :purchase => FactoryGirl.create(:purchase, :branch => @branch, :purchase_date => @view_month + 1.day))
           get 'index', :date => { :month => @view_month.month, :year => @view_month.year}
           assigns[:endcount].items[0].purchase_amount_period.should eq 2.0
         end

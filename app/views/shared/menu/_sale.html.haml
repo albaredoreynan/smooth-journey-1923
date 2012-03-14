@@ -1,4 +1,5 @@
 .secondary-navigation
-  %ul.wat-cf
-    %li= link_to 'Sales', sales_path
-    %li= link_to 'Category', sale_categories_path
+  = tabs_tag :builder => MenuTabBuilder do |tab|
+    %li= tab.sales 'Sales', sales_path
+    %li= tab.sale_categories 'Categories', sale_categories_path
+    %li= tab.settlement_types 'Settlement Type', settlement_types_path

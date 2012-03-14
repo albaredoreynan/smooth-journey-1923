@@ -1,8 +1,10 @@
 class Sale < ActiveRecord::Base
 
-  validates_presence_of :customer_count
-  validates_presence_of :transaction_count
-  validates_presence_of :vat
+  validates :customer_count, :presence => true
+  validates :transaction_count, :presence => true
+  validates :vat, :presence => true
+  validates :sale_date, :presence => true
+  validate :totals_should_be_equal
 
   default_scope :order => 'sale_date DESC'
 
@@ -21,7 +23,7 @@ class Sale < ActiveRecord::Base
   accepts_nested_attributes_for :sale_category_rows
 
   def category_total
-    sale_category_rows.map(&:amount).reject(&:nil?).inject(:+).to_f
+    sale_category_rows.map(&:amount).reject(&:nil?).inject(:+).to_f || 0
   end
 
   def settlement_type_total
@@ -56,5 +58,12 @@ class Sale < ActiveRecord::Base
     finder = start_date(starting)
     finder = finder.end_date(ending)
     return finder
+  end
+
+  private
+  def totals_should_be_equal
+    unless total_revenues == total_settlement_type_sales
+      errors.add(:base, 'totals should add up.')
+    end
   end
 end

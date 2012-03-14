@@ -1,6 +1,7 @@
 class SuppliersController < ApplicationController
 
-  set_tab :database
+  set_tab :purchases
+  set_tab :suppliers
 
   def index
     authorize! :index, Supplier

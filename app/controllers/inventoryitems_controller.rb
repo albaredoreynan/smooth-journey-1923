@@ -2,6 +2,7 @@ class InventoryitemsController < ApplicationController
   load_and_authorize_resource :item
 
   set_tab :inventory
+  set_tab :items
 
   def index
     if params[:search]
@@ -61,6 +62,8 @@ class InventoryitemsController < ApplicationController
 
   def update
     @item = Item.find(params[:id])
+    authorize! :update, @item
+
     respond_to do |format|
       if @item.update_attributes(current_ability.attributes_for(:update, Item).merge(params[:item]))
         format.html { redirect_to(inventoryitems_path, :notice => 'Item was successfully updated.') }
@@ -81,7 +84,7 @@ class InventoryitemsController < ApplicationController
       format.xml  { head :ok }
     end
   end
-  
+
   def available_units
     @item = Item.find(params[:id])
     @available_units = @item.available_units
