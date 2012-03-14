@@ -16,7 +16,7 @@
           %th.last Actions
         - @branches.each do |branch|
           %tr
-            %td= branch.restaurant.name unless branch.restaurant.nil?
+            %td= link_to branch.restaurant.name, restaurant_path(branch.restaurant.id) unless branch.restaurant.nil? 
             %td= branch.location
             %td= branch.address
             %td= branch.contact_number

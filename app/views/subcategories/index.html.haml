@@ -17,7 +17,7 @@
           %tr
             %td= subcategory.name
             %td= subcategory.description
-            %td= subcategory.category.name unless subcategory.category.nil?
+            %td= link_to subcategory.category.name, category_path(subcategory.category) unless subcategory.category.nil?
             %td
               = link_to 'Show', subcategory
               - if can? :edit, subcategory

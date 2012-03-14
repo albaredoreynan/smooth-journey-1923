@@ -40,7 +40,7 @@
                 %tr{id: dom_id(purchase_item.item), class: 'item_row'}
                   %td= purchase_item.item.name
                   %td= purchase_item.purchase.invoice_number
-                  %td= purchase_item.purchase.supplier_name
+                  %td= link_to purchase_item.purchase.supplier_name, supplier_path(purchase_item.purchase.supplier)
                   %td= purchase_item.purchase.purchase_date
                   %td.number= number_with_precision(purchase_item.quantity, :precision => 2, :delimeter => ',')
                   %td= purchase_item.item.unit_name

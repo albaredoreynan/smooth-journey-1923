@@ -16,7 +16,7 @@
         - @restaurants.each do |restaurant|
           %tr
             %td= restaurant.name
-            %td= restaurant.company.name
+            %td= link_to restaurant.company.name, company_path(restaurant.company.id)
             %td= restaurant.description
             -# %td= restaurant.currency_id
             %td

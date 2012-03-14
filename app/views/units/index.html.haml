@@ -21,12 +21,14 @@
           %th Symbol
           %th Name
           %th Unit Type
+          %th Restaurant
           %th.actions Actions
         - @units.each do |unit|
           %tr
             %td= unit.symbol
             %td= unit.name
             %td= unit.unit_type
+            %td= link_to unit.restaurant.name, restaurant_path(unit.restaurant)
             %td
               = link_to 'Show', unit
               - if can? :edit, unit

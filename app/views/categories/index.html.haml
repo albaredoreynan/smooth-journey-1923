@@ -17,7 +17,7 @@
           %tr
             %td= category.name
             %td= category.description
-            %td= category.restaurant.name unless category.restaurant.nil?
+            %td= link_to category.restaurant.name, restaurant_path(category.restaurant) unless category.restaurant.nil?
             %td
               = link_to 'Show', category
               - if can? :edit, category
