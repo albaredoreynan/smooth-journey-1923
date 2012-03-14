@@ -19,7 +19,7 @@
         - @sales.each do |sale|
           %tr
             %td= sale.sale_date.strftime("%-d-%b-%Y")
-            %td= sale.branch.location
+            %td= link_to sale.branch.location, branch_path(sale.branch)
             %td.monetary= sale.net_sales
             %td.monetary= sale.vat
             %td.monetary= sale.total_revenues

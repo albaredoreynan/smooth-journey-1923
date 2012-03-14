@@ -5,8 +5,8 @@
         %b Item name:
         = @item.name
       %p
-        %b Branch:
-        = @item.branch_location
+        %b Restaurant:
+        = link_to @item.restaurant.name, restaurant_path(@item.restaurant)
       %p
         %b Unit:
         = @item.unit_name

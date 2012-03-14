@@ -6,7 +6,7 @@
         = @restaurant.name
       %p
         %b Company:
-        = @restaurant.company.name
+        = link_to @restaurant.company.name, company_path(@restaurant.company)
       %p
         %b Restaurant description:
         = @restaurant.description

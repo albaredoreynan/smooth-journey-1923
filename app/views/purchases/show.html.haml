@@ -3,7 +3,7 @@
     .inner
       %p
         %b Branch:
-        = @purchase.branch_location
+        = link_to @purchase.branch_location, branch_path(@purchase.branch)
       %p
       %p
         %b Purchase date:

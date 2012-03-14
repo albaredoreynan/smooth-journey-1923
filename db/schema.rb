@@ -269,12 +269,12 @@ ActiveRecord::Schema.define(:version => 20120309061308) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "deleted_at"
+    t.date     "sale_date"
     t.decimal  "gc_redeemed",       :default => 0.0
     t.decimal  "cash_in_drawer",    :default => 0.0
     t.decimal  "gc_sales",          :default => 0.0
     t.decimal  "other_income",      :default => 0.0
     t.integer  "created_by_id"
-    t.date     "sale_date"
   end
 
   create_table "settings", :force => true do |t|

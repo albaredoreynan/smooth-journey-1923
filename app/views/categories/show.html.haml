@@ -7,7 +7,7 @@
         = @category.description
       %p
         %b Restaurant category:
-        = @category.restaurant.name
+        = link_to @category.restaurant.name, restaurant_path(@category.restaurant)
       -if can? :edit, Category
         = link_to 'Edit', edit_category_path(@category)
         |

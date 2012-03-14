@@ -3,7 +3,7 @@
     .inner
       %p
         %b Restaurant:
-        = @branch.restaurant.name unless @branch.restaurant.nil?
+        = link_to @branch.restaurant.name, restaurant_path(@branch.restaurant) unless @branch.restaurant.nil?
       %p
         %b Location:
         = @branch.location
