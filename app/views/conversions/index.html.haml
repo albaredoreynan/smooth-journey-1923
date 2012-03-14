@@ -15,8 +15,8 @@
           %th.actions Actions
         - @conversions.each do |conversion|
           %tr
-            %td= conversion.bigger_unit_name
-            %td= conversion.smaller_unit_name
+            %td= link_to conversion.bigger_unit_name, unit_path(conversion)
+            %td= link_to conversion.smaller_unit_name, unit_path(conversion)
             %td= conversion.conversion_factor
             %td
               = link_to 'Show', conversion
