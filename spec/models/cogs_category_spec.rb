@@ -84,5 +84,16 @@ describe CogsCategory do
       @cogs_category.stub(:cogs_perc => -26)
       @cogs_category.var_perc.should eq 36
     end
+
+    it 'should return nil if goal is nil' do
+      @cogs_category.subcategory = FactoryGirl.create(:subcategory)
+      @cogs_category.stub(:cogs_perc => -26)
+      @cogs_category.var_perc.should eq nil
+    end
+
+    it 'should return nil if cogs perc is nil' do
+      @cogs_category.stub(:cogs_perc => nil)
+      @cogs_category.var_perc.should eq nil
+    end
   end
 end
