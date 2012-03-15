@@ -1,6 +1,6 @@
 class CurrenciesController < ApplicationController
 
-  set_tab :database
+  set_tab :currency
 
   def index
     @currencies = Currency.page(params[:page])

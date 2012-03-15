@@ -1,6 +1,6 @@
 class Reports::PurchaseReportsController < ReportsController
 
-  set_tab :reports
+  set_tab :purchase_reports
 
   def index
     @start_date = params[:start_date] || Date.today.beginning_of_month

@@ -1,7 +1,7 @@
 class UnitsController < ApplicationController
   load_and_authorize_resource
 
-  set_tab :database
+  set_tab :unit
 
   def index
     authorize! :index, Unit

@@ -1,13 +1,13 @@
 .secondary-navigation
-  %ul.wat-cf
+  = tabs_tag :builder => MenuTabBuilder do |tab|
     - if can? :read, Company
-      %li= link_to 'Companies', companies_path
+      %li= tab.company 'Companies', companies_path
     - if can? :manage, Restaurant
-      %li= link_to 'Restaurants', restaurants_path
+      %li= tab.restaurant 'Restaurants', restaurants_path
     - if can? :read, Branch
-      %li= link_to 'Branches', branches_path
-    %li= link_to 'Units', units_path
-    %li= link_to 'Conversions', conversions_path
+      %li= tab.database 'Branches', branches_path
+    %li= tab.unit 'Units', units_path
+    %li= tab.conversion 'Conversions', conversions_path
     -#%li= link_to 'Currencies', currencies_path
     - if can? :manage, User
-      %li= link_to 'Users', users_path
+      %li= tab.user 'Users', users_path

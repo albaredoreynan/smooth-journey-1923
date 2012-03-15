@@ -1,7 +1,7 @@
 class RestaurantsController < ApplicationController
   load_and_authorize_resource
 
-  set_tab :database
+  set_tab :restaurant
 
   def index
     @restaurants = Restaurant.joins(:company).accessible_by(current_ability).page(params[:page])

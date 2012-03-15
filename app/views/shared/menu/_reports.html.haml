@@ -1,5 +1,5 @@
 .secondary-navigation
-  %ul.wat-cf
-    %li= link_to 'Endcounts', endcount_reports_path
-    %li= link_to 'Purchases', purchase_reports_path
-    %li= link_to 'Directional', directional_path
+  = tabs_tag :builder => MenuTabBuilder do |tab|
+    %li= tab.reports 'Endcounts', endcount_reports_path
+    %li= tab.purchase_reports 'Purchases', purchase_reports_path
+    %li= tab.directional 'Directional', directional_path

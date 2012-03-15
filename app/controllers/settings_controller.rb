@@ -1,6 +1,8 @@
 class SettingsController < ApplicationController
   load_and_authorize_resource :company
-
+  
+  set_tab :settings
+  
   def index
     @company = @current_company
   end
