@@ -55,11 +55,11 @@
         - @directional.cogs.each do |c|
           %tr
             %td= c.name
-            %td.number= number_with_precision(c.beginning, :precision => 2, :delimiter => 2)
+            %td.number= number_with_precision(c.beginning, :precision => 2, :delimiter => ',')
             %td.monetary= number_to_currency(c.purchase, :unit => peso_sign)
             %td.number= number_to_percentage(c.purchase_perc)
-            %td.number= number_with_precision(c.ending, :precision => 2, :delimiter => 2)
-            %td.number= number_with_precision(c.cogs, :precision => 2, :delimiter => 2)
+            %td.number= number_with_precision(c.ending, :precision => 2, :delimiter => ',')
+            %td.number= number_with_precision(c.cogs, :precision => 2, :delimiter => ',')
             %td.number= number_to_percentage(c.cogs_perc)
             %td.number= number_to_percentage(c.subcategory.goal)
             %td.number= number_to_percentage(c.var_perc)
