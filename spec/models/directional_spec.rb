@@ -55,4 +55,33 @@ describe Directional do
       @directional.per_trans_ave.should eq 833.33
     end
   end
+
+  context '.last_year' do
+    before do
+      last_year = Date.today - 1.year
+      @sales_last_year = [
+        FactoryGirl.create(:sale, :branch => @branch, :sale_date => last_year, :customer_count => 15, :transaction_count => 35),
+        FactoryGirl.create(:sale, :branch => @branch, :sale_date => last_year, :customer_count => 25, :transaction_count => 45)
+      ]
+
+      @sale_cat_rows_last_year = [
+        FactoryGirl.create(:sale_category_row, :amount =>  7_000, :sale => @sales_last_year[0], :category => @sale_categories[0]),
+        FactoryGirl.create(:sale_category_row, :amount =>  7_000, :sale => @sales_last_year[0], :category => @sale_categories[0]),
+        FactoryGirl.create(:sale_category_row, :amount => 25_000, :sale => @sales_last_year[1], :category => @sale_categories[1])
+      ]
+
+      @directional_last_year = @directional.last_year
+    end
+
+    it 'should return last year directionl' do
+      @directional_last_year.should be_instance_of Directional
+    end
+
+    context '.net_sales' do
+      it 'should return net sales' do
+        @directional_last_year.net_sales.should include('Food' => 14_000)
+        @directional_last_year.net_sales.should include('Beverage' => 25_000)
+      end
+    end
+  end
 end

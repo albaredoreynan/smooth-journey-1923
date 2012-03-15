@@ -40,7 +40,7 @@ class Directional
   end
 
   def per_trans_ave
-    @sale.map(&:per_trans_ave).inject(:+).round(2)
+    @sale.map(&:per_trans_ave).inject(:+).round(2) if @sale.length > 0
   end
 
   def cogs
@@ -52,5 +52,10 @@ class Directional
       cogs_categories << cogs_category
     end
     cogs_categories
+  end
+
+  def last_year
+    last_year = Date.today - 1.year
+    Directional.new(last_year.at_beginning_of_year, last_year.at_end_of_year, @branch)
   end
 end
