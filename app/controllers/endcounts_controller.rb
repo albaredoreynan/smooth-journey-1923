@@ -2,15 +2,14 @@ class EndcountsController < ApplicationController
 
   set_tab :inventory
 
+  before_filter :prepare_branch, :only => :index
+
   def index
     authorize! :index, Endcount
     ending_date = params[:date] ? Date.parse(params[:date]) : Date.today
     endcount_item = EndcountItem.accessible_by(current_ability).inventory
-    if current_user.branch?
-      @items = Endcount.ending_counts_at(endcount_item, ending_date, @current_branch.id)
-    else
-      @items = Endcount.ending_counts_at(endcount_item, ending_date)
-    end
+
+    @items = Endcount.ending_counts_at(endcount_item, ending_date, @branch.id)
   end
 
   def show
@@ -140,6 +139,16 @@ class EndcountsController < ApplicationController
       redirect_to endcounts_path, :alert => error_message
     else
       redirect_to endcounts_path
+    end
+  end
+
+  private
+  def prepare_branch
+    @branch = Branch.new
+    if current_user.branch?
+      @branch = @current_branch
+    elsif Branch.exists?(params[:branch_id])
+      @branch = Branch.find(params[:branch_id])
     end
   end
 end
