@@ -4,7 +4,7 @@ describe CogsCategory do
   before do
     @branch = FactoryGirl.create(:branch)
 
-    @subcategory = FactoryGirl.create(:subcategory)
+    @subcategory = FactoryGirl.create(:subcategory, :goal => 10)
     @items = [
       FactoryGirl.create(:item, :subcategory => @subcategory),
       FactoryGirl.create(:item, :subcategory => @subcategory)
@@ -54,6 +54,35 @@ describe CogsCategory do
   context '.cogs' do
     it 'should return cogs' do
       @cogs_category.cogs.should eq -26
+    end
+  end
+
+  context '.purchase_perc' do
+    it 'should return purchase percentage' do
+      @cogs_category.net_sale_total = 100
+      @cogs_category.purchase_perc.should eq 14
+    end
+
+    it 'should return nil if net sale total is nil' do
+      @cogs_category.purchase_perc.should eq nil
+    end
+
+    it 'should return nil if net sale total is 0' do
+      @cogs_category.purchase_perc.should eq nil
+    end
+  end
+
+  context '.cogs_perc' do
+    it 'should return cogs perc' do
+      @cogs_category.net_sale_total = 100
+      @cogs_category.cogs_perc.should eq -26
+    end
+  end
+
+  context '.var_perc' do
+    it 'should return var_perc' do
+      @cogs_category.stub(:cogs_perc => -26)
+      @cogs_category.var_perc.should eq 36
     end
   end
 end

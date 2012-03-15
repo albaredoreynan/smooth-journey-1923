@@ -1,5 +1,8 @@
 class CogsCategory
 
+  attr_accessor :net_sale_total
+  attr_reader :subcategory
+
   def initialize(subcategory, ending_date, branch)
     @subcategory    = subcategory
     @ending_date    = ending_date
@@ -36,5 +39,21 @@ class CogsCategory
 
   def cogs
     beginning + purchase - ending
+  end
+
+  def purchase_perc
+    unless net_sale_total == 0 or net_sale_total.nil?
+      ((purchase / net_sale_total) * 100).round(2)
+    end
+  end
+
+  def cogs_perc
+    unless net_sale_total == 0 or net_sale_total.nil?
+      ((cogs / net_sale_total) * 100).round(2)
+    end
+  end
+
+  def var_perc
+    @subcategory.goal - cogs_perc
   end
 end

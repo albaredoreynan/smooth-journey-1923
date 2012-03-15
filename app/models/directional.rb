@@ -44,11 +44,13 @@ class Directional
   end
 
   def cogs
-    cogs_category = Array.new
+    cogs_categories = Array.new
     subcategories = Subcategory.all
     subcategories.each do |s|
-      cogs_category << CogsCategory.new(s, @ending_date, @branch)
+      cogs_category = CogsCategory.new(s, @ending_date, @branch)
+      cogs_category.net_sale_total = net_sale_total
+      cogs_categories << cogs_category
     end
-    cogs_category
+    cogs_categories
   end
 end

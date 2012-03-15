@@ -2,6 +2,7 @@
   %fieldset
     = f.input :name
     = f.association :category, :prompt => "(select)", :collection => Category.accessible_by(current_ability).map { |cat| [ cat.name, cat.id ]}
+    = f.input :goal, :hint => 'in percentage'
     = f.input :description
   .actions
     = f.button :submit

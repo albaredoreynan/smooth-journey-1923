@@ -24,22 +24,22 @@
       %table{:title => 'Cost of Goods'}
         %tr
           %th Cost of Goods
-          %th Beggining
-          %th Purchase
-          %th Purchase %
-          %th Ending
-          %th COGS
-          %th COGS %
-          %th Goal %
-          %th VAR +/-
+          %th.number Beggining
+          %th.monetary Purchase
+          %th.number Purchase %
+          %th.number Ending
+          %th.number COGS
+          %th.number COGS %
+          %th.number Goal %
+          %th.number VAR +/-
         - @directional.cogs.each do |c|
           %tr
             %td= c.name
-            %td= c.beginning
-            %td= c.purchase
-            %td
-            %td= c.ending
-            %td= c.cogs
-            %td
-            %td
-            %td
+            %td.number= number_with_precision(c.beginning, :precision => 2, :delimiter => 2)
+            %td.monetary= number_to_currency(c.purchase, :unit => peso_sign)
+            %td.number= number_to_percentage(c.purchase_perc)
+            %td.number= number_with_precision(c.ending, :precision => 2, :delimiter => 2)
+            %td.number= number_with_precision(c.cogs, :precision => 2, :delimiter => 2)
+            %td.number= number_to_percentage(c.cogs_perc)
+            %td.number= number_to_percentage(c.subcategory.goal)
+            %td.number= number_to_percentage(c.var_perc)

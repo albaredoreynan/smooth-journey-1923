@@ -3,6 +3,9 @@
     %h2= "Subcategory: #{@subcategory.name}"
     .inner
       %p
+        %b Goal:
+        = number_to_percentage @subcategory.goal
+      %p
         %b Description:
         = @subcategory.description
       %p
