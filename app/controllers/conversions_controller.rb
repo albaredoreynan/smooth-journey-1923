@@ -1,6 +1,6 @@
 class ConversionsController < ApplicationController
 
-  set_tab :database
+  set_tab :conversion
 
   def index
     @conversions = Conversion.page(params[:page])

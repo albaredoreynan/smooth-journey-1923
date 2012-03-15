@@ -1,7 +1,7 @@
 class CompaniesController < ApplicationController
   load_and_authorize_resource
 
-  set_tab :database
+  set_tab :company
 
   def index
     @companies = Company.accessible_by(current_ability).page(params[:page])
