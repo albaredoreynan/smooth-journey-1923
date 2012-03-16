@@ -7,67 +7,72 @@
       %p
         %b Date:
         = @sale.sale_date.strftime("%-d-%b-%Y")
-        - @percentage = Array.new
-        - @percentage_rev = Array.new
-        - @percentage_settlement = Array.new
       %table
         %tr
           %th{:colspan => 3}= 'Sale by Category'
         %tr
+        - sale_categories_percentage = Array.new
         - @sale.sale_category_rows.each do |scr|
           %tr
             %td= scr.category.name
             %td.monetary= scr.amount
-            - @percentage << number_to_percentage(scr.amount / @sale.net_sales * 100)
-            %td=  number_to_percentage(scr.amount / @sale.net_sales * 100)
+            - amount_percentage = scr.amount.to_f.percent_of(@sale.net_sales)
+            - sale_categories_percentage << amount_percentage
+            %td=  number_to_percentage(amount_percentage)
         %tr.totals
           %td= 'Net Sales'
           %td.monetary= @sale.net_sales
-          %td= number_to_percentage(@percentage.map(&:to_f).inject(:+))
+          %td= number_to_percentage(sale_categories_percentage.inject(:+))
+        - revenues_percentage = Array.new
         %tr
           %td= 'VAT'
           %td.monetary= @sale.vat
-          - @percentage_rev << number_to_percentage(@sale.vat / @sale.total_revenues * 100)
-          %td= number_to_percentage(@sale.vat / @sale.total_revenues * 100)
+          - vat_percentage = @sale.vat.percent_of(@sale.total_revenues)
+          - revenues_percentage << vat_percentage
+          %td= number_to_percentage(vat_percentage)
         %tr
           %td= 'Service Charge'
           %td.monetary= @sale.service_charge
-          - @percentage_rev << number_to_percentage(@sale.service_charge / @sale.total_revenues * 100)
-          %td= number_to_percentage(@sale.service_charge / @sale.total_revenues * 100)
+          - service_charge_percentage = @sale.service_charge.percent_of(@sale.total_revenues)
+          - revenues_percentage << service_charge_percentage
+          %td= number_to_percentage(service_charge_percentage)
         %tr.totals
           %td= 'Total Revenues'
           %td.monetary= @sale.total_revenues
-          %td= number_to_percentage(@percentage_rev.map(&:to_f).inject(:+))
+          %td= number_to_percentage(revenues_percentage.inject(:+))
         %tr
           %th{:colspan => 4}= 'Sale by Settlement Type'
 
+        - settlement_type_percentage = Array.new
         - @sale.settlement_type_sales.each do |sts|
           %tr
             %td= sts.settlement_type.name
             %td.monetary= sts.amount
-            - @percentage_settlement << number_to_percentage(sts.amount / @sale.total_settlement_type_sales * 100)
-            %td= number_to_percentage(sts.amount / @sale.total_settlement_type_sales * 100)
+            - sts_amount_percentage = sts.amount.percent_of(@sale.total_settlement_type_sales)
+            - settlement_type_percentage << sts_amount_percentage
+            %td= number_to_percentage(sts_amount_percentage)
         %tr
           %td= 'GC Redeemed'
           %td.monetary= @sale.gc_redeemed
-          - @percentage_settlement << number_to_percentage(@sale.gc_redeemed / @sale.total_settlement_type_sales * 100)
-          %td= number_to_percentage(@sale.gc_redeemed / @sale.total_settlement_type_sales * 100)
+          - gc_redeemed_percentage = @sale.gc_redeemed.percent_of(@sale.total_settlement_type_sales)
+          - settlement_type_percentage << gc_redeemed_percentage
+          %td= number_to_percentage(gc_redeemed_percentage)
         %tr
           %td= 'Delivery'
           %td.monetary= @sale.delivery_sales
-          - @percentage_settlement << number_to_percentage(@sale.delivery_sales / @sale.total_settlement_type_sales * 100)
-          %td= number_to_percentage(@sale.delivery_sales / @sale.total_settlement_type_sales * 100)
+          - delivery_sale_percentage = @sale.delivery_sales.percent_of(@sale.total_settlement_type_sales)
+          - settlement_type_percentage << delivery_sale_percentage
+          %td= number_to_percentage(delivery_sale_percentage)
         %tr.totals
           %td= 'Total'
           %td.monetary= @sale.total_settlement_type_sales
-          %td= number_to_percentage(@percentage_settlement.map(&:to_f).inject(:+))
+          %td= number_to_percentage(settlement_type_percentage.inject(:+))
         %tr
           %th{:colspan => 4}= 'Statistics'
         %tr
           %td= 'Customer Count'
           %td.monetary= @sale.customer_count
           %td{:colspan => 2}
-          
         %tr
           %td= 'Per Person Average'
           %td.monetary= @sale.per_person_ave
