@@ -1,5 +1,6 @@
 class Sale < ActiveRecord::Base
 
+  validates :branch_id, :presence => true
   validates :customer_count, :presence => true
   validates :transaction_count, :presence => true
   validates :vat, :presence => true

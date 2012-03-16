@@ -7,6 +7,10 @@ describe Sale do
       @sale = Sale.new
     end
 
+    it 'should be invalid without a branch' do
+      @sale.should have(1).error_on :branch_id
+    end
+
     it 'should be invalid without a date' do
       @sale.should have(1).error_on :sale_date
     end
@@ -20,7 +24,8 @@ describe Sale do
   end
 
   it 'should save given a valid attributes' do
-    sale = Sale.new(FactoryGirl.attributes_for(:sale))
+    branch = FactoryGirl.create(:branch)
+    sale = Sale.new(FactoryGirl.attributes_for(:sale, :branch_id => branch.id))
     lambda {
       sale.save
     }.should change(Sale, :count).by 1
