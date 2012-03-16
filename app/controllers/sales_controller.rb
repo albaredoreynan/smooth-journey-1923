@@ -49,7 +49,9 @@ class SalesController < ApplicationController
         format.html { redirect_to(@sale, :notice => 'Sale was successfully created.') }
         format.xml  { render :xml => @sale, :status => :created, :location => @sale }
       else
-        format.html { render :action => "new" }
+        format.html { flash[:alert] = 'Error! Total sales and settlement are not equal.' 
+                      render :action => :new 
+                    }
         format.xml  { render :xml => @sale.errors, :status => :unprocessable_entity }
       end
     end
@@ -103,4 +105,5 @@ class SalesController < ApplicationController
       redirect_to sales_by_server_path
     end
   end
+  
 end
