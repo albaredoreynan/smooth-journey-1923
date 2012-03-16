@@ -22,25 +22,25 @@ class Directional
   def net_sales
     ret = Hash.new
     @sale_category_rows.each do |key, rows|
-      ret[key] = rows.map(&:amount).inject(:+)
+      ret[key] = rows.map(&:amount).reject{|a| a.nil?}.inject(:+)
     end
     ret
   end
 
   def customer_count
-    @sale.map(&:customer_count).inject(:+)
+    @sale.map(&:customer_count).reject{|c| c.nil? }.inject(:+)
   end
 
   def per_person_ave
-    @sale.map(&:per_person_ave).inject(:+)
+    @sale.map(&:per_person_ave).reject{|p| p.nil?}.inject(:+)
   end
 
   def transaction_count
-    @sale.map(&:transaction_count).inject(:+)
+    @sale.map(&:transaction_count).reject{|t| t.nil? }.inject(:+)
   end
 
   def per_trans_ave
-    @sale.map(&:per_trans_ave).inject(:+).round(2) if @sale.length > 0
+    @sale.map(&:per_trans_ave).reject{|p| p.nil?}.inject(:+).round(2) if @sale.length > 0
   end
 
   def cogs
