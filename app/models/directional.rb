@@ -55,7 +55,7 @@ class Directional
   end
 
   def last_year
-    last_year = Date.today - 1.year
-    Directional.new(last_year.at_beginning_of_year, last_year.at_end_of_year, @branch)
+    last_year = 1.year.ago
+    Directional.new(last_year.beginning_of_month, last_year.end_of_month, @branch)
   end
 end

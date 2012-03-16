@@ -1,9 +1,9 @@
 class DirectionalController < ApplicationController
 
   include EndMonth
-  
+
   set_tab :directional
-  
+
   before_filter :month_to_date_or_last_day_of_month, :only => :index
 
   def index

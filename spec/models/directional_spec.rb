@@ -61,13 +61,17 @@ describe Directional do
       last_year = Date.today - 1.year
       @sales_last_year = [
         FactoryGirl.create(:sale, :branch => @branch, :sale_date => last_year, :customer_count => 15, :transaction_count => 35),
-        FactoryGirl.create(:sale, :branch => @branch, :sale_date => last_year, :customer_count => 25, :transaction_count => 45)
+        FactoryGirl.create(:sale, :branch => @branch, :sale_date => last_year, :customer_count => 25, :transaction_count => 45),
+        # this should not be counted
+        FactoryGirl.create(:sale, :branch => @branch, :sale_date => last_year + 1.month, :customer_count => 25, :transaction_count => 45),
       ]
 
       @sale_cat_rows_last_year = [
         FactoryGirl.create(:sale_category_row, :amount =>  7_000, :sale => @sales_last_year[0], :category => @sale_categories[0]),
         FactoryGirl.create(:sale_category_row, :amount =>  7_000, :sale => @sales_last_year[0], :category => @sale_categories[0]),
-        FactoryGirl.create(:sale_category_row, :amount => 25_000, :sale => @sales_last_year[1], :category => @sale_categories[1])
+        FactoryGirl.create(:sale_category_row, :amount => 25_000, :sale => @sales_last_year[1], :category => @sale_categories[1]),
+        # this should not be counted
+        FactoryGirl.create(:sale_category_row, :amount => 25_000, :sale => @sales_last_year[2], :category => @sale_categories[1])
       ]
 
       @directional_last_year = @directional.last_year
