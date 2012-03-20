@@ -1,0 +1,25 @@
+.block
+  = render :partial => 'shared/menu/sale'
+  .content
+    .title_action_bar
+      %h2.title Listing Sale Servers
+      .new_actions
+        - if can? :create, Server
+          = link_to 'New Sale Server', new_server_path, :class => :button
+    .inner
+      %table
+        %tr
+          %th Name
+          %th Branch
+          %th.actions= 'Actions'
+        - @servers.each do |server|
+          %tr
+            %td= server.name
+            %td= link_to server.branch.location, branch_path(server.branch)
+            %td
+              = link_to 'Show', server
+              - if can? :edit, server
+                = link_to 'Edit', edit_server_path(server)
+              - if can? :destroy, server
+                = link_to 'Destroy', server, :confirm => 'Are you sure?', :method => :delete
+

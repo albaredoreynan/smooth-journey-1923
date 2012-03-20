@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120320043149) do
+ActiveRecord::Schema.define(:version => 20120320100111) do
 
   create_table "branches", :force => true do |t|
     t.integer  "restaurant_id"
@@ -259,19 +259,10 @@ ActiveRecord::Schema.define(:version => 20120320043149) do
   add_index "sale_category_rows", ["category_id"], :name => "index_sale_category_rows_on_sale_category_id"
   add_index "sale_category_rows", ["sale_id"], :name => "index_sale_category_rows_on_sale_id"
 
-  create_table "sale_servers", :force => true do |t|
-    t.string   "name"
-    t.datetime "date"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-    t.datetime "deleted_at"
-    t.integer  "branch_id"
-  end
-
   create_table "sales", :force => true do |t|
     t.float    "vat",               :default => 0.0
-    t.integer  "customer_count",    :default => 0
-    t.integer  "transaction_count", :default => 0
+    t.integer  "customer_count"
+    t.integer  "transaction_count"
     t.float    "delivery_sales",    :default => 0.0
     t.integer  "branch_id"
     t.float    "service_charge",    :default => 0.0
@@ -284,6 +275,14 @@ ActiveRecord::Schema.define(:version => 20120320043149) do
     t.decimal  "gc_sales",          :default => 0.0
     t.decimal  "other_income",      :default => 0.0
     t.integer  "created_by_id"
+  end
+
+  create_table "servers", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.datetime "deleted_at"
+    t.integer  "branch_id"
   end
 
   create_table "settings", :force => true do |t|

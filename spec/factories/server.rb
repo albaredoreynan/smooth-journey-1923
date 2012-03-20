@@ -1,5 +1,6 @@
 FactoryGirl.define do
-  factory :sale_servers do
+  factory :server do
+    association :branch
     name 'Server A'
   end
 end

@@ -1,0 +1,6 @@
+= simple_form_for @server do |f|
+  - if can?(:index, Branch)
+    = f.association :branch, :collection => Branch.accessible_by(current_ability).map{ |branch| [branch.location, branch.id] }
+  = f.input :name
+  .actions
+    = f.button :submit

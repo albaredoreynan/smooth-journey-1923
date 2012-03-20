@@ -1,5 +1,4 @@
 Rrbs::Application.routes.draw do
-  resources :sale_servers
 
   devise_for :users, :controller => {:registrations => 'users/registrations'}
 
@@ -33,6 +32,8 @@ Rrbs::Application.routes.draw do
   resources :sales do
     get 'settlement_types', :on => :collection
   end
+
+  resources :servers
 
   resources :companies
 
