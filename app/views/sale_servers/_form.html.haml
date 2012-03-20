@@ -1,0 +1,6 @@
+= simple_form_for @sale_server do |f|
+  = f.input :name
+  = f.input :date
+  = f.association :branch, :collection => Branch.accessible_by(current_ability).map{ |branch| [branch.location, branch.id] }
+  .actions
+    = f.button :submit

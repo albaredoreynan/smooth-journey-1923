@@ -69,7 +69,11 @@ class Ability
         user == usr
       end
       cannot [:create, :destroy], User, :roles => { :company => { :id => user.roles.first.company.id } }
-
+      
+      #sale server
+      can :read, SaleServer, :branch_id => branch.id
+      cannot [:create, :edit, :update, :destroy], SaleServer, :branch_id => branch.id
+      
     when 'client'
       company_id = user.companies.first.id
       can [:read, :edit, :update], Company, :id => company_id
@@ -85,6 +89,8 @@ class Ability
       can :manage, PurchaseItem, :purchase => { :branch => { :restaurant => { :company => { :id => company_id } } } }
       can :manage, Restaurant, :company_id => company_id
       can :manage, Sale, :branch => { :restaurant => { :company => { :id => company_id } } }
+      can :manage, SaleServer, :branch => { :restaurant => { :company => { :id => company_id } } }
+      can [:new, :create], SaleServer
       can :manage, SaleCategory, :restaurant => { :company_id => company_id }
       can :manage, SettlementType, :branch => { :restaurant => { :company => { :id => company_id } } }
       can [:new, :create], Subcategory

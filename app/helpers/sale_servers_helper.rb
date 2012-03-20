@@ -1,0 +1,2 @@
+module SaleServersHelper
+end

@@ -1,0 +1,16 @@
+.block
+  .content
+    .inner
+      %p
+        %b Name:
+        = @sale_server.name
+      %p
+        %b Date:
+        = @sale_server.date
+      %p
+        %b Branch:
+        = link_to @sale_server.branch.location, branch_path(@sale_server.branch)
+      - if can? :edit, SaleServer
+        = link_to 'Edit', edit_sale_server_path(@sale_server)
+        \|
+      = link_to 'Back', sale_servers_path  

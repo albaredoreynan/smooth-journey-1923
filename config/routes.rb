@@ -1,4 +1,6 @@
 Rrbs::Application.routes.draw do
+  resources :sale_servers
+
   devise_for :users, :controller => {:registrations => 'users/registrations'}
 
   # Search routes
