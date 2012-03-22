@@ -118,6 +118,10 @@ describe SalesController do
           FactoryGirl.create(:settlement_type, :name => 'Comp 96', :branch => @branch),
           FactoryGirl.create(:settlement_type, :name => 'Comp 97', :branch => @branch),
         ]
+        servers = [
+          FactoryGirl.create(:server, :branch => @branch),
+          FactoryGirl.create(:server, :branch => @branch),
+        ]
 
         post_params = {
           :branch_id => @branch.id, :sale_date => Date.today,
@@ -139,6 +143,10 @@ describe SalesController do
             6 => { :settlement_type_id => settlement_types[6].id, :amount =>       nil },
             7 => { :settlement_type_id => settlement_types[7].id, :amount =>       nil },
             8 => { :settlement_type_id => settlement_types[8].id, :amount =>       nil },
+          },
+          :sale_servers_attributes => {
+            0 => { :server_id => servers[0], :amount => 100_000.00 },
+            1 => { :server_id => servers[1], :amount =>   3_794.78 }
           },
           :gc_redeemed =>         1_000.00,
           :delivery_sales =>      7_823.00,

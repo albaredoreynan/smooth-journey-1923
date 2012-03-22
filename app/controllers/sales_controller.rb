@@ -28,6 +28,11 @@ class SalesController < ApplicationController
       @sale.settlement_type_sales.build({:settlement_type_id => st.id})
     end
 
+    servers = Server.accessible_by(current_ability)
+    servers.each do |ss|
+      @sale.sale_servers.build({:server_id => ss.id})
+    end
+
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @sale }
@@ -49,8 +54,8 @@ class SalesController < ApplicationController
         format.html { redirect_to(@sale, :notice => 'Sale was successfully created.') }
         format.xml  { render :xml => @sale, :status => :created, :location => @sale }
       else
-        format.html { flash[:alert] = 'Error! Total sales and settlement are not equal.' 
-                      render :action => :new 
+        format.html { flash[:alert] = 'Error! Total sales and settlement are not equal.'
+                      render :action => :new
                     }
         format.xml  { render :xml => @sale.errors, :status => :unprocessable_entity }
       end
@@ -105,5 +110,5 @@ class SalesController < ApplicationController
       redirect_to sales_by_server_path
     end
   end
-  
+
 end

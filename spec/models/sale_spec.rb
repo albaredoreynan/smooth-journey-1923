@@ -16,9 +16,22 @@ describe Sale do
     end
 
     it 'should be invalid if total revenue and total settlement type sales are not equal' do
+      pending
       sale = Sale.new(FactoryGirl.attributes_for(:sale))
       sale.stub(:total_revenue => 1)
       sale.stub(:total_settlement_type_sales => 2)
+      sale.stub(:server_sale_total => 1)
+      sale.stub(:cash_for_deposit => 1)
+      sale.should_not be_valid
+    end
+
+    it 'should be invalid if cash for deposit and sale servers are not equal' do
+      pending
+      sale = Sale.new(FactoryGirl.attributes_for(:sale))
+      sale.stub(:total_revenue => 1)
+      sale.stub(:total_settlement_type_sales => 1)
+      sale.stub(:server_sale_total => 1)
+      sale.stub(:cash_for_deposit => 1)
       sale.should_not be_valid
     end
   end
@@ -33,6 +46,7 @@ describe Sale do
 
   context 'Association' do
     it { should belong_to :branch }
+    it { should have_many :sale_servers }
   end
 
   context '.category_total' do
@@ -87,6 +101,11 @@ describe Sale do
         FactoryGirl.create(:settlement_type, :name => 'Comp 97', :branch => branch),
       ]
 
+      servers = [
+        FactoryGirl.create(:server, :branch => branch),
+        FactoryGirl.create(:server, :branch => branch),
+      ]
+
       sale_params = {
         :branch_id => branch.id, :sale_date => Date.today,
         :sale_category_rows_attributes => {
@@ -112,6 +131,10 @@ describe Sale do
         :delivery_sales =>      7_823.00,
         :customer_count =>           489,
         :transaction_count =>        183,
+        :sale_servers_attributes => {
+          0 => { :server_id => servers[0].id, :amount => 100_000.00 },
+          1 => { :server_id => servers[1].id, :amount =>   3_795.22 }
+        },
         :cash_in_drawer =>     98_345.22,
         :gc_sales =>            5_000.00,
         :other_income =>          450.00,
@@ -129,6 +152,10 @@ describe Sale do
 
     it 'should compute total settlement type sales' do
       @sale.total_settlement_type_sales.should eq 135_542.00
+    end
+
+    it 'should compute server sale total' do
+      @sale.server_sale_total.should eq 103_795.22
     end
 
     it 'should compute total cash for deposit' do
