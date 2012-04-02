@@ -1,3 +1,4 @@
+pdf.start_new_page 
 pdf.text "Item Cost Analysis as of #{@ending_date.strftime("%-d-%b-%Y")}" , :style => :bold
 pdf.move_down 10
 pdf.font_size 7

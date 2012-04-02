@@ -3,12 +3,14 @@ class SalesController < ApplicationController
   set_tab :sales
 
   def index
+    authorize! :index, Sale
     @sales = Sale.accessible_by(current_ability)
   end
 
   def show
     @sale = Sale.includes([:sale_category_rows, :settlement_type_sales, :branch])
       .find(params[:id])
+    authorize! :show, @sale
 
     respond_to do |format|
       format.html # show.html.erb
@@ -28,6 +30,11 @@ class SalesController < ApplicationController
       @sale.settlement_type_sales.build({:settlement_type_id => st.id})
     end
 
+    servers = Server.accessible_by(current_ability)
+    servers.each do |ss|
+      @sale.sale_servers.build({:server_id => ss.id})
+    end
+
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @sale }
@@ -36,6 +43,7 @@ class SalesController < ApplicationController
 
   def edit
     @sale = Sale.find(params[:id])
+    authorize! :edit, @sale
   end
 
   def create
@@ -49,8 +57,8 @@ class SalesController < ApplicationController
         format.html { redirect_to(@sale, :notice => 'Sale was successfully created.') }
         format.xml  { render :xml => @sale, :status => :created, :location => @sale }
       else
-        format.html { flash[:alert] = 'Error! Total sales and settlement are not equal.' 
-                      render :action => :new 
+        format.html { flash[:alert] = 'Error! Total sales and settlement are not equal.'
+                      render :action => :new
                     }
         format.xml  { render :xml => @sale.errors, :status => :unprocessable_entity }
       end
@@ -59,6 +67,7 @@ class SalesController < ApplicationController
 
   def update
     @sale = Sale.find(params[:id])
+    authorize! :update, @sale
 
     respond_to do |format|
       if @sale.update_attributes(params[:sale])
@@ -73,6 +82,7 @@ class SalesController < ApplicationController
 
   def destroy
     @sale = Sale.find(params[:id])
+    authorize! :delete, @sale
     @sale.destroy
 
     respond_to do |format|
@@ -105,5 +115,5 @@ class SalesController < ApplicationController
       redirect_to sales_by_server_path
     end
   end
-  
+
 end

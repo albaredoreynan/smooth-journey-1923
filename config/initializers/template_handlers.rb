@@ -6,7 +6,7 @@ module Prawn
     class TemplateHandler
       def self.call(template)
         %Q{
-          pdf = Prawn::Document.new
+          pdf = Prawn::Document.new :skip_page_creation => true
           #{template.source}
           pdf.render
         }

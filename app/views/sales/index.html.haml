@@ -26,6 +26,9 @@
             %td.monetary= sale.total_settlement_type_sales
             %td.monetary= sale.cash_for_deposit
             %td
-              = link_to 'Show', sale_path(sale)
-              = link_to 'Edit', edit_sale_path(sale)
-              = link_to 'Destroy', sale_path(sale), :method => :delete, :confirm => 'Are you sure?'
+              - if can? :show, sale
+                = link_to 'Show', sale_path(sale)
+              - if can? :edit, sale
+                = link_to 'Edit', edit_sale_path(sale)
+              - if can? :destroy, sale
+                = link_to 'Destroy', sale_path(sale), :method => :delete, :confirm => 'Are you sure?'

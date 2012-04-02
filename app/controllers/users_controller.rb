@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
-  
+
   set_tab :user
-  
+
   def index
     if current_user.admin?
       @users = User.where('users.id != ?', current_user.id).page(params[:page])
@@ -16,6 +16,7 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(params[:user])
+    @user.company_id = @current_company.id
     if @user.save
       redirect_to(users_path, :notice => 'User was successfully created.')
     else

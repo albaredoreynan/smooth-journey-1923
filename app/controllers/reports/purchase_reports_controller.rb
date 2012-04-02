@@ -5,23 +5,26 @@ class Reports::PurchaseReportsController < ReportsController
   def index
     @start_date = params[:start_date] || Date.today.beginning_of_month
     @end_date = params[:end_date] || Date.today
-    
+
     if current_user.branch?
       branch_id = @current_branch.id
     else
       @branch = Branch.accessible_by(current_ability).first
       branch_id = params[:branch_id] || @branch.id
     end
-    
-    @purchase_items = PurchaseItem.accessible_by(current_ability).search(
-      :start_date => @start_date,
-      :end_date => @end_date,
-      :supplier => params[:supplier],
-      :invoice_number => params[:invoice_number],
-      :item => params[:item],
-      :subcategory => params[:subcategory],
-      :branch_id => branch_id
-    ).group_by do |pi|
+
+    @purchase_items = PurchaseItem.
+      accessible_by(current_ability).
+      search(
+        :start_date => @start_date,
+        :end_date => @end_date,
+        :supplier => params[:supplier],
+        :invoice_number => params[:invoice_number],
+        :item => params[:item],
+        :subcategory => params[:subcategory],
+        :branch_id => branch_id
+      ).
+      joins(:purchase).where('purchases.deleted_at IS NULL').group_by do |pi|
       pi.item.subcategory ||= Subcategory.new(:name => '(No subcategory)')
     end
 

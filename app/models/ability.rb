@@ -104,10 +104,10 @@ class Ability
       can :new,    Users
       can :manage, User, :roles => { :company => { :id => company_id } }
       can :manage, Unit, :restaurant => { :company => { :id => company_id } }
-    
-    when 'accountant'
-      can :read, :all
-      
+
+    when 'accounting'
+      can [:index, :read], :all
+
     when 'admin'
       can :manage, :all
     end

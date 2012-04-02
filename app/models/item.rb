@@ -12,16 +12,13 @@ class Item < ActiveRecord::Base
   default_scope order('name ASC')
 
   scope :inventory, where(:non_inventory => false)
+  scope :search, lambda{|keyword| where('items.name ILIKE ?', "%#{keyword}%") unless keyword.blank?}
 
   after_save :new_item_count, :if => :new_record? do
     item_counts.create(:stock_count => 0.00)
   end
 
   delegate :symbol, :to => :unit, :prefix => true
-
-  def self.search(keyword)
-    where("name ILIKE ?", "%#{keyword}%")
-  end
 
   def branch_location
     branch.location if branch

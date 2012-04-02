@@ -18,10 +18,12 @@ class Sale < ActiveRecord::Base
     :source => :category,
     :class_name => 'SaleCategory'
   has_many :sale_category_rows
+  has_many :sale_servers
   belongs_to :branch
 
   accepts_nested_attributes_for :settlement_type_sales
   accepts_nested_attributes_for :sale_category_rows
+  accepts_nested_attributes_for :sale_servers
 
   def category_total
     sale_category_rows.map(&:amount).reject(&:nil?).inject(:+).to_f || 0
@@ -29,6 +31,10 @@ class Sale < ActiveRecord::Base
 
   def settlement_type_total
     settlement_type_sales.map(&:amount).reject(&:nil?).inject(:+) || 0
+  end
+
+  def server_sale_total
+    sale_servers.map(&:amount).reject(&:nil?).inject(:+) || 0
   end
 
   def net_sales
@@ -63,7 +69,7 @@ class Sale < ActiveRecord::Base
 
   private
   def totals_should_be_equal
-    unless total_revenues == total_settlement_type_sales
+    unless total_revenues == total_settlement_type_sales && server_sale_total == cash_for_deposit
       errors.add(:base, 'totals should add up.')
     end
   end

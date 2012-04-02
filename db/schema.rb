@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120320100111) do
+ActiveRecord::Schema.define(:version => 20120329042458) do
 
   create_table "branches", :force => true do |t|
     t.integer  "restaurant_id"
@@ -259,10 +259,19 @@ ActiveRecord::Schema.define(:version => 20120320100111) do
   add_index "sale_category_rows", ["category_id"], :name => "index_sale_category_rows_on_sale_category_id"
   add_index "sale_category_rows", ["sale_id"], :name => "index_sale_category_rows_on_sale_id"
 
+  create_table "sale_servers", :force => true do |t|
+    t.integer  "sale_id"
+    t.integer  "server_id"
+    t.decimal  "amount",     :default => 0.0
+    t.datetime "deleted_at"
+    t.datetime "created_at",                  :null => false
+    t.datetime "updated_at",                  :null => false
+  end
+
   create_table "sales", :force => true do |t|
     t.float    "vat",               :default => 0.0
-    t.integer  "customer_count"
-    t.integer  "transaction_count"
+    t.integer  "customer_count",    :default => 0
+    t.integer  "transaction_count", :default => 0
     t.float    "delivery_sales",    :default => 0.0
     t.integer  "branch_id"
     t.float    "service_charge",    :default => 0.0
@@ -327,6 +336,7 @@ ActiveRecord::Schema.define(:version => 20120320100111) do
     t.date     "created_at",         :null => false
     t.date     "updated_at",         :null => false
     t.datetime "deleted_at"
+    t.boolean  "complimentary"
   end
 
   add_index "settlement_type_sales", ["sale_id"], :name => "index_ssrows_on_sale_id"
@@ -337,6 +347,7 @@ ActiveRecord::Schema.define(:version => 20120320100111) do
     t.datetime "updated_at"
     t.integer  "branch_id"
     t.datetime "deleted_at"
+    t.boolean  "complimentary"
   end
 
   create_table "subcategories", :force => true do |t|

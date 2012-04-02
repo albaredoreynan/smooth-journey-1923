@@ -1,3 +1,4 @@
+pdf.start_new_page
 pdf.text "Purchase Report From #{@start_date} To #{@end_date}" , :style => :bold 
 pdf.move_down 10
 pdf.font_size 7

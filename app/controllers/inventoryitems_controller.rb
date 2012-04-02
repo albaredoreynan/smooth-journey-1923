@@ -5,11 +5,7 @@ class InventoryitemsController < ApplicationController
   set_tab :items
 
   def index
-    if params[:search]
-      @items = Item.accessible_by(current_ability).search(params[:search]).page(params[:page])
-    else
-      @items = Item.accessible_by(current_ability).page(params[:page])
-    end
+    @items = Item.accessible_by(current_ability).search(params[:search]).page(params[:page])
 
     respond_to do |format|
       format.html # index.html.erb

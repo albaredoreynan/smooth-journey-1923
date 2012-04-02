@@ -30,6 +30,14 @@
     = f.input :transaction_count
 
   %fieldset
+    %legend= 'Sales By Server'
+    = f.fields_for :sale_servers do |ss|
+      .input
+        = ss.hidden_field :server_id, :value => ss.object.server_id
+        = f.label ss.object.server.name
+        = ss.text_field :amount
+
+  %fieldset
     %legend= 'Cash for Deposit'
     = f.input :cash_in_drawer
     = f.input :gc_sales

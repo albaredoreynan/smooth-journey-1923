@@ -6,20 +6,34 @@
   = render 'shared/menu/reports'
   .content
     .title_action_bar
-      %h2.title Directional
+      %h2.title= directional_reports_title(params[:date], params[:date])
+      .new_actions
+        = 'Download as'
+        = link_to 'CSV', :format => :csv
+        = link_to 'PDF', :format => :pdf
     .inner
       %table
         %tr
-          %th Net Sales
-          %th{:title => 'Month to Date', :class => 'number'} MTD
-          %th.number Last year
-
+          %th Net Sales (Category)
+          %th &nbsp;
+          %th Percentage
+        - directional_categories_percentage = Array.new
         - last_year = @directional.last_year
         - @directional.net_sales.each do |category, net_sale|
           %tr
             %td= category
             %td.monetary= number_to_currency(net_sale, :unit => peso_sign)
-            %td &nbsp;
+            - amount_percentage = net_sale.to_f.percent_of(@directional.net_sale_total)
+            - directional_categories_percentage << amount_percentage
+            %td=  number_to_percentage(amount_percentage)
+        %tr.totals
+          %td= 'Total'
+          %td.monetary= @directional.net_sale_total
+          %td= number_to_percentage(directional_categories_percentage.inject(:+))
+        %tr
+          %th Net Sales
+          %th{:title => 'Month to Date', :class => 'number'} MTD
+          %th.number Last year
         %tr.totals
           %td= 'Total'
           %td.monetary= number_to_currency(@directional.net_sale_total, :unit => peso_sign)
