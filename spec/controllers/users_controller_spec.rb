@@ -41,19 +41,30 @@ describe UsersController do
     describe 'POST #create' do
       before do
         @branch = FactoryGirl.create(:branch)
-        @post_params = { :username => 'test', :password => 'test123', :email => 'test@example.com', :role => 'branch', :branch_id => @branch.id }
+        @post_params = {
+          :username => 'test',
+          :password => 'test123',
+          :email => 'test@example.com',
+        }
       end
 
       it 'should save new user' do
         lambda {
-          post 'create', :user => @post_params
+          post 'create', :user => @post_params.merge({:role => 'branch', :branch_id => @branch.id})
         }.should change(User, :count).by(1)
       end
 
       it 'should assign role' do
         lambda {
-          post 'create', :user => @post_params
+          post 'create', :user => @post_params.merge({:role => 'branch', :branch_id => @branch.id})
         }.should change(Role, :count).by(1)
+      end
+
+      it 'should assign a currently logged in company' do
+        post 'create', :user => @post_params.merge({:role => 'account', :branch_id => ''})
+        user = User.find_by_username('test')
+        company = user.roles.first.company
+        company.should eq @current_company
       end
     end
   end

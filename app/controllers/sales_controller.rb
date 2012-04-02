@@ -3,12 +3,14 @@ class SalesController < ApplicationController
   set_tab :sales
 
   def index
+    authorize! :index, Sale
     @sales = Sale.accessible_by(current_ability)
   end
 
   def show
     @sale = Sale.includes([:sale_category_rows, :settlement_type_sales, :branch])
       .find(params[:id])
+    authorize! :show, @sale
 
     respond_to do |format|
       format.html # show.html.erb
@@ -41,6 +43,7 @@ class SalesController < ApplicationController
 
   def edit
     @sale = Sale.find(params[:id])
+    authorize! :edit, @sale
   end
 
   def create
@@ -64,6 +67,7 @@ class SalesController < ApplicationController
 
   def update
     @sale = Sale.find(params[:id])
+    authorize! :update, @sale
 
     respond_to do |format|
       if @sale.update_attributes(params[:sale])
@@ -78,6 +82,7 @@ class SalesController < ApplicationController
 
   def destroy
     @sale = Sale.find(params[:id])
+    authorize! :delete, @sale
     @sale.destroy
 
     respond_to do |format|

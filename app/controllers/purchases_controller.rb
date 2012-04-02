@@ -4,14 +4,14 @@ class PurchasesController < ApplicationController
 
   def index
     authorize! :index, Purchase
-    
+
     if current_user.branch?
       @branch_id = @current_branch.id
     else
       @branch = Branch.accessible_by(current_ability).first
       @branch_id = params[:branch_id] || @branch.id
     end
-    
+
     if params[:start_date] || params[:end_date] || params[:invoice_number] || params[:supplier] || params[:branch_id]
       @purchases = Purchase.accessible_by(current_ability).search(params).page(params[:page])
     else

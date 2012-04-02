@@ -3,7 +3,7 @@
     = f.input :username
     = f.input :password
     = f.input :email
-    = f.input :role, :collection => ["branch"]
+    = f.input :role, :collection => [['Branch Manager', 'branch'], ['Accounting', 'accounting']]
     = f.input :branch_id, :collection => Branch.accessible_by(current_ability).map{|branch| [branch.location, branch.id]}
   .actions
     = f.button :submit

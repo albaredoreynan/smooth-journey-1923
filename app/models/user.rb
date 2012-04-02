@@ -5,8 +5,8 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable, :authentication_keys => [:username]
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me, :role, :username, :branch_id
-  attr_accessor :role, :branch_id
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :role, :username, :branch_id, :company_id
+  attr_accessor :role, :branch_id, :company_id
 
   has_many :roles
   has_many :branches, :through => :roles
@@ -36,6 +36,10 @@ class User < ActiveRecord::Base
 
   private
   def set_roles
-    roles.create(:name => @role, :branch_id => @branch_id)
+    unless @branch_id.blank?
+      roles.create(:name => @role, :branch_id => @branch_id)
+    else
+      roles.create(:name => @role, :company_id => @company_id)
+    end
   end
 end
