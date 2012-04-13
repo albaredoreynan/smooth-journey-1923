@@ -47,6 +47,9 @@ class Ability
       can :read, Currency
       cannot [:create, :edit, :update, :destroy], Currency
 
+      # Sale
+      can :manage, Sale, :branch_id => branch.id
+
       # Settlement Type
       can :read, SettlementType, :branch_id => branch.id
       cannot [:create, :edit, :update, :destroy], SettlementType, :branch_id => branch.id

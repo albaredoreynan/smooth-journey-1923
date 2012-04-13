@@ -32,6 +32,7 @@ group :development do
   gem 'ruby_parser'
   gem 'web-app-theme'
   gem 'database_cleaner'
+  gem 'taps'
 end
 
 group :test do

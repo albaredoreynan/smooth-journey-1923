@@ -174,4 +174,19 @@ describe SalesController do
       end
     end
   end
+
+  context 'as branch manager' do
+    login_branch
+
+    context 'GET #index' do
+      it 'should only show sales from branch' do
+        @sale = FactoryGirl.create(:sale, :branch => @current_branch)
+        @other_restaurant = FactoryGirl.create(:restaurant, :company => @current_company)
+        @other_branch = FactoryGirl.create(:branch, :restaurant => @other_restaurant)
+        FactoryGirl.create(:sale, :branch => @other_branch)
+        get 'index'
+        assigns[:sales].should eq [@sale]
+      end
+    end
+  end
 end
