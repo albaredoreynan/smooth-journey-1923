@@ -16,11 +16,24 @@ rows << purchase_item_headers
 subtotal = purchase_items.map(&:net_amount).inject(:+)
 grand_total += subtotal
 
-  rows << [subcategory.name, '','','','','','','','','','',subtotal]
+  rows << [subcategory.name, '','','','','','','','','','',number_to_currency(subtotal, :unit => peso_sign)]
+    purchase_items.each do |purchase_item|
+        rows << ['',purchase_item.item.name,
+        purchase_item.purchase.invoice_number,
+        purchase_item.purchase.supplier_name,
+        purchase_item.purchase.purchase_date,
+        purchase_item.particulars,
+        purchase_item.quantity,
+        purchase_item.item.unit_name,
+        number_to_currency(purchase_item.unit_cost, :unit => peso_sign),
+        number_to_currency(purchase_item.vat_amount, :unit => peso_sign),
+        number_to_currency(purchase_item.purchase_amount, :unit => peso_sign),
+        number_to_currency(purchase_item.net_amount, :unit => peso_sign)]
         
+    end    
 end
 
-rows << ['Grand Total','','','','','','','','','','', grand_total]
+rows << ['Grand Total','','','','','','','','','','', number_to_currency(grand_total, :unit => peso_sign)]
 
 pdf.table rows,
   :border_style => :grid,
