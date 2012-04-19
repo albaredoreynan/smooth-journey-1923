@@ -12,6 +12,16 @@ grand_total = 0
 purchase_item_headers = ['Item Subcategory','Item', 'Invoice number', 'Supplier name', 'Purchase date', 'Particulars', 'Qty', 'Unit', 'Unit cost', 'VAT', 'Purchase amount', 'Net amount']
 rows << purchase_item_headers
 
+@purchase_items.each do |subcategory, purchase_items|
+subtotal = purchase_items.map(&:net_amount).inject(:+)
+grand_total += subtotal
+
+  rows << [subcategory.name, '','','','','','','','','','',subtotal]
+        
+end
+
+rows << ['Grand Total','','','','','','','','','','', grand_total]
+
 pdf.table rows,
   :border_style => :grid,
   :font_size => 8,
