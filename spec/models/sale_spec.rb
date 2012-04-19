@@ -16,7 +16,6 @@ describe Sale do
     end
 
     it 'should be invalid if total revenue and total settlement type sales are not equal' do
-      pending
       sale = Sale.new(FactoryGirl.attributes_for(:sale))
       sale.stub(:total_revenue => 1)
       sale.stub(:total_settlement_type_sales => 2)
@@ -26,7 +25,6 @@ describe Sale do
     end
 
     it 'should be invalid if cash for deposit and sale servers are not equal' do
-      pending
       sale = Sale.new(FactoryGirl.attributes_for(:sale))
       sale.stub(:total_revenue => 1)
       sale.stub(:total_settlement_type_sales => 1)

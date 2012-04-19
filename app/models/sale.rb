@@ -5,7 +5,8 @@ class Sale < ActiveRecord::Base
   validates :transaction_count, :presence => true
   validates :vat, :presence => true
   validates :sale_date, :presence => true
-  validate :totals_should_be_equal
+  validate :category_and_settlement_totals_should_be_equal
+  validate :cash_for_deposit_totals_should_be_equal
 
   default_scope :order => 'sale_date DESC'
 
@@ -68,9 +69,15 @@ class Sale < ActiveRecord::Base
   end
 
   private
-  def totals_should_be_equal
+  def category_and_settlement_totals_should_be_equal
     unless total_revenues == total_settlement_type_sales && server_sale_total == cash_for_deposit
-      errors.add(:base, 'totals should add up.')
+      errors.add(:base, 'category sale and settlement type sales should be equal')
+    end
+  end
+
+  def cash_for_deposit_totals_should_be_equal
+    unless server_sale_total == cash_for_deposit
+      errors.add(:base, 'server sale and cash for deposit should be equal')
     end
   end
 end
