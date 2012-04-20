@@ -49,10 +49,13 @@ class Ability
 
       # Sale
       can :manage, Sale, :branch_id => branch.id
-
+      
+      # Sales Category
+      can :read, SaleCategory, :restaurant_id => branch.restaurant
+      
       # Settlement Type
-      can :read, SettlementType, :branch_id => branch.id
-      cannot [:create, :edit, :update, :destroy], SettlementType, :branch_id => branch.id
+      can :read, SettlementType, :restaurant_id => branch.restaurant
+      cannot [:create, :edit, :update, :destroy], SettlementType, :restaurant_id => branch.restaurant
 
       # Server
       can :read, Server, :branch_id => branch.id
@@ -96,11 +99,11 @@ class Ability
       can :manage, Server, :branch => { :restaurant => { :company => { :id => company_id } } }
       can [:new, :create], Server
       can :manage, SaleCategory, :restaurant => { :company_id => company_id }
-      can :manage, SettlementType, :branch => { :restaurant => { :company => { :id => company_id } } }
+      can :manage, SettlementType, :restaurant => { :company => { :id => company_id } } 
       can [:new, :create], Subcategory
       can :manage, Subcategory, :category => { :restaurant => { :company => { :id => company_id } } }
       can [:new, :create], SettlementType
-      can :manage, SettlementType, :branch => { :restaurant => { :company => { :id => company_id } } }
+      can :manage, SettlementType, :restaurant => { :company => { :id => company_id } } 
       can :manage, Supplier, :company_id =>  company_id
       can :new,    Unit
       can :manage, Unit, :restaurant => { :company => { :id => company_id } }

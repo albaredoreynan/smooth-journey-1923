@@ -1,7 +1,10 @@
 = simple_form_for @settlement_type do |f|
   %fieldset
-    - if can?(:index, Branch)
-      = f.association :branch, :collection => Branch.accessible_by(current_ability).map{ |branch| [branch.location, branch.id] }
+    - if can?(:index, Restaurant)
+      = f.association :restaurant, :collection => Restaurant.accessible_by(current_ability).map{ |restaurant| [restaurant.name, restaurant.id] }
     = f.input :name
+    = content_tag(:div, class: 'input checkbox') do
+      = f.label :complimentary, "Complimentary?"
+      = f.check_box :complimentary
   .actions
     = f.button :submit

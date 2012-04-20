@@ -10,12 +10,12 @@
       %table
         %tr
           %th Name
-          %th Branch
+          %th Restaurant
           %th.actions Action
         - @settlement_types.each do |settlement_type|
           %tr
             %td= settlement_type.name
-            %td= link_to settlement_type.branch.location, branch_path(settlement_type.branch)
+            %td= link_to settlement_type.restaurant.name, restaurant_path(settlement_type.restaurant)
             %td
               = link_to 'Show', settlement_type
               - if can? :edit, settlement_type
