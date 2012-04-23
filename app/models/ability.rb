@@ -20,7 +20,9 @@ class Ability
         seconds_in_minute = 60
         purchase.created_at < Time.now - setting[:lock_module_in].to_i * seconds_in_minute
       end
-
+      
+      can :manage, PurchaseItem, :purchase => { :branch_id => branch.id }
+      
       # Inventory Item
       can :manage, Endcount
       can :manage, [EndcountItem, Item], :restaurant_id => branch.restaurant.id
