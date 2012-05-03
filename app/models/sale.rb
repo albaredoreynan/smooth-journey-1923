@@ -5,8 +5,8 @@ class Sale < ActiveRecord::Base
   validates :transaction_count, :presence => true
   validates :vat, :presence => true
   validates :sale_date, :presence => true
-  validate :category_and_settlement_totals_should_be_equal
-  validate :cash_for_deposit_totals_should_be_equal
+  # validate :category_and_settlement_totals_should_be_equal
+  # validate :cash_for_deposit_totals_should_be_equal
 
   default_scope :order => 'sale_date DESC'
 
