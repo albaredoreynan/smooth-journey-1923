@@ -5,7 +5,7 @@ development:
   database: rrbs_development
   pool: 5
   username: postgres
-  password:
+  password: test123
 
 test:
   adapter: postgresql
@@ -14,7 +14,7 @@ test:
   database: rrbs_test
   pool: 5
   username: postgres
-  password:
+  password: test123
 
 production:
   adapter: postgresql
@@ -23,4 +23,4 @@ production:
   database: rrbs_production
   pool: 5
   username: postgres
-  password:
+  password: test123
