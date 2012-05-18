@@ -22,7 +22,7 @@ class EndcountItem < Item
     return if beginning_total.nil? or ending_total.nil? or purchase_amount_period.nil?
     beginning_total + purchase_amount_period - ending_total
   end
-
+  
   def purchase_amount_period
     return if @beginning_date.nil? and @ending_date.nil?
     purchase_items.joins(:purchase)
@@ -35,7 +35,11 @@ class EndcountItem < Item
     cost = purchased_items_last_month.length > 0 ?  average_unit_cost : last_unit_cost
     cost.round 2
   end
-
+  
+  def amount_usage
+    cogs 
+  end
+  
   private
   def last_count_from_previous_month
     previous_month = @ending_date.to_date - 1.month

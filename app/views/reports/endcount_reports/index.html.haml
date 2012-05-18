@@ -21,7 +21,7 @@
             %th
             %th{:colspan => 2, :style => 'text-align:center; width: 25%;'} Beginning
             %th
-            %th{:colspan => 2, :style => 'text-align:center; width: 25%'} Ending
+            %th{:colspan => 3, :style => 'text-align:center; width: 25%'} Ending
             %th
           %tr
             %th Item
@@ -33,6 +33,7 @@
             %th.number Count
             %th.number Total
             %th.number{ :title => 'Cost of Goods' } COGS
+            %th.number USAGE
         - grand_total_beginning_count = 0.0
         - grand_total_beginning_total = 0.0
         - grand_total_purchase_amount = 0.0
@@ -73,6 +74,7 @@
                   %td.number= item.ending_count
                   %td.monetary= number_to_currency(item.ending_total, :unit => peso_sign) if item.ending_count
                   %td.monetary= number_to_currency(item.cogs, :unit => peso_sign)
+                  %td.monetary= item.amount_usage
         %tfoot
           %tr.totals
             %th{:colspan => 3} Grand Total

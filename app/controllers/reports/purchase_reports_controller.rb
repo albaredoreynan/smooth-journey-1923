@@ -9,10 +9,18 @@ class Reports::PurchaseReportsController < ReportsController
     if current_user.branch?
       branch_id = @current_branch.id
     else
-      @branch = Branch.accessible_by(current_ability).first
-      branch_id = params[:branch_id] || @branch.id
+      if params[:branch_id]
+        @branch = Branch.find(params[:branch_id])
+        branch_id = params[:branch_id]
+      else
+        @branch = Branch.accessible_by(current_ability).first
+        branch_id = @branch.id        
+      end
+      
+      puts branch_id
+      puts @branch.location
     end
-
+    
     @purchase_items = PurchaseItem.
       accessible_by(current_ability).
       search(

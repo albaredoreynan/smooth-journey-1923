@@ -1,12 +1,16 @@
 .block
   .content
     .inner
-      %p
+      %p  
         %b Branch:
         = @sale.branch.location
       %p
         %b Date:
         = @sale.sale_date.strftime("%-d-%b-%Y")
+      %p
+        .new_actions
+          = 'Download as'
+          = link_to 'PDF', :format => :pdf
       %table
         %tr
           %th{:colspan => 3}= 'Sale by Category'

@@ -15,6 +15,18 @@ class SalesController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @sale }
+      
+      format.csv do
+        filename = "Daily_Sales_Report"
+        render_csv(filename)
+      end
+      
+      format.pdf do
+        headers['Content-Disposition'] = "attachment; filename=\"Daily_Sales_Report\""
+        render :layout => false
+      end
+      
+      
     end
   end
 

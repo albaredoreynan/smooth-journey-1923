@@ -87,6 +87,7 @@ class PurchasesController < ApplicationController
 
   def destroy
     @purchase = Purchase.find(params[:id])
+    
     authorize! :delete, @purchase
     @purchase.destroy
 

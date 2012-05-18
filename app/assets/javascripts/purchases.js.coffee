@@ -1,4 +1,10 @@
 jQuery ->
+  
+  purchase_item_ids = []
+  add_purchase_item_id = (purchase_item_id) ->
+    purchase_item_ids.push purchase_item_id
+    alert purchase_item_id.serializeArray()
+    
   $('#new_purchase_item')
     .live 'ajax:beforeSend', (event, xhr) ->
       # disable form elements
@@ -25,12 +31,13 @@ jQuery ->
   $('td#purchase_total_amount').change ->
     total = 0
     amounts = $('td.item-amount').map ->
-      parseFloat($(this).html().trim())
+      amount = $(this).html().trim().replace(",","")
+      parseFloat(amount)
     $(amounts).each (index, value) ->
       total += value
     $(this).html((total).toFixed(2))
 
-
+    
   $.widget "ui.combobox",
     _create: ->
       self = this
