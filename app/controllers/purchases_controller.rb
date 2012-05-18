@@ -72,7 +72,9 @@ class PurchasesController < ApplicationController
     if current_user.branch?
       @purchase.branch = current_branch
     end
-
+     
+    @purchase.purchase_items.destroy_all
+    
     respond_to do |format|
       if @purchase.update_attributes(params[:purchase])
         session.delete :purchase

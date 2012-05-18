@@ -36,13 +36,13 @@ class PurchaseItemsController < ApplicationController
   end
 
   def destroy
-    @purchase_item = PurchaseItem.find(params[:id])
+    @purchase_item = PurchaseItem.find(params[:id], :readonly => false)
     @purchase_item.destroy
-
+    
     respond_to do |format|
       format.html { head :ok }
       format.xml  { head :ok }
-      format.js
+      format.js   {render :nothing => true}
     end
   end
 

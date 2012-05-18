@@ -12,30 +12,28 @@ class Reports::PurchaseReportsController < ReportsController
       if params[:branch_id]
         @branch = Branch.find(params[:branch_id])
         branch_id = params[:branch_id]
+        puts @branch.location
       else
         @branch = Branch.accessible_by(current_ability).first
         branch_id = @branch.id        
+        puts @branch.location
       end
-      
-      puts branch_id
-      puts @branch.location
+    
     end
     
+    puts params.inspect
+    puts branch_id
     @purchase_items = PurchaseItem.
       accessible_by(current_ability).
       search(
-        :start_date => @start_date,
-        :end_date => @end_date,
-        :supplier => params[:supplier],
-        :invoice_number => params[:invoice_number],
-        :item => params[:item],
-        :subcategory => params[:subcategory],
         :branch_id => branch_id
       ).
       joins(:purchase).where('purchases.deleted_at IS NULL').group_by do |pi|
       pi.item.subcategory ||= Subcategory.new(:name => '(No subcategory)')
     end
-
+    
+    puts @purchase_items.inspect
+    
     respond_to do |wants|
       wants.html
       wants.csv do

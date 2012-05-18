@@ -1,9 +1,4 @@
 jQuery ->
-  
-  purchase_item_ids = []
-  add_purchase_item_id = (purchase_item_id) ->
-    purchase_item_ids.push purchase_item_id
-    alert purchase_item_id.serializeArray()
     
   $('#new_purchase_item')
     .live 'ajax:beforeSend', (event, xhr) ->

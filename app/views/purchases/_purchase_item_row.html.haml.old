@@ -1,4 +1,3 @@
-
 %tr{:id => dom_id(purchase_item)}
   %td.item-name
     = purchase_item.item_name
@@ -21,7 +20,4 @@
   %td.actions
     = link_to 'Delete', '#',
       :class => 'delete_purchase_item',
-      :onclick => "$(this).closest('tr').fadeOut().remove(); $('td#purchase_total_amount').trigger('change')"
-     
-  
-    
+      :onclick => "$(this).closest('tr').fadeOut('hide').remove(); $('td#purchase_total_amount').trigger('change')"

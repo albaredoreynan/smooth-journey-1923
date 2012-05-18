@@ -44,7 +44,7 @@
         - by_subcategory.each do |subcategory, items|
           %tbody
             %tr{:id => dom_id(subcategory), :class => 'subcategory_row'}
-              %th{:colspan => 3}= subcategory.name
+              %th{:colspan => 4}= subcategory.name
               - subtotal_beginning_count = items.map(&:beginning_count).reject(&:nil?).inject(:+)
               - grand_total_beginning_count += subtotal_beginning_count if subtotal_beginning_count
               %th.number= subtotal_beginning_count
@@ -84,3 +84,4 @@
             %th.number= number_with_precision(grand_total_ending_count, :precision => 2, :delimeter => ',')
             %th.monetary= number_to_currency(grand_total_ending_total, :unit => peso_sign)
             %th.number= number_with_precision(grand_total_cogs, :precision => 2, :delimiter => ',')
+            %th
