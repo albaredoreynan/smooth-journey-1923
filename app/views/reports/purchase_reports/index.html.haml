@@ -11,8 +11,8 @@
       - @end_date = params[:end_date]
       .new_actions
         = 'Download as'
-        = link_to 'CSV', :format => :csv
-        = link_to 'PDF', :format => :pdf
+        = link_to 'CSV', purchase_reports_path(params.merge(format: 'csv'))
+        = link_to 'PDF', purchase_reports_path(params.merge(format: 'pdf'))
     .inner
       %table
         %thead
