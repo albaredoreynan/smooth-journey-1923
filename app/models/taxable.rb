@@ -13,7 +13,7 @@ module Taxable
     when 'VAT-Inclusive'
       amount - (amount / 1.12)
     when 'VAT-Exclusive'
-      amount * 0.12
+      (amount * 1.12) - amount
     when 'VAT-Exempted'
       0
     end
@@ -24,7 +24,7 @@ module Taxable
       (amount - vat_amount)
     else
       if vat_type == 'VAT-Exclusive'
-        (amount - vat_amount)
+        (amount + vat_amount)
       else
         amount
       end
@@ -32,7 +32,15 @@ module Taxable
   end
 
   def purchase_amount
-    vat_type == 'VAT-Exclusive' ? amount + vat_amount : amount
+    if vat_type == 'VAT-Exclusive'
+      (amount - vat_amount)
+    else
+      if vat_type == 'VAT-Inclusive'
+        (amount + vat_amount)
+      else
+        amount
+      end
+    end
   end
   
 end

@@ -1,5 +1,5 @@
 = simple_form_for(PurchaseItem.new, :url => '/purchase_items/validate', :remote => true, :html => { 'data-type' => 'html'}) do |f|
-  = f.input :item_id, :collection => Item.accessible_by(current_ability).map { |item| [item.name, item.id] }
+  = f.input :item_id, :collection => Item.accessible_by(current_ability).find(:all, :conditions => { :is_active => true}).map { |item| [item.name, item.id] }
   = f.input :quantity, :input_html => { :style => 'width:30%' }
   = f.association :unit
   = f.input :vat_type, :label => 'VAT Type',

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120420065225) do
+ActiveRecord::Schema.define(:version => 20120525063828) do
 
   create_table "branches", :force => true do |t|
     t.integer  "restaurant_id"
@@ -151,6 +151,7 @@ ActiveRecord::Schema.define(:version => 20120420065225) do
     t.datetime "updated_at"
     t.datetime "deleted_at"
     t.integer  "restaurant_id"
+    t.boolean  "is_active",      :default => true
   end
 
   add_index "items", ["branch_id"], :name => "index_items_on_branch_id"
@@ -362,6 +363,7 @@ ActiveRecord::Schema.define(:version => 20120420065225) do
     t.datetime "updated_at"
     t.datetime "deleted_at"
     t.float    "goal"
+    t.boolean  "is_active",   :default => true
   end
 
   create_table "suppliers", :force => true do |t|
@@ -379,6 +381,7 @@ ActiveRecord::Schema.define(:version => 20120420065225) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "deleted_at"
+    t.boolean  "is_active",      :default => true
   end
 
   create_table "units", :force => true do |t|

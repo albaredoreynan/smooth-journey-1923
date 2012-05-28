@@ -41,8 +41,13 @@ Rrbs::Application.routes.draw do
 
   resources :roles
 
-  resources :suppliers
-
+  resources :suppliers do
+    member do
+      get 'activate'
+      get 'deactivate'
+    end
+  end
+  
   resources :settlement_types
 
   resources :settlement_sales
@@ -61,6 +66,10 @@ Rrbs::Application.routes.draw do
 
   resources :inventoryitems do
     get 'available_units', :on => :member
+    member do
+      get 'activate'
+      get 'deactivate'
+    end
   end
 
   resources :units
