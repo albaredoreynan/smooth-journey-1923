@@ -36,11 +36,13 @@ class EndcountItem < Item
     cost.round 2
   end
   
-  def amount_usage
-    cogs 
+  def usage
+    return if cogs.nil? 
+    (cogs / unit_cost)
   end
   
   private
+  
   def last_count_from_previous_month
     previous_month = @ending_date.to_date - 1.month
     sql = %Q{date_part('year', entry_date) = ? and date_part('month', entry_date) = ?}

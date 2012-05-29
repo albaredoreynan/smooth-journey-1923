@@ -78,4 +78,28 @@ class SuppliersController < ApplicationController
       format.xml  { head :ok }
     end
   end
+  
+  def activate
+    
+    @supplier = Supplier.find(params[:id])
+    @supplier.is_active = true
+    @supplier.save
+    
+    respond_to do |format|
+      format.html { redirect_to('/suppliers', :notice => 'Supplier was successfully activated.') }
+      format.xml  { head :ok }
+    end
+    
+  end
+  
+  def deactivate
+    @supplier = Supplier.find(params[:id])
+    @supplier.is_active = false
+    @supplier.save
+    
+    respond_to do |format|
+      format.html { redirect_to('/suppliers', :notice => 'Supplier was successfully deactivated.') }
+      format.xml  { head :ok }
+    end
+  end
 end

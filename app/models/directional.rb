@@ -42,7 +42,8 @@ class Directional
   def per_trans_ave
     @sale.map(&:per_trans_ave).reject{|p| p.nil?}.inject(:+).round(2) if @sale.length > 0
   end
-
+  
+  
   def cogs
     cogs_categories = Array.new
     subcategories = Subcategory.all

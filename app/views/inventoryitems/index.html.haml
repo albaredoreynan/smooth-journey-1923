@@ -34,4 +34,8 @@
                 = link_to 'Edit', edit_inventoryitem_path(item)
               - if can? :destroy, item
                 = link_to 'Destroy', inventoryitem_path(item), :confirm => 'Are you sure?', :method => :delete
+              - if item.is_active != true
+                = link_to 'Activate', activate_inventoryitem_path(item)
+              - else  
+                = link_to 'Deactivate', deactivate_inventoryitem_path(item)
       = paginate @items

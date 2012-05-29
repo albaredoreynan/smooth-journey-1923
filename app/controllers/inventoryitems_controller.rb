@@ -86,4 +86,28 @@ class InventoryitemsController < ApplicationController
     @available_units = @item.available_units
     render :json => @available_units
   end
+  
+  def activate
+    
+    @item = Item.find(params[:id])
+    @item.is_active = true
+    @item.save
+    
+    respond_to do |format|
+      format.html { redirect_to('/inventoryitems', :notice => 'Inventory Item was successfully activated.') }
+      format.xml  { head :ok }
+    end
+    
+  end
+  
+  def deactivate
+    @item = Item.find(params[:id])
+    @item.is_active = false
+    @item.save
+    
+    respond_to do |format|
+      format.html { redirect_to('/inventoryitems', :notice => 'Inventory Item was successfully deactivated.') }
+      format.xml  { head :ok }
+    end
+  end
 end

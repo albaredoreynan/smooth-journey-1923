@@ -13,5 +13,6 @@ class DirectionalController < ApplicationController
       @branch = params[:branch_id] ? Branch.find(params[:branch_id]) : Branch.accessible_by(current_ability).first
     end
     @directional = Directional.new(Date.today.beginning_of_month, @ending_date, @branch)
+    @settlement_type = SettlementType.all(:conditions => ["complimentary != ?", false])
   end
 end
