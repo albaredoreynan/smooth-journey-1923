@@ -3,24 +3,24 @@ class Reports::PurchaseReportsController < ReportsController
   set_tab :purchase_reports
 
   def index
-    @start_date = params[:start_date] || Date.today.beginning_of_month
-    @end_date = params[:end_date] || Date.today
-
+    if params[:start_date].blank? && params[:end_date].blank?
+      @start_date = Date.today.beginning_of_month.to_s
+      @end_date = Date.today.to_s
+    else
+      @start_date = params[:start_date]
+      @end_date = params[:end_date]
+    end
+    
+    
     if current_user.branch?
       branch_id = @current_branch.id
     else
-      if params[:branch_id]
-        @branch = Branch.find(params[:branch_id])
-        branch_id = params[:branch_id]
-      else
-        @branch = Branch.accessible_by(current_ability).first
-        branch_id = @branch.id        
-      end
-      
-      puts branch_id
-      puts @branch.location
+      @branch = Branch.accessible_by(current_ability).first
+      branch_id = params[:branch_id] || @branch.id
     end
     
+    puts ">>>>date"
+    puts @start_date +"--"+ @end_date  
     @purchase_items = PurchaseItem.
       accessible_by(current_ability).
       search(
@@ -35,7 +35,7 @@ class Reports::PurchaseReportsController < ReportsController
       joins(:purchase).where('purchases.deleted_at IS NULL').group_by do |pi|
       pi.item.subcategory ||= Subcategory.new(:name => '(No subcategory)')
     end
-
+    
     respond_to do |wants|
       wants.html
       wants.csv do

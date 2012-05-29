@@ -9,16 +9,17 @@ rows2 = []
 subtotal = 0
 grand_total = 0
 
-purchase_item_headers = ['Item Subcategory','Item', 'Invoice number', 'Supplier name', 'Purchase date', 'Particulars', 'Qty', 'Unit', 'Unit cost', 'VAT', 'Purchase amount', 'Net amount']
+purchase_item_headers = ['Item Subcategory','Item', 'Branch', 'Invoice number', 'Supplier name', 'Purchase date', 'Particulars', 'Qty', 'Unit', 'Unit cost', 'VAT', 'Purchase amount', 'Net amount']
 rows << purchase_item_headers
 
 @purchase_items.each do |subcategory, purchase_items|
 subtotal = purchase_items.map(&:net_amount).inject(:+)
 grand_total += subtotal
 
-  rows << [subcategory.name, '','','','','','','','','','',number_to_currency(subtotal, :unit => peso_sign)]
+  rows << [subcategory.name, '','','','','','','','','','','',number_to_currency(subtotal, :unit => peso_sign)]
     purchase_items.each do |purchase_item|
         rows << ['',purchase_item.item.name,
+        purchase_item.purchase.branch.location,
         purchase_item.purchase.invoice_number,
         purchase_item.purchase.supplier_name,
         purchase_item.purchase.purchase_date,
@@ -33,7 +34,7 @@ grand_total += subtotal
     end    
 end
 
-rows << ['Grand Total','','','','','','','','','','', number_to_currency(grand_total, :unit => peso_sign)]
+rows << ['Grand Total','','','','','','','','','','','', number_to_currency(grand_total, :unit => peso_sign)]
 
 pdf.table rows,
   :border_style => :grid,

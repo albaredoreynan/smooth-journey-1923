@@ -11,13 +11,14 @@
       - @end_date = params[:end_date]
       .new_actions
         = 'Download as'
-        = link_to 'CSV', :format => :csv
-        = link_to 'PDF', :format => :pdf
+        = link_to 'CSV', purchase_reports_path(params.merge(format: 'csv'))
+        = link_to 'PDF', purchase_reports_path(params.merge(format: 'pdf'))
     .inner
       %table
         %thead
           %tr
             %th Item
+            %th Branch Name
             %th Invoice number
             %th Supplier name
             %th Purchase date
@@ -32,7 +33,7 @@
         - @purchase_items.each do |subcategory, purchase_items|
           %tbody
             %tr{id: dom_id(subcategory), class: 'subcategory_row'}
-              %th{:colspan => 10}= subcategory.name
+              %th{:colspan => 11}= subcategory.name
               - subtotal = purchase_items.map(&:net_amount).inject(:+)
               - grand_total += subtotal
               %th.monetary= number_to_currency(subtotal, :unit => peso_sign)
@@ -40,6 +41,7 @@
                 - purchase_item.convert_unit = true
                 %tr{id: dom_id(purchase_item.item), class: 'item_row'}
                   %td= purchase_item.item.name
+                  %td= purchase_item.purchase.branch.location
                   %td= purchase_item.purchase.invoice_number
                   %td= link_to purchase_item.purchase.supplier_name, supplier_path(purchase_item.purchase.supplier)
                   %td= purchase_item.purchase.purchase_date
@@ -52,5 +54,5 @@
                   %td.monetary= number_to_currency(purchase_item.net_amount, :unit => peso_sign)
         %tfoot
           %tr.totals
-            %th{:class => 'grand_total', :colspan => 10} Grand Total
+            %th{:class => 'grand_total', :colspan => 11} Grand Total
             %th.monetary= number_to_currency(grand_total, :unit => peso_sign)

@@ -26,6 +26,7 @@ class PurchaseItem < ActiveRecord::Base
   scope :search_by_invoice_number, lambda {|keyword| joins(:purchase).where('purchases.invoice_number ILIKE ?', "#{keyword}") unless keyword.blank?}
   scope :search_by_item_name, lambda {|keyword| joins(:item).where('items.name ILIKE ?', "%#{keyword}%") unless keyword.blank?}
   scope :search_by_subcategory, lambda {|keyword| joins(:item => :subcategory).where('subcategories.name ILIKE ?', "%#{keyword}%") unless keyword.blank?}
+  scope :filter_by_branch, lambda {|id| where('purchases.branch_id = ?', id) unless id.blank? }
 
   delegate :name, :to => :item, :prefix => true
   delegate :name, :symbol, :to => :unit, :prefix => true
@@ -37,6 +38,7 @@ class PurchaseItem < ActiveRecord::Base
     finder = finder.search_by_item_name(queries[:item])
     finder = finder.search_by_subcategory(queries[:subcategory])
     finder = finder.start_date(queries[:start_date]).end_date(queries[:end_date])
+    finder = finder.filter_by_branch(queries[:branch_id])
     return finder
   end
 

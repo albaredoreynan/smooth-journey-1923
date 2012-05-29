@@ -20,10 +20,19 @@ module Taxable
   end
 
   def net_amount
-    vat_type == 'VAT-Inclusive' ? (amount - vat_amount) : amount
+    if vat_type == 'VAT-Inclusive'
+      (amount - vat_amount)
+    else
+      if vat_type == 'VAT-Exclusive'
+        (amount - vat_amount)
+      else
+        amount
+      end
+    end
   end
 
   def purchase_amount
     vat_type == 'VAT-Exclusive' ? amount + vat_amount : amount
   end
+  
 end
