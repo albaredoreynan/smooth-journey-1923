@@ -1,13 +1,13 @@
 %nav#main-navigation
   = tabs_tag :builder => MenuTabBuilder do |tab|
-    = tab.sales 'Sales', sales_path
-    = tab.purchases 'Purchases', purchases_path
-    = tab.inventory 'Inventory', endcounts_path
+    = tab.sales '<i class="icon-sales"></i><span>Sales</span>'.html_safe, sales_path
+    = tab.purchases '<i class="icon-purchases"></i><span>Purchases</span>'.html_safe, purchases_path
+    = tab.inventory '<i class="icon-inventory"></i><span>Inventory</span>'.html_safe, endcounts_path
     -#= tab.employees 'Employees', employees_path
-    = tab.reports 'Reports', endcount_reports_path
+    = tab.reports '<i class="icon-reports"></i><span>Reports</span>'.html_safe, endcount_reports_path
     - if current_user.admin?
-      = tab.database 'Database', companies_path
+      = tab.database '<i class="icon-database"></i><span>Database</span>'.html_safe, companies_path
     - else
-      = tab.database 'Database', branches_path
+      = tab.database '<i class="icon-database"></i><span><br/>Database</span>'.html_safe, branches_path
     - if can? :update, Company
-      = tab.settings 'Settings', '/settings'
+      = tab.settings '<i class="icon-settings"></i><span>Settings</span>'.html_safe, '/settings'
