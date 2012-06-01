@@ -20,11 +20,11 @@
           %tr
             %td= sale.sale_date.strftime("%-d-%b-%Y")
             %td= link_to sale.branch.location, branch_path(sale.branch)
-            %td.monetary= sale.net_sales
-            %td.monetary= sale.vat
-            %td.monetary= sale.total_revenues
-            %td.monetary= sale.total_settlement_type_sales
-            %td.monetary= sale.cash_for_deposit
+            %td.monetary= number_to_currency(sale.net_sales, :unit => peso_sign)
+            %td.monetary= number_to_currency(sale.vat, :unit => peso_sign)
+            %td.monetary= number_to_currency(sale.total_revenues, :unit => peso_sign)
+            %td.monetary= number_to_currency(sale.total_settlement_type_sales, :unit => peso_sign)
+            %td.monetary= number_to_currency(sale.cash_for_deposit, :unit => peso_sign)
             %td
               - if can? :show, sale
                 = link_to 'Show', sale_path(sale)
