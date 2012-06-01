@@ -13,7 +13,7 @@
         csv << [subcategory.name,'','','','','','','','','',number_to_currency(subtotal, :unit => peso_sign)]
           
           purchase_items.each do |purchase_item|
-            total_purchase_amount += purchase_items.purchase_amount.inject(:+)
+            total_purchase_amount += purchase_item.purchase_amount
             purchase_item.convert_unit = true
               csv << ['',
                       purchase_item.item.name,
