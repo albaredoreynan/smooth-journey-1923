@@ -3,11 +3,8 @@ module EndMonth
     @ending_date = Date.today
     
     if params[:date]
-      #query_date = Date.new(params[:date][:year].to_i, params[:date][:month].to_i)
-      puts "Hell World"          
+      #query_date = Date.new(params[:date][:year].to_i, params[:date][:month].to_i)     
       query_date = Date.strptime(params[:date], '%Y-%m-%d')
-      puts ">>>>>>"
-      puts query_date
       unless Date.parse(query_date.to_s) == Date.today
         @ending_date = Date.parse(query_date.to_s).end_of_month
       end
