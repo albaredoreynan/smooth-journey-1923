@@ -8,11 +8,12 @@
       total_purchase_amount = 0
       @purchase_items.each do |subcategory, purchase_items|
         subtotal = purchase_items.map(&:net_amount).inject(:+)
-        total_purchase_amount =  purchase_items.map(&:purchase_amount).inject(:+)
+        
         grand_total += subtotal
         csv << [subcategory.name,'','','','','','','','','',number_to_currency(subtotal, :unit => peso_sign)]
           
           purchase_items.each do |purchase_item|
+            total_purchase_amount =  purchase_items.map(&:purchase_amount).inject(:+)
             purchase_item.convert_unit = true
               csv << ['',
                       purchase_item.item.name,
