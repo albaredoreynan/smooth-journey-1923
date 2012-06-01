@@ -18,9 +18,7 @@ class Reports::PurchaseReportsController < ReportsController
       @branch = Branch.accessible_by(current_ability).first
       branch_id = params[:branch_id] || @branch.id
     end
-    
-    puts ">>>>date"
-    puts @start_date +"--"+ @end_date  
+     
     @purchase_items = PurchaseItem.
       accessible_by(current_ability).
       search(

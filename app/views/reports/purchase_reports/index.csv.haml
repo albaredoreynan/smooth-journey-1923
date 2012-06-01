@@ -1,22 +1,29 @@
 :ruby
   require 'csv'
+ 
   csv_output = CSV.generate do |csv|
     csv << ['Date From:', @start_date, 'Date To', @end_date]
-    csv << ['Item', 'Invoice number', 'Supplier name', 'Purchase date',
-      'Qty', 'Unit', 'Unit cost', 'VAT', 'Purchase amount', 'Net amount']
-    @purchase_items.each do |subcategory, purchase_items|
-      purchase_items.each do |purchase_item|
-        csv << [purchase_item.item.name,
-          purchase_item.purchase.invoice_number,
-          purchase_item.purchase.supplier_name,
-          purchase_item.purchase.purchase_date,
-          number_with_precision(purchase_item.quantity, :precision => 2),
-          purchase_item.item.unit_name,
-          number_to_currency(purchase_item.unit_cost, :unit => ''),
-          number_to_currency(purchase_item.vat_amount, :unit => ''),
-          number_to_currency(purchase_item.purchase_amount, :unit => ''),
-          number_to_currency(purchase_item.net_amount, :unit => '')]
+    csv << ['Item Subcategory','Item', 'Invoice number', 'Supplier name', 'Purchase date', 'Qty', 'Unit', 'Unit cost', 'VAT', 'Purchase amount', 'Net amount']
+      grand_total = 0
+      @purchase_items.each do |subcategory, purchase_items|
+        subtotal = purchase_items.map(&:net_amount).inject(:+)
+        grand_total += subtotal
+        csv << [subcategory.name,'','','','','','','','','',number_to_currency(subtotal, :unit => peso_sign)]
+          
+          purchase_items.each do |purchase_item|
+            purchase_item.convert_unit = true
+              csv << [purchase_item.item.name,
+                      purchase_item.purchase.invoice_number,
+                      purchase_item.purchase.supplier_name,
+                      purchase_item.purchase.purchase_date,
+                      number_with_precision(purchase_item.quantity, :precision => 2),
+                      purchase_item.item.unit_name,
+                      number_to_currency(purchase_item.unit_cost, :unit => ''),
+                      number_to_currency(purchase_item.vat_amount, :unit => ''),
+                      number_to_currency(purchase_item.purchase_amount, :unit => ''),
+                      number_to_currency(purchase_item.net_amount, :unit => '')]    
+          end
       end
-    end
-  end
-  puts csv_output
+    csv << ['Grand Total','','','','','','','','','', number_to_currency(grand_total, :unit => peso_sign)]
+  end 
+  puts csv_output         
