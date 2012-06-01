@@ -30,8 +30,7 @@ jQuery ->
       parseFloat(amount)
     $(amounts).each (index, value) ->
       total += value
-    $(this).html((total).toFixed(2))
-
+    $(this).html((total))
     
   $.widget "ui.combobox",
     _create: ->

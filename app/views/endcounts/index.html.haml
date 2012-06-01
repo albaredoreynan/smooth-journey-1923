@@ -1,7 +1,7 @@
 - content_for :head do
   = javascript_include_tag(:endcount)
   /[if !IE]
-    = javascript_tag("$(function() { $('#show_by_date').datepicker('setDate', new Date($('#entry_date').val() )); });")
+    = javascript_tag("$(function() { $('#show_by_date_reports').datepicker('setDate', new Date($('#entry_date').val() )); });")
 - content_for :sidebar do
   %h3 Show by Date
   #show_by_date

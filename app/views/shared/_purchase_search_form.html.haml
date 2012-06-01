@@ -12,10 +12,12 @@
     = text_field_tag :invoice_number, params[:invoice_number]
   .input
     = label_tag 'Supplier'
-    = text_field_tag :supplier, params[:supplier]
+    -#= text_field_tag :supplier, params[:supplier]
+    = select_tag params[:supplier], options_from_collection_for_select(Supplier.accessible_by(current_ability).find(:all, :conditions => { :is_active => true}), :name, :name)
   .input
     = label_tag 'Subcategory'
-    = text_field_tag :subcategory, params[:subcategory]
+    -#= text_field_tag :subcategory, params[:subcategory]
+    = select_tag params[:subcategory], options_from_collection_for_select(Subcategory.accessible_by(current_ability).find(:all, :conditions => { :is_active => true}), :name, :name)
   .input
     = label_tag 'Purchase Date'
     .input_group

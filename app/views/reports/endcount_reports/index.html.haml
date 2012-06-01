@@ -1,13 +1,17 @@
+- content_for :head do
+  = javascript_include_tag(:endcount_reports)
+  /[if !IE]
+    = javascript_tag("$(function() { $('#show_by_date_reports').datepicker('setDate', new Date($('#entry_date').val() )); });")
+    
 - content_for :sidebar do
   %h3 Search
   = render :partial => 'shared/end_counts_search_form', locals: { search_path: 'endcounts/search' }
-
 .block
   = render 'shared/menu/reports'
   .secondary-navigation
   .content
     .title_action_bar
-      %h2.title= endcount_reports_title(params[:date], params[:date])
+      %h2.title= endcount_reports_title(params[:date])
       .new_actions
         = 'Download as'
         = link_to 'CSV', endcount_reports_path(params.merge(format: 'csv'))
