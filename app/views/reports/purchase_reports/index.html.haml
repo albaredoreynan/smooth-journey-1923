@@ -40,7 +40,7 @@
               %th.monetary= number_to_currency(subtotal, :unit => peso_sign)
               - purchase_items.each do |purchase_item|
                 - purchase_item.convert_unit = true
-                - total_purchase_amount =  purchase_items.map(&:purchase_amount).inject(:+)
+                - total_purchase_amount +=  purchase_item.purchase_amount
                 %tr{id: dom_id(purchase_item.item), class: 'item_row'}
                   %td= purchase_item.item.name
                   %td= purchase_item.purchase.branch.location
