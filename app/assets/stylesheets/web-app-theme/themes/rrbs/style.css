@@ -57,6 +57,7 @@ hr {
   -moz-box-shadow: inset 0 -5px 10px rgba(0, 0, 0, 0.25), 0 1px 1px rgba(255, 255, 255, 0.3);
   -webkit-box-shadow: inset 0 -5px 10px rgba(0, 0, 0, 0.25), 0 1px 1px rgba(255, 255, 255, 0.3);
   padding-bottom: 28px;
+  border-bottom: 1px solid #fff;
 }
 
 #wrapper {
@@ -145,12 +146,12 @@ hr {
 
   width: auto;
   border-top: 1px solid #DC4B41;
-  box-shadow: inset 0 -15px -10px rgba(0, 0, 0, 0.25), -5px -5px 20px rgba(0, 0, 0, 0.25);
+  /*box-shadow: inset 0 -15px -10px rgba(0, 0, 0, 0.25), -5px -5px 20px rgba(0, 0, 0, 0.25);
   -moz-box-shadow: inset 0 -5px 10px rgba(0, 0, 0, 0.25), -5px -5px 20px rgba(0, 0, 0, 0.25);
   -webkit-box-shadow: inset 0 -5px 10px rgba(0, 0, 0, 0.25), -5px -5px 20px rgba(0, 0, 0, 0.25);
   background: -webkit-gradient(linear, left top, left bottom, from(#C52F24), to(#AB291F));
   background: -moz-linear-gradient(top, #C52F24, #AB291F);
-  background-color:#c52f24;
+  background-color:#c52f24;*/
   height: 80px;
 }
 
@@ -333,7 +334,8 @@ hr {
   /*padding: 8px 0;*/
   text-decoration: none;
   font-weight: bolder;
-  color: #F65D51;
+  /*color: #F65D51;*/
+  color: #FA7B71;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 }
 
@@ -343,7 +345,7 @@ hr {
 }
 
 #main-navigation ul li:hover, #main-navigation ul li a:hover {
-  background: #DC4B41;
+  /*background: #DC4B41;*/
   /*color: #fff;*/
   color: #F65D51 !important;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
@@ -357,7 +359,8 @@ hr {
 }
 
 .secondary-navigation {
-  background: #e0e0e0 url("images/boxbar-background.png") top;
+  /*background: #e0e0e0 url("images/boxbar-background.png") top;*/
+  background: #DEEDF7 url(images/ui-bg_highlight-soft_100_deedf7_1x100.png) 50% 50% repeat-x;
   border-bottom-width: 0px;
   -moz-border-radius-topleft: 6px;
   -webkit-border-top-left-radius: 6px;
@@ -464,12 +467,12 @@ hr {
 }
 
 #sidebar form input, #sidebar .form input {
-  	box-shadow: 0px 0px 3px #CCC, 0 10px 15px #EEE inset;
+  	/*box-shadow: 0px 0px 3px #CCC, 0 10px 15px #EEE inset;
 	border-radius: 5px;
 	border: 1px solid #AAA;
 	width: 200px;
 	padding: 5px;
-	font-size: 16px;	
+	font-size: 16px;*/	
 }
 #sidebar .warning {
   padding-left: 10px;
@@ -662,6 +665,14 @@ ul.list li .item .avatar {
 #box {
   width: 480px;
 }
+
+#box h1 {
+  color: #677176;
+  font-size: 40px;
+  font-weight: bolder;
+  text-shadow: 0 1px 1px #fff;
+  text-align: center;
+}
 #box .block {
   background: white;
   text-shadow: 0 1px 0 white;
@@ -673,9 +684,11 @@ ul.list li .item .avatar {
   border-radius: 6px;
 }
 #box .block h2 {
-  background: #261f1f;
+  /*background: #261f1f;*/
+  background-color: #AB291F;
+  box-shadow: inset 0 -5px 10px rgba(0, 0, 0, 0.25), 0 1px 1px rgba(255, 255, 255, 0.3);
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
   color: white;
-  text-shadow: none;
   -moz-border-radius-topleft: 6px;
   -webkit-border-top-left-radius: 6px;
   border-top-left-radius: 6px;
@@ -745,4 +758,36 @@ a.button:active, button.button:active {
 .login div.right, .signup div div.right {
   width: 74%;
   float: right;
+}
+
+.input input {
+  box-shadow: 0px 0px 3px #CCC, 0 10px 15px #EEE inset;
+  border-radius: 5px;
+  border: 1px solid #AAA;
+  padding: 5px;
+  font-size: 16px;
+}
+
+form fieldset label, .form fieldset label, #sidebar form fieldset label {
+  text-transform: none !important;
+  display: inline;
+  float: left;
+  line-height: 50px !important;
+}
+
+form input, form select, .form input, .form select, #sidebar form input, #sidebar form select {
+  margin: 20px 0 !important;
+  vertical-align: middle;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  -moz-border-radius: 3px;
+  font-size: 16px;
+}
+
+form label, .form label {
+  line-height: 50px;	
+}
+
+#sidebar form label {
+  line-height: 0px;	
 }
