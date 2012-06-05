@@ -8,4 +8,4 @@
           = sf.input :enable_lock_module, :as => :boolean, :input_html => { :checked => enable_lock_module }
           = sf.input :lock_module_in, :hint => 'in minutes', :input_html => { :value => @company.settings['lock_module_in'] }
         .actions
-          = f.submit
+          = f.submit, :class => "button"
