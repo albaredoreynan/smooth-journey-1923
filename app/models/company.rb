@@ -8,7 +8,7 @@ class Company < ActiveRecord::Base
 
   after_initialize :set_default_settings
 
-  has_many :restaurants
+  has_many :restaurants, :dependent => :destroy
 
   def settings=(options)
     options.each do |key, val|

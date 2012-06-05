@@ -8,9 +8,9 @@ class User < ActiveRecord::Base
   attr_accessible :email, :password, :password_confirmation, :remember_me, :role, :username, :branch_id, :company_id
   attr_accessor :role, :branch_id, :company_id
 
-  has_many :roles
-  has_many :branches, :through => :roles
-  has_many :companies, :through => :roles
+  has_many :roles, :dependent => :destroy
+  has_many :branches, :through => :roles, :dependent => :destroy
+  has_many :companies, :through => :roles, :dependent => :destroy
 
   validates :username, :presence => true, :uniqueness => true
 

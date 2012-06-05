@@ -4,5 +4,5 @@ class Category < ActiveRecord::Base
 
   belongs_to :restaurant
 
-  has_many :subcategories
+  has_many :subcategories, :dependent => :destroy
 end
