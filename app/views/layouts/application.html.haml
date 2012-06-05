@@ -15,7 +15,8 @@
           %h1
             %a{:href => root_path}
               = image_tag("/assets/web-app-theme/themes/rrbs/images/logo.png")
-              %abbr{:title => 'Restaurant Reports and Backup System'}= title
+              %span
+                %abbr{:title => 'Restaurant Reports and Backup System'}= title
           = render 'shared/usernav'
           = render 'shared/mainnav'
         #wrapper.wat-cf

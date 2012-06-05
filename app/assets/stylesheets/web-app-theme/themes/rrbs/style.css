@@ -77,12 +77,13 @@ hr {
 
   padding: 0px 10px 0px 10px;
   /*margin:20px 0 20px 0;*/
-  margin: 16px 0 -8px 0;
+  margin: 16px 0 0px 0;
   font-size: 40px;
   font-style: normal;
   text-transform: normal;
   letter-spacing: -1px;
-  line-height: 1.2em;
+  /*line-height: 1.2em;*/
+  line-height: 1.0em;
   color: #d5d5d5;
 }
 
