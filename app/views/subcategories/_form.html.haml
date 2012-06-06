@@ -4,6 +4,9 @@
     = f.association :category, :prompt => "(select)", :collection => Category.accessible_by(current_ability).map { |cat| [ cat.name, cat.id ]}
     = f.input :goal, :hint => 'in percentage'
     = f.input :description
+    = content_tag(:div, class: 'input checkbox') do
+      = f.label :non_inventory, "Non-Inventory?"
+      = f.check_box :non_inventory
   .actions
     = f.button :submit
 

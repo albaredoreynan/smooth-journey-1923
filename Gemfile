@@ -20,6 +20,8 @@ gem 'prawn'
 gem 'prawn-layout'
 gem 'paranoia'
 gem 'orm_adapter'
+gem "SystemTimer", :require => "system_timer", :platforms => :ruby_18
+gem "rack-timeout"
 
 group :assets do
   gem 'sass-rails', "~> 3.2.3"
