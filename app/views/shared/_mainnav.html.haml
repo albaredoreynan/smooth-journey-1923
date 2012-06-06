@@ -8,6 +8,6 @@
     - if current_user.admin?
       = tab.database '<i class="icon-database"></i><span>Database</span>'.html_safe, companies_path
     - else
-      = tab.database '<i class="icon-database"></i><span><br/>Database</span>'.html_safe, branches_path
+      = tab.database '<i class="icon-database"></i><span>Database</span>'.html_safe, branches_path
     - if can? :update, Company
       = tab.settings '<i class="icon-settings"></i><span>Settings</span>'.html_safe, '/settings'
