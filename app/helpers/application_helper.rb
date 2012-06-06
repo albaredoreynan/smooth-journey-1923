@@ -12,7 +12,7 @@ module ApplicationHelper
   end
 
   def title
-    'RRBS'
+    'RestoBot'
   end
 
   def peso_sign

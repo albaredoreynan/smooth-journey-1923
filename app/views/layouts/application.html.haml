@@ -14,7 +14,9 @@
         #header
           %h1
             %a{:href => root_path}
-              %abbr{:title => 'Restaurant Reports and Backup System'}= title
+              = image_tag("/assets/web-app-theme/themes/rrbs/images/logo.png")
+              %span
+                %abbr{:title => 'Restaurant Reports and Backup System'}= title
           = render 'shared/usernav'
           = render 'shared/mainnav'
         #wrapper.wat-cf
@@ -25,4 +27,5 @@
                 = content_tag(:div, content_tag(:p, alert), :class => 'message error') if alert
             = yield
           #sidebar
-            = yield :sidebar
+            .block
+              = yield :sidebar
