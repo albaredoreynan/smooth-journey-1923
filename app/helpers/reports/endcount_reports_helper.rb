@@ -1,20 +1,17 @@
 module Reports::EndcountReportsHelper
-  def endcount_reports_title(date_month=nil, date_year=nil)
-    if date_month.nil? && date_year.nil?
-      date_month = Date.today.strftime('%B')
-      date_year = Date.today.strftime('%Y')
+  def endcount_reports_title(date=nil)
+    if date.nil?
+      date = Date.today
     else
-      date_month = Date::MONTHNAMES[params[:date][:month].to_i]
-
-      date_year = params[:date][:year]
+      date = params[:date]
     end
     et = "Item Cost Analysis"
-    et += " " + content_tag(:span, "As of #{date_month}, #{date_year}",
+    et += " " + content_tag(:span, "As of #{date}",
       :style => %Q{
         font-style: italic;
         color: #848484;
         font-size: 18px;
-      }) if date_month && date_year
+      }) if date
     return raw et
   end
 end

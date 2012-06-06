@@ -13,14 +13,14 @@ class Sale < ActiveRecord::Base
   scope :start_date, lambda {|date| where('sale_date >= ?', date) unless date.blank?}
   scope :end_date, lambda {|date| where('sale_date <= ?', date) unless date.blank?}
 
-  has_many :settlement_type_sales
+  has_many :settlement_type_sales, :dependent => :destroy 
   has_many :categories,
     :through => :sale_category_rows,
     :source => :category,
     :class_name => 'SaleCategory'
-  has_many :sale_category_rows
-  has_many :sale_servers
-  belongs_to :branch
+  has_many :sale_category_rows, :dependent => :destroy 
+  has_many :sale_servers, :dependent => :destroy 
+  belongs_to :branch 
 
   accepts_nested_attributes_for :settlement_type_sales
   accepts_nested_attributes_for :sale_category_rows
