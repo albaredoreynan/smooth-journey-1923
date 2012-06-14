@@ -7,7 +7,7 @@ class EndcountsController < ApplicationController
   def index
     authorize! :index, Endcount
     ending_date = params[:date] ? Date.parse(params[:date]) : Date.today
-    endcount_item = EndcountItem.accessible_by(current_ability).inventory
+    endcount_item = EndcountItem.accessible_by(current_ability)
 
     @items = Endcount.ending_counts_at(endcount_item, ending_date, @branch.id)
   end

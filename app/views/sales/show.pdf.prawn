@@ -1,5 +1,7 @@
 pdf.start_new_page 
 pdf.text "Daily Sales Reports" , :style => :bold
+pdf.text "DATE : #{@sale.sale_date.strftime("%-d-%b-%Y")}" , :style => :bold
+pdf.text "Branch #{@sale.branch.location}" , :style => :bold
 pdf.move_down 10
 pdf.font_size 7
 
@@ -18,21 +20,21 @@ row1 << ['Sales By Category','','']
   @sale.sale_category_rows.each do |scr|
     amount_percentage = scr.amount.to_f.percent_of(@sale.net_sales)
     sale_categories_percentage << amount_percentage
-    row1 << [scr.category.name, scr.amount, number_to_percentage(amount_percentage)]
+    row1 << [scr.category.name, number_to_currency(scr.amount, :unit => peso_sign), number_to_percentage(amount_percentage, :precision => 2)]
   end
   
-  row1 << ['Net Sales', @sale.net_sales, number_to_percentage(sale_categories_percentage.inject(:+))]
+  row1 << ['Net Sales', number_to_currency(@sale.net_sales, :unit => peso_sign), number_to_percentage(sale_categories_percentage.inject(:+), :precision => 2)]
   
   revenues_percentage = Array.new
   vat_percentage = @sale.vat.percent_of(@sale.total_revenues)
   revenues_percentage << vat_percentage
-  row1 << ['VAT', @sale.vat, number_to_percentage(vat_percentage)]
+  row1 << ['VAT', number_to_currency(@sale.vat, :unit => peso_sign), number_to_percentage(vat_percentage, :precision => 2)]
   
   service_charge_percentage = @sale.service_charge.percent_of(@sale.total_revenues)
   revenues_percentage << service_charge_percentage
-  row1 << ['Service Charge', @sale.service_charge, number_to_percentage(service_charge_percentage)]
+  row1 << ['Service Charge', number_to_currency(@sale.service_charge, :unit => peso_sign), number_to_percentage(service_charge_percentage, :precision => 2)]
         
-  row1 << ['Total Revenues', @sale.total_revenues, number_to_percentage(revenues_percentage.inject(:+)) ]
+  row1 << ['Total Revenues', number_to_currency(@sale.total_revenues, :unit => peso_sign), number_to_percentage(revenues_percentage.inject(:+), :precision => 2) ]
   
 pdf.table row1,
   :border_style => :grid,
@@ -50,18 +52,18 @@ pdf.move_down 10
     sts_amount_percentage = sts.amount.percent_of(@sale.total_settlement_type_sales)
     settlement_type_percentage << sts_amount_percentage        
     
-    row2 << [sts.settlement_type.name, sts.amount, number_to_percentage(sts_amount_percentage) ]
+    row2 << [sts.settlement_type.name, number_to_currency(sts.amount, :unit => peso_sign), number_to_percentage(sts_amount_percentage, :precision => 2) ]
   end
   
     gc_redeemed_percentage = @sale.gc_redeemed.percent_of(@sale.total_settlement_type_sales)
     settlement_type_percentage << gc_redeemed_percentage    
-    row2 << ['GC Redeemed', @sale.gc_redeemed, number_to_percentage(gc_redeemed_percentage)]
+    row2 << ['GC Redeemed', number_to_currency(@sale.gc_redeemed, :unit => peso_sign), number_to_percentage(gc_redeemed_percentage, :precision => 2)]
     
     delivery_sale_percentage = @sale.delivery_sales.percent_of(@sale.total_settlement_type_sales)
     settlement_type_percentage << delivery_sale_percentage
-    row2 << ['Delivery', @sale.delivery_sales, number_to_percentage(delivery_sale_percentage)]
+    row2 << ['Delivery', number_to_currency(@sale.delivery_sales, :unit => peso_sign), number_to_percentage(delivery_sale_percentage, :precision => 2)]
     
-    row2 << ['Total', @sale.total_settlement_type_sales, number_to_percentage(settlement_type_percentage.inject(:+))]
+    row2 << ['Total', number_to_currency(@sale.total_settlement_type_sales, :unit => peso_sign), number_to_percentage(settlement_type_percentage.inject(:+), :precision => 2)]
     
 pdf.table row2,
   :border_style => :grid,
@@ -87,10 +89,10 @@ pdf.table row3,
 pdf.move_down 10          
           
     row4 << ['Cash For Deposit', '']
-    row4 << ['Cash in Drawer', @sale.cash_in_drawer]
-    row4 << ['GC Sales', @sale.gc_sales]
-    row4 << ['Other Income', @sale.other_income]
-    row4 << ['Total', @sale.cash_for_deposit]
+    row4 << ['Cash in Drawer', number_to_currency(@sale.cash_in_drawer, :unit => peso_sign)]
+    row4 << ['GC Sales', number_to_currency(@sale.gc_sales, :unit => peso_sign)]
+    row4 << ['Other Income', number_to_currency(@sale.other_income, :unit => peso_sign)]
+    row4 << ['Total', number_to_currency(@sale.cash_for_deposit, :unit => peso_sign)]
         
 pdf.table row4,
   :border_style => :grid,

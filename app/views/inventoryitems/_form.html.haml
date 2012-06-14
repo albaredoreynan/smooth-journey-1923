@@ -6,8 +6,9 @@
     = f.association :unit, :prompt => '(select)', :collection => Unit.accessible_by(current_ability).map { |unit| [unit.name, unit.id] }
     = f.association :subcategory, :prompt => '(select)', :collection => Subcategory.accessible_by(current_ability).map { |subcategory| [subcategory.name, subcategory.id] }
     = f.input :item_count
-    = content_tag(:div, class: 'input checkbox') do
-      = f.label :non_inventory, "Non-Inventory?"
-      = f.check_box :non_inventory
+    = f.input :item_group, :collection => ['Inventory', 'Non-Inventory', 'Prepared']
+    -#= content_tag(:div, class: 'input checkbox') do
+      -#= f.label :, "Non-Inventory?"
+      -#= f.check_box :non_inventory
   .actions
     = f.button :submit

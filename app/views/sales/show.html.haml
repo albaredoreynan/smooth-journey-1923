@@ -14,6 +14,7 @@
       %table
         %tr
           %th{:colspan => 3}= 'Sale by Category'
+          %th{:colspan => 2}= "Sale by Category By Month(Day 1 to Present)"
         %tr
         - sale_categories_percentage = Array.new
         - @sale.sale_category_rows.each do |scr|
@@ -22,28 +23,28 @@
             %td.monetary= number_to_currency(scr.amount, :unit => peso_sign)
             - amount_percentage = scr.amount.to_f.percent_of(@sale.net_sales)
             - sale_categories_percentage << amount_percentage
-            %td=  number_to_percentage(amount_percentage)
+            %td=  number_to_percentage(amount_percentage, :precision => 2)
         %tr.totals
           %td= 'Net Sales'
           %td.monetary= number_to_currency(@sale.net_sales, :unit => peso_sign)
-          %td= number_to_percentage(sale_categories_percentage.inject(:+))
+          %td= number_to_percentage(sale_categories_percentage.inject(:+), :precision => 2)
         - revenues_percentage = Array.new
         %tr
           %td= 'VAT'
           %td.monetary= number_to_currency(@sale.vat, :unit => peso_sign)
           - vat_percentage = @sale.vat.percent_of(@sale.total_revenues)
           - revenues_percentage << vat_percentage
-          %td= number_to_percentage(vat_percentage)
+          %td= number_to_percentage(vat_percentage, :precision => 2)
         %tr
           %td= 'Service Charge'
           %td.monetary= number_to_currency(@sale.service_charge, :unit => peso_sign)
           - service_charge_percentage = @sale.service_charge.percent_of(@sale.total_revenues)
           - revenues_percentage << service_charge_percentage
-          %td= number_to_percentage(service_charge_percentage)
+          %td= number_to_percentage(service_charge_percentage, :precision => 2)
         %tr.totals
           %td= 'Total Revenues'
           %td.monetary= number_to_currency(@sale.total_revenues, :unit => peso_sign)
-          %td= number_to_percentage(revenues_percentage.inject(:+))
+          %td= number_to_percentage(revenues_percentage.inject(:+), :precision => 2)
         %tr
           %th{:colspan => 4}= 'Sale by Settlement Type'
 
@@ -54,23 +55,23 @@
             %td.monetary= number_to_currency(sts.amount, :unit => peso_sign)
             - sts_amount_percentage = sts.amount.percent_of(@sale.total_settlement_type_sales)
             - settlement_type_percentage << sts_amount_percentage
-            %td= number_to_percentage(sts_amount_percentage)
+            %td= number_to_percentage(sts_amount_percentage, :precision => 2)
         %tr
           %td= 'GC Redeemed'
           %td.monetary= number_to_currency(@sale.gc_redeemed, :unit => peso_sign)
           - gc_redeemed_percentage = @sale.gc_redeemed.percent_of(@sale.total_settlement_type_sales)
           - settlement_type_percentage << gc_redeemed_percentage
-          %td= number_to_percentage(gc_redeemed_percentage)
+          %td= number_to_percentage(gc_redeemed_percentage, :precision => 2)
         %tr
           %td= 'Delivery'
           %td.monetary= number_to_currency(@sale.delivery_sales, :unit => peso_sign)
           - delivery_sale_percentage = @sale.delivery_sales.percent_of(@sale.total_settlement_type_sales)
           - settlement_type_percentage << delivery_sale_percentage
-          %td= number_to_percentage(delivery_sale_percentage)
+          %td= number_to_percentage(delivery_sale_percentage, :precision => 2)
         %tr.totals
           %td= 'Total'
           %td.monetary= number_to_currency(@sale.total_settlement_type_sales, :unit => peso_sign)
-          %td= number_to_percentage(settlement_type_percentage.inject(:+))
+          %td= number_to_percentage(settlement_type_percentage.inject(:+), :precision => 2)
         %tr
           %th{:colspan => 4}= 'Statistics'
         %tr

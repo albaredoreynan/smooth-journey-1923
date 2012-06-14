@@ -11,7 +11,7 @@ class Item < ActiveRecord::Base
 
   default_scope order('name ASC')
 
-  scope :inventory, where(:non_inventory => false)
+  scope :item_group, where('item_group  ?', 'Non-Inventory')
   scope :search, lambda{|keyword| where('items.name ILIKE ?', "%#{keyword}%") unless keyword.blank?}
 
   after_save :new_item_count, :if => :new_record? do

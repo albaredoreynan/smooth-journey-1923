@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120606061355) do
+ActiveRecord::Schema.define(:version => 20120611084956) do
 
   create_table "branches", :force => true do |t|
     t.integer  "restaurant_id"
@@ -145,13 +145,13 @@ ActiveRecord::Schema.define(:version => 20120606061355) do
     t.integer  "unit_id"
     t.string   "item_type"
     t.integer  "subcategory_id"
-    t.boolean  "non_inventory"
     t.integer  "branch_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "deleted_at"
     t.integer  "restaurant_id"
     t.boolean  "is_active",      :default => true
+    t.string   "item_group"
   end
 
   add_index "items", ["branch_id"], :name => "index_items_on_branch_id"
