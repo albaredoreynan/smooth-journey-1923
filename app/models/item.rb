@@ -9,7 +9,7 @@ class Item < ActiveRecord::Base
   has_many :purchase_items, :dependent => :destroy 
   has_many :item_counts, :dependent => :destroy 
 
-  default_scope order('name ASC')
+  default_scope order('subcategory_id, name ASC')
 
   scope :item_group, where('item_group  != ?', 'Non-Inventory')
   scope :search, lambda{|keyword| where('items.name ILIKE ?', "%#{keyword}%") unless keyword.blank?}

@@ -24,15 +24,15 @@
         = hidden_field_tag(:entry_date, params[:date]) if params[:date]
         %table
           %tr
-            %th{:style => 'width:40%'} Item
             %th Subcategory
+            %th{:style => 'width:40%'} Item
             %th Unit
             %th Count
             %th.last Update count
           - @items.each do |item|
             %tr{id: dom_id(item)}
-              %td= item.name
               %td= item.subcategory_name
+              %td= item.name
               %td= item.unit_name
               %td= item.ending_count
               %td.last= text_field(:item, :item_count, {:name => "items[#{item.id}][item_count]", :style => "width:70px"})
