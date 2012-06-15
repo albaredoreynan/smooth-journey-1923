@@ -9,7 +9,8 @@ class Reports::EndcountReportsController < ReportsController
   def index
     endcount_items = EndcountItem.
       includes(:subcategory).
-      where(current_ability.attributes_for(:read, Item))
+      where(current_ability.attributes_for(:read, Item)).
+      item_group
 
     if current_user.branch?
       branch_id = @current_branch.id
