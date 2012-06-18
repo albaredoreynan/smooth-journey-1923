@@ -22,6 +22,9 @@
         = label_tag :branch_id, 'Select a branch to update'
         = select_tag :branch_id, options_from_collection_for_select(Branch.accessible_by(current_ability), :id, :location, params[:branch_id])
         = hidden_field_tag(:entry_date, params[:date]) if params[:date]
+        = 'Download as'
+        = link_to 'CSV', :format => :csv
+        = link_to 'PDF', :format => :pdf
         %table
           %tr
             %th Subcategory

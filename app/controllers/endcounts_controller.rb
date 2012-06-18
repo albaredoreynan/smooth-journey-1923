@@ -10,14 +10,30 @@ class EndcountsController < ApplicationController
     endcount_item = EndcountItem.accessible_by(current_ability).item_group
 
     @items = Endcount.ending_counts_at(endcount_item, ending_date, @branch.id)
+    
+    respond_to do |format|
+      format.html # show.html.erb
+      format.xml  { render :xml => @endcount }
+      
+      format.csv do
+        filename = "Inventory_Item_List"
+        render_csv(filename)
+      end
+      
+      format.pdf do
+        headers['Content-Disposition'] = "attachment; filename=\"Inventory_Item_List\""
+        render :layout => false
+      end
+    end
+     
   end
 
   def show
     @endcount = Endcount.find(params[:id])
 
     respond_to do |format|
-    format.html # show.html.erb
-    format.xml  { render :xml => @endcount }
+      format.html # show.html.erb
+      format.xml  { render :xml => @endcount }
     end
   end
 
@@ -141,7 +157,11 @@ class EndcountsController < ApplicationController
       redirect_to endcounts_path
     end
   end
-
+  
+  def list_generated_item_counts
+    
+  end
+   
   private
   def prepare_branch
     @branch = Branch.new

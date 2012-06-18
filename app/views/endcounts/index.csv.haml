@@ -1,0 +1,9 @@
+:ruby
+  require 'csv'
+  csv_output = CSV.generate do |csv|
+    csv << ['Subcategory', 'Item', 'Unit', 'Quantity', 'Count']
+    @items.each do |item|
+      csv << [ item.subcategory_name, item.name, item.unit_name, '', '']
+    end
+  end
+  puts csv_output

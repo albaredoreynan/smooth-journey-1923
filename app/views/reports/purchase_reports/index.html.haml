@@ -18,6 +18,7 @@
         %thead
           %tr
             %th Item
+            %th Subcategory
             %th Branch Name
             %th Invoice number
             %th Supplier name
@@ -33,29 +34,27 @@
         - total_purchase_amount = 0
         - @purchase_items.each do |subcategory, purchase_items|
           %tbody
-            %tr{id: dom_id(subcategory), class: 'subcategory_row'}
-              %th{:colspan => 11}= subcategory.name
-              - subtotal = purchase_items.map(&:net_amount).inject(:+)
-              - grand_total += subtotal
-              %th.monetary= number_to_currency(subtotal, :unit => peso_sign)
-              - purchase_items.each do |purchase_item|
-                - purchase_item.convert_unit = true
-                - total_purchase_amount +=  purchase_item.purchase_amount
-                %tr{id: dom_id(purchase_item.item), class: 'item_row'}
-                  %td= purchase_item.item.name
-                  %td= purchase_item.purchase.branch.location
-                  %td= purchase_item.purchase.invoice_number
-                  %td= link_to purchase_item.purchase.supplier_name, supplier_path(purchase_item.purchase.supplier)
-                  %td= purchase_item.purchase.purchase_date
-                  %td= purchase_item.particulars                  
-                  %td.number= number_with_precision(purchase_item.quantity, :precision => 2, :delimeter => ',')
-                  %td= purchase_item.item.unit_name
-                  %td.monetary= number_to_currency(purchase_item.unit_cost, :unit => peso_sign)
-                  %td.monetary= number_to_currency(purchase_item.vat_amount, :unit => peso_sign)
-                  %td.monetary= number_to_currency(purchase_item.purchase_amount, :unit => peso_sign)
-                  %td.monetary= number_to_currency(purchase_item.net_amount, :unit => peso_sign)
+            - subtotal = purchase_items.map(&:net_amount).inject(:+)
+            - grand_total += subtotal
+            - purchase_items.each do |purchase_item|
+              - purchase_item.convert_unit = true
+              - total_purchase_amount +=  purchase_item.purchase_amount
+              %tr{id: dom_id(purchase_item.item), class: 'item_row'}
+                %td= purchase_item.item.name
+                %td= subcategory.name
+                %td= purchase_item.purchase.branch.location
+                %td= purchase_item.purchase.invoice_number
+                %td= link_to purchase_item.purchase.supplier_name, supplier_path(purchase_item.purchase.supplier)
+                %td= purchase_item.purchase.purchase_date
+                %td= purchase_item.particulars                  
+                %td.number= number_with_precision(purchase_item.quantity, :precision => 2, :delimeter => ',')
+                %td= purchase_item.item.unit_name
+                %td.monetary= number_to_currency(purchase_item.unit_cost, :unit => peso_sign)
+                %td.monetary= number_to_currency(purchase_item.vat_amount, :unit => peso_sign)
+                %td.monetary= number_to_currency(purchase_item.purchase_amount, :unit => peso_sign)
+                %td.monetary= number_to_currency(purchase_item.net_amount, :unit => peso_sign)
         %tfoot
           %tr.totals
-            %th{:class => 'grand_total', :colspan => 10} Total
+            %th{:class => 'grand_total', :colspan => 11} Total
             %th.monetary= number_to_currency(total_purchase_amount, :unit => peso_sign)
             %th.monetary= number_to_currency(grand_total, :unit => peso_sign)
