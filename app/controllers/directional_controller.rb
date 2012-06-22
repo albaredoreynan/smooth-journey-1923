@@ -15,4 +15,5 @@ class DirectionalController < ApplicationController
     @directional = Directional.new(Date.today.beginning_of_month, @ending_date, @branch)
     @settlement_type = SettlementType.all(:conditions => ["complimentary != ?", false])
   end
+  
 end

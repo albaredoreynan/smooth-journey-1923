@@ -158,8 +158,8 @@ class EndcountsController < ApplicationController
     end
   end
   
-  def list_generated_item_counts
-    
+  def generate_endcount_list
+    @item_count = ItemCount.select("entry_date").group("entry_date")
   end
    
   private

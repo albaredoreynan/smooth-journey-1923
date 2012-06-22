@@ -33,13 +33,13 @@
     = f.input :first_time_guest
     = f.input :repeat_guest
 
-  %fieldset
-    %legend= 'Sales By Server'
-    = f.fields_for :sale_servers do |ss|
-      .input
-        = ss.hidden_field :server_id, :value => ss.object.server_id
-        = f.label ss.object.server.name
-        = ss.text_field :amount
+  -#%fieldset
+    -#%legend= 'Sales By Server'
+    -#= f.fields_for :sale_servers do |ss|
+      -#.input
+        -#= ss.hidden_field :server_id, :value => ss.object.server_id
+        -#= f.label ss.object.server.name
+        -#= ss.text_field :amount
 
   %fieldset
     %legend= 'Cash for Deposit'
