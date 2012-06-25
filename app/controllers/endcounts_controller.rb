@@ -159,7 +159,7 @@ class EndcountsController < ApplicationController
   end
   
   def generate_endcount_list
-    @item_count = ItemCount.select("entry_date").group("entry_date")
+    @item_count = ItemCount.select("entry_date").group("entry_date").order("entry_date DESC")
   end
    
   private

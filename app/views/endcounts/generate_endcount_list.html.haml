@@ -10,6 +10,6 @@
           %th View Directional  
         - @item_count.each do |ic|
           %tr
-            %td= ic.entry_date
+            %td= ic.entry_date.strftime("%B %d, %Y")
             %td= link_to 'View Item Counts', endcounts_path(:date => ic.entry_date)
             %td= link_to 'View Directional Reports', directional_path()
