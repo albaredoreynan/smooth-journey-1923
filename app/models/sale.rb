@@ -47,11 +47,13 @@ class Sale < ActiveRecord::Base
   end
 
   def total_settlement_type_sales
-    settlement_type_total + gc_redeemed + delivery_sales
+    #settlement_type_total + gc_redeemed + delivery_sales 
+    settlement_type_total + gc_redeemed + delivery_sales + cash_in_drawer 
   end
 
   def cash_for_deposit
-    cash_in_drawer + gc_sales + other_income
+    #cash_in_drawer + gc_sales + other_income
+    gc_sales + other_income
   end
 
   def per_person_ave

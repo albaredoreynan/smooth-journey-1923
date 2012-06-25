@@ -2,47 +2,74 @@
   .content
     .inner
       %p
-        %b Branch:
-        = link_to @purchase.branch_location, branch_path(@purchase.branch)
-      %p
-      %p
-        %b Purchase date:
-        = @purchase.purchase_date.strftime("%B %d, %Y") if @purchase.purchase_date
-      %p
-        %b Supplier:
-        = @purchase.supplier.name if @purchase.supplier
-      %p
-        %b Invoice:
-        = @purchase.invoice_number
-      %p
-        %b Created at:
-        = @purchase.created_at
-      %p
-        %b Updated at:
-        = @purchase.created_at
+      -#%p
+        -#%b Concept:
+        -#= link_to @purchase.branch.restaurant.name, restaurant_path(@purchase.branch.restaurant)
+      -#%p
+      -#%p
+        -#%b Branch:
+        -#= link_to @purchase.branch_location, branch_path(@purchase.branch)
+      -#%p
+      -#%p
+        -#%b Purchase date:
+        -#= @purchase.purchase_date.strftime("%B %d, %Y") if @purchase.purchase_date
+      -#%p
+        -#%b Supplier:
+        -#= @purchase.supplier.name if @purchase.supplier
+      -#%p
+        -#%b Invoice:
+        -#= @purchase.invoice_number
+      -#%p
+        -#%b Created at:
+        -#= @purchase.created_at
+      -#%p
+        -#%b Updated at:
+        -#= @purchase.created_at
+      %table
+        %tr
+          %th= 'Concept'
+          %th= 'Branch'
+          %th= 'Purchase Date'
+          %th= 'Supplier'
+        %tr
+          %td= link_to @purchase.branch.restaurant.name, restaurant_path(@purchase.branch.restaurant)
+          %td= link_to @purchase.branch_location, branch_path(@purchase.branch)
+          %td= @purchase.purchase_date.strftime("%B %d, %Y") if @purchase.purchase_date
+          %td= @purchase.supplier.name if @purchase.supplier
+        %tr
+          %th= 'Invoice'
+          %th= 'Created at'
+          %th= 'Updated at'
+          %th
+        %tr
+          %td= @purchase.invoice_number
+          %td= @purchase.created_at
+          %td= @purchase.created_at
+          %td
+            
       %table
         %tbody.purchase_items
           %tr
             %th Inventory item
-            %th Quantity
             %th Particulars
-            %th.monetary Amount
+            %th Quantity
             %th Unit Cost
+            %th.monetary Amount
             %th VAT type
             %th.monetary VAT amount
             %th.monetary Net amount
           - @purchase.purchase_items.each do |purchase_item|
             %tr
               %td= purchase_item.item_name
-              %td= "#{purchase_item.quantity} #{purchase_item.unit_name}"
               %td= purchase_item.particulars
+              %td= "#{purchase_item.quantity} #{purchase_item.unit_name}"
               
+              %td= purchase_item_unit_cost(purchase_item)
               - if purchase_item.vat_type == 'VAT-Exclusive'
                 %td.monetary= number_to_currency(purchase_item.net_amount, :unit => peso_sign)
               - else
                 %td.monetary= number_to_currency(purchase_item.amount, :unit => peso_sign)
                 
-              %td= purchase_item_unit_cost(purchase_item)
               %td= purchase_item.vat_type
               %td.monetary= number_to_currency(purchase_item.vat_amount, :unit => peso_sign)
               

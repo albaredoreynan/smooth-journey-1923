@@ -1,20 +1,33 @@
 .block
   .content
     .inner
-      %p  
-        %b Branch:
-        = @sale.branch.location
+      -#%p  
+        -#%b Branch:
+        -#= @sale.branch.location
+      -#%p
+        -#%b Date:
+        -#= @sale.sale_date.strftime("%-d-%b-%Y")
+      -#%p
+        -#.new_actions
+          -#= 'Download as'
+          -#= link_to 'PDF', :format => :pdf
       %p
-        %b Date:
-        = @sale.sale_date.strftime("%-d-%b-%Y")
-      %p
-        .new_actions
-          = 'Download as'
-          = link_to 'PDF', :format => :pdf
+      %table
+        %tr
+          %th= 'Concept'
+          %th= 'Branch'
+          %th= 'Date'
+          %th= 'Download As'
+        %tr
+          %td= @sale.branch.restaurant.name
+          %td= @sale.branch.location
+          %td= @sale.sale_date.strftime("%-d-%b-%Y")
+          %td= link_to 'PDF', :format => :pdf
+          
       %table
         %tr
           %th{:colspan => 3}= 'Sale by Category'
-          %th.monetary{:colspan => 2}= "Sale by Category By Month(Day 1 to Present)"
+          %th.monetary{:colspan => 2}= "Month To Date"
         %tr
         - sale_categories_percentage = Array.new
         - @sale.sale_category_rows.each do |scr|

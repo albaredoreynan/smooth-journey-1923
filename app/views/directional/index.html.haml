@@ -16,7 +16,7 @@
         %tr
           %th Net Sales (Category)
           %th &nbsp;
-          %th Percentage
+          %th.monetary Percentage
         - directional_categories_percentage = Array.new
         - last_year = @directional.last_year
         - @directional.net_sales.each do |category, net_sale|
@@ -25,14 +25,14 @@
             %td.monetary= number_to_currency(net_sale, :unit => peso_sign)
             - amount_percentage = net_sale.to_f.percent_of(@directional.net_sale_total)
             - directional_categories_percentage << amount_percentage
-            %td=  number_to_percentage(amount_percentage, :precision => 2)
+            %td.monetary=  number_to_percentage(amount_percentage, :precision => 2)
         %tr.totals
           %td= 'Total'
           %td.monetary= number_to_currency(@directional.net_sale_total, :precision => 2, :unit => peso_sign)
-          %td= number_to_percentage(directional_categories_percentage.inject(:+), :precision => 2)
+          %td.monetary= number_to_percentage(directional_categories_percentage.inject(:+), :precision => 2)
         %tr
           %th Net Sales
-          %th{:title => 'Month to Date', :class => 'number'} MTD
+          %th.monetary{:title => 'Month to Date', :class => 'number'} MTD
           %th.number Last year
         %tr.totals
           %td= 'Total'
@@ -58,15 +58,15 @@
       %table{:title => 'Settlement Types'}
         %tr
           %th Complimentary Analysis
-          %th MTD
-          %th % To NET SALES
+          %th.monetary MTD
+          %th.monetary % To NET SALES
         - @settlement_type.each do |st| 
           - settlement_type_sales_amount = st.settlement_type_sales.map(&:amount).reject(&:nil?).inject(:+).to_f || 0
           - settlement_type_sales_percentage = (settlement_type_sales_amount / @directional.net_sale_total) * 100
           %tr
             %td= st.name
             %td.monetary= number_with_precision(st.settlement_type_sales.map(&:amount).reject(&:nil?).inject(:+).to_f || 0, :precision => 2, :delimiter => ',')
-            %td= number_to_percentage(settlement_type_sales_percentage, :precision => 2)
+            %td.monetary= number_to_percentage(settlement_type_sales_percentage, :precision => 2)
       
       %table{:title => 'Cost of Goods'}
         %tr
