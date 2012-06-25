@@ -21,6 +21,7 @@
         = sts.hidden_field :settlement_type_id, :value => sts.object.settlement_type_id
         = f.label sts.object.settlement_type.name
         = sts.text_field :amount, :class => :settlementtype
+    = f.input :cash_in_drawer
     = f.input :gc_redeemed
     = f.input :delivery_sales
 
@@ -43,7 +44,6 @@
 
   %fieldset
     %legend= 'Cash for Deposit'
-    = f.input :cash_in_drawer
     = f.input :gc_sales
     = f.input :other_income
 
