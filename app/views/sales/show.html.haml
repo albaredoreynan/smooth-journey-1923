@@ -70,9 +70,11 @@
             - settlement_type_percentage << sts_amount_percentage
             %td.monetary= number_to_percentage(sts_amount_percentage, :precision => 2)
         %tr
-          %td= 'Cash in Drawer'
+          %td= 'Cash'
           %td.monetary= number_to_currency(@sale.cash_in_drawer, :unit => peso_sign)
-          %td.monetary{:colspan => 2}
+          - cash_in_percentage = (@sale.cash_in_drawer / @sale.total_settlement_type_sales) * 100
+          - settlement_type_percentage << cash_in_percentage
+          %td.monetary= number_to_percentage(cash_in_percentage, :precision => 2)
         %tr
           %td= 'GC Redeemed'
           %td.monetary= number_to_currency(@sale.gc_redeemed, :unit => peso_sign)
@@ -109,6 +111,10 @@
           %td.monetary{:colspan => 2}
         %tr
           %th{:colspan => 4}= 'Cash For Deposit'
+        %tr
+          %td= 'Cash in Drawer'
+          %td.monetary= number_to_currency(@sale.cash_in_drawer, :unit => peso_sign)
+          %td.monetary{:colspan => 2}  
         %tr
           %td= 'GC Sales'
           %td.monetary= number_to_currency(@sale.gc_sales, :unit => peso_sign)

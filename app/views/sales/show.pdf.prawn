@@ -1,10 +1,22 @@
-pdf.start_new_page 
+pdf.start_new_page
 pdf.text "Daily Sales Reports" , :style => :bold
-pdf.text "DATE : #{@sale.sale_date.strftime("%-d-%b-%Y")}" , :style => :bold
-pdf.text "Branch #{@sale.branch.location}" , :style => :bold
+row5 = []
+          
+row5 << ['Concept','Branch','Date']
+row5 << [@sale.branch.restaurant.name, @sale.branch.location, @sale.sale_date.strftime("%-d-%b-%Y") ]
+
 pdf.move_down 10
 pdf.font_size 7
 
+pdf.table row5,
+  :border_style => :grid,
+  :font_size => 8,
+  :position => :left,
+  :row_colors => ["d2e3ed", "FFFFFF"],
+  :column_widths => { 0 => 120, 1 => 120, 2 => 120}
+
+pdf.move_down 10
+  
 row1 = []
 
 row2 = []
@@ -40,7 +52,8 @@ pdf.table row1,
   :border_style => :grid,
   :font_size => 8,
   :position => :left,
-  :row_colors => ["d2e3ed", "FFFFFF"]
+  :row_colors => ["d2e3ed", "FFFFFF"],
+  :column_widths => { 0 => 120, 1 => 120, 2 => 120}
   
 pdf.move_down 10
 
@@ -55,6 +68,10 @@ pdf.move_down 10
     row2 << [sts.settlement_type.name, number_to_currency(sts.amount, :unit => peso_sign), number_to_percentage(sts_amount_percentage, :precision => 2) ]
   end
   
+    cash_in_percentage = (@sale.cash_in_drawer / @sale.total_settlement_type_sales) * 100
+    settlement_type_percentage << cash_in_percentage
+    row2 << ['Cash', number_to_currency(@sale.cash_in_drawer, :unit => peso_sign), number_to_percentage(cash_in_percentage, :precision => 2) ]
+    
     gc_redeemed_percentage = @sale.gc_redeemed.percent_of(@sale.total_settlement_type_sales)
     settlement_type_percentage << gc_redeemed_percentage    
     row2 << ['GC Redeemed', number_to_currency(@sale.gc_redeemed, :unit => peso_sign), number_to_percentage(gc_redeemed_percentage, :precision => 2)]
@@ -69,7 +86,8 @@ pdf.table row2,
   :border_style => :grid,
   :font_size => 8,
   :position => :left,
-  :row_colors => ["d2e3ed", "FFFFFF"]
+  :row_colors => ["d2e3ed", "FFFFFF"],
+  :column_widths => { 0 => 120, 1 => 120, 2 => 120}
   
 pdf.move_down 10
 
@@ -84,7 +102,8 @@ pdf.table row3,
   :border_style => :grid,
   :font_size => 8,
   :position => :left,
-  :row_colors => ["d2e3ed", "FFFFFF"]
+  :row_colors => ["d2e3ed", "FFFFFF"],
+  :column_widths => { 0 => 180, 1 => 180} 
   
 pdf.move_down 10          
           
@@ -98,8 +117,9 @@ pdf.table row4,
   :border_style => :grid,
   :font_size => 8,
   :position => :left,
-  :row_colors => ["d2e3ed", "FFFFFF"]
-  
+  :row_colors => ["d2e3ed", "FFFFFF"],
+  :column_widths => { 0 => 180, 1 => 180}
+   
 pdf.font_size 8
 
 pdf.bounding_box([pdf.bounds.right - 50,pdf.bounds.bottom], :width => 60, :height => 20) do

@@ -52,8 +52,8 @@ class Sale < ActiveRecord::Base
   end
 
   def cash_for_deposit
-    #cash_in_drawer + gc_sales + other_income
-    gc_sales + other_income
+    cash_in_drawer + gc_sales + other_income
+    #gc_sales + other_income
   end
 
   def per_person_ave
