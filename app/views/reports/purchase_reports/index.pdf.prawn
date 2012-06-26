@@ -18,6 +18,7 @@ grand_total += subtotal
 
   rows << [subcategory.name, '','','','','','','','','','','',number_to_currency(subtotal, :unit => peso_sign)]
     purchase_items.each do |purchase_item|
+        p_amount = purchase_item.purchase_amount - purchase_item.vat_amount
         rows << ['',purchase_item.item.name,
         purchase_item.purchase.branch.location,
         purchase_item.purchase.invoice_number,
@@ -28,7 +29,7 @@ grand_total += subtotal
         purchase_item.item.unit_name,
         number_to_currency(purchase_item.unit_cost, :unit => peso_sign),
         number_to_currency(purchase_item.vat_amount, :unit => peso_sign),
-        number_to_currency(purchase_item.purchase_amount, :unit => peso_sign),
+        number_to_currency(p_amount, :unit => peso_sign),
         number_to_currency(purchase_item.net_amount, :unit => peso_sign)]
         
     end    
