@@ -26,8 +26,11 @@
           
       %table
         %tr
-          %th{:colspan => 3}= 'Sale by Category'
-          %th.monetary{:colspan => 2}= "Month To Date"
+          %th= 'Sale by Category'
+          %th.monetary= 'Amount'
+          %th.monetary= 'Percentage'
+          %th.monetary= 'MTD Amount'
+          %th.monetary= 'MTD Percentage'
         %tr
         - sale_categories_percentage = Array.new
         - @sale.sale_category_rows.each do |scr|
@@ -37,10 +40,12 @@
             - amount_percentage = scr.amount.to_f.percent_of(@sale.net_sales)
             - sale_categories_percentage << amount_percentage
             %td.monetary=  number_to_percentage(amount_percentage, :precision => 2)
+            %td{:coslpan => 2}
         %tr.totals
           %td= 'Net Sales'
           %td.monetary= number_to_currency(@sale.net_sales, :unit => peso_sign)
           %td.monetary= number_to_percentage(sale_categories_percentage.inject(:+), :precision => 2)
+          %td{:coslpan => 2}
         - revenues_percentage = Array.new
         %tr
           %td= 'VAT'
@@ -48,18 +53,23 @@
           - vat_percentage = @sale.vat.percent_of(@sale.total_revenues)
           - revenues_percentage << vat_percentage
           %td.monetary= number_to_percentage(vat_percentage, :precision => 2)
+          %td.monetary= number_to_currency(@sale.month_to_date_vat, :unit => peso_sign)
+          %td.monetary
         %tr
           %td= 'Service Charge'
           %td.monetary= number_to_currency(@sale.service_charge, :unit => peso_sign)
           - service_charge_percentage = @sale.service_charge.percent_of(@sale.total_revenues)
           - revenues_percentage << service_charge_percentage
           %td.monetary= number_to_percentage(service_charge_percentage, :precision => 2)
+          %td.monetary= number_to_currency(@sale.month_to_date_service_charge, :unit => peso_sign)
+          %td.monetary
         %tr.totals
           %td= 'Total Revenues'
           %td.monetary= number_to_currency(@sale.total_revenues, :unit => peso_sign)
           %td.monetary= number_to_percentage(revenues_percentage.inject(:+), :precision => 2)
+          %td{:coslpan => 2}
         %tr
-          %th{:colspan => 4}= 'Sale by Settlement Type'
+          %th{:colspan => 5}= 'Sale by Settlement Type'
 
         - settlement_type_percentage = Array.new
         - @sale.settlement_type_sales.each do |sts|
@@ -69,64 +79,80 @@
             - sts_amount_percentage = sts.amount.percent_of(@sale.total_settlement_type_sales)
             - settlement_type_percentage << sts_amount_percentage
             %td.monetary= number_to_percentage(sts_amount_percentage, :precision => 2)
+            %td{:coslpan => 2}
         %tr
           %td= 'Cash'
           %td.monetary= number_to_currency(@sale.cash_in_drawer, :unit => peso_sign)
           - cash_in_percentage = (@sale.cash_in_drawer / @sale.total_settlement_type_sales) * 100
           - settlement_type_percentage << cash_in_percentage
           %td.monetary= number_to_percentage(cash_in_percentage, :precision => 2)
+          %td.monetary= number_to_currency(@sale.month_to_date_cash_in_drawer, :unit => peso_sign)
+          %td.monetary
         %tr
           %td= 'GC Redeemed'
           %td.monetary= number_to_currency(@sale.gc_redeemed, :unit => peso_sign)
           - gc_redeemed_percentage = @sale.gc_redeemed.percent_of(@sale.total_settlement_type_sales)
           - settlement_type_percentage << gc_redeemed_percentage
           %td.monetary= number_to_percentage(gc_redeemed_percentage, :precision => 2)
+          %td.monetary= number_to_currency(@sale.month_to_date_gc_redeemed, :unit => peso_sign)
+          %td.monetary
         %tr
           %td= 'Delivery'
           %td.monetary= number_to_currency(@sale.delivery_sales, :unit => peso_sign)
           - delivery_sale_percentage = @sale.delivery_sales.percent_of(@sale.total_settlement_type_sales)
           - settlement_type_percentage << delivery_sale_percentage
           %td.monetary= number_to_percentage(delivery_sale_percentage, :precision => 2)
+          %td.monetary= number_to_currency(@sale.month_to_date_delivery_sales, :unit => peso_sign)
+          %td.monetary
         %tr.totals
           %td= 'Total'
           %td.monetary= number_to_currency(@sale.total_settlement_type_sales, :unit => peso_sign)
           %td.monetary= number_to_percentage(settlement_type_percentage.inject(:+), :precision => 2)
+          %td{:coslpan => 2}
         %tr
-          %th{:colspan => 4}= 'Statistics'
+          %th{:colspan => 5}= 'Statistics'
         %tr
           %td= 'Customer Count'
           %td.monetary= @sale.customer_count
           %td.monetary{:colspan => 2}
+          %td.monetary{:coslpan => 2}= @sale.month_to_date_customer_count 
         %tr
           %td= 'Per Person Average'
           %td.monetary= @sale.per_person_ave
           %td.monetary{:colspan => 2}
+          %td{:coslpan => 2}
         %tr
           %td= 'Transaction Count'
           %td.monetary= @sale.transaction_count
           %td.monetary{:colspan => 2}
+          %td.monetary{:coslpan => 2}= @sale.month_to_date_transaction_count
         %tr
           %td= 'Per Trans Average'
           %td.monetary= @sale.per_trans_ave
           %td.monetary{:colspan => 2}
+          %td{:coslpan => 2}
         %tr
-          %th{:colspan => 4}= 'Cash For Deposit'
+          %th{:colspan => 5}= 'Cash For Deposit'
         %tr
           %td= 'Cash in Drawer'
           %td.monetary= number_to_currency(@sale.cash_in_drawer, :unit => peso_sign)
           %td.monetary{:colspan => 2}  
+          %td.monetary{:coslpan => 2}= number_to_currency(@sale.month_to_date_cash_in_drawer, :unit => peso_sign)
         %tr
           %td= 'GC Sales'
           %td.monetary= number_to_currency(@sale.gc_sales, :unit => peso_sign)
           %td.monetary{:colspan => 2}
+          %td.monetary{:coslpan => 2}= number_to_currency(@sale.month_to_date_gc_sales, :unit => peso_sign)
         %tr
           %td= 'Other Income'
           %td.monetary= number_to_currency(@sale.other_income, :unit => peso_sign)
           %td.monetary{:colspan => 2}
+          %td.monetary{:coslpan => 2}= number_to_currency(@sale.month_to_date_other_income, :unit => peso_sign)
         %tr.totals
           %td= 'Total'
           %td.monetary= number_to_currency(@sale.cash_for_deposit, :unit => peso_sign)
           %td.monetary{:colspan => 2}
+          %td.monetary{:coslpan => 2}= number_to_currency(@sale.month_to_date_cash_for_deposit, :unit => peso_sign)
 
       = link_to 'Edit', edit_sale_path(@sale)
       |
