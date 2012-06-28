@@ -71,7 +71,7 @@
       %table{:title => 'Cost of Goods'}
         %tr
           %th Cost of Goods
-          %th.number Beggining
+          %th.number Beginning
           %th.monetary Purchase
           %th.number Purchase %
           %th.number Ending
@@ -79,6 +79,14 @@
           %th.number COGS %
           %th.number Goal %
           %th.number VAR +/-
+        - cogs_beginning_total = Array.new
+        - cogs_purchase_total = Array.new
+        - cogs_purchase_percentage_total = Array.new
+        - cogs_ending_total = Array.new
+        - cogs_cogs_total = Array.new
+        - cogs_cogs_percentage_total = Array.new
+        - cogs_subcategory_goal_total = Array.new
+        - cogs_var_percentage_total = Array.new
         - @directional.cogs.each do |c|
           %tr
             %td= c.name
@@ -90,3 +98,24 @@
             %td.number= number_to_percentage(c.cogs_perc, :precision => 2)
             %td.number= number_to_percentage(c.subcategory.goal, :precision => 2)
             %td.number= number_to_percentage(c.var_perc, :precision => 2)
+            - cogs_beginning_total << c.beginning
+            - cogs_purchase_total << c.purchase
+            - cogs_purchase_percentage_total << c.purchase_perc
+            - cogs_ending_total << c.ending
+            - cogs_cogs_total << c.cogs
+            - cogs_cogs_percentage_total << c.cogs_perc
+            - cogs_subcategory_goal_total << c.subcategory.goal
+            - cogs_var_percentage_total << c.var_perc          
+        %tr
+          %td.monetary= 'Total'
+          %td.number= number_with_precision(cogs_beginning_total.inject(:+), :precision => 2)
+          %td.monetary= number_to_currency(cogs_purchase_total.inject(:+), :unit => peso_sign)
+          %td.number= number_to_percentage(cogs_purchase_percentage_total.inject(:+), :precision => 2)
+          %td.number= number_with_precision(cogs_ending_total.inject(:+), :precision => 2, :delimiter => 2)
+          %td.number= number_with_precision(cogs_cogs_total.inject(:+), :precision => 2, :delimiter => 2)
+          %td.number= number_to_percentage(cogs_cogs_percentage_total.inject(:+), :precision => 2)
+          %td.number= number_to_percentage(cogs_subcategory_goal_total.reject(&:nil?).inject(:+) || 0, :precision => 2)
+          %td.number= number_to_percentage(cogs_var_percentage_total.reject(&:nil?).inject(:+) || 0, :precision => 2)  
+      %table
+        %tr
+          
