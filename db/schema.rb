@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120622031133) do
+ActiveRecord::Schema.define(:version => 20120628052921) do
 
   create_table "branches", :force => true do |t|
     t.integer  "restaurant_id"
@@ -366,6 +366,7 @@ ActiveRecord::Schema.define(:version => 20120622031133) do
     t.float    "goal"
     t.boolean  "is_active",     :default => true
     t.boolean  "non_inventory", :default => false
+    t.string   "cogs_group"
   end
 
   create_table "suppliers", :force => true do |t|

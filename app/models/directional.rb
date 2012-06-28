@@ -46,13 +46,24 @@ class Directional
   
   def cogs
     cogs_categories = Array.new
-    subcategories = Subcategory.find(:all, :conditions => { :non_inventory => false} )
+    subcategories = Subcategory.find(:all, :conditions => { :non_inventory => false, :cogs_group => "Foods and Beverages"} )
     subcategories.each do |s|
       cogs_category = CogsCategory.new(s, @ending_date, @branch)
       cogs_category.net_sale_total = net_sale_total
       cogs_categories << cogs_category
     end
     cogs_categories
+  end
+  
+  def cogs2
+    cogs_categories2 = Array.new
+    subcategories2 = Subcategory.find(:all, :conditions => { :non_inventory => false, :cogs_group => "Alcohol"} )
+    subcategories2.each do |s|
+      cogs_category2 = CogsCategory.new(s, @ending_date, @branch)
+      cogs_category2.net_sale_total = net_sale_total
+      cogs_categories2 << cogs_category2
+    end
+    cogs_categories2
   end
 
   def last_year

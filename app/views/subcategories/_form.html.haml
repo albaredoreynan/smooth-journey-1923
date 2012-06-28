@@ -3,6 +3,7 @@
     = f.input :name
     = f.association :category, :prompt => "(select)", :collection => Category.accessible_by(current_ability).map { |cat| [ cat.name, cat.id ]}
     = f.input :goal, :hint => 'in percentage'
+    = f.input :cogs_group, :collection => [['Foods and Beverages', 'Foods and Beverages'], ['Alcohol', 'Alcohol'], ['Labors','Labors'], ['Others', 'Others']]
     = f.input :description
     = content_tag(:div, class: 'input checkbox') do
       = f.label :non_inventory, "Non-Inventory?"
