@@ -22,6 +22,7 @@ gem 'paranoia'
 gem 'orm_adapter'
 gem "SystemTimer", :require => "system_timer", :platforms => :ruby_18
 gem "rack-timeout"
+gem 'jquery-datatables-rails'
 
 group :assets do
   gem 'sass-rails', "~> 3.2.3"
