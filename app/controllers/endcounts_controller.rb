@@ -1,10 +1,12 @@
 class EndcountsController < ApplicationController
 
-  set_tab :inventory
+  #set_tab :inventory
 
   before_filter :prepare_branch, :only => :index
 
   def index
+    set_tab :inventory
+    
     authorize! :index, Endcount
     ending_date = params[:date] ? Date.parse(params[:date]) : Date.today
     endcount_item = EndcountItem.accessible_by(current_ability).item_group
@@ -159,6 +161,7 @@ class EndcountsController < ApplicationController
   end
   
   def generate_endcount_list
+    set_tab :list
     @item_count = ItemCount.select("entry_date").group("entry_date").order("entry_date DESC")
   end
    

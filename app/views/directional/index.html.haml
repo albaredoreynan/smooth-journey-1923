@@ -1,6 +1,6 @@
 - content_for :sidebar do
   %h3 Search
-  = render :partial => 'shared/end_counts_search_form', locals: { search_path: '/directional' }
+  = render :partial => 'shared/directional_search_month', locals: { search_path: '/directional' }
 
 .block
   = render 'shared/menu/reports'

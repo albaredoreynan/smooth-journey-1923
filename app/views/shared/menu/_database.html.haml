@@ -11,3 +11,6 @@
     -#%li= link_to 'Currencies', currencies_path
     - if can? :manage, User
       %li= tab.user 'Users', users_path
+    %li= tab.items 'Items', inventoryitems_path
+    %li= tab.categories 'Categories', categories_path
+    %li= tab.subcategories 'Subcategories', subcategories_path
