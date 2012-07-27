@@ -3,8 +3,9 @@
   = render :partial => 'shared/purchase_search_list', locals: { item_name_field: false, search_path: 'purchases/search' }
 
 .block
-  = render :partial => 'shared/menu/purchase'
+  = render 'shared/menu/database'
   .content
+    = render 'shared/menu/purchase'
     .title_action_bar
       %h2.title View Purchases
       .new_actions

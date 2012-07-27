@@ -7,8 +7,9 @@
       = submit_tag "Search", :class => "button", :name => nil
 
 .block
-  = render 'shared/menu/inventory'
+  = render 'shared/menu/database'
   .content
+    = render 'shared/menu/setup_inventory'
     .title_action_bar
       %h2.title Inventory Item
       .new_actions

@@ -1,6 +1,6 @@
 class PurchasesController < ApplicationController
 
-  set_tab :purchases
+  set_tab :purchase_list
 
   def index
     authorize! :index, Purchase
