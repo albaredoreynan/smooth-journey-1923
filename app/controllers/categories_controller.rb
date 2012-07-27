@@ -1,7 +1,6 @@
 class CategoriesController < ApplicationController
   load_and_authorize_resource
 
-  set_tab :inventory
   set_tab :categories
 
   def index

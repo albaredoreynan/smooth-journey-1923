@@ -1,7 +1,5 @@
 class SalesController < ApplicationController
 
-  
-
   def index
     set_tab :daily_sales
     authorize! :index, Sale
