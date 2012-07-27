@@ -1,6 +1,7 @@
 .block
   = render 'shared/menu/database'
   .content
+    = render 'shared/menu/organization'
     .title_action_bar
       %h2.title List of Users
       - if can? :create, User

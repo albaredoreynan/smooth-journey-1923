@@ -4,7 +4,7 @@
     = tab.purchases '<i class="icon-purchases"></i><span>New Purchases</span>'.html_safe, new_purchase_path
     = tab.inventory '<i class="icon-inventory"></i><span>Inventory</span>'.html_safe, endcounts_path
     -#= tab.employees 'Employees', employees_path
-    = tab.reports '<i class="icon-reports"></i><span>Reports</span>'.html_safe, endcount_reports_path
+    = tab.reports '<i class="icon-reports"></i><span>Reports</span>'.html_safe, sales_path
     - if current_user.admin?
       = tab.database '<i class="icon-database"></i><span>Setup</span>'.html_safe, companies_path
     - else

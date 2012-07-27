@@ -1,16 +1,6 @@
 .secondary-navigation
   = tabs_tag :builder => MenuTabBuilder do |tab|
-    - if can? :read, Company
-      %li= tab.company 'Companies', companies_path
-    - if can? :manage, Restaurant
-      %li= tab.restaurant 'Restaurants', restaurants_path
-    - if can? :read, Branch
-      %li= tab.database 'Branches', branches_path
-    %li= tab.unit 'Units', units_path
-    %li= tab.conversion 'Conversions', conversions_path
-    -#%li= link_to 'Currencies', currencies_path
-    - if can? :manage, User
-      %li= tab.user 'Users', users_path
-    %li= tab.items 'Items', inventoryitems_path
-    %li= tab.categories 'Categories', categories_path
-    %li= tab.subcategories 'Subcategories', subcategories_path
+    %li= tab.organization 'Organization', companies_path
+    %li= tab.setup_items 'Items', restaurants_path
+    %li= tab.setup_sales 'Sales', branches_path
+    %li= tab.setup_purchase 'Purchase', units_path
