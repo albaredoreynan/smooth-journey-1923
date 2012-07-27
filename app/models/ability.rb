@@ -97,7 +97,7 @@ class Ability
       can :manage, [ Item ], :restaurant => { :company => { :id => company_id } }
       can :manage, Purchase, :branch => { :restaurant => { :company => { :id => company_id } } }
       can :manage, PurchaseItem, :purchase => { :branch => { :restaurant => { :company => { :id => company_id } } } }
-      can :manage, Restaurant, :company_id => company_id
+      can :manage, Restaurant
       can :manage, Sale, :branch => { :restaurant => { :company => { :id => company_id } } }
       can :manage, Server, :branch => { :restaurant => { :company => { :id => company_id } } }
       can [:new, :create], Server
