@@ -84,7 +84,7 @@ class Ability
 
 
     when 'client'
-      can manage, :all
+      can :manage, :all
 
     when 'accounting'
       can [:index, :read], :all
