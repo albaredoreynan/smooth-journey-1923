@@ -4,7 +4,7 @@ class RestaurantsController < ApplicationController
   set_tab :restaurant
 
   def index
-    @restaurants = Restaurant.joins(:company).accessible_by(current_ability).page(params[:page])
+    @restaurants = Restaurant.joins(:companies).accessible_by(current_ability).page(params[:page])
 
     respond_to do |format|
       format.html # index.html.erb
