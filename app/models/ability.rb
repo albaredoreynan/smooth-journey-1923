@@ -84,7 +84,6 @@ class Ability
 
 
     when 'client'
-      
       #company_id = user.companies.first
       #can [:read, :edit, :update], Company, :id => company_id
       #can :new,    Branch
