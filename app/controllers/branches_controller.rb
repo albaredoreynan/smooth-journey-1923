@@ -8,6 +8,8 @@ class BranchesController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @branches }
+      format.csv
+      format.xls
     end
   end
 

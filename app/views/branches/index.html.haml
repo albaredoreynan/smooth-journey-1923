@@ -7,6 +7,8 @@
       - if can? :new, Branch
         .new_actions
           = link_to 'New Branch', new_branch_path, :class => 'button'
+        = 'Download as'
+        = link_to 'CSV', branches_path(params.merge(format: 'csv'))
     .inner
       %table
         %tr
