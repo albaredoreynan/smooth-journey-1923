@@ -6,10 +6,15 @@ class UnitsController < ApplicationController
   def index
     authorize! :index, Unit
     @units = Unit.accessible_by(current_ability).search(params[:search]).page(params[:page])
-
+    
+    @units2 = Unit.all
+    @filename = "All Units.csv"
+  
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @units }
+      format.csv
+      format.xls
     end
   end
 
