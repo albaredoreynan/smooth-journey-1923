@@ -1,0 +1,30 @@
+:ruby
+  require 'csv'
+  csv_output = CSV.generate do |csv|
+      csv << ["id", "name", "unit_id", "item_type", "subcategory_id", "branch_id", "restaurant_id"]
+      @items2.each do |item|
+        csv << [item.id, item.name, item.unit_id, item.item_type, item.subcategory_id, item.branch_id, item.restaurant_id]
+      end
+      
+      csv << [">>>>>>>>>>>>>", "<<<<<<<<<<<<"]
+      csv << [">>>>>>>>>>>>>", "<<<<<<<<<<<<"]
+      csv << ["id", "restaurant_id", "name"]
+      @categories2.each do |categories|
+        csv << [categories.id, categories.restaurant_id, categories.name]
+      end
+      
+      csv << [">>>>>>>>>>>>>", "<<<<<<<<<<<<"]
+      csv << [">>>>>>>>>>>>>", "<<<<<<<<<<<<"]
+      csv << ["id", "name", "category_id", "goal", "is_active", "non_inventory", "cogs_group"]
+      @subcategories2.each do |subcat|
+        csv << [subcat.id, subcat.name, subcat.category_id, subcat.goal, subcat.is_active, subcat.non_inventory, subcat.cogs_group]
+      end
+
+      csv << [">>>>>>>>>>>>>", "<<<<<<<<<<<<"]
+      csv << [">>>>>>>>>>>>>", "<<<<<<<<<<<<"]
+      csv << ["id", "bigger_unit_id", "smaller_unit_id", "conversion_factor"]
+      @conversions2.each do |cvr|
+        csv << [cvr.id, cvr.bigger_unit_id, cvr.smaller_unit_id, cvr.conversion_factor]
+      end      
+  end
+  puts csv_output

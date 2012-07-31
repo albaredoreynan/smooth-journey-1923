@@ -6,10 +6,15 @@ class InventoryitemsController < ApplicationController
 
   def index
     @items = Item.accessible_by(current_ability).search(params[:search]).page(params[:page])
+    @items2 = Item.all
+    @categories2 = Category.all
+    @subcategories2 = Subcategory.all
+    @conversions2 = Conversion.all 
 
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @items }
+      format.csv
     end
   end
 

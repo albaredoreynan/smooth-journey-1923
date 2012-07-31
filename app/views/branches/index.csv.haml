@@ -1,0 +1,9 @@
+:ruby
+  require 'csv'
+  csv_output = CSV.generate do |csv|
+      csv << ["id", "restaurant_id", "location", "contact_number", "address", "deleted_at", "created_at", "updated_at"]
+      @branches.each do |b|
+        csv << [b.id, b.restaurant_id, b.location, b.contact_number, b.address, b.deleted_at, b.created_at, b.updated_at]
+      end
+  end
+  puts csv_output

@@ -5,11 +5,10 @@ class BranchesController < ApplicationController
 
   def index
     @branches = Branch.accessible_by(current_ability).page(params[:page])
-    puts "he"
-    puts @branches.to_sql
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @branches }
+      format.csv
     end
   end
 

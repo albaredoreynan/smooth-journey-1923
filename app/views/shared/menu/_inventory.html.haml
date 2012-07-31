@@ -1,7 +1,8 @@
 .secondary-navigation
   = tabs_tag :builder => MenuTabBuilder do |tab|
-    %li= tab.inventory 'Period End', endcounts_path
-    %li= tab.items 'Items', inventoryitems_path
-    %li= tab.categories 'Categories', categories_path
-    %li= tab.subcategories 'Subcategories', subcategories_path
+    %li= tab.inventory 'End Count Entries', endcounts_path
+    %li= tab.list 'End Count List', endcounts_generate_endcount_list_path
+    -#%li= tab.items 'Items', inventoryitems_path
+    -#%li= tab.categories 'Categories', categories_path
+    -#%li= tab.subcategories 'Subcategories', subcategories_path
     

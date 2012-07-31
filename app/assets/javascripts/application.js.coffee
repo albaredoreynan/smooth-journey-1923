@@ -22,7 +22,7 @@ add_fields = (link, association, content) ->
   regexp = new RegExp("new_" + association, "g")
   $(link).up().insert before: content.replace(regexp, new_id)
 
-
+$('.dropdown-toggle').dropdown()
 # /*function remove_fields(link) {
   # $(link).prev("input[type=hidden]").val("1");
   # $(link).parent(".nested-fields").hide();

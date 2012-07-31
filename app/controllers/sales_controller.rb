@@ -1,13 +1,13 @@
 class SalesController < ApplicationController
 
-  set_tab :sales
-
   def index
+    set_tab :daily_sales
     authorize! :index, Sale
     @sales = Sale.accessible_by(current_ability)
   end
 
   def show
+    set_tab :daily_sales
     @sale = Sale.includes([:sale_category_rows, :settlement_type_sales, :branch])
       .find(params[:id])
     authorize! :show, @sale
@@ -31,6 +31,8 @@ class SalesController < ApplicationController
   end
 
   def new
+    set_tab :sales
+    
     @sale = Sale.new
     categories = SaleCategory.accessible_by(current_ability)
     categories.each do |c|

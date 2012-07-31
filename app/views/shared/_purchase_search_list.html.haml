@@ -1,0 +1,22 @@
+= form_tag @search_path, :method => :get do
+  .input_group
+    = label_tag 'Filter by Branch'
+    .input
+      = select_tag :branch_id, options_from_collection_for_select(Branch.accessible_by(current_ability), :id, :location, params[:branch_id]), :include_blank => true
+  .input
+    = label_tag 'Invoice Number'
+    = text_field_tag :invoice_number, params[:invoice_number]
+  .input
+    = label_tag 'Supplier'
+    = select_tag :supplier, options_from_collection_for_select(Supplier.accessible_by(current_ability).find(:all, :conditions => { :is_active => true}), :name, :name, params[:supplier]), :include_blank => true
+  .input
+    = label_tag 'Purchase Date'
+    .input_group
+      .input
+        ="From"
+        = text_field_tag :start_date, params[:start_date], :class => 'datepicker'
+      .input
+        ="To"
+        = text_field_tag :end_date, params[:end_date], :class => 'datepicker'
+  .actions
+    = submit_tag :Search, :class => "button"

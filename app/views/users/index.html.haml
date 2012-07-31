@@ -1,11 +1,14 @@
 .block
   = render 'shared/menu/database'
   .content
+    = render 'shared/menu/organization'
     .title_action_bar
       %h2.title List of Users
       - if can? :create, User
         .new_actions
           = link_to 'New User', new_user_path, :class => :button
+          = 'Download as'
+          = link_to 'CSV', users_path(params.merge(format: 'csv'))
     .inner
       %table
         %tr

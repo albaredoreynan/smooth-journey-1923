@@ -1,0 +1,23 @@
+:ruby
+  require 'csv'
+  csv_output = CSV.generate do |csv|
+      csv << ["id", "username", "email", "encrypted_password", "password_salt", "reset_password_token", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip", "reset_password_sent_at", "created_at", "updated_at"]
+      @users.each do |b|
+        csv << [b.id, b.username, b.email, b.encrypted_password, b.password_salt, b.reset_password_token, b.remember_created_at, b.sign_in_count, b.current_sign_in_at, b.last_sign_in_at, b.current_sign_in_ip, b.last_sign_in_ip, b.reset_password_sent_at, b.created_at, b.updated_at]
+      end
+      
+      csv << [">>>>>>>>>>>>>", "<<<<<<<<<<<<"]
+      csv << [">>>>>>>>>>>>>", "<<<<<<<<<<<<"]
+      csv << ["id", "name", "company_id", "user_id", "branch_id", "created_at", "updated_at"]
+      @roles.each do |r|
+        csv << [r.id, r.name, r.company_id, r.user_id, r.branch_id, r.created_at, r.updated_at]
+      end
+      
+      csv << [">>>>>>>>>>>>>", "<<<<<<<<<<<<"]
+      csv << [">>>>>>>>>>>>>", "<<<<<<<<<<<<"]
+      csv << ["id", "branch_id", "name", "company_id", "email", "contact_number", "created_at", "updated_at"]
+      @suppliers.each do |s|
+        csv << [s.id, s.branch_id, s.name, s.company_id, s.email, s.contact_number, s.created_at, s.updated_at]
+      end
+  end
+  puts csv_output

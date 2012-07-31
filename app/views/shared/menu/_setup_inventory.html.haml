@@ -1,0 +1,8 @@
+.secondary-navigation
+  = tabs_tag :builder => MenuTabBuilder do |tab|
+    %li= tab.categories 'Categories', categories_path
+    %li= tab.subcategories 'Subcategories', subcategories_path
+    %li= tab.items 'Items', inventoryitems_path
+    %li= tab.unit 'Units', units_path
+    %li= tab.conversion 'Conversions', conversions_path
+

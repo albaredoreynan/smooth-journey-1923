@@ -7,13 +7,15 @@
       = submit_tag "Search", :class => "button", :name => nil
 
 .block
-  = render 'shared/menu/inventory'
+  = render 'shared/menu/database'
   .content
+    = render 'shared/menu/setup_inventory'
     .title_action_bar
       %h2.title Inventory Item
       .new_actions
         - if can? :create, Item
           = link_to 'New Inventory Item', new_inventoryitem_path, :class => :button
+        = link_to "CSV", inventoryitems_path(params.merge(format: 'csv'))
     .inner
       %table
         %tr
