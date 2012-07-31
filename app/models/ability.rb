@@ -84,7 +84,34 @@ class Ability
 
 
     when 'client'
-      can :manage, :all
+      company_id = user.companies.first.id
+      can [:read, :edit, :update], Company, :id => company_id
+      can :new,    Branch
+      can :manage, Branch, :restaurant => { :company => { :id => company_id } }
+      can [:new, :create], Category
+      can :manage, Category, :restaurant => { :company => { :id => company_id } }
+      can :manage, Conversion
+      can :manage, Endcount
+      can :manage, [ EndcountItem ], :restaurant => { :company => { :id => company_id } }
+      can :manage, [ Item ], :restaurant => { :company => { :id => company_id } }
+      can :manage, Purchase, :branch => { :restaurant => { :company => { :id => company_id } } }
+      can :manage, PurchaseItem, :purchase => { :branch => { :restaurant => { :company => { :id => company_id } } } }
+      can :manage, Restaurant, :company_id => company_id
+      can :manage, Sale, :branch => { :restaurant => { :company => { :id => company_id } } }
+      can :manage, Server, :branch => { :restaurant => { :company => { :id => company_id } } }
+      can [:new, :create], Server
+      can :manage, SaleCategory, :restaurant => { :company_id => company_id }
+      can :manage, SettlementType, :restaurant => { :company => { :id => company_id } } 
+      can [:new, :create], Subcategory
+      can :manage, Subcategory, :category => { :restaurant => { :company => { :id => company_id } } }
+      can [:new, :create], SettlementType
+      can :manage, SettlementType, :restaurant => { :company => { :id => company_id } } 
+      can :manage, Supplier, :company_id =>  company_id
+      can :new,    Unit
+      can :manage, Unit, :restaurant => { :company => { :id => company_id } }
+      can :new,    Users
+      can :manage, User, :roles => { :company => { :id => company_id } }
+      can :manage, Unit, :restaurant => { :company => { :id => company_id } }
 
     when 'accounting'
       can [:index, :read], :all
