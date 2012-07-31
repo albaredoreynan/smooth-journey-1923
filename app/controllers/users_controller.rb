@@ -3,10 +3,14 @@ class UsersController < ApplicationController
   set_tab :user
 
   def index
+    @suppliers = Supplier.all
+    
     if current_user.admin?
       @users = User.where('users.id != ?', current_user.id).page(params[:page])
+      @roles = Role.all
     else
       @users = User.where('users.id != ?', current_user.id).accessible_by(current_ability).page(params[:page])
+      @roles = Role.all
     end
   end
 
