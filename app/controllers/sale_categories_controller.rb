@@ -5,6 +5,8 @@ class SaleCategoriesController < ApplicationController
 
   def index
     @sale_categories = SaleCategory.accessible_by(current_ability)
+    @settlement_types = SettlementType.all 
+    @servers = Server.all 
   end
 
   def new

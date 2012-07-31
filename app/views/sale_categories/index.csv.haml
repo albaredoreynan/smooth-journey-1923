@@ -1,0 +1,24 @@
+:ruby
+  require 'csv'
+  csv_output = CSV.generate do |csv|
+      csv << ["id", "name", "restaurant_id"]
+      @sale_categories.each do |sc|
+        csv << [sc.id, sc.name, sc.restaurant_id]
+      end
+      
+      csv << [">>>>>>>>>>>>>", "<<<<<<<<<<<<"]
+      csv << [">>>>>>>>>>>>>", "<<<<<<<<<<<<"]
+      csv << ["id", "restaurant_id", "name", "complimentary"]
+      @settlement_types.each do |st|
+        csv << [st.id, st.restaurant_id, st.name, st.complimentary]
+      end
+      
+      
+      csv << [">>>>>>>>>>>>>", "<<<<<<<<<<<<"]
+      csv << [">>>>>>>>>>>>>", "<<<<<<<<<<<<"]
+      csv << ["id", "name", "branch_id"]
+      @servers.each do |sv|
+        csv << [sv.id, sv.name, sv.branch_id]
+      end      
+  end
+  puts csv_output
