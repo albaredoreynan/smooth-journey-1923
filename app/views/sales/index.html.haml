@@ -5,6 +5,7 @@
       %h2.title Listing Sales
       .new_actions
         = link_to 'New Sale', new_sale_path, :class => :button
+        = link_to 'CSV', sales_path(params.merge(format: 'csv'))
     .inner
       %table
         %tr

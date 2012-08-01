@@ -1,9 +1,9 @@
 :ruby
   require 'csv'
   csv_output = CSV.generate do |csv|
-      csv << ["id", "name", "unit_id", "item_type", "subcategory_id", "branch_id", "restaurant_id"]
+      csv << ["id", "name", "unit_id", "item_type", "subcategory_id", "branch_id", "restaurant_id", "is_active", "item_group", "item_cost"]
       @items2.each do |item|
-        csv << [item.id, item.name, item.unit_id, item.item_type, item.subcategory_id, item.branch_id, item.restaurant_id]
+        csv << [item.id, item.name, item.unit_id, item.item_type, item.subcategory_id, item.branch_id, item.restaurant_id, item.is_active, item.item_group, item.item_cost]
       end
       
       csv << [">>>>>>>>>>>>>", "<<<<<<<<<<<<"]
