@@ -1,17 +1,16 @@
 :ruby
   require 'csv'
   csv_string = CSV.generate do |csv|
-    csv << ['Invoice Number', 'Invoice Date', 'Supplier', 'Branch', 'Category',
-            'Subcategory', 'Item', 'Quantity', 'Unit Cost', 'Amount', 'VAT-Type',
-            'VAT-Amount', 'Net-Amount', 'Invoice total']
-    @purchases.each do |purchase|
-      purchase.purchase_items.each do |purchaserow|
-        csv << [purchase.invoice_id, purchase.purchase_date, purchase.supplier.name,
-          purchase.branch.location, purchase_item.item.category_name,
-          purchase_item.item.subcategory_name, purchaserow.item.name,
-          purchase_item.quantity, purchaserow.unit_cost, purchaserow.amount,
-          purchase_item.vat_type, purchaserow.vat_amount, purchaserow.net_amount, 0]
-      end
+    csv << ["PURCHASE"]
+    csv << ["id", "purchase date", "invoice number", "supplier_id", "branch_id", "created_by_id"]
+    @purchases2.each do |p|
+      csv << [p.id, p.purchase_date, p.invoice_number, p.supplier_id, p.branch_id, p.created_by_id]
+    end
+    
+    csv << ["PURCHASE ITEMS"]
+    csv << ["id", "purchase_id", "item_id", "unit_id", "quantity", "amount", "vat_type", "particulars"]
+    @purchase_items.each do |pi|
+      csv << [pi.id, pi.purchase_id, pi.item_id, pi.unit_id, pi.quantity, pi.amount, pi.vat_type, pi.particulars]
     end
   end
   puts csv_string

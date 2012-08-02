@@ -1,6 +1,5 @@
 class SaleCategoriesController < ApplicationController
 
-  set_tab :sales
   set_tab :sale_categories
 
   def index

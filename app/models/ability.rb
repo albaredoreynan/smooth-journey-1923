@@ -112,7 +112,10 @@ class Ability
       #can :new,    Users
       #can :manage, User, :roles => { :company => { :id => company_id } }
       #can :manage, Unit, :restaurant => { :company => { :id => company_id } }
-      can :manage, :all 
+      
+      can :manage, :all
+      
+      
     when 'accounting'
       can [:index, :read], :all
 

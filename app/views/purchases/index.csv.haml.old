@@ -1,0 +1,17 @@
+:ruby
+  require 'csv'
+  csv_string = CSV.generate do |csv|
+    csv << ['Invoice Number', 'Invoice Date', 'Supplier', 'Branch', 'Category',
+            'Subcategory', 'Item', 'Quantity', 'Unit Cost', 'Amount', 'VAT-Type',
+            'VAT-Amount', 'Net-Amount', 'Invoice total']
+    @purchases.each do |purchase|
+      purchase.purchase_items.each do |purchaserow|
+        csv << [purchase.invoice_id, purchase.purchase_date, purchase.supplier.name,
+          purchase.branch.location, purchase_item.item.category_name,
+          purchase_item.item.subcategory_name, purchaserow.item.name,
+          purchase_item.quantity, purchaserow.unit_cost, purchaserow.amount,
+          purchase_item.vat_type, purchaserow.vat_amount, purchaserow.net_amount, 0]
+      end
+    end
+  end
+  puts csv_string
