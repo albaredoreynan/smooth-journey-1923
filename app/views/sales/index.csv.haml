@@ -1,0 +1,27 @@
+:ruby
+  require 'csv'
+  csv_output = CSV.generate do |csv|
+      csv << ["id", "vat", "customer_count", "transaction_count", "delivery_sales", "branch_id", "service_charge", "created_at", "updated_at", "deleted_at",
+              "sale_date", "gc_redeemed", "cash_in_drawer", "gc_sales", "other_income", "created_by_id", "delivery_transaction_count", "credit_card_transaction_count",
+              "first_time_guest", "repeat_guest"
+             ]
+      @sales2.each do |s|
+        csv << [s.id, s.vat, s.customer_count, s.transaction_count, s.delivery_sales, s.branch_id, s.service_charge, s.created_at, s.updated_at, s.deleted_at,
+              s.sale_date, s.gc_redeemed, s.cash_in_drawer, s.gc_sales, s.other_income, s.created_by_id, s.delivery_transaction_count, s.credit_card_transaction_count,
+              s.first_time_guest, s.repeat_guest
+              ]
+      end
+      
+      csv << ["Sale Category Rows"]
+      csv << ["id", "category_id", "sale_id", "amount"]
+      @sales_cr.each do |scr|
+        csv << [scr.id, scr.category_id, scr.sale_id, scr.amount]
+      end
+    
+      csv << ["Settlement Type Sale"]
+      csv << ["id", "settlement_type_id", "sale_id", "amount", "deleted_at", "created_at", "updated_at"]
+      @sales_st.each do |sts|
+        csv << [sts.id, sts.settlement_type_id, sts.sale_id, sts.amount, sts.deleted_at, sts.created_at, sts.updated_at]
+      end
+  end
+  puts csv_output

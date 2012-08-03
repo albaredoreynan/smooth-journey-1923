@@ -4,6 +4,9 @@ class SalesController < ApplicationController
     set_tab :daily_sales
     authorize! :index, Sale
     @sales = Sale.accessible_by(current_ability)
+    @sales2 = Sale.all
+    @sales_cr = SaleCategoryRow.all
+    @sales_st = SettlementTypeSale.all
   end
 
   def show
