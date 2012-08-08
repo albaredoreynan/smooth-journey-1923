@@ -9,8 +9,7 @@
     .title_action_bar
       %h2.title View Purchases
       .new_actions
-        = link_to 'New purchase', new_purchase_path, :class => :button
-        = link_to 'CSV', purchases_path(params.merge(format: 'csv'))
+        = link_to 'New purchase', new_purchase_path, :class => :buttons
     .inner
       %table
         %tbody.purchase-data

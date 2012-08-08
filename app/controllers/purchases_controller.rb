@@ -18,9 +18,6 @@ class PurchasesController < ApplicationController
       @purchases = Purchase.accessible_by(current_ability).page(params[:page])
     end
      
-    @purchases2 = Purchase.where(:purchase_date => ('12-06-01')..('12-07-31'))
-    @purchase_items = PurchaseItem.all
-     
     respond_to do |format|
       format.html
       format.csv { render :layout => false }
