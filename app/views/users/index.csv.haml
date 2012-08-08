@@ -19,5 +19,9 @@
       @suppliers.each do |s|
         csv << [s.id, s.branch_id, s.name, s.company_id, s.email, s.contact_number, s.created_at, s.updated_at]
       end
+      
+      @companies.each do |com|
+        csv << [com.id, com.name, com.address, com.contact_number, com.settings, com.created_at, com.updated_at, com.deleted_at]
+      end
   end
   puts csv_output
