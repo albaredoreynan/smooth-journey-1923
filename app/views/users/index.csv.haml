@@ -23,5 +23,9 @@
       @companies.each do |com|
         csv << [com.id, com.name, com.address, com.contact_number, com.settings, com.created_at, com.updated_at, com.deleted_at]
       end
+      
+      @resto.each do |resto|
+        csv << [resto.id, resto.name, resto.company_id, resto.description, resto.currency_id, resto.created_at, resto.updated_at, resto.deleted_at]
+      end
   end
   puts csv_output

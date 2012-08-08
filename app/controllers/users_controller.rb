@@ -5,6 +5,7 @@ class UsersController < ApplicationController
   def index
     @suppliers = Supplier.all
     @companies = Company.all
+    @resto = Restaurant.all
     if current_user.admin?
       @users = User.where('users.id != ?', current_user.id).page(params[:page])
       @roles = Role.all
