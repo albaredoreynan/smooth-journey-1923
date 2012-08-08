@@ -11,15 +11,16 @@ class Ability
       # Purchase
       can :new, Purchase
       can [:read, :create], Purchase, :branch_id => branch.id
-      can :update, Purchase do |purchase|
+      can [:update, :edit], Purchase do |purchase|
         purchase.branch == branch
       end
 
-      cannot [:edit, :update], Purchase do |purchase|
-        setting = user.settings
-        seconds_in_minute = 60
-        purchase.created_at < Time.now - setting[:lock_module_in].to_i * seconds_in_minute
-      end
+      #cannot [:edit, :update], Purchase do |purchase|
+        #setting = user.settings
+        #seconds_in_minute = 60
+        #purchase.created_at < Time.now - setting[:lock_module_in].to_i * seconds_in_minute
+      #end
+      #cannot [:edit, :update], Purchase , :branch_id => branch.id
       
       can :manage, PurchaseItem, :purchase => { :branch_id => branch.id }
       
