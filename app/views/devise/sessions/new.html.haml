@@ -4,6 +4,8 @@
 .block#block-login
   %h2 Sign in
   .content.login
+    %span= "All reports and transaction on this server is until July of this year only. You can start your inputs for August onward to this site"
+    = link_to "http://restobot.appsource.biz", "http://restobot.appsource.biz"
     - unless flash.empty?
       .flash
         - flash.each do |type, message|
