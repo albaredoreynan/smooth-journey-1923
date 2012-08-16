@@ -42,13 +42,18 @@ class CogsCategory
   end
 
   def purchase_perc
-    unless net_sale_total == 0 or net_sale_total.nil?
+    if net_sale_total == 0 or net_sale_total.nil?
+      0
+    else
       ((purchase / net_sale_total) * 100).round(2)
     end
   end
 
   def cogs_perc
-    unless net_sale_total == 0 or net_sale_total.nil?
+    
+    if net_sale_total == 0 or net_sale_total.nil?
+      0
+    else
       ((cogs / net_sale_total) * 100).round(2)
     end
   end

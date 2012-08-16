@@ -98,6 +98,7 @@
         - cogs_var_percentage_total2 = Array.new
         
         - @directional.cogs.each do |c|
+          
           %tr
             %td= c.name
             %td.number= number_with_precision(c.beginning, :precision => 2, :delimiter => ',')
@@ -108,6 +109,7 @@
             %td.number= number_to_percentage(c.cogs_perc, :precision => 2)
             %td.number= number_to_percentage(c.subcategory.goal, :precision => 2)
             %td.number= number_to_percentage(c.var_perc, :precision => 2)
+            
             - cogs_beginning_total << c.beginning
             - cogs_purchase_total << c.purchase
             - cogs_purchase_percentage_total << c.purchase_perc
@@ -116,6 +118,7 @@
             - cogs_cogs_percentage_total << c.cogs_perc
             - cogs_subcategory_goal_total << c.subcategory.goal
             - cogs_var_percentage_total << c.var_perc          
+            
         %tr
           %td.monetary= 'Food and Beverage Total'
           %td.number= number_with_precision(cogs_beginning_total.inject(:+), :precision => 2)
