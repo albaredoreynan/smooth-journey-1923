@@ -38,6 +38,7 @@
           %tr
             %td= scr.category.name
             %td.monetary= number_to_currency(scr.amount, :unit => peso_sign)
+                   
             - amount_percentage = scr.amount.to_f.percent_of(@sale.net_sales)
             - sale_categories_percentage << amount_percentage
             %td.monetary=  number_to_percentage(amount_percentage, :precision => 2)
@@ -74,6 +75,7 @@
 
         - settlement_type_percentage = Array.new
         - @sale.settlement_type_sales.each do |sts|
+          - if sts.amount.nil?  then sts.amount = 0 else sts.amount = sts.amount end
           %tr
             %td= sts.settlement_type.name
             %td.monetary= number_to_currency(sts.amount, :unit => peso_sign)
