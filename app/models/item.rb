@@ -25,7 +25,7 @@ class Item < ActiveRecord::Base
   end
 
   def unit_name
-    unit.name
+    unit.name if unit
   end
 
   def category_name
