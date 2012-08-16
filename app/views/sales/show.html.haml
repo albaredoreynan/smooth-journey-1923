@@ -75,11 +75,10 @@
 
         - settlement_type_percentage = Array.new
         - @sale.settlement_type_sales.each do |sts|
-          - if sts.amount.nil?  then sts.amount = 0 else sts.amount = sts.amount end
+          - if sts.amount.nil?  then sts_amount_percentage = 0 else sts_amount_percentage = sts.amount.percent_of(@sale.total_settlement_type_sales) end
           %tr
             %td= sts.settlement_type.name
             %td.monetary= number_to_currency(sts.amount, :unit => peso_sign)
-            - sts_amount_percentage = sts.amount.percent_of(@sale.total_settlement_type_sales)
             - settlement_type_percentage << sts_amount_percentage
             %td.monetary= number_to_percentage(sts_amount_percentage, :precision => 2)
             %td{:coslpan => 2}
