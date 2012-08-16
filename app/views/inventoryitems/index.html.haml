@@ -28,7 +28,7 @@
           %tr
             %td= item.name
             %td= item.subcategory_name
-            %td= item.unit.name unless item.unit.nil?
+            %td= item.unit_name unless item.unit.nil?
             %td= item.item_count
             %td
               = link_to 'Show', inventoryitem_path(item)

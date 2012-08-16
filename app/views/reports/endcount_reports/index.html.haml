@@ -71,7 +71,7 @@
                 %tr{:id => dom_id(item), :class => 'item_row'}
                   %td= item.name
                   %td.number= "#{number_to_currency(item.unit_cost, :unit => peso_sign)}"
-                  %td= item.unit.name
+                  %td= item.unit_name
                   %td.number= item.beginning_count
                   %td.monetary= number_to_currency(item.beginning_total, :unit => peso_sign) if item.beginning_count
                   %td.monetary= number_to_currency(item.purchase_amount_period, :unit => peso_sign)
