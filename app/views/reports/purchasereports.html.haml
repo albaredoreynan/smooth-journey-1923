@@ -84,14 +84,14 @@
         %td
           - unitId1 = purchase_item.purchase_unit
           - u = Unit.find(unitId1)
-          - unit1 = u.unit_name
+          - unit1 = u.unit.name
           = h unit1
         %td= h number_with_precision(purchase_item.purchase_unitCost, :precision => 2)
         - q = purchase_item.purchase_quantity
         - i = Inventoryitem.find(itemId)
         - unitId2 = i.unit_id
         - u = Unit.find(unitId2)
-        - unit2 = u.unit_name
+        - unit2 = u.unit.name
         %td
           - if unitId1==unitId2
             = h number_with_precision(purchase_item.purchase_quantity, :precision => 0)
