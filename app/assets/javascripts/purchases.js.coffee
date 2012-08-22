@@ -30,7 +30,19 @@ jQuery ->
       parseFloat(amount)
     $(amounts).each (index, value) ->
       total += value
-    $(this).html((total))
+    $(this).html("Php "+(total).toMoney())
+    
+  Number::toMoney = (decimals, decimal_sep, thousands_sep) ->
+    n = this
+    c = (if isNaN(decimals) then 2 else Math.abs(decimals))
+    d = decimal_sep or "." 
+    t = (if (typeof thousands_sep is "undefined") then "," else thousands_sep)
+    sign = (if (n < 0) then "-" else "")
+  
+    i = parseInt(n = Math.abs(n).toFixed(c)) + ""
+    j = (if ((j = i.length) > 3) then j % 3 else 0)
+    sign + ((if j then i.substr(0, j) + t else "")) + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + ((if c then d + Math.abs(n - i).toFixed(c).slice(2) else ""))
+    
     
   $.widget "ui.combobox",
     _create: ->

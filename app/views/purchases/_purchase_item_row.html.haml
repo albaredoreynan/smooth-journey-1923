@@ -16,7 +16,7 @@
     = purchase_item.vat_type
   = hidden_field_tag('purchase[purchase_items_attributes][][vat_type]', purchase_item.vat_type)
   %td.monetary.item-amount
-    = number_to_currency(purchase_item.amount, :unit => peso_sign)
+    = number_to_currency(purchase_item.amount, :unit => "" )
   = hidden_field_tag('purchase[purchase_items_attributes][][amount]', purchase_item.amount)
   %td.actions
     = link_to 'Delete', '#',
