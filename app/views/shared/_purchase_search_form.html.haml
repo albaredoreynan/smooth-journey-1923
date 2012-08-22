@@ -6,7 +6,7 @@
   - if item_name_field
     .input
       = label_tag 'Item name'
-      = text_field_tag :item, params[:item]
+      = select_tag :item, options_from_collection_for_select(Item.accessible_by(current_ability), :name, :name, params[:item_id]), :include_blank => true
   .input
     = label_tag 'Invoice Number'
     = text_field_tag :invoice_number, params[:invoice_number]
