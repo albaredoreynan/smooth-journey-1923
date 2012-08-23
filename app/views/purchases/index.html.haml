@@ -3,13 +3,13 @@
   = render :partial => 'shared/purchase_search_list', locals: { item_name_field: false, search_path: 'purchases/search' }
 
 .block
-  = render 'shared/menu/database'
   .content
-    = render 'shared/menu/purchase'
+    = render 'shared/menu/reports'
     .title_action_bar
       %h2.title View Purchases
       .new_actions
-        = link_to 'New purchase', new_purchase_path, :class => :buttons
+        = 'Download as'
+        = link_to 'CSV', purchases_path(params.merge(format: 'csv'))  
     .inner
       %table
         %tbody.purchase-data

@@ -20,7 +20,7 @@ class PurchasesController < ApplicationController
      
     respond_to do |format|
       format.html
-      format.csv { render :layout => false }
+      format.csv 
     end
   end
 

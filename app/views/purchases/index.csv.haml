@@ -1,16 +1,10 @@
 :ruby
   require 'csv'
   csv_string = CSV.generate do |csv|
-    csv << ["PURCHASE"]
-    csv << ["id", "purchase date", "invoice number", "supplier_id", "branch_id", "created_by_id"]
-    @purchases2.each do |p|
-      csv << [p.id, p.purchase_date, p.invoice_number, p.supplier_id, p.branch_id, p.created_by_id]
-    end
-    
-    csv << ["PURCHASE ITEMS"]
-    csv << ["id", "purchase_id", "item_id", "unit_id", "quantity", "amount", "vat_type", "particulars"]
-    @purchase_items.each do |pi|
-      csv << [pi.id, pi.purchase_id, pi.item_id, pi.unit_id, pi.quantity, pi.amount, pi.vat_type, pi.particulars]
+    csv << ["Invoice Number", "Purchase Date", "Supplier Name", "Purchase Amount", "Net Amount", "Vat Amount"]
+    @purchases.each do |purchase|
+      pdate = purchase.purchase_date.strftime("%-d-%b-%Y") if purchase.purchase_date
+      csv << [ purchase.invoice_number, pdate, purchase.supplier.name, purchase.amount, purchase.net_amount, purchase.vat_amount ]
     end
   end
   puts csv_string
