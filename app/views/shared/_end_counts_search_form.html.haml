@@ -2,7 +2,7 @@
   .input_group
     = label_tag 'Filter by Branch'
     .input
-      = select_tag :branch_id, options_from_collection_for_select(Branch.accessible_by(current_ability), :id, :location, params[:branch_id])
+      = select_tag :branch_id, options_from_collection_for_select(Branch.accessible_by(current_ability), :id, :location, params[:branch_id]), :prompt => "Select All Branches"
   .input_group
     = label_tag 'Select Last Date of End Count :'
     #show_by_date_reports

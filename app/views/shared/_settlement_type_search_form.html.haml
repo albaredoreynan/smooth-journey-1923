@@ -2,6 +2,6 @@
   .input_group
     = label_tag 'Filter by Branch'
     .input
-      = select_tag :restaurant_id, options_from_collection_for_select(Restaurant.accessible_by(current_ability), :id, :name)
+      = select_tag :restaurant_id, options_from_collection_for_select(Restaurant.accessible_by(current_ability), :id, :name), :prompt => "Select All Branches"
     .actions
       = submit_tag :Search, :class => "button"
