@@ -31,7 +31,7 @@ class Sale < ActiveRecord::Base
   end
 
   def settlement_type_total
-    settlement_type_sales.map(&:amount).reject(&:nil?).inject(:+).to_f || 0
+    settlement_type_sales.map(&:amount).inject(:+) || 0
   end
 
   def server_sale_total
