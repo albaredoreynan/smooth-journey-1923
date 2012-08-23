@@ -13,9 +13,9 @@ class PurchasesController < ApplicationController
     end
 
     if params[:start_date] || params[:end_date] || params[:invoice_number] || params[:supplier] || params[:branch_id]
-      @purchases = Purchase.accessible_by(current_ability).search(params).page(params[:page])
+      @purchases = Purchase.accessible_by(current_ability).search(params)
     else
-      @purchases = Purchase.accessible_by(current_ability).page(params[:page])
+      @purchases = Purchase.accessible_by(current_ability)
     end
      
     respond_to do |format|
