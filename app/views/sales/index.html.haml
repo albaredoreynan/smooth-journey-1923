@@ -24,7 +24,7 @@
             %td.monetary= number_to_currency(sale.net_sales, :unit => peso_sign)
             %td.monetary= number_to_currency(sale.vat, :unit => peso_sign)
             %td.monetary= number_to_currency(sale.total_revenues, :unit => peso_sign)
-            %td.monetary= number_to_currency(sale.total_settlement_type_sales, :unit => peso_sign)
+            %td.monetary= number_to_currency(sale.total_settlement_type_sales.to_f, :unit => peso_sign)
             %td.monetary= number_to_currency(sale.cash_for_deposit, :unit => peso_sign)
             %td
               - if can? :show, sale
