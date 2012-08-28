@@ -9,7 +9,8 @@
       %h2.title View Purchases
       .new_actions
         = 'Download as'
-        = link_to 'CSV', purchases_path(params.merge(format: 'csv'))  
+        = link_to 'CSV', purchases_path(params.merge(format: 'csv'))
+        = link_to 'PDF', purchases_path(params.merge(format: 'pdf'))  
     .inner
       %table
         %tbody.purchase-data

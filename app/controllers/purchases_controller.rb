@@ -20,7 +20,12 @@ class PurchasesController < ApplicationController
      
     respond_to do |format|
       format.html
-      format.csv 
+      format.csv
+      
+      format.pdf do
+        headers['Content-Disposition'] = "attachment; filename=\"Purchase Lists\""
+        render :layout => false
+      end 
     end
   end
 

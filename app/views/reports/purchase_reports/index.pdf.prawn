@@ -8,7 +8,7 @@ rows2 = []
 
 subtotal = 0
 grand_total = 0
-
+total_purchase_amount = 0
 purchase_item_headers = ['Item Subcategory','Item', 'Branch', 'Invoice number', 'Supplier name', 'Purchase date', 'Particulars', 'Qty', 'Unit', 'Unit cost', 'VAT', 'Purchase amount', 'Net amount']
 rows << purchase_item_headers
 
@@ -18,6 +18,7 @@ grand_total += subtotal
 
   rows << [subcategory.name, '','','','','','','','','','','',number_to_currency(subtotal, :unit => peso_sign)]
     purchase_items.each do |purchase_item|
+        total_purchase_amount += purchase_item.purchase_amount
         p_amount = purchase_item.purchase_amount - purchase_item.vat_amount
         rows << ['',purchase_item.item.name,
         purchase_item.purchase.branch.location,
@@ -35,7 +36,7 @@ grand_total += subtotal
     end    
 end
 
-rows << ['Grand Total','','','','','','','','','','','', number_to_currency(grand_total, :unit => peso_sign)]
+rows << ['Grand Total','','','','','','','','','','', number_to_currency(total_purchase_amount, :unit => peso_sign), number_to_currency(grand_total, :unit => peso_sign)]
 
 pdf.table rows,
   :border_style => :grid,

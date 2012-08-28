@@ -4,7 +4,7 @@
     .inner
       = simple_form_for @company, :url => 'settings/update' do |f|
         = f.fields_for :settings do |sf|
-          - enable_lock_module = @company.settings[:enable_lock_module].class == String ? @company.settings[:enable_lock_module].to_bool : @company.settings[:enable_lock_module]
+          - enable_lock_module = @company.settings['enable_lock_module'].class == String ? @company.settings['enable_lock_module'].to_bool : @company.settings['enable_lock_module']
           = sf.input :enable_lock_module, :as => :boolean, :input_html => { :checked => enable_lock_module }
           = sf.input :lock_module_in, :hint => 'in minutes', :input_html => { :value => @company.settings['lock_module_in'] }
         .actions
