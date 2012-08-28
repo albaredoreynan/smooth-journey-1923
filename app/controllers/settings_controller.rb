@@ -11,7 +11,7 @@ class SettingsController < ApplicationController
     @company = @current_company
 
     if @company.update_attributes(params[:company])
-      redirect_to settings_path
+      redirect_to settings_path, :notice => 'Settings has been updated.'
     else
       redirect_to settings_path, :notice => 'Unable to update settings. Please try again.'
     end
