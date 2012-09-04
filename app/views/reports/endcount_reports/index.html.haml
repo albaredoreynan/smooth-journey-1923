@@ -51,7 +51,8 @@
               %th{:colspan => 3}= subcategory.name
               - subtotal_beginning_count = items.map(&:beginning_count).reject(&:nil?).inject(:+)
               - grand_total_beginning_count += subtotal_beginning_count if subtotal_beginning_count
-              %th.number= subtotal_beginning_count
+              -#%th.number= subtotal_beginning_count
+              %th
               - subtotal_beginning_total = items.map(&:beginning_total).reject(&:nil?).inject(:+)
               - grand_total_beginning_total += subtotal_beginning_total if subtotal_beginning_total
               %th.monetary= number_to_currency(subtotal_beginning_total, :unit => peso_sign)
@@ -60,7 +61,8 @@
               %th.monetary= number_to_currency(subtotal_purchase_amount, :unit => peso_sign)
               - subtotal_ending_count = items.map(&:ending_count).reject(&:nil?).inject(:+)
               - grand_total_ending_count += subtotal_ending_count if subtotal_ending_count
-              %th.number= subtotal_ending_count
+              -#%th.number= subtotal_ending_count
+              %th
               - subtotal_ending_total = items.map(&:ending_total).reject(&:nil?).inject(:+)
               - grand_total_ending_total += subtotal_ending_total if subtotal_ending_total
               %th.monetary= number_to_currency(subtotal_ending_total, :unit => peso_sign)
@@ -79,7 +81,7 @@
                   %td.number= item.ending_count
                   %td.monetary= number_to_currency(item.ending_total, :unit => peso_sign) if item.ending_count
                   %td.monetary= number_to_currency(item.cogs, :unit => peso_sign)
-                  %td.monetary= item.usage
+                  %td.monetary= number_with_precision(item.usage, :precision => 2)
               
         %tfoot
           %tr.totals

@@ -5,7 +5,7 @@
       = select_tag :branch_id, options_from_collection_for_select(Branch.accessible_by(current_ability), :id, :location, params[:branch_id]), :prompt => "Select All Branches"
   .input_group
     = label_tag 'Select Last Date of End Count :'
-    #show_by_date_reports
+    = text_field_tag :date, params[:date], :class => 'datepicker', :style => [:width => '30px']
   .actions
     = submit_tag :Search, :class => "button"
     
