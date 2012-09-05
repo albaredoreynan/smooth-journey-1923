@@ -3,11 +3,16 @@
   /[if !IE]
     = javascript_tag("$(function() { $('#show_by_date_reports').datepicker('setDate', new Date($('#entry_date').val() )); });")
 - content_for :sidebar do
-  %h3 Show by Date
-  #show_by_date
+  %h3 Filter By:
+  -# #show_by_date
   = form_tag endcounts_path, :method => :get do
     .input_group
-      = label_tag 'Filter by Branch'
+      = label_tag 'Date'
+      - if params[:date].nil? then date_selected = Date.today else date_selected = params[:date] end
+      .input
+        = text_field_tag :date, date_selected, :class => 'datepicker'
+    .input_group
+      = label_tag 'Branch'
       .input
         = select_tag :branch_id, options_from_collection_for_select(Branch.accessible_by(current_ability), :id, :location, params[:branch_id])
     .actions
