@@ -6,8 +6,8 @@ pdf.font_size 7
 
 rows = []
 
-headers = ['Item', 'Unit cost', 'Unit', 'Beginning count', 'Beginning total',
-  'Purchases', 'Ending count', 'Ending total', 'COGS', 'USAGE']
+headers = ['Item', 'Unit Cost', 'Unit', 'Beginning Count', 'Beginning Total',
+  'Purchases', 'Ending Count', 'Ending Total', 'COGS', 'USAGE']
 
 rows << headers
 
@@ -54,7 +54,8 @@ by_subcategory.each do |subcategory, items|
       number_to_currency(item.cogs, :unit => peso_sign),
       number_with_precision(item.usage, :precision => 2) ]
   end
-  rows << ['Grand Total', nil, nil,
+end
+rows << ['Grand Total', nil, nil,
     grand_total_beginning_count,
     number_to_currency(grand_total_beginning_total, :unit => peso_sign),
     number_to_currency(grand_total_purchase_amount, :unit => peso_sign),
@@ -62,7 +63,6 @@ by_subcategory.each do |subcategory, items|
     number_to_currency(grand_total_ending_total, :unit => peso_sign),
     grand_total_cogs,
     nil]
-end
 
 pdf.table rows,
   :border_style => :grid,

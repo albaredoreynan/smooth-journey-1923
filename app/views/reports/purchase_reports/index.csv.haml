@@ -10,7 +10,7 @@
         subtotal = purchase_items.map(&:net_amount).inject(:+)
         
         grand_total += subtotal
-        csv << [subcategory.name,'','','','','','','','','',number_to_currency(subtotal, :unit => peso_sign)]
+        csv << [subcategory.name,'','','','','','','','','','']
           
           purchase_items.each do |purchase_item|
             total_purchase_amount += purchase_item.purchase_amount

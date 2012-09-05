@@ -16,7 +16,7 @@ rows << purchase_item_headers
 subtotal = purchase_items.map(&:net_amount).inject(:+)
 grand_total += subtotal
 
-  rows << [subcategory.name, '','','','','','','','','','','',number_to_currency(subtotal, :unit => peso_sign)]
+  rows << [subcategory.name.upcase, '','','','','','','','','','','','']
     purchase_items.each do |purchase_item|
         total_purchase_amount += purchase_item.purchase_amount
         p_amount = purchase_item.purchase_amount - purchase_item.vat_amount
