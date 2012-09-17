@@ -85,7 +85,7 @@ class Ability
 
 
     when 'client'
-      company_id = user.companies.first.id
+      #company_id = user.companies.first.id
       #can [:read, :edit, :update], Company, :id => company_id
       #can :new,    Branch
       #can :manage, Branch, :restaurant => { :company => { :id => company_id } }
@@ -93,7 +93,7 @@ class Ability
       #can :manage, Category, :restaurant => { :company => { :id => company_id } }
       #can :manage, Conversion
       #can :manage, Endcount
-      can :manage, [ EndcountItem ], :restaurant => { :company => { :id => company_id } }
+      #can :manage, [ EndcountItem ], :restaurant => { :company => { :id => company_id } }
       #can :manage, [ Item ], :restaurant => { :company => { :id => company_id } }
       #can :manage, Purchase, :branch => { :restaurant => { :company => { :id => company_id } } }
       #can :manage, PurchaseItem, :purchase => { :branch => { :restaurant => { :company => { :id => company_id } } } }

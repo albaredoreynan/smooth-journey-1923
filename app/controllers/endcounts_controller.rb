@@ -136,8 +136,6 @@ class EndcountsController < ApplicationController
     else
       branch = Branch.find(params[:branch_id])
     end
-    
-    
 
     params[:items] ||= {}
     params[:items].each do |key, val|
