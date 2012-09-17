@@ -7,10 +7,16 @@
       %table
         %tr
           %th Endcount Entry Date
+          %th Branch
           %th Action
           %th View Directional  
         - @item_count.each do |ic|
+          - @branch_loc = Branch.find(:all, :conditions => ['id = ?', ic.branch_id] )
           %tr
             %td= ic.entry_date.strftime("%B %d, %Y")
-            %td= link_to 'View Item Counts', endcounts_path(:date => ic.entry_date)
-            %td= link_to 'View Directional Reports', directional_path()
+            - brnch = ""
+            - @branch_loc.each do |br|
+              - if br.location.nil? then brnch = "" else brnch = br.location end
+            %td= brnch
+            %td= link_to 'View Item Counts', endcounts_path(:date => ic.entry_date, :branch_id => ic.branch_id)
+            %td= link_to 'View Directional Reports', directional_path(:branch_id => ic.branch_id)

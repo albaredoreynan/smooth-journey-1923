@@ -20,7 +20,7 @@ class EndcountItem < Item
 
   def cogs
     return if beginning_total.nil? or ending_total.nil? or purchase_amount_period.nil?
-    beginning_total + purchase_amount_period - ending_total
+    beginning_total + purchase_amount_period.to_f - ending_total
   end
   
   def purchase_amount_period

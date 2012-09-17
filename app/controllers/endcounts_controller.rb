@@ -134,8 +134,10 @@ class EndcountsController < ApplicationController
     elsif current_user.client? && Branch.exists?(params[:branch_id])
       branch = Branch.find(params[:branch_id])
     else
-      branch = nil
+      branch = Branch.find(params[:branch_id])
     end
+    
+    
 
     params[:items] ||= {}
     params[:items].each do |key, val|
@@ -162,7 +164,8 @@ class EndcountsController < ApplicationController
   
   def generate_endcount_list
     set_tab :list
-    @item_count = ItemCount.select("entry_date").group("entry_date").order("entry_date DESC")
+    #@item_count = ItemCount.select("entry_date").group("entry_date").order("entry_date DESC")
+    @item_count = ItemCount.find(:all, :select => "entry_date, branch_id",  :group => "entry_date, branch_id", :order => "entry_date DESC" )
   end
    
   private

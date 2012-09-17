@@ -38,7 +38,7 @@ class CogsCategory
   end
 
   def cogs
-    beginning + purchase - ending
+    (beginning + purchase) - ending
   end
 
   def purchase_perc

@@ -1,7 +1,7 @@
 .secondary-navigation
   = tabs_tag :builder => MenuTabBuilder do |tab|
     %li= tab.daily_sales 'Daily Sales Reports', sales_path
-    %li= tab.reports 'Endcounts', endcount_reports_path
-    %li= tab.purchase_lists 'Purchase Lists', purchases_path
-    %li= tab.purchase_reports 'Purchases', purchase_reports_path
+    %li= tab.reports 'Item Cost Analysis', endcount_reports_path
+    %li= tab.purchase_lists 'Purchase Summary', purchases_path
+    %li= tab.purchase_reports 'Purchase List', purchase_reports_path
     %li= tab.directional 'Directional', directional_path
