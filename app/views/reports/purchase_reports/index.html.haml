@@ -32,6 +32,8 @@
             %th.monetary Total amount
         - grand_total = 0
         - total_purchase_amount = 0
+        - total_purchase_all = 0
+        - total_purchase_amount_vat = 0
         - @purchase_items.each do |subcategory, purchase_items|
           %tbody
             - subtotal = purchase_items.map(&:net_amount).inject(:+)
@@ -39,6 +41,7 @@
             - purchase_items.each do |purchase_item|
               - purchase_item.convert_unit = true
               - total_purchase_amount +=  purchase_item.purchase_amount
+              - total_purchase_amount_vat += purchase_item.vat_amount
               %tr{id: dom_id(purchase_item.item), class: 'item_row'}
                 %td= purchase_item.item.name
                 %td= subcategory.name
@@ -57,5 +60,6 @@
         %tfoot
           %tr.totals
             %th{:class => 'grand_total', :colspan => 11} Total
-            %th.monetary= number_to_currency(total_purchase_amount, :unit => peso_sign)
+            - total_purchase_all =  total_purchase_amount - total_purchase_amount_vat
+            %th.monetary= number_to_currency(total_purchase_all, :unit => peso_sign)
             %th.monetary= number_to_currency(grand_total, :unit => peso_sign)

@@ -6,6 +6,8 @@
     csv << ['Item Subcategory','Item', 'Invoice number', 'Supplier name', 'Purchase date', 'Qty', 'Unit', 'Unit cost', 'VAT', 'Purchase amount', 'Total amount']
       grand_total = 0
       total_purchase_amount = 0
+      total_purchase_all = 0
+      total_purchase_amount_vat = 0
       @purchase_items.each do |subcategory, purchase_items|
         subtotal = purchase_items.map(&:net_amount).inject(:+)
         
@@ -14,6 +16,7 @@
           
           purchase_items.each do |purchase_item|
             total_purchase_amount += purchase_item.purchase_amount
+            total_purchase_amount_vat += purchase_item.vat_amount
             purchase_item.convert_unit = true
               p_amount = purchase_item.purchase_amount - purchase_item.vat_amount
               csv << ['',
@@ -29,6 +32,7 @@
                       number_to_currency(purchase_item.net_amount, :unit => '')]    
           end
       end
-    csv << ['Grand Total','','','','','','','','', number_to_currency(total_purchase_amount, :unit => peso_sign), number_to_currency(grand_total, :unit => peso_sign)]
+    total_purchase_all =  total_purchase_amount - total_purchase_amount_vat
+    csv << ['Grand Total','','','','','','','','', number_to_currency(total_purchase_all, :unit => peso_sign), number_to_currency(grand_total, :unit => peso_sign)]
   end 
   puts csv_output         

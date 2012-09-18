@@ -1,4 +1,4 @@
-pdf.start_new_page 
+pdf.start_new_page :layout => :landscape
 pdf.text "Item Cost Analysis as of #{@ending_date.strftime("%-d-%b-%Y")}" , :style => :bold
 pdf.text "Branch : #{}" , :style => :bold
 pdf.move_down 10
