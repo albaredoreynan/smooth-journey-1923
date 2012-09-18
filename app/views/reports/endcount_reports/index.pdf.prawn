@@ -43,7 +43,7 @@ by_subcategory.each do |subcategory, items|
     number_to_currency(subtotal_purchase_amount, :unit => peso_sign),
     nil,
     number_to_currency(subtotal_ending_total, :unit => peso_sign),
-    subtotal_cogs, nil]
+    number_to_currency(subtotal_cogs, :unit => peso_sign), nil]
   items.each do |item|
     rows << [item.name, number_to_currency(item.unit_cost, :unit => peso_sign),
       item.unit_name, item.beginning_count,
@@ -61,7 +61,7 @@ rows << ['Grand Total', nil, nil,
     number_to_currency(grand_total_purchase_amount, :unit => peso_sign),
     grand_total_ending_count,
     number_to_currency(grand_total_ending_total, :unit => peso_sign),
-    grand_total_cogs,
+    number_to_currency(grand_total_cogs, :unit => peso_sign),
     nil]
 
 pdf.table rows,
