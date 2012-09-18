@@ -136,7 +136,7 @@ class EndcountsController < ApplicationController
     else
       branch = Branch.find(params[:branch_id])
     end
-
+    
     params[:items] ||= {}
     params[:items].each do |key, val|
       next if val[:item_count].blank?
@@ -144,10 +144,12 @@ class EndcountsController < ApplicationController
       unless current_user.admin?
         item_count = item.counted_at(entry_date)
         item_count.settings = current_user.settings
-        if item_count.locked?
-          errors << item.name
-          next
-        end
+        
+        #if item_count.locked?
+          #errors << item.name
+          #next
+        #end
+        
       end
       item.update_count(val[:item_count], entry_date, branch) unless val[:item_count].blank?
     end
