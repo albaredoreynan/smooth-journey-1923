@@ -30,7 +30,36 @@ class EndcountItem < Item
       .where('purchases.purchase_date >= ?', @beginning_date)
       .where('purchases.purchase_date <= ?', @ending_date).map(&:net_amount).inject(:+)
   end
-
+  
+  def purchase_quantity
+    return if @beginning_date.nil? and @ending_date.nil?
+    purchase_items.joins(:purchase)
+      .where('purchases.branch_id = ?', @branch_id)
+      .where('purchases.purchase_date >= ?', @beginning_date)
+      .where('purchases.purchase_date <= ?', @ending_date).map(&:quantity).inject(:+)
+  end
+  
+  def purchase_unit_cost
+    return if purchase_quantity.nil? and purchase_amount_period.nil?
+    p_amount = (purchase_amount_period / purchase_quantity.to_f)
+    p_amount.round 2
+  end  
+  
+  def ending_unit_cost
+    return if beginning_total.nil? and beginning_count.nil?
+    (beginning_total + purchase_amount_period.to_f) / (beginning_count + purchase_quantity.to_f)
+  end
+  
+  def cogs_quantity
+    return if beginning_count.nil? and ending_count.nil?
+    (beginning_count + purchase_quantity.to_f) - ending_count.to_f 
+  end
+  
+  def cogs_unit_cost
+    return if cogs.nil? and cogs_quantity.nil?
+    (cogs.to_f / cogs_quantity.to_f)  
+  end  
+  
   def unit_cost
     cost = purchased_items_last_month.length > 0 ?  average_unit_cost : last_unit_cost
     cost.round 2
