@@ -18,9 +18,11 @@ module EndMonth
     @ending_date = Date.today
     
     if params[:date]
-      query_date = Date.strptime(params[:date], '%Y-%m-%d')
+      #query_date = Date.strptime(params[:date], '%Y-%m-%d')
+      query_date = Date.strptime(params[:date], '%a, %d %b %Y')
       unless Date.parse(query_date.to_s) == Date.today
-        @ending_date = Date.parse(query_date.to_s).end_of_month
+        #@ending_date = Date.parse(query_date.to_s).end_of_month
+        @ending_date = Date.parse(query_date.to_s)
       end
     end
   end

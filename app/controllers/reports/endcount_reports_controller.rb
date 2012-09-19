@@ -5,8 +5,9 @@ class Reports::EndcountReportsController < ReportsController
   set_tab :reports
 
   before_filter :month_to_date_or_last_day_of_month_endcounts, :only => :index
-
+  
   def index
+    
     endcount_items = EndcountItem.
       includes(:subcategory).
       where(current_ability.attributes_for(:read, Item)).
