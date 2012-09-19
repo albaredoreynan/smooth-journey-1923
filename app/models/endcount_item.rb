@@ -33,11 +33,10 @@ class EndcountItem < Item
   
   def purchase_quantity
     return if @beginning_date.nil? and @ending_date.nil?
-    pur_quant = purchase_items.joins(:purchase)
+    purchase_items.joins(:purchase)
       .where('purchases.branch_id = ?', @branch_id)
       .where('purchases.purchase_date >= ?', @beginning_date)
       .where('purchases.purchase_date <= ?', @ending_date).map(&:quantity).inject(:+)
-    pur_quant.round 2
   end
   
   def purchase_unit_cost
@@ -53,8 +52,7 @@ class EndcountItem < Item
   
   def cogs_quantity
     return if beginning_count.nil? and ending_count.nil?
-    cq = (beginning_count + purchase_quantity.to_f) - ending_count.to_f 
-    cq.round 2
+    (beginning_count + purchase_quantity.to_f) - ending_count.to_f 
   end
   
   def cogs_unit_cost
