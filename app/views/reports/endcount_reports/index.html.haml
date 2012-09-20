@@ -11,7 +11,8 @@
   .secondary-navigation
   .content
     .title_action_bar
-      %h2.title= endcount_reports_title(params[:date])
+      - @branch_sel = Branch.find(params[:branch_id]) if params[:branch_id]
+      %h2.title= endcount_reports_title(params[:date])+" - "+@branch_sel.location if @branch_sel
       .new_actions
         = 'Download as'
         = link_to 'CSV', endcount_reports_path(params.merge(format: 'csv'))
@@ -86,19 +87,19 @@
                 - units = Unit.find(item.unit_id)
                 %td= units.name  
                 
-                %td.number= item.beginning_count
+                %td.number= number_with_precision(item.beginning_count, :precision => 2, :delimiter => ',')
                 %td.number= "#{number_to_currency(item.unit_cost, :unit => peso_sign)}"
                 %td.monetary= number_to_currency(item.beginning_total, :unit => peso_sign) if item.beginning_count
                   
-                %td.number= item.purchase_quantity
+                %td.number= number_with_precision(item.purchase_quantity, :precision => 2, :delimiter => ',')
                 %td.monetary= number_to_currency(item.purchase_unit_cost, :unit => peso_sign)
                 %td.monetary= number_to_currency(item.purchase_amount_period, :unit => peso_sign)
                   
-                %td.number= item.ending_count
+                %td.number= number_with_precision(item.ending_count, :precision => 2, :delimiter => ',')
                 %td.monetary= number_to_currency(item.ending_unit_cost, :unit => peso_sign)
                 %td.monetary= number_to_currency(item.ending_total, :unit => peso_sign) if item.ending_count
                   
-                %td.number= item.cogs_quantity
+                %td.number= number_with_precision(item.cogs_quantity, :precision => 2, :delimiter => ',')
                 %td.monetary= number_to_currency(item.cogs_unit_cost, :unit => peso_sign)
                 %td.monetary= number_to_currency(item.cogs, :unit => peso_sign) if item.cogs
                 %td
