@@ -40,19 +40,19 @@ class EndcountItem < Item
   end
   
   def purchase_unit_cost
-    return if purchase_quantity.nil? and purchase_amount_period.nil?
-    p_amount = (purchase_amount_period / purchase_quantity.to_f)
+    return if purchase_quantity_true.nil? or purchase_amount_period.nil?
+    p_amount = (purchase_amount_period / purchase_quantity_true)
     p_amount.round 2
   end  
   
   def ending_unit_cost
-    return if beginning_total.nil? and beginning_count.nil?
-    (beginning_total + purchase_amount_period.to_f) / (beginning_count + purchase_quantity.to_f)
+    return if beginning_total.nil? or beginning_count.nil?
+    (beginning_total + purchase_amount_period.to_f) / (beginning_count + purchase_quantity_true.to_f)
   end
   
   def cogs_quantity
-    return if beginning_count.nil? and ending_count.nil?
-    (beginning_count + purchase_quantity.to_f) - ending_count.to_f 
+    return if beginning_count.nil? or ending_count.nil?
+    (beginning_count + purchase_quantity_true.to_f) - ending_count.to_f 
   end
   
   def cogs_unit_cost
@@ -68,6 +68,16 @@ class EndcountItem < Item
   def usage
     return if cogs.nil? 
     (cogs / unit_cost)
+  end
+  
+  def purchase_quantity_true
+    arr2 = []
+    return 0 if @purchases.empty?
+    @purchases.each do |pi|
+      pi.convert_unit = true
+      arr2 << pi.quantity
+    end
+    arr2.inject(:+)
   end
   
   private
@@ -95,7 +105,7 @@ class EndcountItem < Item
     end
     arr.inject(:+) / @purchases.length
   end
-
+  
   def last_unit_cost
     last_purchased = purchase_items.joins(:purchase).order('purchases.purchase_date DESC').try(:first)
     last_purchased.try(:unit_cost) || 0
