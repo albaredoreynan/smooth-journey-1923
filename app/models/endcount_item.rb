@@ -31,12 +31,13 @@ class EndcountItem < Item
       .where('purchases.purchase_date <= ?', @ending_date).map(&:net_amount).inject(:+).to_f
   end
   
-  def purchase_quantity
+  def purchasesSelect
     return if @beginning_date.nil? and @ending_date.nil?
+    
     purchase_items.joins(:purchase)
       .where('purchases.branch_id = ?', @branch_id)
       .where('purchases.purchase_date >= ?', @beginning_date)
-      .where('purchases.purchase_date <= ?', @ending_date).map(&:quantity).inject(:+).to_f
+      .where('purchases.purchase_date <= ?', @ending_date)
   end
   
   def purchase_unit_cost
@@ -73,8 +74,8 @@ class EndcountItem < Item
   
   def purchase_quantity_true
     arr2 = []
-    return 0 if @purchases.empty?
-    @purchases.each do |pi|
+    return 0 if purchasesSelect.empty?
+    purchasesSelect.each do |pi|
       pi.convert_unit = true
       arr2 << pi.quantity
     end
