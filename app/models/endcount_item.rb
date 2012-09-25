@@ -28,7 +28,7 @@ class EndcountItem < Item
     purchase_items.joins(:purchase)
       .where('purchases.branch_id = ?', @branch_id)
       .where('purchases.purchase_date >= ?', @beginning_date)
-      .where('purchases.purchase_date <= ?', @ending_date).map(&:net_amount).inject(:+)
+      .where('purchases.purchase_date <= ?', @ending_date).map(&:net_amount).inject(:+).to_f
   end
   
   def purchase_quantity
@@ -36,7 +36,7 @@ class EndcountItem < Item
     purchase_items.joins(:purchase)
       .where('purchases.branch_id = ?', @branch_id)
       .where('purchases.purchase_date >= ?', @beginning_date)
-      .where('purchases.purchase_date <= ?', @ending_date).map(&:quantity).inject(:+)
+      .where('purchases.purchase_date <= ?', @ending_date).map(&:quantity).inject(:+).to_f
   end
   
   def purchase_unit_cost
@@ -53,6 +53,7 @@ class EndcountItem < Item
   def cogs_quantity
     return if beginning_count.nil? or ending_count.nil?
     (beginning_count + purchase_quantity_true.to_f) - ending_count.to_f 
+
   end
   
   def cogs_unit_cost
