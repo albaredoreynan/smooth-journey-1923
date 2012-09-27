@@ -1,4 +1,4 @@
-pdf.start_new_page :layout => :landscape
+pdf.start_new_page
 pdf.text "Directional as of #{@ending_date.strftime("%-d-%b-%Y")}" , :style => :bold
 pdf.move_down 10
 pdf.font_size 6
@@ -48,7 +48,30 @@ pdf.table rows2,
   :column_widths => { 0 => 130, 1 => 130, 2 => 130}
 
 pdf.move_down 10
+
+rows3 = []
+headers3 = ['Complimentary Analysis', 'MTD', '% To NET SALES']
+rows3 << headers3
+
+@settlement_type.each do |st| 
+  settlement_type_sales_amount = st.settlement_type_sales.map(&:amount).reject(&:nil?).inject(:+).to_f || 0
+  settlement_type_sales_percentage = (settlement_type_sales_amount / @directional.net_sale_total) * 100
   
+  rows3 << [st.name,
+           number_to_currency(st.settlement_type_sales.map(&:amount).reject(&:nil?).inject(:+).to_f || 0, :precision => 2, :unit => peso_sign),
+           number_to_percentage(settlement_type_sales_percentage, :precision => 2)
+          ] 
+end
+  
+pdf.table rows3,
+  :border_style => :grid,
+  :font_size => 6,
+  :position => :left,
+  :row_colors => ["d2e3ed", "FFFFFF"],
+  :column_widths => { 0 => 130, 1 => 130, 2 => 130}
+
+pdf.move_down 10
+
 rows = []
 headers = ['Cost of Goods', 'Beggining', 'Purchase', 'Purchase %', 'Ending', 'COGS', 'COGS %', 'Goal %', 'VAR +/-']
 
