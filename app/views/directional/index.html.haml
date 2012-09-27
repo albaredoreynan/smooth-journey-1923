@@ -34,6 +34,7 @@
           %th Net Sales
           %th.monetary{:title => 'Month to Date', :class => 'number'} MTD
           %th.number Last year
+        
         %tr.totals
           %td= 'Total'
           %td.monetary= number_to_currency(@directional.net_sale_total, :precision => 2, :unit => peso_sign)
@@ -44,17 +45,33 @@
           %td.number= number_with_precision(last_year.customer_count, :precision => 2, :delimiter => ',')
         %tr
           %td Per Person Ave
-          %td.number= number_with_precision(@directional.per_person_ave, :precision => 2, :delimiter => ',')
-          %td.number= number_with_precision(last_year.per_person_ave, :precision => 2, :delimiter => ',')
+          %td.number= number_to_currency(@directional.per_person_ave, :precision => 2, :unit => peso_sign)
+          %td.number= number_to_currency(last_year.per_person_ave, :precision => 2, :unit => peso_sign)
         %tr
           %td Transaction Count
           %td.number= number_with_precision(@directional.transaction_count, :precision => 2, :delimiter => ',')
           %td.number= number_with_precision(last_year.transaction_count, :precision => 2, :delimiter => ',')
         %tr
           %td Per Transaction Ave
-          %td.number= number_with_precision(@directional.per_trans_ave, :precision => 2, :delimiter => ',')
-          %td.number= number_with_precision(last_year.per_trans_ave, :precision => 2, :delimiter => ',')
-      
+          %td.number= number_to_currency(@directional.per_trans_ave, :precision => 2, :unit => peso_sign)
+          %td.number= number_to_currency(last_year.per_trans_ave, :precision => 2, :unit => peso_sign)
+        %tr
+          %td Delivery Transaction Count
+          %td.number= number_with_precision(@directional.delivery_transaction_count, :precision => 2, :delimiter => ',')
+          %td.number= number_with_precision(last_year.delivery_transaction_count, :precision => 2, :delimiter => ',')
+        %tr
+          %td Per Delivery Transaction Ave
+          %td.number= number_to_currency(@directional.per_del_trans_ave, :precision => 2, :unit => peso_sign)
+          %td.number= number_to_currency(last_year.per_del_trans_ave, :precision => 2, :unit => peso_sign)
+        %tr
+          %td Credit Card Transaction Count
+          %td.number= number_with_precision(@directional.cc_transaction_count, :precision => 2, :delimiter => ',')
+          %td.number= number_with_precision(last_year.cc_transaction_count, :precision => 2, :delimiter => ',')
+        %tr
+          %td Per Credit Card Transaction Ave
+          %td.number= number_to_currency(@directional.per_cc_trans_ave, :precision => 2, :unit => peso_sign)
+          %td.number= number_to_currency(last_year.per_cc_trans_ave, :precision => 2, :unit => peso_sign)
+        
       %table{:title => 'Settlement Types'}
         %tr
           %th Complimentary Analysis

@@ -32,7 +32,9 @@ class Directional
   end
 
   def per_person_ave
-    @sale.map(&:per_person_ave).reject{|p| p.nil?}.inject(:+)
+    #@sale.map(&:per_person_ave).reject{|p| p.nil?}.inject(:+)
+    return if net_sale_total.nil? or customer_count.nil?
+    net_sale_total.to_f /  customer_count.to_f
   end
 
   def transaction_count
@@ -40,8 +42,31 @@ class Directional
   end
 
   def per_trans_ave
-    @sale.map(&:per_trans_ave).reject{|p| p.nil?}.inject(:+).round(2) if @sale.length > 0
+    #@sale.map(&:per_trans_ave).reject{|p| p.nil?}.inject(:+).round(2) if @sale.length > 0
+    return if net_sale_total.nil? or transaction_count.nil?
+    net_sale_total.to_f /  transaction_count.to_f
   end
+  
+  def delivery_transaction_count
+    @sale.map(&:delivery_transaction_count).reject{|t| t.nil? }.inject(:+)
+  end
+
+  def per_del_trans_ave
+    #@sale.map(&:per_trans_ave).reject{|p| p.nil?}.inject(:+).round(2) if @sale.length > 0
+    return if net_sale_total.nil? or delivery_transaction_count.nil?
+    net_sale_total.to_f /  delivery_transaction_count.to_f
+  end
+  
+  def cc_transaction_count
+    @sale.map(&:credit_card_transaction_count).reject{|t| t.nil? }.inject(:+)
+  end
+
+  def per_cc_trans_ave
+    #@sale.map(&:per_trans_ave).reject{|p| p.nil?}.inject(:+).round(2) if @sale.length > 0
+    return if net_sale_total.nil? or cc_transaction_count.nil?
+    net_sale_total.to_f /  cc_transaction_count.to_f
+  end
+  
   
   
   def cogs
