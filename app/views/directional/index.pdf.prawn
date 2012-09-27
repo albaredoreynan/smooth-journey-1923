@@ -1,7 +1,7 @@
 pdf.start_new_page :layout => :landscape
 pdf.text "Directional as of #{@ending_date.strftime("%-d-%b-%Y")}" , :style => :bold
 pdf.move_down 10
-pdf.font_size 7
+pdf.font_size 6
 
 rows3 = []
 headers3 = ['NET SALES(Category)', 'Amount', 'Percentage']
@@ -20,9 +20,10 @@ rows3 << ['Total', number_to_currency(@directional.net_sale_total, :precision =>
 
 pdf.table rows3,
   :border_style => :grid,
-  :font_size => 8,
+  :font_size => 6,
   :position => :left,
-  :row_colors => ["d2e3ed", "FFFFFF"]
+  :row_colors => ["d2e3ed", "FFFFFF"],
+  :column_widths => { 0 => 130, 1 => 130, 2 => 130}
 pdf.move_down 10
 
 rows2 = []
@@ -41,9 +42,10 @@ rows2 << ['Per Credit Card Transaction Ave', number_to_currency(@directional.per
 
 pdf.table rows2,
   :border_style => :grid,
-  :font_size => 8,
+  :font_size => 6,
   :position => :left,
-  :row_colors => ["d2e3ed", "FFFFFF"]
+  :row_colors => ["d2e3ed", "FFFFFF"],
+  :column_widths => { 0 => 130, 1 => 130, 2 => 130}
 
 pdf.move_down 10
   
@@ -139,11 +141,11 @@ rows << ['Alcohol Total',
 
 pdf.table rows,
   :border_style => :grid,
-  :font_size => 8,
+  :font_size => 6,
   :position => :left,
   :row_colors => ["d2e3ed", "FFFFFF"]
 
-pdf.font_size 8
+pdf.font_size 6
 pdf.bounding_box([pdf.bounds.right - 50,pdf.bounds.bottom], :width => 60, :height => 20) do
   pagecount = pdf.page_count
   pdf.text "Page #{pagecount}"
