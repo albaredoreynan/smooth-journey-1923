@@ -52,7 +52,7 @@ class Sale < ActiveRecord::Base
   end
 
   def cash_for_deposit
-    cash_in_drawer + gc_sales + other_income
+    cash_in_drawer.to_f + gc_sales.to_f + other_income.to_f
     #gc_sales + other_income
   end
 
