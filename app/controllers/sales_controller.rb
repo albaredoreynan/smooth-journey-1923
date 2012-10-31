@@ -65,7 +65,7 @@ class SalesController < ApplicationController
 
   def create
     @sale = Sale.new(params[:sale])
-
+     
     respond_to do |format|
       if current_user.branch?
         @sale.branch = @current_branch

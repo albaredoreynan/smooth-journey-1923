@@ -32,9 +32,9 @@ class Directional
   end
 
   def per_person_ave
-    #@sale.map(&:per_person_ave).reject{|p| p.nil?}.inject(:+)
+    @sale.map(&:per_person_ave).reject{|p| p.nil?}.inject(:+)
     return if net_sale_total.nil? or customer_count.nil?
-    net_sale_total.to_f /  customer_count.to_f
+    net_sale_total.to_f / customer_count.to_f
   end
 
   def transaction_count
@@ -44,7 +44,7 @@ class Directional
   def per_trans_ave
     #@sale.map(&:per_trans_ave).reject{|p| p.nil?}.inject(:+).round(2) if @sale.length > 0
     return if net_sale_total.nil? or transaction_count.nil?
-    net_sale_total.to_f /  transaction_count.to_f
+    net_sale_total.to_f / transaction_count.to_f
   end
   
   def delivery_transaction_count
@@ -54,11 +54,27 @@ class Directional
   def per_del_trans_ave
     #@sale.map(&:per_trans_ave).reject{|p| p.nil?}.inject(:+).round(2) if @sale.length > 0
     return if net_sale_total.nil? or delivery_transaction_count.nil?
-    net_sale_total.to_f /  delivery_transaction_count.to_f
+    net_sale_total.to_f / delivery_transaction_count.to_f
   end
   
   def cc_transaction_count
     @sale.map(&:credit_card_transaction_count).reject{|t| t.nil? }.inject(:+)
+  end
+  
+  def dir_cash_in_drawer
+    @sale.map(&:cash_in_drawer).reject{|t| t.nil? }.inject(:+)
+  end
+  
+  def gc_sales
+    @sale.map(&:gc_sales).reject{|t| t.nil? }.inject(:+)
+  end
+  
+  def delivery_sales
+    @sale.map(&:delivery_sales).reject{|t| t.nil? }.inject(:+)
+  end
+  
+  def other_income
+    @sale.map(&:other_income).reject{|t| t.nil? }.inject(:+)
   end
 
   def per_cc_trans_ave
@@ -66,8 +82,6 @@ class Directional
     return if net_sale_total.nil? or cc_transaction_count.nil?
     net_sale_total.to_f /  cc_transaction_count.to_f
   end
-  
-  
   
   def cogs
     cogs_categories = Array.new

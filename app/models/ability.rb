@@ -1,6 +1,6 @@
 class Ability
   include CanCan::Ability
-
+  
   def initialize(user)
     user ||= User.new
     role_name = user.roles.try(:first).try(:name)

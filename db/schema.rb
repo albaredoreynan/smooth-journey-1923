@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120628052921) do
+ActiveRecord::Schema.define(:version => 20121031053407) do
 
   create_table "branches", :force => true do |t|
     t.integer  "restaurant_id"
@@ -166,6 +166,22 @@ ActiveRecord::Schema.define(:version => 20120628052921) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "deleted_at"
+  end
+
+  create_table "labor_hours", :force => true do |t|
+    t.date     "working_date"
+    t.integer  "branch_id"
+    t.string   "regular"
+    t.string   "overtime"
+    t.string   "night_differential"
+    t.string   "legal_holiday"
+    t.string   "special_holiday"
+    t.string   "absent"
+    t.string   "late"
+    t.string   "rest_day"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+    t.date     "deleted_at"
   end
 
   create_table "purchase_items", :force => true do |t|

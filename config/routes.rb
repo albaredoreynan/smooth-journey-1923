@@ -89,6 +89,8 @@ Rrbs::Application.routes.draw do
       put 'update_item_counts'
     end
   end
-
+  
+  resources :labor_hours
+  
   root :to => 'home#index'
 end

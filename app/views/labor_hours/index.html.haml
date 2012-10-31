@@ -1,0 +1,9 @@
+.block
+  = render 'shared/menu/database'
+  .content
+    = render 'shared/menu/labors'
+    .title_action_bar
+      %h2 Working Hours
+      .new_actions
+        = link_to 'Create Working Hours', new_labor_hour_path, :class => 'button'
+    .inner

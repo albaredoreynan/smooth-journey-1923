@@ -1,0 +1,13 @@
+= simple_form_for @labor_hour do |f|
+  %fieldset
+    = f.input :working_date, :label => 'Date', :input_html => { :value => Date.today }
+    = f.input :regular
+    = f.input :overtime
+    = f.input :night_differential
+    = f.input :legal_holiday
+    = f.input :special_holiday
+    = f.input :absent
+    = f.input :late
+    = f.input :rest_day
+  .actions
+    = f.button :submit
