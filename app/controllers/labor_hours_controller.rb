@@ -33,7 +33,7 @@ class LaborHoursController < ApplicationController
   end
 
   def create
-    @labor_hour = LaborHour.new(params[:branch])
+    @labor_hour = LaborHour.new(params[:labor_hour])
 
     respond_to do |format|
       if @labor_hour.save

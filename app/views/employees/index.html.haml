@@ -11,23 +11,18 @@
         %tr
           %th Name
           %th Branch
-          %th Date employed
-          %th Birthday
-          %th Contact number
-          %th SSS
-          %th TIN
-          %th Address
-          %th.actions Actions
+          %th Date Employed
+          %th Contact Number
+          %th.actions{:colspan => 2} Actions
         - @employees.each do |employee|
           %tr
             %td= employee.full_name
             %td= employee.branch.location
             %td= employee.date_employed
-            %td= employee.birthdate
             %td= employee.contact_number
-            %td= employee.sss
-            %td= employee.tin
-            %td= employee.address
+            %td
+              = link_to 'Timesheet', new_labor_hour_path(:employee_id => employee)
+              = link_to 'View Timetable', labor_hours_listings_employee_path(employee)
             %td
               = link_to 'Show', employee
               = link_to 'Edit', edit_employee_path(employee)

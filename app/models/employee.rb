@@ -1,6 +1,7 @@
 class Employee < ActiveRecord::Base
 
   belongs_to :branch
+  has_many :labor_hours
   #belongs_to :job
   #belongs_to :department
   #has_many :settlement_sales, :dependent => :destroy
@@ -12,5 +13,5 @@ class Employee < ActiveRecord::Base
   def full_name
     "#{self[:first_name]} #{self[:last_name]}"
   end
-
+  
 end

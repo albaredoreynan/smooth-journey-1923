@@ -1,0 +1,70 @@
+.block
+  = render 'shared/menu/database'
+  .content
+    = render 'shared/menu/labors'
+    .title_action_bar
+    .inner
+      %h2 Employees Labor Hours
+      %table
+        %tr
+          - @employee_rec.each do |emp_rec|
+            %th{:width => '50px'} Name :
+            %td= emp_rec.first_name.upcase + " " + emp_rec.last_name.upcase
+            %th{:width => '60px'} Branch :
+            %td= emp_rec.branch.location
+
+      %table
+        %tr
+          %th 
+          %th Regular
+          %th Overtime
+          %th Night Differential
+          %th Legal Holiday
+          %th Special Holiday
+          %th Absent
+          %th Late
+          %th Rest Day
+
+        - @total_regular_hrs = Array.new
+        - @total_overtime_hrs = Array.new
+        - @total_night_diff_hrs = Array.new
+        - @total_legal_hol_hrs = Array.new
+        - @total_special_hol_hrs = Array.new
+        - @total_absent_hrs = Array.new
+        - @total_late_hrs = Array.new
+        - @total_rest_day_hrs = Array.new
+
+        - @labor_hour_listings.each do |labor_listings|  
+          %tr
+            %td= labor_listings.working_date
+            %td= labor_listings.regular
+            %td= labor_listings.overtime 
+            %td= labor_listings.night_differential 
+            %td= labor_listings.legal_holiday 
+            %td= labor_listings.special_holiday 
+            %td= labor_listings.absent 
+            %td= labor_listings.late 
+            %td= labor_listings.rest_day
+
+          - @total_regular_hrs << labor_listings.regular.to_f
+          - @total_overtime_hrs << labor_listings.overtime.to_f
+          - @total_night_diff_hrs << labor_listings.night_differential.to_f
+          - @total_legal_hol_hrs << labor_listings.legal_holiday.to_f
+          - @total_special_hol_hrs << labor_listings.special_holiday.to_f
+          - @total_absent_hrs << labor_listings.absent.to_f
+          - @total_late_hrs << labor_listings.late.to_f
+          - @total_rest_day_hrs << labor_listings.rest_day.to_f
+
+        %tr.total
+          %td Total Hours
+          %td= @total_regular_hrs.inject(:+)
+          %td= @total_overtime_hrs.inject(:+)
+          %td= @total_night_diff_hrs.inject(:+)
+          %td= @total_legal_hol_hrs.inject(:+)
+          %td= @total_special_hol_hrs.inject(:+)
+          %td= @total_absent_hrs.inject(:+)
+          %td= @total_late_hrs.inject(:+)
+          %td= @total_rest_day_hrs.inject(:+)
+
+
+

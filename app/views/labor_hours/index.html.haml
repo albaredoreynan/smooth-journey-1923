@@ -3,7 +3,23 @@
   .content
     = render 'shared/menu/labors'
     .title_action_bar
-      %h2 Working Hours
-      .new_actions
-        = link_to 'Create Working Hours', new_labor_hour_path, :class => 'button'
+    
+      -#.new_actions
+        -#= link_to 'Create Working Hours', new_labor_hour_path, :class => 'button'
     .inner
+      %h2 Employees Labor Hours
+      %table
+        %tr
+          %th Employee Name
+          %th Date
+          %th Branch
+          %th
+        - @labor_hours.each do |labor|
+          %tr
+            %td= labor.employee.first_name + " " + labor.employee.last_name
+            %td= labor.working_date
+            %td= labor.employee.branch.location
+            %td
+              = link_to 'Show', labor
+              = link_to 'Edit', edit_labor_hour_path(labor)
+              = link_to 'Destroy', labor, :confirm => 'Are you sure?', :method => :delete	

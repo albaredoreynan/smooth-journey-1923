@@ -1,0 +1,34 @@
+.block
+  = render 'shared/menu/database'
+  .content
+    = render 'shared/menu/labors'
+    .title_action_bar
+      %h2 Per Hour Amount
+      .new_actions
+        = link_to 'Generate Multipliers', new_amount_multiplier_path, :class => 'button'
+    .inner
+      %table
+        %tr
+          %th Regular
+          %th Overtime
+          %th Night Differential
+          %th Legal Holiday
+          %th Special Holiday
+          %th Absent
+          %th Late
+          %th Rest Day
+          %th Action 
+        - @amount_multipliers.each do |am|
+          %tr
+            %td= am.amount_per_hour_regular
+            %td= am.amount_per_hour_overtime
+            %td= am.amount_per_hour_night_differential
+            %td= am.amount_per_hour_legal_holiday
+            %td= am.amount_per_hour_special_holiday
+            %td= am.amount_per_hour_absent
+            %td= am.amount_per_hour_late
+            %td= am.amount_per_hour_rest_day
+            %td
+              = link_to 'Show', am
+              = link_to 'Edit', edit_amount_multiplier_path(am)
+              = link_to 'Destroy', am, :confirm => 'Are you sure?', :method => :delete

@@ -1,9 +1,12 @@
 class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :token_authenticatable, :lockable, :timeoutable and :activatable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable, :authentication_keys => [:username]
+  # devise :database_authenticatable, :registerable,
+  #        :recoverable, :rememberable, :trackable, :validatable, :authentication_keys => [:username]
 
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :trackable, :validatable
+       
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :role, :username, :branch_id, :company_id
   attr_accessor :role, :branch_id, :company_id
@@ -12,7 +15,7 @@ class User < ActiveRecord::Base
   has_many :branches, :through => :roles, :dependent => :destroy
   has_many :companies, :through => :roles, :dependent => :destroy
 
-  validates :username, :presence => true, :uniqueness => true
+  #validates :username, :presence => true, :uniqueness => true
 
   after_save :set_roles, :if => Proc.new { |user| user.roles.count == 0 }
 

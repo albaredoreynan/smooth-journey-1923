@@ -53,7 +53,12 @@ Rrbs::Application.routes.draw do
 
   resources :settlement_sales
 
-  resources :employees
+  resources :employees do
+    member do
+      get 'labor_hours_listings'
+    end
+  end
+  #match '/employees/labor_hours_listings', :to => 'employees#labor_hours_listings', :via => "get"
 
   resources :subcategories
 
@@ -91,6 +96,7 @@ Rrbs::Application.routes.draw do
   end
   
   resources :labor_hours
+  resources :amount_multipliers
   
   root :to => 'home#index'
 end

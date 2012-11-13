@@ -83,4 +83,9 @@ class EmployeesController < ApplicationController
       format.xml  { head :ok }
     end
   end
+
+  def labor_hours_listings
+    @employee_rec = Employee.find(:all, :conditions => { :id => params[:id] } )
+    @labor_hour_listings = LaborHour.find(:all, :conditions => { :employee_id => params[:id] }, :order => "working_date ASC" )
+  end
 end

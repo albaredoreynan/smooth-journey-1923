@@ -1,0 +1,12 @@
+= simple_form_for @amount_multiplier do |f|
+  %fieldset
+    = f.input :amount_per_hour_regular, :label => "Regular Amount Rates"
+    = f.input :amount_per_hour_overtime, :label => "Overtime Amount Rates"
+    = f.input :amount_per_hour_night_differential, :label => "Night Differential Amount Rates"
+    = f.input :amount_per_hour_legal_holiday, :label => "Legal Holiday Amount Rates"
+    = f.input :amount_per_hour_special_holiday, :label => "Special Holiday Amount Rates"
+    = f.input :amount_per_hour_late, :label => "Late Amount Rates"
+    = f.input :amount_per_hour_absent, :label => "Absent Amount Rates"
+    = f.input :amount_per_hour_rest_day, :label => "Rest Day Amount Rates"
+  .actions
+    = f.button :submit

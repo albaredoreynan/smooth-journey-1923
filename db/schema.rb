@@ -11,7 +11,21 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121031053407) do
+ActiveRecord::Schema.define(:version => 20121108075159) do
+
+  create_table "amount_multipliers", :force => true do |t|
+    t.string   "amount_per_hour_regular"
+    t.string   "amount_per_hour_overtime"
+    t.string   "amount_per_hour_night_differential"
+    t.string   "amount_per_hour_legal_holiday"
+    t.string   "amount_per_hour_special_holiday"
+    t.string   "amount_per_hour_absent"
+    t.string   "amount_per_hour_late"
+    t.string   "amount_per_hour_rest_day"
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
+    t.date     "deleted_at"
+  end
 
   create_table "branches", :force => true do |t|
     t.integer  "restaurant_id"
@@ -182,6 +196,7 @@ ActiveRecord::Schema.define(:version => 20121031053407) do
     t.datetime "created_at",         :null => false
     t.datetime "updated_at",         :null => false
     t.date     "deleted_at"
+    t.integer  "employee_id"
   end
 
   create_table "purchase_items", :force => true do |t|
@@ -261,8 +276,8 @@ ActiveRecord::Schema.define(:version => 20121031053407) do
     t.integer  "restaurant_id"
     t.string   "name"
     t.datetime "deleted_at"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "sale_categories", ["restaurant_id"], :name => "index_sale_categories_on_company_id"
@@ -310,8 +325,8 @@ ActiveRecord::Schema.define(:version => 20121031053407) do
 
   create_table "servers", :force => true do |t|
     t.string   "name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.datetime "deleted_at"
     t.integer  "branch_id"
   end
