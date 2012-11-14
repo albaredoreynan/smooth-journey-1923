@@ -69,4 +69,9 @@ class LaborHoursController < ApplicationController
       format.xml  { head :ok }
     end
   end
+
+  def all_employees_list
+    
+    @all_employees = Employee.find(:all)
+  end
 end

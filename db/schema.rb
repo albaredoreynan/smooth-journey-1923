@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121108075159) do
+ActiveRecord::Schema.define(:version => 20121113032836) do
 
   create_table "amount_multipliers", :force => true do |t|
     t.string   "amount_per_hour_regular"
@@ -130,6 +130,7 @@ ActiveRecord::Schema.define(:version => 20121108075159) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "deleted_at"
+    t.string   "hdmf"
   end
 
   create_table "endcounts", :force => true do |t|

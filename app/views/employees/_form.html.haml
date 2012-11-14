@@ -13,9 +13,11 @@
     = f.association :branch, :label => "Branch", :collection => Branch.all.map { |branch| [branch.location, branch.id] }
     = f.input :date_employed, :label => 'Date Employed', :input_html => {:value => Date.today}
     = f.input :birthdate, :label => "Birth Date"
-    = f.input :last_name, :label => "SSS #"
-    = f.input :last_name, :label => "TIN"
-    = f.input :last_name, :label => "Contact Number"
-    = f.input :last_name, :as => :text, :label => "Address" 
+    = f.input :department_id, :label => "Department", :collection => [ ['FOH-TL', 1], ['FOH', 2], ['BOH-TL', 3], ['BOH', 4] ]
+    = f.input :sss, :label => "SSS #"
+    = f.input :tin, :label => "TIN"
+    = f.input :hdmf, :label => "HDMF #"
+    = f.input :contact_number, :label => "Contact Number"
+    = f.input :address, :as => :text, :label => "Address"
   .actions
     = f.button :submit

@@ -1,0 +1,18 @@
+.block
+  .content
+    .inner
+      %p
+        %b Employee Name:
+        =@labor_hour.employee.first_name + " " + @labor_hour.employee.last_name
+      %p
+        %b Branch:
+        =@labor_hour.employee.branch.location
+      %p
+        %b Working Date:
+        =@labor_hour.working_date
+      %p  
+        %b
+        = link_to 'Edit', edit_labor_hour_path(@labor_hour) 
+        | 
+        \#{link_to 'Back', labor_hours_path}
+      

@@ -96,6 +96,9 @@ Rrbs::Application.routes.draw do
   end
   
   resources :labor_hours
+
+  match "/all_employees_list", :to => 'labor_hours#all_employees_list'
+
   resources :amount_multipliers
   
   root :to => 'home#index'

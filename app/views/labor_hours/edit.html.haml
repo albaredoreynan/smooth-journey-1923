@@ -1,0 +1,8 @@
+.block
+  .content
+    %h2 Editing Labor Hours For : #{@labor_hour.employee.first_name.upcase + " " + @labor_hour.employee.last_name.upcase} 
+    .inner
+      = render 'form'
+      = link_to 'Show', @labor_hour
+      |
+      \#{link_to 'Back', labor_hours_path}

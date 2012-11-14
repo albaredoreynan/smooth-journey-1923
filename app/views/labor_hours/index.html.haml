@@ -3,9 +3,8 @@
   .content
     = render 'shared/menu/labors'
     .title_action_bar
-    
-      -#.new_actions
-        -#= link_to 'Create Working Hours', new_labor_hour_path, :class => 'button'
+      .new_actions
+        = link_to 'List Of All Employees Labor Hours', all_employees_list_path
     .inner
       %h2 Employees Labor Hours
       %table
