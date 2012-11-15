@@ -1,11 +1,11 @@
 class EmployeesController < ApplicationController
-
+  load_and_authorize_resource
   set_tab :employees
 
   # GET /employees
   # GET /employees.xml
   def index
-    @employees = Employee.all(:joins => :branch)
+    @employees = Employee.accessible_by(current_ability).all(:joins => :branch)
 
     respond_to do |format|
       format.html # index.html.erb

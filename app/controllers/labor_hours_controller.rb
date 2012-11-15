@@ -1,8 +1,10 @@
 class LaborHoursController < ApplicationController
+  load_and_authorize_resource
+  
   set_tab :labor_hours
 
   def index
-    @labor_hours = LaborHour.find(:all)
+    @labor_hours = LaborHour.accessible_by(current_ability).find(:all)
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @labor_hours }
@@ -72,6 +74,21 @@ class LaborHoursController < ApplicationController
 
   def all_employees_list
     
-    @all_employees = Employee.find(:all)
+    @all_employees = Employee.accessible_by(current_ability).find(:all, :order => :branch_id  )
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.xml  { render :xml => @all_employees }
+      
+      format.csv do
+        filename = "Employees Working Hours"
+        render_csv(filename)
+      end
+      
+      format.pdf do
+        headers['Content-Disposition'] = "attachment; filename=\"Employees_Working_Hours\""
+        render :layout => false
+      end
+    end
   end
 end

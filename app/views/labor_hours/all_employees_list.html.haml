@@ -3,8 +3,13 @@
   .content
     = render 'shared/menu/labors'
     .title_action_bar
+    
+      %h2.title All Employees Labor Hours
+      .new_actions
+        = 'Download as'
+        = link_to 'CSV', :format => :csv
+        = link_to 'PDF', :format => :pdf
     .inner
-      %h2 All Employees Labor Hours
       - @all_employees.each do |all_emp|
         %table
           %tr
@@ -12,7 +17,7 @@
             %td{:width => '180px'}= all_emp.first_name.upcase + " " + all_emp.last_name.upcase
             %th{:width => '60px'} Branch :
             %td{:width => '110px'}= all_emp.branch.location
-        - @all_employees_list_lh = LaborHour.find(:all, :conditions => { :employee_id => all_emp.id } )    
+        - @all_employees_list_lh = LaborHour.accessible_by(current_ability).find(:all, :conditions => { :employee_id => all_emp.id } )    
         %table
           %tr
             %th 

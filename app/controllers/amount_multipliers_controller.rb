@@ -1,11 +1,12 @@
 class AmountMultipliersController < ApplicationController
-  
+  load_and_authorize_resource
+
   set_tab :amount_multipliers
 
   # GET /employees
   # GET /employees.xml
   def index
-    @amount_multipliers = AmountMultiplier.all
+    @amount_multipliers = AmountMultiplier.accessible_by(current_ability).all
 
     respond_to do |format|
       format.html # index.html.erb

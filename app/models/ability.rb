@@ -81,8 +81,13 @@ class Ability
       can [:edit, :update], User do |usr|
         user == usr
       end
+      
       cannot [:create, :destroy], User, :roles => { :company => { :id => user.roles.first.company.id } }
+       
+      can :manage, Employee, :branch_id => branch.id
+      can :manage, LaborHour, :employee => { :branch_id => branch.id }
 
+      cannot :manage, AmountMultiplier
 
     when 'client'
       #company_id = user.companies.first.id

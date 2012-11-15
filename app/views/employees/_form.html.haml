@@ -10,7 +10,7 @@
   %fieldset
     = f.input :first_name, :label => "First Name"
     = f.input :last_name, :label => "Last Name"
-    = f.association :branch, :label => "Branch", :collection => Branch.all.map { |branch| [branch.location, branch.id] }
+    = f.association :branch, :label => "Branch", :collection => Branch.accessible_by(current_ability).all.map { |branch| [branch.location, branch.id] }
     = f.input :date_employed, :label => 'Date Employed', :input_html => {:value => Date.today}
     = f.input :birthdate, :label => "Birth Date"
     = f.input :department_id, :label => "Department", :collection => [ ['FOH-TL', 1], ['FOH', 2], ['BOH-TL', 3], ['BOH', 4] ]
