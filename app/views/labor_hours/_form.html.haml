@@ -9,6 +9,7 @@
     = f.input :absent
     = f.input :late
     = f.input :rest_day
-    = f.hidden_field :employee_id, :value => params[:employee_id]
+    - if params[:employee_id]  
+      = f.hidden_field :employee_id, :value => params[:employee_id]
   .actions
     = f.button :submit
