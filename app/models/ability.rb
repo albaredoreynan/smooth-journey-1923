@@ -86,6 +86,7 @@ class Ability
        
       can :manage, Employee, :branch_id => branch.id
       can :manage, LaborHour, :employee => { :branch_id => branch.id }
+      can [:create, :edit, :update, :destroy], LaborHour
 
       cannot :manage, AmountMultiplier
 
