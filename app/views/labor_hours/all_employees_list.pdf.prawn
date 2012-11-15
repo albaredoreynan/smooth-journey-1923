@@ -6,16 +6,17 @@ pdf.font_size 6
 rows1 = []
 rows2 = []
 
-@total_regular_hrs = Array.new
-@total_overtime_hrs = Array.new
-@total_night_diff_hrs = Array.new
-@total_legal_hol_hrs = Array.new
-@total_special_hol_hrs = Array.new
-@total_absent_hrs = Array.new
-@total_late_hrs = Array.new
-@total_rest_day_hrs = Array.new
+
 
 @all_employees.each do |all_emp|
+  @total_regular_hrs = Array.new
+  @total_overtime_hrs = Array.new
+  @total_night_diff_hrs = Array.new
+  @total_legal_hol_hrs = Array.new
+  @total_special_hol_hrs = Array.new
+  @total_absent_hrs = Array.new
+  @total_late_hrs = Array.new
+  @total_rest_day_hrs = Array.new
   @all_employees_list_lh = LaborHour.find(:all, :conditions => { :employee_id => all_emp.id } )
   
 	  @fullname = all_emp.first_name.upcase + " " + all_emp.last_name.upcase
@@ -35,9 +36,27 @@ rows2 = []
 	              all_employees_list_lh.late, 
 	              all_employees_list_lh.rest_day 	
 	  			 ]
-    
+    	@total_regular_hrs << all_employees_list_lh.regular.to_f
+	    @total_overtime_hrs << all_employees_list_lh.overtime.to_f
+	    @total_night_diff_hrs << all_employees_list_lh.night_differential.to_f
+	    @total_legal_hol_hrs << all_employees_list_lh.legal_holiday.to_f
+	    @total_special_hol_hrs << all_employees_list_lh.special_holiday.to_f
+	    @total_absent_hrs << all_employees_list_lh.absent.to_f
+	    @total_late_hrs << all_employees_list_lh.late.to_f
+	    @total_rest_day_hrs << all_employees_list_lh.rest_day.to_f
     end
-    pdf.move_down 5
+    rows1 << [
+    			'Total Hours',
+            	@total_regular_hrs.inject(:+),
+            	@total_overtime_hrs.inject(:+),
+            	@total_night_diff_hrs.inject(:+),
+            	@total_legal_hol_hrs.inject(:+),
+            	@total_special_hol_hrs.inject(:+),
+                @total_absent_hrs.inject(:+),
+             	@total_late_hrs.inject(:+),
+             	@total_rest_day_hrs.inject(:+)
+             ]
+    rows1 << ['','','','','','','','','']
 end
 
 pdf.table rows1,
@@ -45,5 +64,6 @@ pdf.table rows1,
   :font_size => 6,
   :position => :left,
   :row_colors => ["FFFFFF", "FFFFFF"]
+pdf.move_down 5
 
 

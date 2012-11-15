@@ -1,6 +1,6 @@
 class LaborHoursController < ApplicationController
   load_and_authorize_resource
-  
+
   set_tab :labor_hours
 
   def index
@@ -79,11 +79,7 @@ class LaborHoursController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @all_employees }
-      
-      format.csv do
-        filename = "Employees Working Hours"
-        render_csv(filename)
-      end
+      format.csv 
       
       format.pdf do
         headers['Content-Disposition'] = "attachment; filename=\"Employees_Working_Hours\""
