@@ -52,7 +52,7 @@ rows << headers
     items.each do |item|
       @units = Unit.find(item.unit_id)
       item.purchase_unit_cost.nan? ? p_unit_cost = 0.0 : p_unit_cost = item.purchase_unit_cost
-      item.ending_unit_cost.nan? ? e_unit_cost = 0.0 : e_unit_cost = item.ending_unit_cost   
+         
       rows << [   
                 item.name, @units.name, 
                 number_with_precision(item.beginning_count, :precision => 2, :delimiter => ','),
@@ -65,7 +65,7 @@ rows << headers
                 number_to_currency(item.purchase_amount_period, :unit => peso_sign),
                   
                 number_with_precision(item.ending_count, :precision => 2, :delimiter => ','),
-                number_to_currency(e_unit_cost, :unit => peso_sign),
+                number_to_currency(item.ending_unit_cost, :unit => peso_sign),
                 number_to_currency(item.ending_total, :unit => peso_sign),
                   
                 number_with_precision(item.cogs_quantity, :precision => 2, :delimiter => ','),

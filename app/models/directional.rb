@@ -109,4 +109,20 @@ class Directional
     last_year = 1.year.ago
     Directional.new(last_year.beginning_of_month, last_year.end_of_month, @branch)
   end
+
+  def total_labor_hours
+    @total_regular_hours = Array.new
+
+    @employees = Employee.find(:all)
+    @employees.each do |emp|
+      @regular_hours  = Array.new
+      @labor_hours = LaborHour.find(:all, :conditions => { :employee_id => emp.id } )
+      @labor_hours.each do |labors|
+        @regular_hours << labors.regular.to_f
+      end
+      @total_regular_hours << @regular_hours.inject(:+).to_f
+    end
+    @total_regular_hours.inject(:+).to_f
+  end
+
 end

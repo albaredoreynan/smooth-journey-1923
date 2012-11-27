@@ -173,6 +173,7 @@
           %td.number= number_to_percentage(cogs_subcategory_goal_total2.reject(&:nil?).inject(:+) || 0, :precision => 2)
           %td.number= number_to_percentage(cogs_var_percentage_total2.reject(&:nil?).inject(:+) || 0, :precision => 2)
            
-      %table
+      %table{:title => 'Labor Hours'}
         %tr
-          %th= 'Labor Hours'    
+          %td='Total Labor Hours'
+          %td= @directional.total_labor_hours
