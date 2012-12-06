@@ -15,8 +15,15 @@
       @total_late_hrs = Array.new
       @total_rest_day_hrs = Array.new
       csv << [ "Name :", all_emp.first_name, all_emp.last_name, "Branch :", all_emp.branch.location ]
-  	  
-  	  @all_employees_list_lh = LaborHour.accessible_by(current_ability).find(:all, :conditions => { :employee_id => all_emp.id } )
+  	  if params[:date]    
+        query_date = Date.strptime(params[:date], '%a, %d %b %Y')
+        @ending_date = Date.parse(query_date.to_s)
+        @beginning_date = Date.parse(query_date.to_s).beginning_of_month
+        @all_employees_list_lh = LaborHour.accessible_by(current_ability).find(:all, :conditions => { :employee_id => all_emp.id, :working_date => @beginning_date..@ending_date } )    
+      else
+        @all_employees_list_lh = LaborHour.accessible_by(current_ability).find(:all, :conditions => { :employee_id => all_emp.id } )
+      end
+      
   	  csv << [ "Date", "Regular", "Overtime", "Night Differential", "Legal Holiday", "Special Holiday", "Absent", "Late", "Rest Day" ]
 
   	  @all_employees_list_lh.each do |all_employees_list_lh|

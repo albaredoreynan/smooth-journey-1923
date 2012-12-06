@@ -17,8 +17,14 @@ rows2 = []
   @total_absent_hrs = Array.new
   @total_late_hrs = Array.new
   @total_rest_day_hrs = Array.new
-  @all_employees_list_lh = LaborHour.find(:all, :conditions => { :employee_id => all_emp.id } )
-  
+  if params[:date]    
+    query_date = Date.strptime(params[:date], '%a, %d %b %Y')
+    @ending_date = Date.parse(query_date.to_s)
+    @beginning_date = Date.parse(query_date.to_s).beginning_of_month
+    @all_employees_list_lh = LaborHour.accessible_by(current_ability).find(:all, :conditions => { :employee_id => all_emp.id, :working_date => @beginning_date..@ending_date } )    
+  else
+    @all_employees_list_lh = LaborHour.accessible_by(current_ability).find(:all, :conditions => { :employee_id => all_emp.id } )
+  end
 	  @fullname = all_emp.first_name.upcase + " " + all_emp.last_name.upcase
 	  rows1 << ['Name :', @fullname, '', '', '', '', '', 'Branch :', all_emp.branch.location]
 	  

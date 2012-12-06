@@ -14,6 +14,7 @@ Rrbs::Application.routes.draw do
   put '/settings/update'
   
   match '/endcounts/generate_endcount_list' => 'endcounts#generate_endcount_list'
+
   
   resources :currencies
 
@@ -98,7 +99,8 @@ Rrbs::Application.routes.draw do
   resources :labor_hours
 
   match "/all_employees_list", :to => 'labor_hours#all_employees_list'
-
+  match '/labor_hours/search' => 'labor_hours#all_employees_list'
+  
   resources :amount_multipliers
   
   root :to => 'home#index'

@@ -1,7 +1,8 @@
 class Employee < ActiveRecord::Base
 
   belongs_to :branch
-  has_many :labor_hours
+  has_many :labor_hours, :dependent => :destroy
+
   #belongs_to :job
   #belongs_to :department
   #has_many :settlement_sales, :dependent => :destroy

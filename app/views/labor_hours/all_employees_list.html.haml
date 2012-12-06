@@ -1,3 +1,10 @@
+- content_for :head do
+  = javascript_include_tag(:endcount_reports)
+  /[if !IE]
+    = javascript_tag("$(function() { $('#show_by_date_reports').datepicker('setDate', new Date($('#entry_date').val() )); });")
+- content_for :sidebar do
+  %h3 Search
+  = render :partial => 'shared/search_labor_hours', locals: { search_path: 'labor_hours/search' }
 .block
   = render 'shared/menu/database'
   .content
@@ -7,8 +14,8 @@
       %h2.title All Employees Labor Hours
       .new_actions
         = 'Download as'
-        = link_to 'CSV', :format => :csv
-        = link_to 'PDF', :format => :pdf
+        = link_to 'CSV', all_employees_list_path(params.merge(format: 'csv'))
+        = link_to 'PDF', all_employees_list_path(params.merge(format: 'pdf'))
     .inner
       - @all_employees.each do |all_emp|
         %table
@@ -17,7 +24,15 @@
             %td{:width => '180px'}= all_emp.first_name.upcase + " " + all_emp.last_name.upcase
             %th{:width => '60px'} Branch :
             %td{:width => '110px'}= all_emp.branch.location
-        - @all_employees_list_lh = LaborHour.accessible_by(current_ability).find(:all, :conditions => { :employee_id => all_emp.id } )    
+         
+        - if params[:date]    
+          - query_date = Date.strptime(params[:date], '%a, %d %b %Y')
+          - @ending_date = Date.parse(query_date.to_s)
+          - @beginning_date = Date.parse(query_date.to_s).beginning_of_month
+
+          - @all_employees_list_lh = LaborHour.accessible_by(current_ability).find(:all, :conditions => { :employee_id => all_emp.id, :working_date => @beginning_date..@ending_date } )    
+        - else
+          - @all_employees_list_lh = LaborHour.accessible_by(current_ability).find(:all, :conditions => { :employee_id => all_emp.id } )
         %table
           %tr
             %th 

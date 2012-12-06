@@ -73,8 +73,16 @@ class LaborHoursController < ApplicationController
   end
 
   def all_employees_list
+    if params[:branch_id]
+      if params[:branch_id].empty?
+        @all_employees = Employee.accessible_by(current_ability).find(:all, :order => :branch_id )
+      else
+        @all_employees = Employee.accessible_by(current_ability).find(:all, :conditions => { :branch_id => params[:branch_id] }, :order => :branch_id  )
+      end
+    else
+      @all_employees = Employee.accessible_by(current_ability).find(:all, :order => :branch_id  )
+    end
     
-    @all_employees = Employee.accessible_by(current_ability).find(:all, :order => :branch_id  )
 
     respond_to do |format|
       format.html # show.html.erb
